@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terreno — ofertas encontradas</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --surface:#fff; --border:#e2e0da; --text:#1c1b18;
+    --muted:#6d6a62; --accent:#3f6b3f; --accent-soft:#eaf1ea;
+    --new:#2f6f4f; --drop:#a8442a; --shadow:0 1px 2px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14161a; --surface:#1c1f24; --border:#2c3037; --text:#e8e6e1;
+      --muted:#9a978f; --accent:#8fbf8f; --accent-soft:#22301f;
+      --new:#8fd6ae; --drop:#e79c85; --shadow:none;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161a; --surface:#1c1f24; --border:#2c3037; --text:#e8e6e1;
+    --muted:#9a978f; --accent:#8fbf8f; --accent-soft:#22301f;
+    --new:#8fd6ae; --drop:#e79c85; --shadow:none;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{padding:20px 18px 12px;border-bottom:1px solid var(--border);
+    background:var(--surface);position:sticky;top:0;z-index:10}
+  h1{margin:0 0 2px;font-size:19px;letter-spacing:-.01em}
+  .meta{color:var(--muted);font-size:13px}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+  select,input,button{font:inherit;padding:6px 9px;border:1px solid var(--border);
+    border-radius:7px;background:var(--bg);color:var(--text)}
+  input[type=search]{min-width:180px;flex:1}
+  button{cursor:pointer}
+  button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  main{padding:16px;display:grid;gap:12px;
+    grid-template-columns:repeat(auto-fill,minmax(288px,1fr));max-width:1500px;margin:0 auto}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:11px;
+    overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+  .card.dismissed{opacity:.34}
+  .thumb{aspect-ratio:4/3;background:var(--accent-soft);object-fit:cover;width:100%;display:block}
+  .noimg{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:28px}
+  .body{padding:11px 12px 12px;display:flex;flex-direction:column;gap:7px;flex:1}
+  .title{font-weight:600;font-size:14px;line-height:1.35;margin:0;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .title a{color:inherit;text-decoration:none}
+  .title a:hover{text-decoration:underline;text-decoration-color:var(--accent)}
+  .price{font-size:17px;font-weight:650;letter-spacing:-.01em}
+  .facts{display:flex;flex-wrap:wrap;gap:5px;font-size:12px;color:var(--muted)}
+  .facts span{background:var(--bg);border:1px solid var(--border);
+    border-radius:20px;padding:1px 8px;white-space:nowrap}
+  .badges{display:flex;gap:5px;flex-wrap:wrap}
+  .badge{font-size:11px;font-weight:650;border-radius:5px;padding:1px 6px;
+    text-transform:uppercase;letter-spacing:.03em}
+  .b-new{background:var(--accent-soft);color:var(--new)}
+  .b-drop{background:var(--accent-soft);color:var(--drop)}
+  .why{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 9px}
+  .foot{display:flex;justify-content:space-between;align-items:center;
+    margin-top:auto;padding-top:8px;border-top:1px solid var(--border);
+    font-size:12px;color:var(--muted)}
+  .foot a{color:var(--accent);font-weight:600;text-decoration:none}
+  .x{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 5px;font-size:14px}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 20px}
+  footer{padding:20px;text-align:center;color:var(--muted);font-size:12px}
+  .warn{margin:12px 16px 0;padding:9px 12px;border-radius:8px;font-size:13px;
+    background:var(--accent-soft);color:var(--text);border:1px solid var(--border);
+    max-width:1500px;margin-inline:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Terreno</h1>
+  <div class="meta" id="meta"></div>
+  <div class="controls">
+    <input type="search" id="q" placeholder="filtrar por texto, cidade…" autocomplete="off">
+    <select id="sort">
+      <option value="score">Melhor compatibilidade</option>
+      <option value="new">Mais recentes</option>
+      <option value="price_asc">Preço ↑</option>
+      <option value="price_desc">Preço ↓</option>
+      <option value="ppha_asc">R$/ha ↑</option>
+      <option value="area_desc">Área ↓</option>
+      <option value="area_asc">Área ↑</option>
+    </select>
+    <select id="uf"><option value="">Todos os estados</option></select>
+    <select id="src"><option value="">Todas as fontes</option></select>
+    <button id="onlyNew">Só novos</button>
+    <button id="showHidden">Mostrar ocultos</button>
+  </div>
+</header>
+
+<div class="warn" id="warn" hidden></div>
+<main id="grid"></main>
+<footer id="foot"></footer>
+
+<script id="data" type="application/json">{"generated_at": "10/08/2026 21:43 UTC", "listings": [{"key": "1ebf6b9234f3edd9", "source": "chavesnamao", "source_id": "18232723", "url": "https://www.chavesnamao.com.br/imovel/fazenda-a-venda-2-salas-com-garagem-mg-datas-zona-rural-330000m2-RS750000/id-18232723/", "title": "Fazenda com 2 salas à venda na Área Rural, Zona Rural, Datas", "description": "   EXCELENTE FAZENDA COM 33 HA DE TERRA DE CULTURA FORMADA E RICA EM ÁGUA EM DATAS - MG.  ÁREA TOTAL:  33 hectares.  LOCALIZAÇÃO E LOGISTICA:  Localizada na cidade de Datas- MG.  Fica a 1,5 km da BR 259 sentido Serro - MG  São 1,5 km por estrada de terra em ótimo estado.  TOPOGRAFIA:  Mista (plana com ondulações).  RECURSO HÍDRICO:  Nascentes com bastante volume de água que abastecem a fazenda por gravidade.  Córrego com ótimo volume de água potável.  ÍNDICE PLUVIOMÉTRICO:  1.890 mm.  ALTITUDE:  1.197 metros acima do nível do mar.  BENFEITORIAS:  Ótima Casa sede estilo colonial com varanda, 03 quartos, suíte, 02 banhos, sala, copa e cozinha espaçosa e área de serviços separada.  Pomar.  jardim  Casa de caseiro.  Curral completo.  Energia elétrica.  Cercas com mourões de Aroeira e Eucalipto tratado.  Documentação toda em dia e regularizada.  VALOR: R$750.000,00 (Setecentos e cinquenta Mil Reais).  Entre em contato e agende já a sua visita.   ", "price": 750000.0, "price_first": 750000.0, "area_ha": 33.0, "price_per_ha": 22727.27, "municipality": "Datas", "uf": "MG", "lat": null, "lon": null, "image": "https://www.chavesnamao.com.br/imn/0850x0450/N/60/imoveis/438288/18232723/mg-datas-zona-rural-area-rural-fazenda-a-venda-3-s-65734ac1-1.jpg", "posted_at": "", "score": 0.75, "reasons": ["✓ agua", "✓ acesso", "? matricula (não mencionado)", "+ energia", "+ benfeitorias", "R$/ha 22.727"], "first_seen": "2026-08-10T21:43:34+00:00", "last_seen": "2026-08-10T21:43:34+00:00", "is_new": true, "price_drop": null}], "new_count": 1, "sources": ["chavesnamao", "brave"], "warnings": ["brave: 0 resultados"]}</script>
+<script>
+(function(){
+  const payload = JSON.parse(document.getElementById('data').textContent);
+  const items = payload.listings;
+  const grid = document.getElementById('grid');
+  const HIDDEN_KEY = 'terreno:hidden';
+  let hidden = new Set(JSON.parse(localStorage.getItem(HIDDEN_KEY) || '[]'));
+  let showHidden = false, onlyNew = false;
+
+  const brl = n => n == null ? '—' :
+    'R$ ' + Math.round(n).toLocaleString('pt-BR');
+  const ha  = n => n == null ? 'área n/d' :
+    (n >= 1 ? n.toLocaleString('pt-BR',{maximumFractionDigits:1}) : n.toFixed(2)) + ' ha';
+
+  document.getElementById('meta').textContent =
+    `${items.length} ofertas · ${payload.new_count} novas · atualizado ${payload.generated_at}`;
+  document.getElementById('foot').textContent =
+    `Fontes: ${payload.sources.join(', ')} · gerado automaticamente`;
+
+  if (payload.warnings && payload.warnings.length) {
+    const w = document.getElementById('warn');
+    w.hidden = false;
+    w.textContent = '⚠ ' + payload.warnings.join(' · ');
+  }
+
+  for (const [id, values] of [['uf', 'uf'], ['src', 'source']]) {
+    const sel = document.getElementById(id);
+    [...new Set(items.map(i => i[values]).filter(Boolean))].sort()
+      .forEach(v => sel.add(new Option(v, v)));
+  }
+
+  const sorters = {
+    score:      (a,b) => b.score - a.score,
+    new:        (a,b) => (b.first_seen||'').localeCompare(a.first_seen||''),
+    price_asc:  (a,b) => (a.price ?? Infinity) - (b.price ?? Infinity),
+    price_desc: (a,b) => (b.price ?? -1) - (a.price ?? -1),
+    ppha_asc:   (a,b) => (a.price_per_ha ?? Infinity) - (b.price_per_ha ?? Infinity),
+    area_desc:  (a,b) => (b.area_ha ?? -1) - (a.area_ha ?? -1),
+    area_asc:   (a,b) => (a.area_ha ?? Infinity) - (b.area_ha ?? Infinity),
+  };
+
+  function card(it){
+    const el = document.createElement('article');
+    el.className = 'card' + (hidden.has(it.key) ? ' dismissed' : '');
+    const img = it.image
+      ? `<img class="thumb" src="${it.image}" loading="lazy" alt=""
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),
+             {className:'thumb noimg',textContent:'🗺️'}))">`
+      : `<div class="thumb noimg">🗺️</div>`;
+    const badges = [
+      it.is_new ? '<span class="badge b-new">novo</span>' : '',
+      it.price_drop && it.price_drop < 0
+        ? `<span class="badge b-drop">↓ ${brl(Math.abs(it.price_drop))}</span>` : '',
+    ].join('');
+    const where = [it.municipality, it.uf].filter(Boolean).join('/');
+    el.innerHTML = `
+      ${img}
+      <div class="body">
+        <div class="badges">${badges}</div>
+        <h2 class="title"><a href="${it.url}" target="_blank" rel="noopener">
+          ${it.title || 'sem título'}</a></h2>
+        <div class="price">${brl(it.price)}</div>
+        <div class="facts">
+          <span>${ha(it.area_ha)}</span>
+          ${it.price_per_ha ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
+          ${where ? `<span>${where}</span>` : ''}
+        </div>
+        <div class="why">${(it.reasons||[]).slice(0,5)
+          .map(r => `<span>${r}</span>`).join('')}</div>
+        <div class="foot">
+          <a href="${it.url}" target="_blank" rel="noopener">${it.source} ↗</a>
+          <button class="x" title="ocultar">✕</button>
+        </div>
+      </div>`;
+    el.querySelector('.x').onclick = () => {
+      hidden.has(it.key) ? hidden.delete(it.key) : hidden.add(it.key);
+      localStorage.setItem(HIDDEN_KEY, JSON.stringify([...hidden]));
+      draw();
+    };
+    return el;
+  }
+
+  function draw(){
+    const q = document.getElementById('q').value.toLowerCase().trim();
+    const uf = document.getElementById('uf').value;
+    const src = document.getElementById('src').value;
+    let rows = items.filter(i =>
+      (showHidden || !hidden.has(i.key)) &&
+      (!onlyNew || i.is_new) &&
+      (!uf || i.uf === uf) &&
+      (!src || i.source === src) &&
+      (!q || `${i.title} ${i.municipality} ${i.description}`.toLowerCase().includes(q))
+    );
+    rows.sort(sorters[document.getElementById('sort').value]);
+    grid.replaceChildren(...(rows.length
+      ? rows.map(card)
+      : [Object.assign(document.createElement('div'),
+          {className:'empty', textContent:'Nada corresponde a esses filtros.'})]));
+  }
+
+  ['q','sort','uf','src'].forEach(id =>
+    document.getElementById(id).addEventListener('input', draw));
+  document.getElementById('onlyNew').onclick = e => {
+    onlyNew = !onlyNew; e.target.classList.toggle('on', onlyNew); draw();
+  };
+  document.getElementById('showHidden').onclick = e => {
+    showHidden = !showHidden; e.target.classList.toggle('on', showHidden); draw();
+  };
+  draw();
+})();
+</script>
+</body>
+</html>

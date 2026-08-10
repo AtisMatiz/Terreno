@@ -1,0 +1,81 @@
+name: terreno search
+
+on:
+  schedule:
+    # 09:00 UTC = 06:00 America/Sao_Paulo. Once daily, per the agreed cadence.
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "Source profile to run"
+        required: false
+        default: "ci"
+        type: choice
+        options: [ci, local]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: terreno-search
+  cancel-in-progress: false
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run search
+        env:
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          ML_ACCESS_TOKEN: ${{ secrets.ML_ACCESS_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ENABLE_LLM: ${{ vars.ENABLE_LLM }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TERRENO_PAGE_URL: ${{ vars.TERRENO_PAGE_URL }}
+        run: python -m terreno.run --profile "${{ inputs.profile || 'ci' }}"
+
+      - name: Commit results
+        run: |
+          git config user.name  "terreno-bot"
+          git config user.email "terreno-bot@users.noreply.github.com"
+          git add data/terreno.sqlite3 site/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: search results $(date -u +%Y-%m-%dT%H:%MZ)"
+            # The scheduled run and a local run can race on the same branch;
+            # rebase rather than fail the whole run on a stale ref.
+            for i in 1 2 3 4; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((2 ** i))
+            done
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: search
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

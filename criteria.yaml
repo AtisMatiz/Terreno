@@ -1,0 +1,90 @@
+# Terreno — search criteria.
+# Everything the pipeline looks for is defined here. Edit and commit; the next
+# scheduled run picks it up. No code change needed for a new region or budget.
+
+# ---------------------------------------------------------------- where
+location:
+  # Two-letter state codes (UF). Required — drives which portal regions are hit.
+  states: [MG, BA]
+
+  # Optional: restrict to specific municipalities. Empty = whole state.
+  municipalities: []
+
+  # Optional radius filter. Applied only to listings whose municipality could be
+  # geocoded (lazily, via Nominatim, cached forever in the local SQLite store).
+  # Leave `center` null to disable radius filtering entirely.
+  center: null      # e.g. "Montes Claros, MG"
+  radius_km: 150
+
+# ---------------------------------------------------------------- how much
+price:
+  min: 0
+  max: 800000       # BRL
+
+area:
+  min_ha: 2
+  max_ha: 200
+
+# Optional ceiling on price per hectare. null = no ceiling.
+max_price_per_ha: 40000
+
+# ---------------------------------------------------------------- qualities
+# Free-text signals. The rules-based scorer matches these against the listing
+# title + description with a Portuguese synonym table (see terreno/qualities.py).
+# When ENABLE_LLM=1 these are also handed to the model for a nuanced fit score.
+must_have:
+  - agua           # river, spring, well, dam
+  - acesso         # road access
+  - matricula      # registered title
+
+nice_to_have:
+  - mata           # standing forest / native vegetation
+  - energia        # grid electricity
+  - benfeitorias   # buildings, fencing
+
+deal_breakers:
+  - posse          # untitled occupation
+  - invasao
+  - litigio
+
+# ---------------------------------------------------------------- sources
+sources:
+  olx: true
+  vivareal: true
+  mercadolivre: true
+  chavesnamao: true
+  imovelweb: true
+  brave: true        # Layer B — long-tail discovery
+  facebook: true     # Layer C — local profile only
+
+# Which sources run where. Measured, not guessed: OLX, VivaReal/ZAP, Imovelweb
+# and the Mercado Livre API all return HTTP 403 to datacenter IP ranges, and
+# GitHub Actions runners are datacenter IPs. Those sources only produce results
+# from a residential connection, so they live in the `local` profile and are
+# driven by scripts/run_local.sh on your own machine.
+#
+#   python -m terreno.run --profile ci      (what the GitHub Action runs)
+#   python -m terreno.run --profile local   (what your machine runs)
+#   python -m terreno.run                   (every enabled source)
+profiles:
+  ci: [brave, chavesnamao]
+  local: [olx, vivareal, mercadolivre, imovelweb, chavesnamao, facebook]
+
+# ---------------------------------------------------------------- budgets
+# Hard guards. The run stops spending when these are hit; it never fails the
+# whole pipeline just because one budget ran out.
+budgets:
+  brave_queries_per_run: 100
+  brave_queries_per_month: 2000     # Brave free tier
+  apify_usd_per_month: 5.00         # Apify free credit
+  max_pages_per_source: 10          # pagination depth per portal per run
+  max_new_pages_fetched: 200        # Layer B page fetches per run
+  max_detail_pages_per_source: 60   # detail fetches for portals without slugs
+  max_enrich_pages: 80              # detail fetches for listings that passed filters
+
+# ---------------------------------------------------------------- output
+output:
+  # Listings older than this (first seen) are dropped from the page but kept
+  # in the database for price history.
+  keep_days: 90
+  top_n_in_alert: 8

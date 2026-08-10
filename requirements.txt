@@ -1,0 +1,5 @@
+requests>=2.31
+PyYAML>=6.0
+# Optional extras:
+#   anthropic>=0.40   -> LLM extraction / fit scoring (ENABLE_LLM=1)
+#   playwright>=1.44  -> local Facebook fallback (scripts/run_facebook.sh)
