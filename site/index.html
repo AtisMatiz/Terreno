@@ -79,6 +79,18 @@
   .aviso{margin:12px auto 0;padding:9px 12px;border-radius:8px;font-size:13px;
     background:var(--accent-soft);color:var(--text);border:1px solid var(--border);
     max-width:1500px}
+  #config{margin-top:12px;padding:12px;border:1px solid var(--border);
+    border-radius:9px;background:var(--bg);display:flex;flex-direction:column;gap:9px}
+  #config .linha{display:flex;flex-wrap:wrap;gap:9px;align-items:flex-end}
+  #config label{display:flex;flex-direction:column;gap:3px;font-size:12px;
+    color:var(--muted);flex:1;min-width:130px}
+  #config label.check{flex-direction:row;align-items:center;gap:5px;flex:0 0 auto}
+  #config input,#config select{width:100%}
+  #config button[type=submit]{background:var(--accent-soft);border-color:var(--accent);
+    color:var(--accent);font-weight:600;flex:0 0 auto}
+  #config .dica{font-size:12px;color:var(--muted)}
+  #config .resultado{font-size:13px;padding:7px 10px;border-radius:7px;
+    border:1px solid var(--border);background:var(--surface)}
   [hidden]{display:none !important}
 </style>
 </head>
@@ -103,14 +115,44 @@
     <select id="fonte"><option value="">Todas as fontes</option></select>
     <button id="soNovos">Só novos</button>
     <button id="verOcultos">Ver ocultos</button>
+    <button id="abrirConfig">⚙ Configurar busca</button>
   </div>
+
+  <form id="config" hidden>
+    <div class="linha">
+      <label>Estados<input id="cEstados" placeholder="SP, MG"></label>
+      <label>Região<input id="cRegiao" placeholder="vale do paraiba"></label>
+      <label>Municípios<input id="cMunicipios" placeholder="vazio = região inteira"></label>
+    </div>
+    <div class="linha">
+      <label>Área mín. (ha)<input id="cAreaMin" type="number" step="0.5" min="0"></label>
+      <label>Área máx. (ha)<input id="cAreaMax" type="number" step="0.5" min="0"></label>
+      <label>Preço mín. (R$)<input id="cPrecoMin" type="number" step="10000" min="0"></label>
+      <label>Preço máx. (R$)<input id="cPrecoMax" type="number" step="10000" min="0"></label>
+    </div>
+    <div class="linha">
+      <label>Perfil de fontes
+        <select id="cPerfil">
+          <option value="ci">ci — Brave, Chaves na Mão, PGFN</option>
+          <option value="local">local — portais + Facebook (só da sua máquina)</option>
+        </select>
+      </label>
+      <label>Senha<input id="cSenha" type="password" placeholder="TERRENO_SENHA"></label>
+      <label class="check"><input id="cSalvar" type="checkbox"> gravar como padrão</label>
+      <button type="submit" id="cRodar">Rodar busca agora</button>
+    </div>
+    <div class="dica">Área sempre em hectares. 1 alqueire paulista = 2,42 ha;
+      1 alqueire mineiro = 4,84 ha. Deixe municípios vazio para buscar a região
+      inteira, e região vazia para o estado inteiro.</div>
+    <div id="cAviso" class="resultado" hidden></div>
+  </form>
 </header>
 
 <div class="aviso" id="aviso" hidden></div>
 <main id="grade"></main>
 <footer id="rodape"></footer>
 
-<script id="dados" type="application/json">{"generated_at": "10/08/2026 às 19:43", "listings": [], "new_count": 0, "sources": ["chavesnamao", "brave"], "warnings": ["brave: 0 resultados"]}</script>
+<script id="dados" type="application/json">{"generated_at": "10/08/2026 às 20:22", "listings": [], "new_count": 0, "sources": ["pgfn", "chavesnamao", "brave"], "warnings": ["pgfn: 0 resultados", "brave: 0 resultados"], "criterios": {"estados": ["SP"], "regiao": "vale do paraiba", "municipios": [], "area_min": 2.0, "area_max": 10.0, "preco_min": 100000.0, "preco_max": 2000000.0}}</script>
 <script>
 (function(){
   const dados = JSON.parse(document.getElementById('dados').textContent);
@@ -251,6 +293,72 @@
     verOcultos = !verOcultos; e.target.classList.toggle('on', verOcultos); desenhar();
   };
   desenhar();
+
+  // ---------------------------------------------------------- painel
+  // A página é estática. Rodar uma busca significa pedir à função serverless
+  // (/api/disparar) que chame o GitHub Actions — o token do GitHub fica lá,
+  // nunca no navegador. Sem a função publicada, o painel avisa e não quebra.
+  const cfg = dados.criterios || {};
+  const $ = id => document.getElementById(id);
+  const form = $('config');
+
+  $('cEstados').value    = (cfg.estados || []).join(', ');
+  $('cRegiao').value     = cfg.regiao || '';
+  $('cMunicipios').value = (cfg.municipios || []).join(', ');
+  $('cAreaMin').value    = cfg.area_min ?? '';
+  $('cAreaMax').value    = cfg.area_max ?? '';
+  $('cPrecoMin').value   = cfg.preco_min ?? '';
+  $('cPrecoMax').value   = cfg.preco_max ?? '';
+
+  $('abrirConfig').onclick = e => {
+    form.hidden = !form.hidden;
+    e.target.classList.toggle('on', !form.hidden);
+  };
+
+  const lista = v => v.split(',').map(s => s.trim()).filter(Boolean);
+  const num = v => v === '' ? undefined : Number(v);
+
+  form.onsubmit = async ev => {
+    ev.preventDefault();
+    const aviso = $('cAviso');
+    aviso.hidden = false;
+    aviso.textContent = 'Disparando…';
+    $('cRodar').disabled = true;
+
+    const criterios = {
+      localizacao: {
+        estados: lista($('cEstados').value).map(s => s.toUpperCase()),
+        regiao: $('cRegiao').value.trim() || null,
+        municipios: lista($('cMunicipios').value),
+      },
+      area:  {min_ha: num($('cAreaMin').value), max_ha: num($('cAreaMax').value)},
+      preco: {min: num($('cPrecoMin').value),   max: num($('cPrecoMax').value)},
+    };
+
+    try {
+      const r = await fetch('/api/disparar', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          senha: $('cSenha').value,
+          perfil: $('cPerfil').value,
+          salvar: $('cSalvar').checked,
+          criterios,
+        }),
+      });
+      const d = await r.json().catch(() => ({}));
+      aviso.textContent = r.ok
+        ? '✓ ' + (d.mensagem || 'Busca disparada.')
+        : '✕ ' + (d.erro || `Falhou (HTTP ${r.status})`) + (d.detalhe ? ` — ${d.detalhe}` : '');
+    } catch (err) {
+      aviso.textContent =
+        '✕ Não foi possível falar com /api/disparar. ' +
+        'Isso é esperado se a página estiver aberta do disco ou no GitHub Pages — ' +
+        'a função só existe na Vercel.';
+    } finally {
+      $('cRodar').disabled = false;
+    }
+  };
 })();
 </script>
 </body>

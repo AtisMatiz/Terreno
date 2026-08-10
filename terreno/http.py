@@ -28,6 +28,13 @@ DEFAULT_HEADERS = {
 # Seconds to wait between requests to the same host.
 MIN_INTERVAL = 1.5
 
+# Hosts that need more room. comprei.pgfn.gov.br resets the connection under
+# even a modest burst, so it gets a much slower cadence than the portals.
+HOST_INTERVAL = {
+    "comprei.pgfn.gov.br": 6.0,
+    "nominatim.openstreetmap.org": 1.1,
+}
+
 _last_hit: dict[str, float] = defaultdict(float)
 _blocked: set[str] = set()
 
@@ -37,7 +44,7 @@ _session.headers.update(DEFAULT_HEADERS)
 
 def _throttle(host: str) -> None:
     elapsed = time.monotonic() - _last_hit[host]
-    wait = MIN_INTERVAL - elapsed
+    wait = HOST_INTERVAL.get(host, MIN_INTERVAL) - elapsed
     if wait > 0:
         time.sleep(wait + random.uniform(0, 0.4))
     _last_hit[host] = time.monotonic()

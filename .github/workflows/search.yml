@@ -7,11 +7,19 @@ on:
   workflow_dispatch:
     inputs:
       profile:
-        description: "Source profile to run"
+        description: "Perfil de fontes"
         required: false
         default: "ci"
         type: choice
         options: [ci, local]
+      overrides:
+        description: "JSON com critérios a sobrescrever (enviado pela página)"
+        required: false
+        default: ""
+      salvar:
+        description: "Gravar esses critérios como padrão em criteria.yaml"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -46,13 +54,17 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TERRENO_PAGE_URL: ${{ vars.TERRENO_PAGE_URL }}
-        run: python -m terreno.run --profile "${{ inputs.profile || 'ci' }}"
+          TERRENO_OVERRIDES: ${{ inputs.overrides }}
+        run: |
+          ARGS="--profile ${{ inputs.profile || 'ci' }}"
+          if [ "${{ inputs.salvar }}" = "true" ]; then ARGS="$ARGS --salvar-criterios"; fi
+          python -m terreno.run $ARGS
 
       - name: Commit results
         run: |
           git config user.name  "terreno-bot"
           git config user.email "terreno-bot@users.noreply.github.com"
-          git add data/terreno.sqlite3 site/
+          git add data/terreno.sqlite3 site/ criteria.yaml
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else

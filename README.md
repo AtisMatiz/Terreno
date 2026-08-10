@@ -29,6 +29,7 @@ Mão source still runs and the page still renders.
 | Layer | Sources | Needs | Where it runs |
 |---|---|---|---|
 | **A — portals** | OLX, VivaReal/ZAP, Mercado Livre, Chaves na Mão, Imovelweb | nothing (ML wants a free token) | mostly local, see below |
+| **A′ — leilões** | Comprei PGFN (`comprei.pgfn.gov.br`) | nothing — public API | ci + local |
 | **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) | anywhere |
 | **C — Facebook** | Marketplace and groups | `APIFY_TOKEN`, or burner cookies | local only |
 
@@ -96,6 +97,31 @@ a homestead — urban lots, gated developments, town houses. Matching is
 accent-insensitive and negation-aware: "sem nascente" never counts as water.
 Missing evidence scores zero for that dimension but does not disqualify, since
 rural listings are terse and silence is not proof of absence.
+
+## Running a search from the page
+
+The page is static, so "rodar busca agora" works by asking a Vercel serverless
+function (`api/disparar.js`) to trigger the GitHub Actions workflow. The GitHub
+token lives in Vercel's environment and never reaches the browser; the form
+sends only the criteria and a shared password.
+
+The function forwards **only** `localizacao`, `area`, `preco` and
+`max_preco_por_ha` — a tampered page cannot reach into budgets, sources or
+profiles. Criteria arrive at the run as `TERRENO_OVERRIDES` (JSON, deep-merged
+over `criteria.yaml`), so a one-off search changes nothing on disk unless
+"gravar como padrão" is ticked, which adds `--salvar-criterios`.
+
+Vercel environment variables:
+
+| Variable | Value |
+|---|---|
+| `GITHUB_TOKEN` | fine-grained PAT, **Actions: read and write**, this repo only |
+| `GITHUB_REPO` | `AtisMatiz/Terreno` |
+| `GITHUB_REF` | `claude/land-search-scraper-evdukq` |
+| `TERRENO_SENHA` | any passphrase; the page asks for it before dispatching |
+
+On GitHub Pages or a local `file://` open the panel still renders but reports
+that `/api/disparar` is unreachable — the function only exists on Vercel.
 
 ## Costs and guards
 

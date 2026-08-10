@@ -44,6 +44,7 @@ fontes:
   mercadolivre: true
   chavesnamao: true
   imovelweb: true
+  pgfn: true          # leilões da PGFN (comprei.pgfn.gov.br) — ver nota nos perfis
   brave: true
   facebook: true
 
@@ -54,9 +55,14 @@ fontes:
 #
 #   python -m terreno.run --profile ci      (o que o GitHub Actions roda)
 #   python -m terreno.run --profile local   (o que a sua máquina roda)
+#
+# O pgfn está nos dois perfis de propósito: a API pública responde, mas o host
+# derruba a conexão sob rajada e pode estar bloqueando IP de datacenter. Se o
+# run do Actions registrar "pgfn: 0 resultados" e o run local trouxer lotes,
+# tire o pgfn do perfil ci.
 perfis:
-  ci: [brave, chavesnamao]
-  local: [olx, vivareal, mercadolivre, imovelweb, chavesnamao, facebook]
+  ci: [brave, chavesnamao, pgfn]
+  local: [olx, vivareal, mercadolivre, imovelweb, chavesnamao, pgfn, facebook]
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.

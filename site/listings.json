@@ -1,12 +1,25 @@
 {
- "generated_at": "10/08/2026 às 19:43",
+ "generated_at": "10/08/2026 às 20:22",
  "listings": [],
  "new_count": 0,
  "sources": [
+  "pgfn",
   "chavesnamao",
   "brave"
  ],
  "warnings": [
+  "pgfn: 0 resultados",
   "brave: 0 resultados"
- ]
+ ],
+ "criterios": {
+  "estados": [
+   "SP"
+  ],
+  "regiao": "vale do paraiba",
+  "municipios": [],
+  "area_min": 2.0,
+  "area_max": 10.0,
+  "preco_min": 100000.0,
+  "preco_max": 2000000.0
+ }
 }

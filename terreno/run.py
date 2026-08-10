@@ -13,7 +13,8 @@ import logging
 import sys
 
 from . import http, notify, pipeline, render
-from .config import DB_PATH, SITE_DIR, env, llm_enabled, load_criteria
+from .config import (DB_PATH, SITE_DIR, env, llm_enabled, load_criteria,
+                     salvar_criterios)
 from .sources import REGISTRY
 from .store import Store
 
@@ -35,6 +36,9 @@ def main(argv=None) -> int:
                                           "(ci, local)")
     parser.add_argument("--dry-run", action="store_true",
                         help="fetch and score, but do not write the database or page")
+    parser.add_argument("--salvar-criterios", action="store_true",
+                        help="grava os critérios efetivos (incluindo os de "
+                             "TERRENO_OVERRIDES) de volta em criteria.yaml")
     parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args(argv)
 
@@ -45,6 +49,9 @@ def main(argv=None) -> int:
     )
 
     criteria = load_criteria()
+    if getattr(args, "salvar_criterios", False):
+        salvar_criterios(criteria)
+        log.info("critérios efetivos gravados em criteria.yaml")
     store = Store(DB_PATH)
     budgets = criteria.budgets()
     warnings: list[str] = []
@@ -117,6 +124,7 @@ def main(argv=None) -> int:
         new_keys={item.key for item in fresh},
         sources=wanted,
         warnings=warnings,
+        criteria=criteria,
     )
 
     summary = f"{len(scored)} matches, {len(fresh)} new"

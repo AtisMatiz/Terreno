@@ -35,7 +35,7 @@ def _row_to_json(row) -> dict:
 
 
 def render(rows, out_dir: Path, *, new_keys: set[str], sources: list[str],
-           warnings: list[str] | None = None) -> Path:
+           warnings: list[str] | None = None, criteria=None) -> Path:
     listings = []
     for row in rows:
         item = _row_to_json(row)
@@ -51,6 +51,17 @@ def render(rows, out_dir: Path, *, new_keys: set[str], sources: list[str],
         "new_count": sum(1 for i in listings if i["is_new"]),
         "sources": sources,
         "warnings": warnings or [],
+        # Pre-fills the "Configurar busca" panel with what this run actually
+        # used, so the form always starts from the current state.
+        "criterios": {
+            "estados": criteria.states,
+            "regiao": criteria.regiao,
+            "municipios": (criteria.raw.get("localizacao") or {}).get("municipios") or [],
+            "area_min": criteria.area_min,
+            "area_max": criteria.area_max,
+            "preco_min": criteria.price_min,
+            "preco_max": criteria.price_max,
+        } if criteria else {},
     }
 
     html = TEMPLATE.read_text(encoding="utf-8").replace(

@@ -126,10 +126,46 @@ def regiao_municipios(nome: str | None) -> list[str]:
     return []
 
 
+def _merge(base: dict, over: dict) -> dict:
+    """Deep-merge `over` into `base`, without mutating either."""
+    out = dict(base)
+    for key, value in (over or {}).items():
+        if isinstance(value, dict) and isinstance(out.get(key), dict):
+            out[key] = _merge(out[key], value)
+        else:
+            out[key] = value
+    return out
+
+
 def load_criteria(path: str | Path | None = None) -> Criteria:
     path = Path(path or os.getenv("TERRENO_CRITERIA", ROOT / "criteria.yaml"))
     with open(path, "r", encoding="utf-8") as fh:
-        return Criteria(yaml.safe_load(fh))
+        raw = yaml.safe_load(fh)
+
+    # TERRENO_OVERRIDES lets the page trigger a run with different location,
+    # area or price without committing a file first. Malformed JSON is ignored
+    # with a warning rather than failing the run — a bad form submission should
+    # not stop the scheduled search.
+    override = env("TERRENO_OVERRIDES")
+    if override:
+        import json
+        import logging
+        try:
+            raw = _merge(raw, json.loads(override))
+            logging.getLogger("terreno.config").info(
+                "critérios sobrescritos via TERRENO_OVERRIDES")
+        except ValueError as exc:
+            logging.getLogger("terreno.config").warning(
+                "TERRENO_OVERRIDES inválido, ignorado: %s", exc)
+    return Criteria(raw)
+
+
+def salvar_criterios(criteria: Criteria, path: str | Path | None = None) -> None:
+    """Persist the effective criteria back to disk, so a run launched from the
+    page becomes the new default instead of reverting on the next cron."""
+    path = Path(path or os.getenv("TERRENO_CRITERIA", ROOT / "criteria.yaml"))
+    with open(path, "w", encoding="utf-8") as fh:
+        yaml.safe_dump(criteria.raw, fh, allow_unicode=True, sort_keys=False)
 
 
 # ---------------------------------------------------------------- segredos
