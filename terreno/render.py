@@ -7,17 +7,29 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 log = logging.getLogger("terreno.render")
 
 TEMPLATE = Path(__file__).parent / "templates" / "page.html"
 
+# The page is read in Brazil; stamping it in UTC makes "updated at" needlessly
+# hard to read. No tz database dependency: Brazil has had no DST since 2019.
+BRT = timezone(timedelta(hours=-3))
+
+
+def _agora_brasilia() -> str:
+    return datetime.now(BRT).strftime("%d/%m/%Y às %H:%M")
+
 
 def _row_to_json(row) -> dict:
     d = dict(row)
     d["reasons"] = (d.get("reasons") or "").split("\n") if d.get("reasons") else []
+    try:
+        d["dimensoes"] = json.loads(d.get("dimensoes") or "{}")
+    except ValueError:
+        d["dimensoes"] = {}
     d.pop("dismissed", None)
     return d
 
@@ -34,7 +46,7 @@ def render(rows, out_dir: Path, *, new_keys: set[str], sources: list[str],
         listings.append(item)
 
     payload = {
-        "generated_at": datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC"),
+        "generated_at": _agora_brasilia(),
         "listings": listings,
         "new_count": sum(1 for i in listings if i["is_new"]),
         "sources": sources,

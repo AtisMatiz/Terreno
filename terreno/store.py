@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS listings (
     posted_at       TEXT,
     score           REAL DEFAULT 0,
     reasons         TEXT,
+    dimensoes       TEXT,
     first_seen      TEXT NOT NULL,
     last_seen       TEXT NOT NULL,
     dismissed       INTEGER DEFAULT 0
@@ -115,17 +116,19 @@ class Store:
             """
             INSERT INTO listings (key, source, source_id, url, title, description,
                 price, price_first, area_ha, price_per_ha, municipality, uf, lat, lon,
-                image, posted_at, score, reasons, first_seen, last_seen)
+                image, posted_at, score, reasons, dimensoes, first_seen, last_seen)
             VALUES (:key, :source, :source_id, :url, :title, :description,
                 :price, :price_first, :area_ha, :price_per_ha, :municipality, :uf,
-                :lat, :lon, :image, :posted_at, :score, :reasons, :first_seen, :last_seen)
+                :lat, :lon, :image, :posted_at, :score, :reasons, :dimensoes,
+                :first_seen, :last_seen)
             ON CONFLICT(key) DO UPDATE SET
                 url=excluded.url, title=excluded.title, description=excluded.description,
                 price=excluded.price, area_ha=excluded.area_ha,
                 price_per_ha=excluded.price_per_ha, municipality=excluded.municipality,
                 uf=excluded.uf, lat=excluded.lat, lon=excluded.lon, image=excluded.image,
                 posted_at=excluded.posted_at, score=excluded.score,
-                reasons=excluded.reasons, last_seen=excluded.last_seen
+                reasons=excluded.reasons, dimensoes=excluded.dimensoes,
+                last_seen=excluded.last_seen
             """,
             d,
         )

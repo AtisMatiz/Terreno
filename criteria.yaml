@@ -1,90 +1,80 @@
-# Terreno — search criteria.
-# Everything the pipeline looks for is defined here. Edit and commit; the next
-# scheduled run picks it up. No code change needed for a new region or budget.
+# Terreno — critérios ajustáveis da busca.
+#
+# Só o que muda de uma busca para outra fica aqui: tamanho, preço e localização.
+# O *perfil* do imóvel procurado (água, benfeitorias, sossego, acesso, solo,
+# mata, topografia, documentação) é estrutural e está em terreno/scoring.py,
+# com pesos versionados e testáveis.
 
-# ---------------------------------------------------------------- where
-location:
-  # Two-letter state codes (UF). Required — drives which portal regions are hit.
-  states: [MG, BA]
+# ---------------------------------------------------------------- localização
+# Preencha na granularidade que quiser:
+#   estados   — obrigatório, dirige a busca nos portais
+#   regiao    — opcional; se preenchida, filtra pelos municípios de data/regioes.yaml
+#   municipios— opcional; se vazio, busca a região inteira (ou o estado inteiro)
+localizacao:
+  estados: [SP]
+  regiao: "vale do paraiba"     # null para o estado inteiro
+  municipios: []                # ex: [Monteiro Lobato, São Bento do Sapucaí]
 
-  # Optional: restrict to specific municipalities. Empty = whole state.
-  municipalities: []
+  # Filtro por raio a partir de um ponto (opcional). null desliga.
+  centro: null                  # ex: "Monteiro Lobato, SP"
+  raio_km: 60
 
-  # Optional radius filter. Applied only to listings whose municipality could be
-  # geocoded (lazily, via Nominatim, cached forever in the local SQLite store).
-  # Leave `center` null to disable radius filtering entirely.
-  center: null      # e.g. "Montes Claros, MG"
-  radius_km: 150
-
-# ---------------------------------------------------------------- how much
-price:
-  min: 0
-  max: 800000       # BRL
-
+# ---------------------------------------------------------------- tamanho
+# Sempre em hectares. A conversão cuida do alqueire, que varia por estado:
+#   alqueire paulista  = 2,42 ha   (SP, PR, RJ)
+#   alqueire mineiro   = 4,84 ha   (MG, GO, BA — o dobro do paulista)
+#   alqueire do norte  = 2,72 ha   (AM)
+#   tarefa             = 0,3025 ha (BA e Nordeste)
 area:
   min_ha: 2
-  max_ha: 200
+  max_ha: 10
 
-# Optional ceiling on price per hectare. null = no ceiling.
-max_price_per_ha: 40000
+# ---------------------------------------------------------------- preço
+preco:
+  min: 100000
+  max: 2000000
 
-# ---------------------------------------------------------------- qualities
-# Free-text signals. The rules-based scorer matches these against the listing
-# title + description with a Portuguese synonym table (see terreno/qualities.py).
-# When ENABLE_LLM=1 these are also handed to the model for a nuanced fit score.
-must_have:
-  - agua           # river, spring, well, dam
-  - acesso         # road access
-  - matricula      # registered title
+# Teto opcional de R$ por hectare. null = sem teto.
+max_preco_por_ha: null
 
-nice_to_have:
-  - mata           # standing forest / native vegetation
-  - energia        # grid electricity
-  - benfeitorias   # buildings, fencing
-
-deal_breakers:
-  - posse          # untitled occupation
-  - invasao
-  - litigio
-
-# ---------------------------------------------------------------- sources
-sources:
+# ---------------------------------------------------------------- fontes
+fontes:
   olx: true
   vivareal: true
   mercadolivre: true
   chavesnamao: true
   imovelweb: true
-  brave: true        # Layer B — long-tail discovery
-  facebook: true     # Layer C — local profile only
+  brave: true
+  facebook: true
 
-# Which sources run where. Measured, not guessed: OLX, VivaReal/ZAP, Imovelweb
-# and the Mercado Livre API all return HTTP 403 to datacenter IP ranges, and
-# GitHub Actions runners are datacenter IPs. Those sources only produce results
-# from a residential connection, so they live in the `local` profile and are
-# driven by scripts/run_local.sh on your own machine.
+# Onde cada fonte roda. Medido, não suposto: OLX, VivaReal/ZAP, Imovelweb e a
+# API do Mercado Livre respondem 403 para faixas de IP de datacenter, e os
+# runners do GitHub Actions são datacenter. Essas fontes só produzem resultado
+# a partir de uma conexão residencial.
 #
-#   python -m terreno.run --profile ci      (what the GitHub Action runs)
-#   python -m terreno.run --profile local   (what your machine runs)
-#   python -m terreno.run                   (every enabled source)
-profiles:
+#   python -m terreno.run --profile ci      (o que o GitHub Actions roda)
+#   python -m terreno.run --profile local   (o que a sua máquina roda)
+perfis:
   ci: [brave, chavesnamao]
   local: [olx, vivareal, mercadolivre, imovelweb, chavesnamao, facebook]
 
-# ---------------------------------------------------------------- budgets
-# Hard guards. The run stops spending when these are hit; it never fails the
-# whole pipeline just because one budget ran out.
-budgets:
-  brave_queries_per_run: 100
-  brave_queries_per_month: 2000     # Brave free tier
-  apify_usd_per_month: 5.00         # Apify free credit
-  max_pages_per_source: 10          # pagination depth per portal per run
-  max_new_pages_fetched: 200        # Layer B page fetches per run
-  max_detail_pages_per_source: 60   # detail fetches for portals without slugs
-  max_enrich_pages: 80              # detail fetches for listings that passed filters
+# ---------------------------------------------------------------- orçamentos
+# Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
+orcamentos:
+  brave_consultas_por_run: 100
+  brave_consultas_por_mes: 2000     # cota gratuita da Brave
+  apify_usd_por_mes: 5.00           # crédito gratuito da Apify
+  max_paginas_por_fonte: 10
+  max_paginas_novas: 200            # páginas visitadas pela camada Brave
+  max_paginas_detalhe_por_fonte: 60
+  max_paginas_enriquecimento: 80
 
-# ---------------------------------------------------------------- output
-output:
-  # Listings older than this (first seen) are dropped from the page but kept
-  # in the database for price history.
-  keep_days: 90
-  top_n_in_alert: 8
+# ---------------------------------------------------------------- saída
+saida:
+  # Anúncios vistos há mais tempo saem da página, mas continuam no banco para
+  # o histórico de preço.
+  manter_dias: 90
+  top_n_no_alerta: 8
+  # Nota mínima (0..1) para aparecer na página. 0 mostra tudo que passou nos
+  # filtros rígidos de preço, área e localização.
+  nota_minima: 0.15

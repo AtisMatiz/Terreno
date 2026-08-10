@@ -22,7 +22,7 @@ BASE = "https://www.olx.com.br/imoveis/terrenos"
 
 def fetch(criteria, store, budgets) -> list[Listing]:
     out: list[Listing] = []
-    max_pages = int(budgets.get("max_pages_per_source", 5))
+    max_pages = int(budgets.get("max_paginas_por_fonte", 5))
 
     for uf in criteria.states:
         slug = UF_NAMES.get(uf)

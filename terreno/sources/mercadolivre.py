@@ -31,7 +31,7 @@ PAGE_SIZE = 50
 
 def fetch(criteria, store, budgets) -> list[Listing]:
     out: list[Listing] = []
-    max_pages = int(budgets.get("max_pages_per_source", 5))
+    max_pages = int(budgets.get("max_paginas_por_fonte", 5))
 
     token = env("ML_ACCESS_TOKEN")
     headers = {"Authorization": f"Bearer {token}"} if token else None

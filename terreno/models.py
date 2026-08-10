@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
@@ -32,6 +33,8 @@ class Listing:
     price_per_ha: float | None = None
     score: float = 0.0
     reasons: list[str] = field(default_factory=list)
+    # Per-dimension breakdown from terreno.scoring, so the page can show why.
+    dimensoes: dict = field(default_factory=dict)
     first_seen: str = field(default_factory=_now)
     last_seen: str = field(default_factory=_now)
     price_first: float | None = None
@@ -59,6 +62,7 @@ class Listing:
     def to_row(self) -> dict:
         d = asdict(self)
         d["reasons"] = "\n".join(self.reasons)
+        d["dimensoes"] = json.dumps(self.dimensoes, ensure_ascii=False)
         d["key"] = self.key
         return d
 

@@ -29,7 +29,7 @@ PAGE_SIZE = 100
 
 def fetch(criteria, store, budgets) -> list[Listing]:
     out: list[Listing] = []
-    max_pages = int(budgets.get("max_pages_per_source", 5))
+    max_pages = int(budgets.get("max_paginas_por_fonte", 5))
 
     for portal, (domain, site) in PORTALS.items():
         for uf in criteria.states:

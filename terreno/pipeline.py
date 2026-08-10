@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import logging
 
-from . import geo, qualities
-from .config import Criteria
+from . import geo, scoring
+from .config import Criteria, fold
 from .extract.rules import extract as rules_extract
 from .http import get as http_get
 from .models import Listing
@@ -82,8 +82,10 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
         if criteria.states and item.uf and item.uf not in criteria.states:
             continue
         if criteria.municipalities and item.municipality:
-            wanted = [m.lower() for m in criteria.municipalities]
-            if item.municipality.lower() not in wanted:
+            # Accent-insensitive: region lists are written properly
+            # ("São Bento do Sapucaí") while listings often are not.
+            wanted = {fold(m) for m in criteria.municipalities}
+            if fold(item.municipality) not in wanted:
                 continue
 
         if center_coords and item.municipality and item.uf:
@@ -104,7 +106,7 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
     survive the hard filters is worth an HTTP request. Everything scoring needs
     lives in the description, so this is what makes the free scorer work.
     """
-    cap = int(budgets.get("max_enrich_pages", 80))
+    cap = int(budgets.get("max_paginas_enriquecimento", 80))
     pending = [x for x in listings if not x.description]
     if not pending:
         return listings
@@ -132,29 +134,43 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
 
 
 def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
-    """Deterministic scoring, always on. Combines quality matching with value:
-    a cheap price per hectare is itself evidence worth ranking on."""
+    """Weighted scoring against the fixed buyer profile (terreno/scoring.py).
+
+    Two things happen here that a flat keyword list could not do: the rural
+    gate drops urban lots and town houses outright, and each dimension keeps
+    its own sub-score so the page can explain the ranking.
+    """
     ppha = [x.price_per_ha for x in listings if x.price_per_ha]
-    best = min(ppha) if ppha else None
+    melhor = min(ppha) if ppha else None
+    nota_minima = criteria.nota_minima
 
     kept: list[Listing] = []
+    descartados = 0
     for item in listings:
         text = f"{item.title} {item.description}"
-        quality, reasons, disqualified = qualities.score(
-            text, criteria.must_have, criteria.nice_to_have, criteria.deal_breakers
-        )
-        if disqualified:
+
+        rural, aviso = scoring.tipo_ok(text)
+        if not rural:
+            descartados += 1
             continue
 
-        value = 0.0
-        if best and item.price_per_ha:
-            # 1.0 at the cheapest R$/ha seen this run, decaying as it gets dearer.
-            value = max(0.0, min(1.0, best / item.price_per_ha))
-            reasons.append(f"R$/ha {item.price_per_ha:,.0f}".replace(",", "."))
+        nota, detalhe, evidencias = scoring.avaliar(text)
 
-        item.score = round(0.75 * quality + 0.25 * value, 3)
-        item.reasons = reasons
-        kept.append(item)
+        valor = 0.0
+        if melhor and item.price_per_ha:
+            # 1.0 at the cheapest R$/ha this run, decaying as it gets dearer.
+            valor = max(0.0, min(1.0, melhor / item.price_per_ha))
+            evidencias.append(f"R$/ha {item.price_per_ha:,.0f}".replace(",", "."))
 
+        # Price is a constraint, not the point — the profile dominates.
+        item.score = round(0.85 * nota + 0.15 * valor, 3)
+        item.dimensoes = detalhe
+        item.reasons = ([aviso] if aviso else []) + evidencias
+
+        if item.score >= nota_minima:
+            kept.append(item)
+
+    if descartados:
+        log.info("%d anúncios descartados por não serem imóvel rural", descartados)
     kept.sort(key=lambda x: (x.score, x.first_seen), reverse=True)
     return kept

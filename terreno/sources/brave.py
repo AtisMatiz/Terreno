@@ -26,18 +26,21 @@ NAME = "brave"
 API = "https://api.search.brave.com/res/v1/web/search"
 RESOURCE = "brave_queries"
 
-# Query templates. Each is expanded per state (and per municipality when the
-# criteria name any), then deduplicated.
+# Query templates, aimed at the profile actually being looked for: rural land
+# with a homestead and water, not urban lots. Each is expanded per place.
 TEMPLATES = [
-    'terreno à venda {place}',
-    'chácara à venda {place}',
-    'sítio à venda {place}',
-    'fazenda à venda {place} hectares',
-    'área rural à venda {place}',
-    '"vendo terreno" {place} hectares',
-    '"vendo sítio" OR "vendo chácara" {place}',
-    'terreno rural {place} site:facebook.com',
-    'terreno {place} venda -aluguel -alugar',
+    'fazenda à venda {place} nascente',
+    'chácara à venda {place} nascente',
+    'sítio à venda {place} nascente',
+    'sítio à venda {place} casa sede',
+    'chácara à venda {place} casa hectares',
+    'fazenda à venda {place} hectares água',
+    '"vendo sítio" {place}',
+    '"vendo chácara" OR "vendo fazenda" {place}',
+    'sítio {place} sossegado mata nativa',
+    'chácara {place} rio riacho hectares venda',
+    'sítio OR chácara {place} site:facebook.com',
+    'fazenda OR sítio {place} escriturada hectares venda',
 ]
 
 # Hosts already covered by Layer A — no point spending a page fetch on them.
@@ -59,11 +62,19 @@ def _daily_allowance(store, per_run: int, per_month: int) -> int:
 
 
 def _places(criteria) -> list[str]:
-    if criteria.municipalities:
-        return [f"{m} {criteria.states[0] if criteria.states else ''}".strip()
-                for m in criteria.municipalities]
+    """Places to search, most specific first.
+
+    Municipalities (explicit or from the named region) are worth far more than
+    a whole state here, so they lead; the region name and state come after as
+    catch-alls, and the per-run budget truncates the tail.
+    """
+    uf = criteria.states[0] if criteria.states else ""
+    places = [f"{m} {uf}".strip() for m in criteria.municipalities]
+    if criteria.regiao:
+        places.append(f"{criteria.regiao} {uf}".strip())
     from .base import UF_NAMES
-    return [UF_NAMES.get(uf, uf).replace("-", " ") for uf in criteria.states]
+    places.extend(UF_NAMES.get(u, u).replace("-", " ") for u in criteria.states)
+    return places
 
 
 def fetch(criteria, store, budgets) -> list[Listing]:
@@ -75,14 +86,18 @@ def fetch(criteria, store, budgets) -> list[Listing]:
 
     allowance = _daily_allowance(
         store,
-        int(budgets.get("brave_queries_per_run", 50)),
-        int(budgets.get("brave_queries_per_month", 2000)),
+        int(budgets.get("brave_consultas_por_run", 50)),
+        int(budgets.get("brave_consultas_por_mes", 2000)),
     )
     if allowance <= 0:
         log.warning("brave: monthly query budget exhausted — Layer B skipped")
         return []
 
-    queries = [t.format(place=p) for p in _places(criteria) for t in TEMPLATES]
+    places = _places(criteria)
+    # Round-robin by template, not by place: with 35 municipalities and a
+    # 100-query allowance, grouping by place would cover three towns and
+    # ignore the rest of the region.
+    queries = [t.format(place=p) for t in TEMPLATES for p in places]
     queries = list(dict.fromkeys(queries))[:allowance]
     log.info("brave: %d queries (allowance %d)", len(queries), allowance)
 
@@ -114,7 +129,7 @@ def fetch(criteria, store, budgets) -> list[Listing]:
 def _visit(candidates: dict[str, str], budgets) -> list[Listing]:
     """Fetch each candidate once and extract. Rules first; the model only sees
     pages the rules could not read, and only when it is switched on."""
-    cap = int(budgets.get("max_new_pages_fetched", 200))
+    cap = int(budgets.get("max_paginas_novas", 200))
     use_llm = llm_enabled()
     out: list[Listing] = []
 

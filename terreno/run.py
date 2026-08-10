@@ -46,7 +46,7 @@ def main(argv=None) -> int:
 
     criteria = load_criteria()
     store = Store(DB_PATH)
-    budgets = criteria.raw.get("budgets") or {}
+    budgets = criteria.budgets()
     warnings: list[str] = []
 
     if args.only:
@@ -86,9 +86,13 @@ def main(argv=None) -> int:
     deduped = pipeline.dedup(normalized)
     filtered = pipeline.apply_filters(deduped, criteria, store)
     enriched = pipeline.enrich(filtered, budgets)
-    scored = pipeline.score_all(enriched, criteria)
-    log.info("%d raw -> %d dedup -> %d filtered -> %d scored",
-             len(normalized), len(deduped), len(filtered), len(scored))
+    # Second pass, deliberately: sources that read price and area from a URL
+    # slug carry no municipality yet on the first pass, so the region and radius
+    # filters would silently never apply to them. Enrichment fills those in.
+    refiltered = pipeline.apply_filters(enriched, criteria, store)
+    scored = pipeline.score_all(refiltered, criteria)
+    log.info("%d brutos -> %d sem duplicata -> %d filtrados -> %d após enriquecer -> %d pontuados",
+             len(normalized), len(deduped), len(filtered), len(refiltered), len(scored))
 
     for host in http.blocked_hosts():
         warnings.append(f"{host}: bloqueado")
@@ -107,7 +111,7 @@ def main(argv=None) -> int:
             fresh.append(stored)
     store.db.commit()
 
-    rows = store.recent(int(criteria.output("keep_days", 90)))
+    rows = store.recent(int(criteria.output("manter_dias", 90)))
     render.render(
         rows, SITE_DIR,
         new_keys={item.key for item in fresh},
@@ -123,7 +127,7 @@ def main(argv=None) -> int:
 
     if fresh:
         notify.telegram(fresh, env("TERRENO_PAGE_URL"),
-                        int(criteria.output("top_n_in_alert", 8)))
+                        int(criteria.output("top_n_no_alerta", 8)))
 
     store.close()
     return 0

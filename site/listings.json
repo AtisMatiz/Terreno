@@ -1,39 +1,7 @@
 {
- "generated_at": "10/08/2026 21:43 UTC",
- "listings": [
-  {
-   "key": "1ebf6b9234f3edd9",
-   "source": "chavesnamao",
-   "source_id": "18232723",
-   "url": "https://www.chavesnamao.com.br/imovel/fazenda-a-venda-2-salas-com-garagem-mg-datas-zona-rural-330000m2-RS750000/id-18232723/",
-   "title": "Fazenda com 2 salas à venda na Área Rural, Zona Rural, Datas",
-   "description": "   EXCELENTE FAZENDA COM 33 HA DE TERRA DE CULTURA FORMADA E RICA EM ÁGUA EM DATAS - MG.  ÁREA TOTAL:  33 hectares.  LOCALIZAÇÃO E LOGISTICA:  Localizada na cidade de Datas- MG.  Fica a 1,5 km da BR 259 sentido Serro - MG  São 1,5 km por estrada de terra em ótimo estado.  TOPOGRAFIA:  Mista (plana com ondulações).  RECURSO HÍDRICO:  Nascentes com bastante volume de água que abastecem a fazenda por gravidade.  Córrego com ótimo volume de água potável.  ÍNDICE PLUVIOMÉTRICO:  1.890 mm.  ALTITUDE:  1.197 metros acima do nível do mar.  BENFEITORIAS:  Ótima Casa sede estilo colonial com varanda, 03 quartos, suíte, 02 banhos, sala, copa e cozinha espaçosa e área de serviços separada.  Pomar.  jardim  Casa de caseiro.  Curral completo.  Energia elétrica.  Cercas com mourões de Aroeira e Eucalipto tratado.  Documentação toda em dia e regularizada.  VALOR: R$750.000,00 (Setecentos e cinquenta Mil Reais).  Entre em contato e agende já a sua visita.   ",
-   "price": 750000.0,
-   "price_first": 750000.0,
-   "area_ha": 33.0,
-   "price_per_ha": 22727.27,
-   "municipality": "Datas",
-   "uf": "MG",
-   "lat": null,
-   "lon": null,
-   "image": "https://www.chavesnamao.com.br/imn/0850x0450/N/60/imoveis/438288/18232723/mg-datas-zona-rural-area-rural-fazenda-a-venda-3-s-65734ac1-1.jpg",
-   "posted_at": "",
-   "score": 0.75,
-   "reasons": [
-    "✓ agua",
-    "✓ acesso",
-    "? matricula (não mencionado)",
-    "+ energia",
-    "+ benfeitorias",
-    "R$/ha 22.727"
-   ],
-   "first_seen": "2026-08-10T21:43:34+00:00",
-   "last_seen": "2026-08-10T21:43:34+00:00",
-   "is_new": true,
-   "price_drop": null
-  }
- ],
- "new_count": 1,
+ "generated_at": "10/08/2026 às 19:43",
+ "listings": [],
+ "new_count": 0,
  "sources": [
   "chavesnamao",
   "brave"

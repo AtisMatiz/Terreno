@@ -67,8 +67,8 @@ def make_fetcher(name: str):
     spec = PORTALS[name]
 
     def fetch(criteria, store, budgets) -> list[Listing]:
-        max_pages = int(budgets.get("max_pages_per_source", 5))
-        detail_cap = int(budgets.get("max_detail_pages_per_source", DEFAULT_DETAIL_CAP))
+        max_pages = int(budgets.get("max_paginas_por_fonte", 5))
+        detail_cap = int(budgets.get("max_paginas_detalhe_por_fonte", DEFAULT_DETAIL_CAP))
         already = store.seen_urls()
 
         candidates: dict[str, str] = {}   # url -> uf

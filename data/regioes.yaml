@@ -1,0 +1,98 @@
+# Regiões → municípios.
+#
+# Usado quando `localizacao.regiao` está preenchida em criteria.yaml: os
+# portais são consultados por estado e os resultados filtrados por esta lista.
+# A comparação ignora acentos e maiúsculas, então "sao jose" casa com
+# "São José". Para adicionar uma região, basta acrescentar uma chave aqui.
+
+vale do paraiba:
+  uf: SP
+  municipios:
+    - Aparecida
+    - Arapeí
+    - Areias
+    - Bananal
+    - Caçapava
+    - Cachoeira Paulista
+    - Campos do Jordão
+    - Canas
+    - Cruzeiro
+    - Cunha
+    - Guaratinguetá
+    - Igaratá
+    - Jacareí
+    - Jambeiro
+    - Lagoinha
+    - Lavrinhas
+    - Lorena
+    - Monteiro Lobato
+    - Natividade da Serra
+    - Paraibuna
+    - Pindamonhangaba
+    - Piquete
+    - Potim
+    - Queluz
+    - Redenção da Serra
+    - Roseira
+    - Santa Branca
+    - Santo Antônio do Pinhal
+    - São Bento do Sapucaí
+    - São José do Barreiro
+    - São José dos Campos
+    - São Luiz do Paraitinga
+    - Silveiras
+    - Taubaté
+    - Tremembé
+
+serra da mantiqueira:
+  uf: SP
+  municipios:
+    - Campos do Jordão
+    - Santo Antônio do Pinhal
+    - São Bento do Sapucaí
+    - Monteiro Lobato
+    - Piquete
+    - Cruzeiro
+    - Lavrinhas
+    - Queluz
+
+sul de minas:
+  uf: MG
+  municipios:
+    - Camanducaia
+    - Extrema
+    - Gonçalves
+    - Itajubá
+    - Itamonte
+    - Maria da Fé
+    - Marmelópolis
+    - Passa Quatro
+    - Pouso Alegre
+    - Sapucaí-Mirim
+    - São Lourenço
+    - Wenceslau Braz
+
+circuito das aguas:
+  uf: SP
+  municipios:
+    - Águas de Lindóia
+    - Amparo
+    - Lindóia
+    - Monte Alegre do Sul
+    - Pedreira
+    - Serra Negra
+    - Socorro
+
+chapada diamantina:
+  uf: BA
+  municipios:
+    - Andaraí
+    - Ibicoara
+    - Iraquara
+    - Lençóis
+    - Mucugê
+    - Palmeiras
+    - Piatã
+    - Rio de Contas
+    - Seabra
+    - Wagner

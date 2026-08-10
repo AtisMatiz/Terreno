@@ -52,7 +52,7 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         log.info("APIFY_TOKEN not set — skipping Apify backend")
         return []
 
-    cap = float(budgets.get("apify_usd_per_month", 5.0))
+    cap = float(budgets.get("apify_usd_por_mes", 5.0))
     if store.budget_remaining(RESOURCE, cap) < EST_USD_PER_RUN:
         log.warning("apify: monthly credit budget exhausted — skipping")
         return []
