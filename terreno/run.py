@@ -20,6 +20,10 @@ from .store import Store
 
 log = logging.getLogger("terreno")
 
+# Consecutive failed runs before a source's silence becomes a Telegram alert
+# rather than just a line in the workflow log nobody reads until asked to.
+LIMIAR_ALERTA_SAUDE = 3
+
 
 def run_source(name: str, fetch, criteria, store, budgets) -> tuple[list, str | None]:
     try:
@@ -75,6 +79,7 @@ def main(argv=None) -> int:
              "on" if llm_enabled() else "off")
 
     collected = []
+    saude: dict[str, bool] = {}
     for name in wanted:
         fetch = REGISTRY.get(name)
         if not fetch:
@@ -83,8 +88,17 @@ def main(argv=None) -> int:
         found, error = run_source(name, fetch, criteria, store, budgets)
         if error:
             warnings.append(error)
+            saude[name] = False
         elif not found:
+            # A heuristic, not a certainty: a source with real coverage
+            # returning literally zero across a whole state/region is far
+            # more likely blocked than genuinely empty, which is what makes
+            # this a useful signal despite the false-positive risk on a
+            # narrow, legitimately quiet search.
             warnings.append(f"{name}: 0 resultados")
+            saude[name] = False
+        else:
+            saude[name] = True
         collected.extend(found)
 
     log.info("collected %d raw listings", len(collected))
@@ -111,6 +125,14 @@ def main(argv=None) -> int:
         store.close()
         return 0
 
+    # Health tracking writes to the database, so it stays out of --dry-run --
+    # a preview run must not affect the alert streak a real run would see.
+    alertas_saude = []
+    for name, ok in saude.items():
+        streak = store.health_update(name, ok)
+        if streak >= LIMIAR_ALERTA_SAUDE:
+            alertas_saude.append(f"{name}: sem resultado há {streak} execuções seguidas")
+
     fresh = []
     for item in scored:
         stored = store.upsert(item)
@@ -133,9 +155,10 @@ def main(argv=None) -> int:
     store.record_run(summary)
     log.info(summary)
 
-    if fresh:
+    if fresh or alertas_saude:
         notify.telegram(fresh, env("TERRENO_PAGE_URL"),
-                        int(criteria.output("top_n_no_alerta", 8)))
+                        int(criteria.output("top_n_no_alerta", 8)),
+                        alertas=alertas_saude)
 
     store.close()
     return 0

@@ -66,6 +66,17 @@ CREATE TABLE IF NOT EXISTS runs (
     started_at TEXT PRIMARY KEY,
     summary    TEXT
 );
+
+-- Tracks whether each source is actually producing results, run over run, so
+-- a source silently blocked for weeks (Caixa's CAPTCHA wall, PGFN's timeout)
+-- surfaces as a Telegram alert instead of requiring someone to read a workflow
+-- log by hand -- which is exactly how both of those were found tonight.
+CREATE TABLE IF NOT EXISTS source_health (
+    source                TEXT PRIMARY KEY,
+    consecutive_failures  INTEGER NOT NULL DEFAULT 0,
+    last_ok               TEXT,
+    last_checked          TEXT NOT NULL
+);
 """
 
 
@@ -198,3 +209,35 @@ class Store:
             (_now(), summary),
         )
         self.db.commit()
+
+    # --------------------------------------------------------- source_health
+    def health_update(self, source: str, ok: bool) -> int:
+        """Record this run's outcome for `source`; returns the new
+        consecutive-failure streak (0 when `ok`)."""
+        agora = _now()
+        if ok:
+            self.db.execute(
+                """INSERT INTO source_health (source, consecutive_failures, last_ok, last_checked)
+                   VALUES (?, 0, ?, ?)
+                   ON CONFLICT(source) DO UPDATE SET
+                     consecutive_failures = 0, last_ok = excluded.last_ok,
+                     last_checked = excluded.last_checked""",
+                (source, agora, agora),
+            )
+            self.db.commit()
+            return 0
+
+        row = self.db.execute(
+            "SELECT consecutive_failures FROM source_health WHERE source = ?", (source,)
+        ).fetchone()
+        novo = (row["consecutive_failures"] + 1) if row else 1
+        self.db.execute(
+            """INSERT INTO source_health (source, consecutive_failures, last_ok, last_checked)
+               VALUES (?, ?, NULL, ?)
+               ON CONFLICT(source) DO UPDATE SET
+                 consecutive_failures = excluded.consecutive_failures,
+                 last_checked = excluded.last_checked""",
+            (source, novo, agora),
+        )
+        self.db.commit()
+        return novo
