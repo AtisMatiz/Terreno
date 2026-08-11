@@ -50,20 +50,25 @@ fontes:
   brave: true
   facebook: true
 
-# Onde cada fonte roda. Medido, não suposto: OLX, VivaReal/ZAP, Imovelweb e a
-# API do Mercado Livre respondem 403 para faixas de IP de datacenter, e os
-# runners do GitHub Actions são datacenter. Essas fontes só produzem resultado
-# a partir de uma conexão residencial.
+# Onde cada fonte roda. Medido, não suposto: OLX, VivaReal/ZAP, Imovelweb, a
+# API do Mercado Livre, o Facebook e o PGFN bloqueiam faixas de IP de
+# datacenter (os runners do GitHub Actions são datacenter) — cada um com uma
+# assinatura de bloqueio diferente (403, timeout de conexão, CAPTCHA), mas o
+# efeito é o mesmo: essas fontes só produzem resultado a partir de uma conexão
+# residencial. O PGFN em especial derruba a conexão por timeout de rede
+# (`ConnectTimeoutError`/`SSLZeroReturnError`), não por 403 — confirmado em
+# runs reais, então não é um caso de "tentar de novo com outro fingerprint TLS".
 #
 #   python -m terreno.run --profile ci      (o que o GitHub Actions roda)
-#   python -m terreno.run --profile local   (o que a sua máquina roda)
+#   python -m terreno.run --profile local   (o que a sua máquina roda, ./scripts/run_local.sh)
 #
-# O pgfn está nos dois perfis de propósito: a API pública responde, mas o host
-# derruba a conexão sob rajada e pode estar bloqueando IP de datacenter. Se o
-# run do Actions registrar "pgfn: 0 resultados" e o run local trouxer lotes,
-# tire o pgfn do perfil ci.
+# Lista canônica de fontes bloqueadas em datacenter → só em `local`:
+#   olx, vivareal, mercadolivre, imovelweb, wimoveis, pgfn, facebook
+# `chavesnamao`, `caixa` e `brave` já responderam OK do runner do Actions
+# (chavesnamao e Brave por natureza; caixa via curl_cffi, ver Known bugs em
+# SESSION_NOTES.md) e por isso ficam em `ci` também.
 perfis:
-  ci: [brave, chavesnamao, pgfn, caixa]
+  ci: [brave, chavesnamao, caixa]
   local: [olx, vivareal, mercadolivre, imovelweb, wimoveis, chavesnamao, pgfn, caixa, facebook]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre

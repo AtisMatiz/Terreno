@@ -1,17 +1,25 @@
 #!/usr/bin/env bash
-# Local run — the sources that only work from a residential IP.
-#
-# OLX, VivaReal/ZAP, Imovelweb and Mercado Livre all answer 403 to datacenter
-# ranges, and GitHub Actions runners are datacenter ranges. Facebook is stricter
-# still. So those sources run here, on your own connection, and push their
-# results to the same repository the Action publishes from.
+# Local run — the sources that only work from a residential IP: olx, vivareal,
+# mercadolivre, imovelweb, wimoveis and pgfn answer 403 or drop the connection
+# to datacenter ranges, and GitHub Actions runners are datacenter ranges.
+# Facebook is stricter still. So those sources run here, on your own
+# connection, and push their results to the same repository the Action
+# publishes from. Canonical list: `perfis.local` in criteria.yaml, see the
+# README's "Blocked sites" section for the full explanation.
 #
 # Schedule it with cron, e.g. daily at 07:00:
 #   0 7 * * * cd /path/to/Terreno && ./scripts/run_local.sh >> /tmp/terreno.log 2>&1
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-[ -f .env ] && set -a && . ./.env && set +a
+if [ ! -f .env ]; then
+  echo "warning: no .env found — running with whatever keys are already in the" \
+       "environment (pgfn/facebook/olx/etc. don't need one, but Brave and" \
+       "Facebook via Apify won't do anything without theirs). Copy .env.example" \
+       "to .env and fill it in if that's not what you want." >&2
+else
+  set -a && . ./.env && set +a
+fi
 
 python3 -m terreno.run --profile local "$@"
 
