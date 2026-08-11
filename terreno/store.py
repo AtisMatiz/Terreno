@@ -90,6 +90,22 @@ CREATE TABLE IF NOT EXISTS brave_pendentes (
 );
 CREATE INDEX IF NOT EXISTS idx_brave_pendentes_descoberto
     ON brave_pendentes(descoberto_em);
+
+-- Hosts que a Brave já provou mais de uma vez serem um site especializado em
+-- vender imóveis (uma extração de listing real, com preço/área, não uma
+-- página qualquer) sem estarem na lista curada à mão em `sites_alvo`. Depois
+-- de `limiar` extrações confirmadas (ver brave_visit.SITES_DESCOBERTOS_LIMIAR)
+-- o host é "promovido": passa a entrar na mesma rotação de consultas `site:`
+-- que os manuais, só que numa cadência semanal própria (`ultima_consulta`),
+-- independente de o pipeline como um todo rodar todo dia.
+CREATE TABLE IF NOT EXISTS sites_descobertos (
+    host            TEXT PRIMARY KEY,
+    ocorrencias     INTEGER NOT NULL DEFAULT 0,
+    primeira_vez    TEXT NOT NULL,
+    ultima_vez      TEXT NOT NULL,
+    promovido_em    TEXT,
+    ultima_consulta TEXT
+);
 """
 
 
@@ -350,3 +366,55 @@ class Store:
         )
         self.db.commit()
         return excesso
+
+    # ----------------------------------------------------- sites_descobertos
+    def registrar_extracao_brave(self, host: str, limiar: int = 2) -> bool:
+        """Conta uma extração de listing bem-sucedida da Brave nesse host.
+        Quando o total de ocorrências atinge `limiar`, promove o host pela
+        primeira vez -- ver a nota da tabela em SCHEMA. Retorna True só na
+        chamada em que a promoção acontece, para quem chamou poder logar."""
+        agora = _now()
+        row = self.db.execute(
+            "SELECT ocorrencias, promovido_em FROM sites_descobertos WHERE host = ?",
+            (host,),
+        ).fetchone()
+        ocorrencias = (row["ocorrencias"] if row else 0) + 1
+        ja_promovido = bool(row and row["promovido_em"])
+        promovendo_agora = not ja_promovido and ocorrencias >= limiar
+        self.db.execute(
+            """INSERT INTO sites_descobertos
+                   (host, ocorrencias, primeira_vez, ultima_vez, promovido_em)
+               VALUES (?, ?, ?, ?, ?)
+               ON CONFLICT(host) DO UPDATE SET
+                 ocorrencias = excluded.ocorrencias,
+                 ultima_vez = excluded.ultima_vez,
+                 promovido_em = COALESCE(sites_descobertos.promovido_em, excluded.promovido_em)""",
+            (host, ocorrencias, agora, agora, agora if promovendo_agora else None),
+        )
+        self.db.commit()
+        return promovendo_agora
+
+    def sites_descobertos_para_consultar(self, dias: int = 7) -> list[str]:
+        """Hosts promovidos que não são consultados há `dias` dias (ou nunca
+        foram) -- a cadência semanal em si, guiada pelos dados e não pela
+        frequência com que o pipeline roda."""
+        limite = (datetime.now(timezone.utc) - timedelta(days=dias)).isoformat()
+        linhas = self.db.execute(
+            """SELECT host FROM sites_descobertos
+               WHERE promovido_em IS NOT NULL
+                 AND (ultima_consulta IS NULL OR ultima_consulta < ?)
+               ORDER BY ocorrencias DESC""",
+            (limite,),
+        ).fetchall()
+        return [r["host"] for r in linhas]
+
+    def sites_descobertos_marcar_consultado(self, hosts) -> None:
+        hosts = list(hosts)
+        if not hosts:
+            return
+        agora = _now()
+        self.db.executemany(
+            "UPDATE sites_descobertos SET ultima_consulta = ? WHERE host = ?",
+            [(agora, h) for h in hosts],
+        )
+        self.db.commit()

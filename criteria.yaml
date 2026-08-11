@@ -74,8 +74,15 @@ perfis:
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a
 # Brave é uma API com chave, então funciona do GitHub Actions mesmo nos sites
-# que bloqueiam IP de datacenter. Acrescentar um domínio aqui custa 2 consultas
+# que bloqueiam IP de datacenter. Acrescentar um domínio aqui custa 1 consulta
 # por execução — muito mais barato do que manter mais um scraper.
+#
+# Esta lista é só a parte curada à mão. Sites que a Brave prova por conta
+# própria serem especializados em vender imóveis (mais de uma extração real
+# de listing, não uma página qualquer) entram automaticamente na tabela
+# `sites_descobertos` do banco (ver `terreno/sources/brave_visit.py`) e passam
+# a receber a mesma consulta `site:`, numa cadência semanal própria em vez de
+# todo run — não precisam ser adicionados aqui.
 sites_alvo:
   # portais nacionais
   - wimoveis.com.br
@@ -105,8 +112,15 @@ sites_alvo:
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
 orcamentos:
-  brave_consultas_por_run: 100
-  brave_consultas_por_mes: 2000     # cota gratuita da Brave
+  # O plano atual da Brave (confirmado no dashboard, 2026-08-11) não tem teto
+  # mensal — só 50 requisições/segundo, e o discover() de hoje faz uma
+  # consulta por vez, bem abaixo disso. O `brave_consultas_por_mes` antigo
+  # (2000, da cota gratuita) não existe mais nesse plano; deixamos um número
+  # alto em vez de remover o cálculo de _daily_allowance, então o teto real
+  # que sobra é `brave_consultas_por_run`, que subiu de 100 para cobrir muito
+  # mais lugares/templates por execução.
+  brave_consultas_por_run: 600
+  brave_consultas_por_mes: 1000000
   apify_usd_por_mes: 5.00           # crédito gratuito da Apify
   max_paginas_por_fonte: 10
   # Sem teto de tempo ou de contagem para visitar candidatos do Brave: cada

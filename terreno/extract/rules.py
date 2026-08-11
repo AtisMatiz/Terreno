@@ -40,12 +40,23 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     municipality = ""
     uf = ""
 
+    listing_nodes = []
     for node in json_ld(html):
         types = node.get("@type") or ""
         types = types if isinstance(types, list) else [types]
-        if not any(t in ("Product", "Offer", "RealEstateListing", "Residence",
-                         "Place", "Apartment", "House") for t in types):
-            continue
+        if any(t in ("Product", "Offer", "RealEstateListing", "Residence",
+                     "Place", "Apartment", "House") for t in types):
+            listing_nodes.append(node)
+
+    # More than one offer/listing node in the page's own structured data means
+    # this is a category or search-results page listing several properties,
+    # not a single one -- there is no honest way to say which node "belongs"
+    # to this URL, so treat it the same as no listing at all rather than
+    # silently picking the first one.
+    if len(listing_nodes) > 1:
+        return None
+
+    for node in listing_nodes:
         title = title or node.get("name") or ""
         description = description or node.get("description") or ""
         offers = node.get("offers") or {}
@@ -65,10 +76,21 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     body = strip_tags(html)[:6000]
     haystack = f"{title} {description} {body}"
 
+    preco_estruturado = price is not None
     if price is None:
         price = price_to_brl(haystack)
     if area_ha is None:
         area_ha = area_to_ha(haystack, uf)
+
+    # A page mentioning several distinct "R$ ..." amounts is very likely a
+    # category or search-results page listing many properties, not a single
+    # offer -- the price we just read above is only whichever one happened to
+    # come first in the text, not necessarily the one this URL is "about".
+    # Structured data is trusted regardless, since it names a specific offer
+    # even on a page whose surrounding text also mentions other prices (e.g.
+    # a "similar listings" sidebar).
+    if not preco_estruturado and len(re.findall(r"r\$\s*\d", haystack, re.I)) >= 3:
+        return None
 
     if not municipality:
         m = _LOCATION_RE.search(f"{title} {description}") or _LOCATION_RE.search(body)

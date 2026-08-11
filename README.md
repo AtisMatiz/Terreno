@@ -186,10 +186,19 @@ that `/api/disparar` is unreachable — the function only exists on Vercel.
 Every metered resource is capped in `criteria.yaml` and tracked in a SQLite
 ledger, so a daily schedule cannot burn a monthly free tier early:
 
-- **Brave** — up to `brave_consultas_por_run`, tapered so the monthly cap lasts
-  to the last day of the month. Queries are built round-robin across the
-  region's municipalities so a 100-query budget covers the whole region rather
-  than the first three towns.
+- **Brave** — up to `brave_consultas_por_run` (600). The current plan
+  (confirmed on the Brave dashboard, 2026-08-11) has no monthly cap, only a
+  50 requests/second rate limit that a single sequential loop never comes
+  close to — the old `brave_consultas_por_mes` tapering (built for the
+  2000/month free tier) is still there but effectively inert since the
+  configured monthly cap is now a placeholder million. Queries are built
+  round-robin across the region's municipalities so the per-run budget covers
+  the whole region rather than the first few towns.
+- **Auto-discovered sites** — a specialized real-estate host Brave surfaces
+  more than once (without being in the hand-curated `sites_alvo`) gets its
+  own `site:` query too, once a week per host regardless of how often the
+  pipeline itself runs. See the `sites_alvo` comment in `criteria.yaml` and
+  `terreno/sources/brave_visit.py`'s `registrar_extracao_brave`.
 - **Apify** — checked against both the local ledger and Apify's own reported
   limits before each run.
 - **Page fetches** — listings are only fetched in full *after* they pass the

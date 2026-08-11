@@ -66,6 +66,11 @@ def _daily_allowance(store, per_run: int, per_month: int) -> int:
     return max(0, min(per_run, max(fair_share, 0)))
 
 
+def _alvo(criteria) -> str:
+    uf = criteria.states[0] if criteria.states else ""
+    return criteria.regiao or (UF_NAMES.get(uf, uf).replace("-", " ") if uf else "")
+
+
 def _site_queries(criteria) -> list[str]:
     """One `site:` query per target domain, aimed at the region (or state).
 
@@ -75,13 +80,26 @@ def _site_queries(criteria) -> list[str]:
     answer 403 to the scrapers but are perfectly readable through search.
     """
     sites = criteria.raw.get("sites_alvo") or []
-    if not sites:
-        return []
-    uf = criteria.states[0] if criteria.states else ""
-    alvo = criteria.regiao or (UF_NAMES.get(uf, uf).replace("-", " ") if uf else "")
-    if not alvo:
+    alvo = _alvo(criteria)
+    if not sites or not alvo:
         return []
     return [f"fazenda OR sítio OR chácara à venda {alvo} site:{d}" for d in sites]
+
+
+def _discovered_site_queries(criteria, store, dias: int = 7) -> dict[str, str]:
+    """`site:` queries for hosts `brave_visit.py` auto-discovered (see
+    `Store.registrar_extracao_brave`) rather than hand-curated in `sites_alvo`.
+
+    Returns {query: host} so the caller can tell, after truncating the
+    combined query list to the run's allowance, exactly which discovered
+    hosts actually got queried this run — only those get their weekly clock
+    (`ultima_consulta`) reset.
+    """
+    alvo = _alvo(criteria)
+    if not alvo:
+        return {}
+    hosts = store.sites_descobertos_para_consultar(dias=dias)
+    return {f"fazenda OR sítio OR chácara à venda {alvo} site:{h}": h for h in hosts}
 
 
 def _places(criteria) -> list[str]:
@@ -126,11 +144,24 @@ def discover(criteria, store, budgets) -> int:
     # ignore the rest of the region.
     genericas = [t.format(place=p) for t in TEMPLATES for p in places]
 
+    # Auto-discovered sites (brave_visit.py promoted them after repeated real
+    # extractions) get the same "whole portal" priority as the hand-curated
+    # sites_alvo ones, just on their own weekly clock rather than every run.
+    descobertos = _discovered_site_queries(criteria, store)
+
     # Site-targeted queries go first and are never crowded out: each covers a
     # whole portal, so they buy far more coverage per query than the 37th
     # municipality of a generic template does.
-    queries = list(dict.fromkeys(_site_queries(criteria) + genericas))[:allowance]
+    queries = list(dict.fromkeys(
+        _site_queries(criteria) + list(descobertos) + genericas
+    ))[:allowance]
     log.info("brave: %d queries (allowance %d)", len(queries), allowance)
+
+    consultados_agora = {host for q, host in descobertos.items() if q in queries}
+    if consultados_agora:
+        store.sites_descobertos_marcar_consultado(consultados_agora)
+        log.info("brave: %d site(s) descoberto(s) consultados nesta rodada semanal: %s",
+                 len(consultados_agora), ", ".join(sorted(consultados_agora)))
 
     already = store.seen_urls()
     novos: dict[str, str] = {}

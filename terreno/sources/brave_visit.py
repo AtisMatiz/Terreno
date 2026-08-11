@@ -23,15 +23,33 @@ from __future__ import annotations
 
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from urllib.parse import urlparse
 
 from .. import http
 from ..config import llm_enabled
 from ..extract import rules
 from ..models import Listing
+from .brave_discover import SKIP_HOSTS
 
 log = logging.getLogger("terreno.sources.brave_visit")
 
 NAME = "brave"
+
+# Successful extractions from the same host, before it's confident enough to
+# call this a specialized real-estate site worth its own weekly site: query
+# rotation (see Store.registrar_extracao_brave) rather than a one-off page.
+SITES_DESCOBERTOS_LIMIAR = 2
+
+# Never "discover" a host that already has its own dedicated scraper or is
+# already hand-curated in sites_alvo (that would just be noise), nor
+# facebook.com (handled separately via Apify/cookies, and site: search there
+# raises the same ToS concerns the dedicated Facebook source already flags).
+_NAO_DESCOBRIR = set(SKIP_HOSTS) | {"facebook.com"}
+
+
+def _host(url: str) -> str:
+    netloc = urlparse(url).netloc.lower()
+    return netloc[4:] if netloc.startswith("www.") else netloc
 
 # Not a rationing device like the old per-run cap was -- just a backstop so
 # a backlog that grew for months without ever being cleared can't make a
@@ -67,7 +85,7 @@ def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, 
     return "sem_conteudo", None
 
 
-def visit_all(store, budgets) -> list[Listing]:
+def visit_all(criteria, store, budgets) -> list[Listing]:
     """Visita todo o backlog pendente em paralelo e extrai o que der. Regras
     primeiro; o modelo só vê páginas que as regras não conseguiram ler, e só
     quando ligado.
@@ -79,6 +97,7 @@ def visit_all(store, budgets) -> list[Listing]:
     Dezenas de threads ociosas em I/O não pesam em CPU nem memória do
     runner -- o limite real seria o do site do outro lado, não o nosso.
     """
+    sites_alvo = {d.lower() for d in (criteria.raw.get("sites_alvo") or [])}
     paralelismo = int(budgets.get("brave_paralelismo", 50))
     timeout_pagina = int(budgets.get("brave_timeout_pagina_s", 40))
     max_falhas = int(budgets.get("brave_max_falhas", 2))
@@ -118,6 +137,18 @@ def visit_all(store, budgets) -> list[Listing]:
 
     store.brave_pendentes_remover(sucesso | sem_conteudo)
     descartados = store.brave_pendentes_registrar_falha(falha_acesso, limiar=max_falhas)
+
+    # A successful extraction on a host we didn't already know about is
+    # evidence it specializes in real-estate listings -- worth its own
+    # site: query rotation once it happens more than once (a single hit could
+    # just be one property mentioned on an unrelated page).
+    for listing in out:
+        host = _host(listing.url)
+        if host and host not in _NAO_DESCOBRIR and host not in sites_alvo:
+            promovido = store.registrar_extracao_brave(host, limiar=SITES_DESCOBERTOS_LIMIAR)
+            if promovido:
+                log.info("brave: %s promovido a site descoberto -- entra na rotação "
+                         "semanal de consultas site:", host)
 
     log.info(
         "brave: %d listings extraídos de %d/%d candidatos tentados "
