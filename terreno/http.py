@@ -5,6 +5,7 @@ retries, and a per-host backoff live here once rather than in five scrapers.
 from __future__ import annotations
 
 import logging
+import os
 import random
 import threading
 import time
@@ -64,7 +65,37 @@ try:
 except ImportError:
     _cffi = None
 
-_cffi_hosts: set[str] = set()   # hosts where plain requests hit a wall
+# Which browser curl_cffi imitates. Overridable without a code change because
+# anti-bot vendors ship fingerprint databases at their own pace: when one
+# target stops working, the next one along often still does, and finding that
+# out is a one-command experiment (TERRENO_IMPERSONATE=chrome131 ...) rather
+# than an edit-commit-rerun cycle.
+IMPERSONATE = os.getenv("TERRENO_IMPERSONATE", "chrome")
+
+_cffi_ok: set[str] = set()      # hosts the browser transport got through
+_cffi_falhou: set[str] = set()  # ...and hosts where it was tried and did not
+
+# Headers that describe *who is asking* rather than *what is being asked for*.
+# curl_cffi's `impersonate` sets a complete, self-consistent set of these to
+# match the TLS and HTTP/2 handshake it performs. Overriding any of them
+# re-creates exactly the mismatch the impersonation exists to remove: a
+# "Chrome 124 on Windows" User-Agent arriving over a current-Chrome handshake
+# is not a neutral detail, it is itself a bot signal to Cloudflare/DataDome,
+# which cross-check the two. Passing DEFAULT_HEADERS into curl_cffi -- which
+# this module did until now -- therefore sabotaged the very fallback it was
+# calling, and did it silently.
+_HEADERS_DE_IMPRESSAO = {
+    "user-agent", "accept", "accept-language", "accept-encoding",
+    "sec-ch-ua", "sec-ch-ua-mobile", "sec-ch-ua-platform",
+    "sec-fetch-dest", "sec-fetch-mode", "sec-fetch-site", "sec-fetch-user",
+}
+
+
+def _headers_semanticos(headers: dict | None) -> dict:
+    """Só os cabeçalhos que dizem o que estamos pedindo (x-domain, Origin,
+    Referer, tokens de API) -- nunca os que dizem quem somos."""
+    return {k: v for k, v in (headers or {}).items()
+            if k.lower() not in _HEADERS_DE_IMPRESSAO}
 
 
 def _throttle(host: str) -> None:
@@ -97,11 +128,31 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
         return None
 
     for attempt in range(retries):
+        # A host where the browser transport already proved necessary goes
+        # straight to it: repeating a plain attempt we have measured to fail
+        # only spends another throttle slot to learn the same thing again.
+        if host in _cffi_ok:
+            _throttle(host)
+            pronto = _via_cffi(url, params, headers, timeout, json)
+            if pronto is not None:
+                return pronto
+
         _throttle(host)
         try:
             r = _session.get(url, params=params, headers=headers, timeout=timeout)
         except requests.RequestException as exc:
             log.warning("%s: %s (attempt %d)", host, exc, attempt + 1)
+            # A connection torn down at the TLS layer (SSLZeroReturnError,
+            # connection reset) is a *rejection*, not an outage -- and it is
+            # precisely the shape a fingerprint block takes when the wall sits
+            # in front of the server rather than in it. Until now curl_cffi was
+            # only ever reached from the 403/429 branch below, so this whole
+            # class of block -- PGFN's, measured repeatedly -- was recorded as
+            # "curl_cffi doesn't help here" without curl_cffi ever being tried.
+            alt = _tentar_cffi(url, params, headers, timeout, json, host,
+                               motivo=f" (após {type(exc).__name__})")
+            if alt is not None:
+                return alt
             time.sleep(2 ** attempt)
             continue
 
@@ -115,13 +166,11 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             return r
 
         if r.status_code in (403, 429):
-            # Try the browser-fingerprint transport once before backing off.
-            if _cffi is not None and host not in _cffi_hosts:
-                _cffi_hosts.add(host)
-                alt = _via_cffi(url, params, headers, timeout, json)
-                if alt is not None:
-                    log.info("%s: liberado via curl_cffi", host)
-                    return alt
+            # Try the browser-fingerprint transport before backing off.
+            alt = _tentar_cffi(url, params, headers, timeout, json, host,
+                               motivo=f" (após HTTP {r.status_code})")
+            if alt is not None:
+                return alt
             log.warning("%s: HTTP %s — backing off", host, r.status_code)
             time.sleep(3 * (attempt + 1))
             if attempt == retries - 1:
@@ -146,23 +195,64 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
     return None
 
 
-def _via_cffi(url, params, headers, timeout, want_json):
-    """One attempt with a browser TLS fingerprint. Never raises."""
+def _tentar_cffi(url, params, headers, timeout, want_json, host, motivo=""):
+    """Uma tentativa com o transporte de navegador por host por execução,
+    dizendo no log o que aconteceu.
+
+    O silêncio era o problema real da versão anterior: a falha do curl_cffi
+    só aparecia em DEBUG, então uma execução normal não distinguia "o
+    curl_cffi foi tentado e não passou" de "o curl_cffi nem existe aqui" --
+    e as duas pedem providências opostas.
+    """
+    if _cffi is None:
+        if host not in _cffi_falhou:
+            _cffi_falhou.add(host)
+            log.warning("%s: bloqueado e curl_cffi não está instalado — "
+                        "`pip install curl_cffi` habilita a tentativa com "
+                        "impressão digital de navegador", host)
+        return None
+    if host in _cffi_falhou:
+        return None
+
+    resultado = _via_cffi(url, params, headers, timeout, want_json, motivo=motivo)
+    if resultado is None:
+        _cffi_falhou.add(host)
+    else:
+        _cffi_ok.add(host)
+        log.info("%s: liberado via curl_cffi (impersonate=%s)%s",
+                 host, IMPERSONATE, motivo)
+    return resultado
+
+
+def _via_cffi(url, params, headers, timeout, want_json, *, motivo=""):
+    """One attempt with a browser TLS fingerprint. Never raises.
+
+    Deliberately does not forward DEFAULT_HEADERS -- see
+    `_HEADERS_DE_IMPRESSAO` for why sending our own User-Agent here defeats
+    the impersonation instead of helping it.
+    """
+    if _cffi is None:
+        return None
+    host = urlsplit(url).netloc
     try:
         r = _cffi.get(
             url, params=params,
-            headers={**DEFAULT_HEADERS, **(headers or {})},
-            timeout=timeout, impersonate="chrome",
+            headers=_headers_semanticos(headers),
+            timeout=timeout, impersonate=IMPERSONATE,
         )
     except Exception as exc:  # noqa: BLE001 — optional path, must not break a run
-        log.debug("curl_cffi falhou em %s: %s", url, exc)
+        log.warning("%s: curl_cffi (impersonate=%s) falhou%s: %s: %s",
+                    host, IMPERSONATE, motivo, type(exc).__name__, exc)
         return None
     if r.status_code != 200:
+        log.warning("%s: curl_cffi (impersonate=%s) devolveu HTTP %s%s",
+                    host, IMPERSONATE, r.status_code, motivo)
         return None
     if want_json:
         try:
             return r.json()
         except ValueError:
+            log.warning("%s: curl_cffi passou mas a resposta não era JSON", host)
             return None
     return r
 

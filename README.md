@@ -33,31 +33,60 @@ Mão source still runs and the page still renders.
 | **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) | anywhere |
 | **C — Facebook** | Marketplace and groups | `APIFY_TOKEN`, or burner cookies | local only |
 
-### Sobre os 403 — o que já foi tentado
+### Sobre os 403 — quatro causas diferentes, não uma
 
-Medido, não suposto. OLX, VivaReal, Imovelweb, Wimoveis e a API do Mercado
-Livre recusam IP de datacenter com 403; o PGFN derruba a conexão por timeout
-de rede, não por 403 (então a saída 3 abaixo não ajuda nesse caso). Os
-runners do GitHub Actions são datacenter. Quatro saídas, em ordem de
-custo-benefício — o CSV da Caixa já foi resolvido pela saída 3 e saiu dessa
-lista.
+"Bloqueado por IP de datacenter" era um diagnóstico apressado. A primeira
+execução real do perfil `local`, de uma conexão residencial, devolveu os
+mesmos 403 — o que derrubou a explicação única e obrigou a separar as causas:
+
+| Fonte | Causa real | Tem saída? |
+|---|---|---|
+| `mercadolivre` | A API exige OAuth. Sem `ML_ACCESS_TOKEN`, 403 é a resposta documentada para chamada anônima. | Sim: pegar um token grátis. Nada a ver com IP. |
+| `pgfn` | Conexão recusada no handshake TLS (`SSLZeroReturnError`) — uma recusa, não uma queda de rede. | Talvez: o `curl_cffi` nunca havia sido acionado nesse caminho (ver abaixo). Agora é. |
+| `olx`, `imovelweb` | 403 de verdade, provavelmente impressão digital de TLS/HTTP2. | Talvez, pelo mesmo motivo. |
+| `vivareal` | Nunca foi bloqueio: `size=100` estourava o limite da API, que responde `400 "Size is above acceptable limit"`. Só parecia bloqueio porque de um IP de datacenter o Cloudflare responde 403 *antes* de a API poder explicar. | Corrigido — e depois desligado, porque o portal tem problemas mesmo num navegador comum. |
+
+A lição que sobra: **uma fonte devolvendo zero não é prova de bloqueio.**
+
+O `curl_cffi` (segundo transporte, que imita o handshake de um navegador de
+verdade) existia mas mal funcionava, por três motivos que se somavam:
+
+1. Só era chamado depois de um **403**. Falhas em forma de exceção — TLS
+   recusado, conexão resetada, exatamente o caso do PGFN — nunca chegavam
+   nele. Então "o `curl_cffi` não resolve o PGFN" nunca foi testado.
+2. Mandava **os nossos cabeçalhos por cima da imitação**, anunciando um
+   navegador nos cabeçalhos e outro no handshake. Cloudflare e DataDome
+   cruzam justamente esses dois — a incoerência é um sinal de bot mais forte
+   do que a `requests` sozinha seria.
+3. Quando falhava, **não dizia nada** (log em DEBUG), então não havia como
+   distinguir "foi tentado e bloqueado" de "não está instalado".
+
+Os três estão corrigidos. Para medir o que sobrou, de uma máquina onde a
+medição significa algo:
+
+```bash
+python3 scripts/diagnostico.py
+```
+
+Ele bate uma vez em cada host de quatro formas (requests, `curl_cffi` com os
+nossos cabeçalhos, `curl_cffi` limpo, e variando o navegador imitado) e diz,
+por fonte, se a causa é impressão digital — corrigível aqui — ou o IP / uma
+sessão de navegador de verdade, que não é. Vale rodar da sua máquina: **num
+runner de CI, ou em qualquer sandbox atrás de um proxy que termina TLS, o
+resultado não significa nada**, porque o proxy substitui a impressão digital
+que estamos justamente tentando testar.
+
+Se o diagnóstico disser que não é impressão digital, as saídas restantes são:
 
 1. **Runner self-hosted** — o mesmo workflow do Actions rodando na sua máquina,
-   com o seu IP residencial. Resolve *todos* os 403 de uma vez, é gratuito, e
-   mantém a orquestração do GitHub. É a resposta certa se você quiser tudo
-   num lugar só: Settings → Actions → Runners → New self-hosted runner, depois
-   troque `runs-on: ubuntu-latest` por `runs-on: self-hosted` no workflow.
+   com o seu IP residencial. Gratuito e mantém a orquestração do GitHub:
+   Settings → Actions → Runners → New self-hosted runner, depois troque
+   `runs-on: ubuntu-latest` por `runs-on: self-hosted` no workflow.
 2. **Busca indexada como ponte** (já ativo) — a Brave é uma API com chave, então
    alcança do CI o conteúdo dos sites que bloqueiam nosso IP. É para isso que
    serve `sites_alvo`: uma consulta `site:wimoveis.com.br` traz os anúncios do
    Wimoveis sem nunca falar com o Wimoveis.
-3. **Impressão digital de TLS** — parte desses bloqueios olha o handshake, não o
-   IP. `pip install curl_cffi` liga um segundo transporte que imita o Chrome;
-   `terreno/http.py` o usa sozinho quando leva 403. **Não foi possível validar
-   durante o desenvolvimento**: o sandbox usado passa por um proxy que termina o
-   TLS e substitui qualquer impressão digital. Instale e rode uma vez para
-   descobrir — o log diz `liberado via curl_cffi` quando funciona.
-4. **Proxy residencial pago** — resolve, custa a partir de ~US$ 1/GB, e foi
+3. **Proxy residencial pago** — resolve, custa a partir de ~US$ 1/GB, e foi
    descartado por causa do teto de R$ 0.
 
 ### Blocked sites — the ones that need a local run
