@@ -28,7 +28,7 @@ def fetch(criteria, store, budgets) -> list:
     # visit_all disposes of every candidate it touches itself (removed on
     # success or empty content, given another chance or discarded on a
     # fetch failure) -- there is nothing left for the caller to reconcile.
-    listings = visit_all(store, budgets)
+    listings = visit_all(criteria, store, budgets)
 
     limite_fila = int(budgets.get("brave_max_fila_pendentes", 2000))
     podados = store.brave_pendentes_podar(limite_fila)
