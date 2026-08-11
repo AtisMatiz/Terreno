@@ -85,7 +85,8 @@ CREATE TABLE IF NOT EXISTS source_health (
 CREATE TABLE IF NOT EXISTS brave_pendentes (
     url            TEXT PRIMARY KEY,
     dica           TEXT,
-    descoberto_em  TEXT NOT NULL
+    descoberto_em  TEXT NOT NULL,
+    falhas         INTEGER NOT NULL DEFAULT 0
 );
 CREATE INDEX IF NOT EXISTS idx_brave_pendentes_descoberto
     ON brave_pendentes(descoberto_em);
@@ -107,7 +108,19 @@ class Store:
         self.db = sqlite3.connect(path)
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
+        self._migrate()
         self.db.commit()
+
+    def _migrate(self) -> None:
+        """CREATE TABLE IF NOT EXISTS never alters a table that already
+        exists -- and the database is a file committed to the repo, not
+        recreated each run, so a new column needs an explicit ALTER TABLE
+        for everyone still running the old schema."""
+        cols = {r["name"] for r in self.db.execute("PRAGMA table_info(brave_pendentes)")}
+        if "falhas" not in cols:
+            self.db.execute(
+                "ALTER TABLE brave_pendentes ADD COLUMN falhas INTEGER NOT NULL DEFAULT 0"
+            )
 
     def close(self) -> None:
         self.db.commit()
@@ -288,6 +301,36 @@ class Store:
             "DELETE FROM brave_pendentes WHERE url = ?", [(u,) for u in urls]
         )
         self.db.commit()
+
+    def brave_pendentes_registrar_falha(self, urls, limiar: int = 2) -> set[str]:
+        """Um candidato que não deu para nem baixar (timeout, conexão recusada)
+        ganha uma nova chance na próxima execução em vez de ser descartado na
+        hora -- pode ter sido uma instabilidade passageira do site. Só depois
+        de `limiar` falhas *entre execuções* ele é descartado de vez. Isso é
+        deliberadamente separado de uma página que carregou mas não tinha
+        anúncio nenhum: essa é descartada na hora, porque visitar de novo não
+        vai mudar o que já foi lido com sucesso.
+
+        Retorna as URLs descartadas nesta chamada, para quem chamou logar."""
+        urls = list(urls)
+        if not urls:
+            return set()
+        self.db.executemany(
+            "UPDATE brave_pendentes SET falhas = falhas + 1 WHERE url = ?",
+            [(u,) for u in urls],
+        )
+        placeholders = ",".join("?" for _ in urls)
+        linhas = self.db.execute(
+            f"SELECT url FROM brave_pendentes WHERE url IN ({placeholders}) AND falhas >= ?",
+            (*urls, limiar),
+        ).fetchall()
+        descartados = {r["url"] for r in linhas}
+        if descartados:
+            self.db.executemany(
+                "DELETE FROM brave_pendentes WHERE url = ?", [(u,) for u in descartados]
+            )
+        self.db.commit()
+        return descartados
 
     def brave_pendentes_total(self) -> int:
         return self.db.execute(

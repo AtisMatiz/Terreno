@@ -107,9 +107,11 @@ orcamentos:
   # Sem teto de tempo ou de contagem para visitar candidatos do Brave: cada
   # execução visita a fila pendente inteira (terreno/sources/brave_visit.py),
   # o que a limita agora é só o timeout-minutes do job no GitHub Actions —
-  # ver .github/workflows/search.yml. brave_paralelismo controla quantas
-  # páginas são buscadas ao mesmo tempo (rede é o gargalo, não CPU).
-  brave_paralelismo: 15
+  # ver .github/workflows/search.yml. Rede é o gargalo, não CPU/memória do
+  # runner, então o paralelismo pode ser alto sem custo real.
+  brave_paralelismo: 50             # páginas candidatas buscadas ao mesmo tempo
+  brave_timeout_pagina_s: 40        # tempo generoso por página até considerar "falha de acesso"
+  brave_max_falhas: 2               # falhas de acesso seguidas (entre execuções) até descartar o candidato
   brave_max_fila_pendentes: 5000    # teto de segurança contra fila sem fim, não uma cota por execução
   max_paginas_detalhe_por_fonte: 60
   max_paginas_enriquecimento: 80

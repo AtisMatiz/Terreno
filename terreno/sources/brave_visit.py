@@ -8,6 +8,15 @@ this module: visiting a candidate page is a plain HTTP GET, unrelated to any
 search-API cap. What now bounds a run is the workflow's own
 `timeout-minutes`, not an artificial per-run cutoff, so a large backlog gets
 visited to completion in one run instead of being rationed across many.
+
+Three outcomes per candidate, handled differently on purpose:
+  * extracted a listing        -> done, leave the queue for good.
+  * fetched fine, nothing there -> done too; revisiting won't change what a
+                                    page that loaded correctly already showed.
+  * couldn't even fetch it     -> might be a passing outage, not a dead URL.
+                                    Gets a `falhas` counter in the queue and
+                                    another chance next run; only discarded
+                                    after `brave_max_falhas` such failures.
 """
 
 from __future__ import annotations
@@ -30,11 +39,20 @@ NAME = "brave"
 MAX_POR_EXECUCAO = 5000
 
 
-def _visitar_um(url: str, dica: str, use_llm: bool) -> Listing | None:
-    """O trabalho de uma única página candidata -- roda em uma thread do pool."""
-    resp = http.get(url, timeout=20, retries=2)
-    if resp is None or "text/html" not in resp.headers.get("content-type", ""):
-        return None
+def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, Listing | None]:
+    """O trabalho de uma única página candidata -- roda em uma thread do pool.
+
+    Uma única tentativa por execução (sem retry aqui): o retry mora agora
+    no nível da fila, entre execuções -- ver `brave_pendentes_registrar_falha`
+    -- porque um site fora do ar agora pode estar de volta amanhã, e duas
+    tentativas imediatas em sequência não ajudam nisso, só gastam o dobro do
+    tempo desta execução com um site que provavelmente ainda vai falhar.
+    """
+    resp = http.get(url, timeout=timeout, retries=1)
+    if resp is None:
+        return "falha_acesso", None
+    if "text/html" not in resp.headers.get("content-type", ""):
+        return "sem_conteudo", None
 
     listing = rules.extract(resp.text, url, source=NAME)
     if use_llm and rules.is_thin(listing):
@@ -45,10 +63,11 @@ def _visitar_um(url: str, dica: str, use_llm: bool) -> Listing | None:
 
     if listing:
         listing.title = listing.title or dica
-    return listing
+        return "ok", listing
+    return "sem_conteudo", None
 
 
-def visit_all(store, budgets) -> tuple[set[str], list[Listing]]:
+def visit_all(store, budgets) -> list[Listing]:
     """Visita todo o backlog pendente em paralelo e extrai o que der. Regras
     primeiro; o modelo só vê páginas que as regras não conseguiram ler, e só
     quando ligado.
@@ -57,39 +76,54 @@ def visit_all(store, budgets) -> tuple[set[str], list[Listing]]:
     do tempo esperando resposta de servidores diferentes, não competindo
     entre si -- então mais paralelismo visita mais páginas no mesmo tempo,
     sem precisar de um teto de tempo artificial para caber num orçamento.
-
-    Retorna as URLs de fato tentadas (para a chamadora tirar da fila -- com
-    sucesso ou não, uma página tentada não é retentada indefinidamente) e os
-    anúncios extraídos.
+    Dezenas de threads ociosas em I/O não pesam em CPU nem memória do
+    runner -- o limite real seria o do site do outro lado, não o nosso.
     """
-    paralelismo = int(budgets.get("brave_paralelismo", 15))
+    paralelismo = int(budgets.get("brave_paralelismo", 50))
+    timeout_pagina = int(budgets.get("brave_timeout_pagina_s", 40))
+    max_falhas = int(budgets.get("brave_max_falhas", 2))
     use_llm = llm_enabled()
     fila = store.brave_pendentes_carregar(MAX_POR_EXECUCAO)
     if not fila:
-        return set(), []
+        return []
 
-    log.info("brave: visitando %d candidatos pendentes (sem limite de tempo por execução)",
-             len(fila))
+    log.info("brave: visitando %d candidatos pendentes (sem limite de tempo por execução, "
+             "%ds por página, %d em paralelo)", len(fila), timeout_pagina, paralelismo)
 
     out: list[Listing] = []
-    visitados: set[str] = set()
+    sucesso: set[str] = set()
+    sem_conteudo: set[str] = set()
+    falha_acesso: set[str] = set()
 
     with ThreadPoolExecutor(max_workers=paralelismo) as pool:
         futuros = {
-            pool.submit(_visitar_um, url, dica, use_llm): url
+            pool.submit(_visitar_um, url, dica, use_llm, timeout_pagina): url
             for url, dica in fila
         }
         for futuro in as_completed(futuros):
             url = futuros[futuro]
-            visitados.add(url)
             try:
-                listing = futuro.result()
+                status, listing = futuro.result()
             except Exception as exc:  # noqa: BLE001 — uma página ruim não pode derrubar a execução
                 log.debug("brave: falha ao processar %s: %s", url, exc)
-                listing = None
-            if listing:
-                out.append(listing)
+                status, listing = "falha_acesso", None
 
-    log.info("brave: %d listings extraídos de %d/%d candidatos tentados",
-             len(out), len(visitados), len(fila))
-    return visitados, out
+            if status == "ok":
+                sucesso.add(url)
+                out.append(listing)
+            elif status == "falha_acesso":
+                falha_acesso.add(url)
+            else:
+                sem_conteudo.add(url)
+
+    store.brave_pendentes_remover(sucesso | sem_conteudo)
+    descartados = store.brave_pendentes_registrar_falha(falha_acesso, limiar=max_falhas)
+
+    log.info(
+        "brave: %d listings extraídos de %d/%d candidatos tentados "
+        "(%d sem conteúdo, %d falha de acesso -- %d descartados após %d falhas, "
+        "%d voltam para a fila)",
+        len(out), len(fila), len(fila), len(sem_conteudo), len(falha_acesso),
+        len(descartados), max_falhas, len(falha_acesso) - len(descartados),
+    )
+    return out
