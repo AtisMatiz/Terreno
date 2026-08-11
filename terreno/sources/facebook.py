@@ -20,7 +20,10 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
+import unicodedata
 from pathlib import Path
+from urllib.parse import quote_plus
 
 from .. import http
 from ..config import env
@@ -36,6 +39,27 @@ APIFY_LIMITS = "https://api.apify.com/v2/users/me/limits"
 DEFAULT_ACTOR = os.getenv("APIFY_FB_ACTOR", "apify~facebook-marketplace-scraper")
 # Conservative estimate of actor cost per run, used to pre-check the ledger.
 EST_USD_PER_RUN = 0.15
+
+# The actor's real input schema, read from
+# https://api.apify.com/v2/acts/apify~facebook-marketplace-scraper/builds/default:
+#
+#     required:  startUrls  (array of {"url": ...})
+#     optional:  resultsLimit (int), includeListingDetails (bool)
+#
+# The payload sent until now (`search`/`maxItems`/`country`) matched none of
+# those, which is why every call came back
+# `400 Input is not valid: Field input.startUrls is required`. Worth checking
+# the schema again if this breaks: actors change theirs between versions, and
+# the error message names the offending field, so it is a cheap thing to
+# re-derive rather than guess at.
+MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
+
+# Descriptions are not a nice-to-have here: scoring reads water, area and
+# building evidence out of the listing text (terreno/scoring.py), and a
+# Marketplace card title alone almost never carries a hectare figure -- so
+# without details most results would be filtered out as unparseable and the
+# credit spent on them wasted. Costs more per item, hence the override.
+INCLUDE_DETAILS = os.getenv("APIFY_FB_DETALHES", "1") not in ("0", "false", "False")
 
 
 def fetch(criteria, store, budgets) -> list[Listing]:
@@ -66,22 +90,85 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
             log.warning("apify: account credit spent (%.2f/%.2f)", used, allowed)
             return []
 
+    urls = _start_urls(criteria)
+    if not urls:
+        log.warning("apify: nenhuma URL de busca montada — pulando")
+        return []
+
+    # One actor call for every URL, not one per state: the actor takes the
+    # whole list itself, so splitting it would multiply the per-run cost for
+    # no extra coverage.
+    payload = {
+        "startUrls": [{"url": u} for u in urls],
+        "resultsLimit": 40,
+        "includeListingDetails": INCLUDE_DETAILS,
+    }
+    log.info("apify: %d URL(s) de busca, detalhes=%s", len(urls), INCLUDE_DETAILS)
+    for u in urls:
+        log.debug("apify: %s", u)
+
+    items = _apify_post(DEFAULT_ACTOR, token, payload)
+    store.budget_spend(RESOURCE, EST_USD_PER_RUN)
+
+    uf_padrao = criteria.states[0] if criteria.states else ""
     out: list[Listing] = []
-    for uf in criteria.states:
-        payload = {
-            "search": f"terreno chácara sítio {uf}",
-            "maxItems": 40,
-            "country": "BR",
-        }
-        items = _apify_post(DEFAULT_ACTOR, token, payload)
-        store.budget_spend(RESOURCE, EST_USD_PER_RUN)
-        for item in items or []:
-            listing = _from_apify(item, uf)
-            if listing:
-                out.append(listing)
+    for item in items or []:
+        listing = _from_apify(item, uf_padrao)
+        if listing:
+            out.append(listing)
 
     log.info("facebook/apify: %d listings", len(out))
     return out
+
+
+def _slug_cidade(nome: str) -> str:
+    """"São José dos Campos" -> "saojosedoscampos", que é a forma que o
+    Facebook usa nas URLs de Marketplace por cidade."""
+    plano = unicodedata.normalize("NFKD", nome.lower())
+    plano = "".join(c for c in plano if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9]", "", plano)
+
+
+def _start_urls(criteria) -> list[str]:
+    """URLs de busca do Marketplace para o ator visitar.
+
+    `APIFY_FB_START_URLS` (separadas por vírgula) substitui tudo isto — é a
+    saída para quando o Facebook mudar o formato de novo, sem precisar de uma
+    nova versão do código.
+
+    Sem override, monta uma busca por município do recorte atual. O slug de
+    cidade é derivado do nome, o que acerta na maioria dos municípios
+    brasileiros mas não em todos; um slug errado devolve uma página vazia em
+    vez de erro, então a lista é limitada por `MAX_START_URLS` para um engano
+    custar pouco crédito. O log diz quais URLs foram usadas, que é como se
+    descobre qual delas não rendeu nada.
+    """
+    override = env("APIFY_FB_START_URLS")
+    if override:
+        return [u.strip() for u in override.split(",") if u.strip()][:MAX_START_URLS]
+
+    consulta = quote_plus("sitio chacara fazenda terreno rural")
+
+    # A busca geral vem primeiro e nunca é cortada: é a única que não depende
+    # de nenhum slug estar certo, então é justamente a que não pode cair fora
+    # quando a lista é truncada -- que era o efeito de deixá-la no fim.
+    urls = [f"https://www.facebook.com/marketplace/search/?query={consulta}"]
+
+    municipios = [m for m in criteria.municipalities if _slug_cidade(m)]
+    urls += [
+        f"https://www.facebook.com/marketplace/{_slug_cidade(m)}/search/?query={consulta}"
+        for m in municipios
+    ]
+    if len(urls) > MAX_START_URLS:
+        # O corte é alfabético, então sem este aviso a busca ficaria
+        # permanentemente presa nos primeiros municípios da lista sem que
+        # nada no log dissesse isso. APIFY_FB_MAX_URLS levanta o teto;
+        # APIFY_FB_START_URLS escolhe as cidades à mão.
+        log.info("apify: %d municípios no recorte, mas só cabem %d URLs — "
+                 "cobrindo %s (ajuste APIFY_FB_MAX_URLS ou APIFY_FB_START_URLS)",
+                 len(municipios), MAX_START_URLS - 1,
+                 ", ".join(municipios[:MAX_START_URLS - 1]))
+    return urls[:MAX_START_URLS]
 
 
 def _apify_post(actor: str, token: str, payload: dict):
