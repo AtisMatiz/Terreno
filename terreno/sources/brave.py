@@ -129,12 +129,17 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     for query in queries:
         data = http.get_json(
             API,
-            # Brave's country codes are two-letter and uppercase ("BR"); the
-            # first production run sent lowercase and got HTTP 422 on every
-            # single query. result_filter is dropped too — it is one more
-            # value the API can reject, and we only ever read data["web"], so
-            # nothing downstream needs it.
-            params={"q": query, "country": "BR", "search_lang": "pt", "count": 20},
+            # Brave's country codes are two-letter and uppercase ("BR") --
+            # fixed after the first production run sent lowercase. The second
+            # run then showed the real culprit in the error body: plain "pt"
+            # fails search_lang's enum validation (Brave wants a full locale
+            # like "pt-BR", and getting that wrong for every language wasn't
+            # worth guessing at, so the parameter is dropped instead -- the
+            # query text is already in Portuguese, which does the same job).
+            # result_filter is dropped too, for the same reason: one more
+            # value the API can reject that nothing downstream needs, since
+            # the code only ever reads data["web"].
+            params={"q": query, "country": "BR", "count": 20},
             headers={"X-Subscription-Token": token, "Accept": "application/json"},
         )
         store.budget_spend(RESOURCE, 1)

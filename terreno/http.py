@@ -122,7 +122,7 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
         # says exactly what was wrong (Brave's 422s do), and without it a bad
         # parameter looks identical to a dead source until someone downloads
         # the workflow log and greps for it by hand.
-        trecho = (r.text or "")[:200].replace("\n", " ")
+        trecho = (r.text or "")[:400].replace("\n", " ")
         log.warning("%s: HTTP %s — %s", host, r.status_code, trecho)
         return None
     return None

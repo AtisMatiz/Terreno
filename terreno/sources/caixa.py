@@ -88,8 +88,14 @@ def _parece_csv(texto: str) -> bool:
 
 
 def _baixar(uf: str) -> str | None:
-    """CSV do estado, em texto. Tenta requests, cai para curl, desiste com
-    aviso explícito."""
+    """CSV do estado, em texto. Tenta requests, depois curl_cffi (impressão
+    digital de navegador), depois o binário curl, desiste com aviso explícito.
+
+    A parede do Radware devolve HTTP 200 com uma página de CAPTCHA, não um
+    403 — por isso o fallback automático de curl_cffi em http.py (que só liga
+    depois de um 403/429) nunca chega a ser acionado aqui. Este source
+    precisa pedir o transporte alternativo diretamente.
+    """
     url = CSV_URL.format(uf=uf)
 
     resp = http.get(url, timeout=60, retries=1)
@@ -97,7 +103,16 @@ def _baixar(uf: str) -> str | None:
         texto = resp.content.decode("latin-1", errors="replace")
         if _parece_csv(texto):
             return texto
-        log.info("caixa %s: parede de bot na requests, tentando curl", uf)
+        log.info("caixa %s: parede de bot na requests, tentando curl_cffi", uf)
+
+    if http._cffi is not None:
+        alt = http._via_cffi(url, None, None, 60, False)
+        if alt is not None:
+            texto = alt.content.decode("latin-1", errors="replace")
+            if _parece_csv(texto):
+                log.info("caixa %s: liberado via curl_cffi", uf)
+                return texto
+        log.info("caixa %s: curl_cffi também bloqueado, tentando curl", uf)
 
     if not shutil.which("curl"):
         log.warning("caixa %s: bloqueado e curl indisponível", uf)
@@ -116,7 +131,7 @@ def _baixar(uf: str) -> str | None:
     if _parece_csv(texto):
         return texto
 
-    log.warning("caixa %s: bloqueado por CAPTCHA (Radware) também no curl", uf)
+    log.warning("caixa %s: bloqueado por CAPTCHA (Radware) em todos os transportes", uf)
     return None
 
 
