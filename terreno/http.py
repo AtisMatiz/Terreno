@@ -60,10 +60,18 @@ _session.headers.update(DEFAULT_HEADERS)
 # was written in routes through a TLS-terminating proxy, which replaces any
 # fingerprint we send, so whether it clears a given portal has to be measured
 # where the code actually runs.
+# Deliberately catches more than ImportError: curl_cffi ships a compiled
+# extension, and when that fails to load (wrong architecture, missing system
+# library, half-finished install) the exception is an OSError, not an
+# ImportError. Treating only ImportError as "absent" would report a broken
+# install as a missing one -- two problems whose fixes have nothing in common.
+# The reason is kept so it can be shown instead of a bare "not installed".
 try:
     from curl_cffi import requests as _cffi
-except ImportError:
+    _cffi_erro = ""
+except Exception as _exc:  # noqa: BLE001 — see above
     _cffi = None
+    _cffi_erro = f"{type(_exc).__name__}: {_exc}"
 
 # Which browser curl_cffi imitates. Overridable without a code change because
 # anti-bot vendors ship fingerprint databases at their own pace: when one
@@ -207,9 +215,11 @@ def _tentar_cffi(url, params, headers, timeout, want_json, host, motivo=""):
     if _cffi is None:
         if host not in _cffi_falhou:
             _cffi_falhou.add(host)
-            log.warning("%s: bloqueado e curl_cffi não está instalado — "
-                        "`pip install curl_cffi` habilita a tentativa com "
-                        "impressão digital de navegador", host)
+            log.warning("%s: bloqueado e o curl_cffi não pôde ser carregado "
+                        "(%s) — `python3 -m pip install curl_cffi` (com o -m, "
+                        "para instalar no mesmo Python que roda isto aqui) "
+                        "habilita a tentativa com impressão digital de navegador",
+                        host, _cffi_erro or "não instalado")
         return None
     if host in _cffi_falhou:
         return None
