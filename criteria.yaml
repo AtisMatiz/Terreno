@@ -40,7 +40,9 @@ max_preco_por_ha: null
 # ---------------------------------------------------------------- fontes
 fontes:
   olx: true
-  vivareal: true
+  vivareal: false     # desligado a pedido do usuário (2026-08-11): o portal
+                      # apresenta problemas mesmo num navegador comum, então
+                      # não é um caso de bloqueio a resolver do nosso lado.
   mercadolivre: true
   chavesnamao: true
   imovelweb: true
@@ -50,26 +52,34 @@ fontes:
   brave: true
   facebook: true
 
-# Onde cada fonte roda. Medido, não suposto: OLX, VivaReal/ZAP, Imovelweb, a
-# API do Mercado Livre, o Facebook e o PGFN bloqueiam faixas de IP de
-# datacenter (os runners do GitHub Actions são datacenter) — cada um com uma
-# assinatura de bloqueio diferente (403, timeout de conexão, CAPTCHA), mas o
-# efeito é o mesmo: essas fontes só produzem resultado a partir de uma conexão
-# residencial. O PGFN em especial derruba a conexão por timeout de rede
-# (`ConnectTimeoutError`/`SSLZeroReturnError`), não por 403 — confirmado em
-# runs reais, então não é um caso de "tentar de novo com outro fingerprint TLS".
+# Onde cada fonte roda.
 #
 #   python -m terreno.run --profile ci      (o que o GitHub Actions roda)
 #   python -m terreno.run --profile local   (o que a sua máquina roda, ./scripts/run_local.sh)
 #
-# Lista canônica de fontes bloqueadas em datacenter → só em `local`:
-#   olx, vivareal, mercadolivre, imovelweb, wimoveis, pgfn, facebook
-# `chavesnamao`, `caixa` e `brave` já responderam OK do runner do Actions
-# (chavesnamao e Brave por natureza; caixa via curl_cffi, ver Known bugs em
-# SESSION_NOTES.md) e por isso ficam em `ci` também.
+# Só em `local`: olx, mercadolivre, imovelweb, wimoveis, pgfn, facebook.
+# `chavesnamao`, `caixa` e `brave` respondem também do runner do Actions
+# (chavesnamao e Brave por natureza; caixa via curl_cffi) e ficam nos dois.
+#
+# IMPORTANTE — o rótulo "bloqueio de IP de datacenter" era cedo demais. A
+# primeira execução real do perfil `local`, de uma conexão residencial
+# (2026-08-11), devolveu 403 na OLX, no Imovelweb e na API do Mercado Livre
+# do mesmo jeito, e o PGFN continuou caindo no TLS. Ou seja: o IP explica no
+# máximo uma parte. O que se sabe hoje, por fonte:
+#   * mercadolivre — não é bloqueio: a API exige OAuth, e ML_ACCESS_TOKEN não
+#     está preenchido. O próprio log avisa isso antes de tentar.
+#   * pgfn — a conexão morre no handshake (`SSLZeroReturnError`), que é uma
+#     recusa, não uma queda de rede. Até agora o curl_cffi nunca foi acionado
+#     nesse caminho (só rodava depois de um 403), então "o curl_cffi não
+#     resolve o PGFN" nunca chegou a ser testado de verdade — agora é.
+#   * olx, imovelweb — 403 de verdade, e o curl_cffi era chamado com os nossos
+#     próprios cabeçalhos por cima, o que anulava a imitação que ele existe
+#     para fazer. Também corrigido.
+# `scripts/diagnostico.py` mede tudo isso de uma vez e diz, por fonte, se o
+# problema é impressão digital de TLS (corrigível aqui) ou não.
 perfis:
   ci: [brave, chavesnamao, caixa]
-  local: [olx, vivareal, mercadolivre, imovelweb, wimoveis, chavesnamao, pgfn, caixa, facebook]
+  local: [olx, mercadolivre, imovelweb, wimoveis, chavesnamao, pgfn, caixa, facebook]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a

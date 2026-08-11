@@ -24,7 +24,15 @@ PORTALS = {
     "zap": ("www.zapimoveis.com.br", "https://www.zapimoveis.com.br"),
 }
 
-PAGE_SIZE = 100
+# Measured, not assumed: from a residential connection the glue-api answers
+# HTTP 400 `{"details": {"message": "Size is above acceptable limit"}}` to
+# size=100 -- so this source's long-standing "0 listings" was never the
+# datacenter block it was filed as, it was our own parameter. (From a
+# datacenter IP the same request 403s at Cloudflare before reaching the API,
+# which is what hid the real error for so long.) The exact ceiling is not
+# documented and cannot be probed from CI for that reason; 24 is what the
+# portal's own UI requests per page, so it is the safe end of the range.
+PAGE_SIZE = 24
 
 
 def fetch(criteria, store, budgets) -> list[Listing]:
