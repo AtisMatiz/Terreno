@@ -13,6 +13,10 @@ Living document. Append new sessions at the bottom under "## Session history". K
 - Repo `AtisMatiz/Terreno` is **public**, so GitHub Actions minutes are free/unmetered — job timeouts can be raised generously without a real cost tradeoff; the only reason to keep them bounded is as a backstop against a genuine hang.
 - PGFN (`comprei.pgfn.gov.br`) stays out of automated CI for now by explicit user decision (2026-08-11) — see Known bugs below for why, and Pending for the deferred proxy option.
 - When polling a long-running GitHub Actions run, use a real external timer (`Monitor` with `curl`, or a `Bash --run_in_background` loop hitting the GitHub API) — never judge run duration from this sandbox's own elapsed time / background-sleep completions, which do not reliably track real wall-clock time here. Misreading elapsed time as "stuck" previously caused a live, healthy run to be cancelled by mistake.
+- Front-load every access request for the session's likely work at the start (check `SuggestConnectors`/`ListConnectors` before asking for a raw key) rather than piecemeal mid-task. Not standing authorization for destructive/production-facing/hard-to-reverse actions — those still get a check-in at the moment they're taken, regardless of what's been granted upfront.
+- Delegate cheap, judgment-free subtasks (file/codebase search, fetching/summarizing docs, running a known script and reporting results, repetitive checks across files) to Haiku subagents (Agent tool, `model: "haiku"`) instead of doing them inline. Reserve the default model for real judgment calls.
+- When genuinely stuck (same fix retried repeatedly, diminishing returns, a hard blocker — not just "this is slow"): generate a genuinely different strategy, try it in an isolated git worktree (`Agent` with `isolation: "worktree"`), verify it actually works before trusting it, then merge if better or discard cleanly if not.
+- Chat output: no play-by-play narration of intermediate tool calls. Final message is a succinct result, a summary of what changed, and what's needed from the user if anything.
 
 ---
 
@@ -56,13 +60,24 @@ Living document. Append new sessions at the bottom under "## Session history". K
 1. **Facebook source**: user chose options 1+2+5 (indexed search via Brave + Apify without cookies + more sources) over a burner account — decided but **not yet implemented**. Next product/technical step.
 2. **Vercel wiring**: user says Vercel is "already configured" but the production branch + env vars for the "run search now" button aren't confirmed working end-to-end.
 3. **Widen search criteria** in `criteria.yaml` — still at narrow test values (SP/Vale do Paraíba, 2–10 ha) which is why real match counts stay low (2-9 per run) despite hundreds of Brave candidates.
-4. **PGFN residential-IP tunnel** — deferred by explicit user decision on 2026-08-11 ("Vamos deixar o PGFN por enquanto"). If revisited: Cloudflare Tunnel or Tailscale Funnel from a home machine, routing only the `comprei.pgfn.gov.br` host through it via `requests`' `proxies=`.
+4. **PGFN residential-IP tunnel** — superseded: `pgfn` moved out of `perfis.ci` (2026-08-11, see below) since a manual local run is the accepted answer for now. A tunnel (Cloudflare/Tailscale Funnel from a home machine, routing only `comprei.pgfn.gov.br` through it via `requests`' `proxies=`) is still an option if the user later wants PGFN back in the automated CI run instead of manual local runs.
 5. **Watch the next few scheduled runs' `brave_pendentes` failure counts** — the cross-run retry-then-discard logic (`falhas`, threshold 2) was verified in a real run (171 fetch failures queued for retry, 0 discarded yet since none had failed twice) but a full discard cycle hasn't been observed live yet.
 6. The broader "delegate cheap subtasks to Haiku subagents + automated fix/test/merge loop" architecture idea raised by the user was discussed and assessed (recommended doing concrete fixes first) but **not built** — still an open idea if the user wants to revisit it.
 
 ---
 
 ## Session history
+
+### 2026-08-11 (blocked-sites list + local-run guide)
+- User asked for an explicit, canonical list of sources blocked from CI's datacenter IP (PGFN as the example) and an easy manual way to run them locally.
+- Moved `pgfn` out of `perfis.ci` in `criteria.yaml` (it was timing out there anyway — confirmed network-level block, not a 403 a TLS-fingerprint trick would fix) — `ci` is now `[brave, chavesnamao, caixa]`, `local` unchanged (still has pgfn plus everything else blocked in datacenter).
+- Rewrote `criteria.yaml`'s `perfis:` comment and README's "Blocked sites" section (was "Why there are two profiles", had stale info: said caixa was still 403'd — it isn't, since curl_cffi fixed it — and listed pgfn as `ci + local`) to state the canonical blocked list plainly and explain the local-run command.
+- `scripts/run_local.sh`: added a `.env`-missing warning banner; sources-about-to-run is already logged by `terreno/run.py` before fetching, so no code change needed there.
+- Verified `load_criteria().profile('ci')`/`profile('local')` parse correctly after the change.
+
+### 2026-08-11 (/init + /start)
+- Ran `/init`: left the existing personal CLAUDE.md as-is, installed the GitHub CLI (`gh` was missing), added `ruff.toml` (no linter had been configured — found 21 pre-existing, mostly auto-fixable issues, left unfixed since that wasn't asked for). Skipped a proposed Black format-on-edit hook (user declined).
+- Ran `/start`: caught up via this file, logged its standing rules (front-load access, delegate to Haiku, worktree-branch when stuck, no play-by-play chat output) below. No connectors currently available/needed for Vercel/Telegram/Brave/Apify. No other code changes this session.
 
 ### 2026-08-11 (overnight — /improve + /automate)
 - Created backup branch `backup/2026-08-11-pre-improve` before any changes.

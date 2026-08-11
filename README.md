@@ -29,15 +29,18 @@ Mão source still runs and the page still renders.
 | Layer | Sources | Needs | Where it runs |
 |---|---|---|---|
 | **A — portals** | OLX, VivaReal/ZAP, Mercado Livre, Chaves na Mão, Imovelweb | nothing (ML wants a free token) | mostly local, see below |
-| **A′ — leilões** | Comprei PGFN (`comprei.pgfn.gov.br`) | nothing — public API | ci + local |
+| **A′ — leilões** | Comprei PGFN (`comprei.pgfn.gov.br`) | nothing — public API | local only |
 | **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) | anywhere |
 | **C — Facebook** | Marketplace and groups | `APIFY_TOKEN`, or burner cookies | local only |
 
 ### Sobre os 403 — o que já foi tentado
 
-Medido, não suposto. OLX, VivaReal, Imovelweb, Wimoveis, a API do Mercado Livre
-e o CSV da Caixa recusam IP de datacenter, e os runners do GitHub Actions são
-datacenter. Quatro saídas, em ordem de custo-benefício:
+Medido, não suposto. OLX, VivaReal, Imovelweb, Wimoveis e a API do Mercado
+Livre recusam IP de datacenter com 403; o PGFN derruba a conexão por timeout
+de rede, não por 403 (então a saída 3 abaixo não ajuda nesse caso). Os
+runners do GitHub Actions são datacenter. Quatro saídas, em ordem de
+custo-benefício — o CSV da Caixa já foi resolvido pela saída 3 e saiu dessa
+lista.
 
 1. **Runner self-hosted** — o mesmo workflow do Actions rodando na sua máquina,
    com o seu IP residencial. Resolve *todos* os 403 de uma vez, é gratuito, e
@@ -57,23 +60,54 @@ datacenter. Quatro saídas, em ordem de custo-benefício:
 4. **Proxy residencial pago** — resolve, custa a partir de ~US$ 1/GB, e foi
    descartado por causa do teto de R$ 0.
 
-### Why there are two profiles
+### Blocked sites — the ones that need a local run
 
-Measured, not assumed: **OLX, VivaReal, Imovelweb and the Mercado Livre API all
-return HTTP 403 to datacenter IP ranges**, and GitHub Actions runners are
-datacenter IPs. Facebook is stricter still. So the work is split:
+Measured, not assumed, one signature per source: **OLX, VivaReal, Imovelweb and
+the Mercado Livre API return HTTP 403** to datacenter IP ranges; **PGFN drops
+the connection at the network level** (`ConnectTimeoutError`/`SSLZeroReturnError`,
+not a 403 — confirmed on real runs, so a different TLS fingerprint would not
+help); **Facebook** is stricter still. GitHub Actions runners are datacenter
+IPs, so none of these ever produce a result in CI — only from your own
+connection. The canonical list is the `perfis.local` block in `criteria.yaml`
+minus whatever also appears in `perfis.ci`; today that's:
+
+- `olx`
+- `vivareal`
+- `mercadolivre`
+- `imovelweb`
+- `wimoveis`
+- `pgfn`
+- `facebook`
+
+`chavesnamao`, `caixa` and `brave` answer fine from GitHub's datacenter IP
+(caixa via the `curl_cffi` fallback in `terreno/http.py`) and stay in `ci` too.
 
 ```bash
-python -m terreno.run --profile ci      # brave + chavesnamao — what the Action runs
-python -m terreno.run --profile local   # everything else — your machine
+python -m terreno.run --profile ci      # brave + chavesnamao + caixa — what the Action runs
+python -m terreno.run --profile local   # everything above, plus ci's sources — your machine
 ```
 
 Both write to the same SQLite database and the same page, so the result is one
 merged view regardless of which half produced a given listing. Edit the
-`profiles:` block in `criteria.yaml` to move a source between them — if you get
+`perfis:` block in `criteria.yaml` to move a source between them — if you get
 a Mercado Livre token, for instance, move `mercadolivre` into `ci`.
 
-Schedule the local half with cron:
+**Running it manually** — one command, from a clone of this repo on your own
+machine (residential IP, not a VPN/VPS):
+
+```bash
+cd /path/to/Terreno
+./scripts/run_local.sh
+```
+
+That script runs `--profile local`, then commits and pushes `data/terreno.sqlite3`
+and `site/` if anything changed — same as what the Action does for its half. It
+needs a `.env` with whatever keys the blocked sources use (see
+[Secrets](#secrets)); `pip install -r requirements.txt` once beforehand if you
+haven't. First run prints which sources it's about to hit before fetching
+anything, so a bad `.env` or a typo in `criteria.yaml` shows up immediately.
+
+Schedule it with cron so it runs on its own instead of by hand:
 
 ```
 0 7 * * * cd /path/to/Terreno && ./scripts/run_local.sh >> /tmp/terreno.log 2>&1
