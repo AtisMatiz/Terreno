@@ -45,10 +45,17 @@ TEMPLATES = [
     'fazenda OR sítio {place} escriturada hectares venda',
 ]
 
-# Hosts already covered by Layer A — no point spending a page fetch on them.
+# Hosts already covered by Layer A, plus hosts measured to be unreachable
+# from CI outright. Both are wasted budget the same way: fetching them here
+# just repeats a failure the pipeline already knows about. wimoveis.com.br
+# (403, same as imovelweb) and comprei.pgfn.gov.br (25s connect timeout) were
+# added after a production run showed the two PGFN timeouts alone consuming
+# most of the 90s visit budget -- candidates from a known-dead host should
+# never compete with reachable ones for that time.
 SKIP_HOSTS = (
     "olx.com.br", "vivareal.com.br", "zapimoveis.com.br",
     "mercadolivre.com.br", "chavesnamao.com.br", "imovelweb.com.br",
+    "wimoveis.com.br", "comprei.pgfn.gov.br",
 )
 
 
