@@ -117,7 +117,13 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             time.sleep(2 ** attempt)
             continue
 
-        log.info("%s: HTTP %s", host, r.status_code)
+        # A 4xx here means the request itself was rejected — a bad or
+        # unsupported parameter, not a wall to back off from. The body usually
+        # says exactly what was wrong (Brave's 422s do), and without it a bad
+        # parameter looks identical to a dead source until someone downloads
+        # the workflow log and greps for it by hand.
+        trecho = (r.text or "")[:200].replace("\n", " ")
+        log.warning("%s: HTTP %s — %s", host, r.status_code, trecho)
         return None
     return None
 

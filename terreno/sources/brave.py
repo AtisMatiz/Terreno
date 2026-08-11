@@ -129,8 +129,12 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     for query in queries:
         data = http.get_json(
             API,
-            params={"q": query, "country": "br", "search_lang": "pt",
-                    "count": 20, "result_filter": "web"},
+            # Brave's country codes are two-letter and uppercase ("BR"); the
+            # first production run sent lowercase and got HTTP 422 on every
+            # single query. result_filter is dropped too — it is one more
+            # value the API can reject, and we only ever read data["web"], so
+            # nothing downstream needs it.
+            params={"q": query, "country": "BR", "search_lang": "pt", "count": 20},
             headers={"X-Subscription-Token": token, "Accept": "application/json"},
         )
         store.budget_spend(RESOURCE, 1)
