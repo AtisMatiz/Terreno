@@ -1,5 +1,5 @@
 {
- "generated_at": "11/08/2026 às 14:43",
+ "generated_at": "11/08/2026 às 14:53",
  "listings": [
   {
    "key": "47fa5609466c8c80",
@@ -18,7 +18,7 @@
    "lon": null,
    "image": "https://www.chavesnamao.com.br/imn/0850x0450/N/60/imoveis/37515/32739455/sp-sao-jose-dos-campos-freitas-nao-encontrado-a-venda-3-s-69ebc7d6-1.jpg",
    "posted_at": "",
-   "score": 0.455,
+   "score": 0.467,
    "reasons": [
     "nascente",
     "lago/represa",
@@ -104,7 +104,7 @@
     }
    },
    "first_seen": "2026-08-11T09:51:29+00:00",
-   "last_seen": "2026-08-11T17:43:20+00:00",
+   "last_seen": "2026-08-11T17:53:52+00:00",
    "is_new": false,
    "price_drop": null
   },
@@ -206,7 +206,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -316,7 +316,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "bb619aaf8d0b91a5",
@@ -405,7 +405,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -505,7 +505,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -605,7 +605,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -915,7 +915,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "18b7ffea86145aaa",
@@ -1026,7 +1026,7 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "04320228bb28bdad",
@@ -1126,6 +1126,88 @@
    },
    "first_seen": "2026-08-11T17:43:20+00:00",
    "last_seen": "2026-08-11T17:43:20+00:00",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "03dc3a5f4a7f169b",
+   "source": "brave",
+   "source_id": "",
+   "url": "https://www.buskaza.com.br/venda/sp/taubate/todos-os-rurais",
+   "title": "Fazendas, sítios e chácaras à venda em Taubaté - SP | Buskaza",
+   "description": "Veja 200 fazendas, sítios e chácaras à venda em Taubaté - SP com fotos, preços e contato direto com imobiliárias e corretores na Buskaza.",
+   "price": 750000.0,
+   "price_first": 750000.0,
+   "area_ha": 9.0,
+   "price_per_ha": 83333.33,
+   "municipality": "Taubaté",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.buskaza.com.br/images/home/house-a70ad9e4e0406f53e4c0bd8223811c8a.jpg?vsn=d",
+   "posted_at": "",
+   "score": 0.15,
+   "reasons": [
+    "R$/ha 83.333"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "distancia": {
+     "rotulo": "Distância",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "fertilidade": {
+     "rotulo": "Solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "mata": {
+     "rotulo": "Mata nativa",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    }
+   },
+   "first_seen": "2026-08-11T17:53:52+00:00",
+   "last_seen": "2026-08-11T17:53:52+00:00",
    "is_new": true,
    "price_drop": null
   },
@@ -1212,7 +1294,7 @@
    "price_drop": null
   }
  ],
- "new_count": 8,
+ "new_count": 1,
  "sources": [
   "pgfn",
   "chavesnamao",
@@ -1222,6 +1304,7 @@
  "warnings": [
   "pgfn: 0 resultados",
   "dreamcasa.com.br: bloqueado",
+  "imoveis.waa2.com.br: bloqueado",
   "www.attria.com.br: bloqueado",
   "www.dreamcasa.com.br: bloqueado",
   "www.tripadvisor.com.br: bloqueado",
