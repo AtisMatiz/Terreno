@@ -1,5 +1,8 @@
 requests>=2.31
 PyYAML>=6.0
 # Optional extras:
+#   curl_cffi>=0.7    -> browser TLS fingerprint; may clear the 403s from
+#                        Caixa, OLX, Imovelweb and Wimoveis. Install and rerun
+#                        to find out — see README, "Sobre os 403".
 #   anthropic>=0.40   -> LLM extraction / fit scoring (ENABLE_LLM=1)
 #   playwright>=1.44  -> local Facebook fallback (scripts/run_facebook.sh)

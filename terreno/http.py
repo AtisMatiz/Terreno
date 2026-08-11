@@ -41,6 +41,23 @@ _blocked: set[str] = set()
 _session = requests.Session()
 _session.headers.update(DEFAULT_HEADERS)
 
+# Optional second transport. Several Brazilian portals (Caixa/Radware, OLX,
+# Imovelweb/Wimoveis) fingerprint the TLS handshake rather than the headers, so
+# they answer 403 to `requests` while letting a real browser through. curl_cffi
+# reproduces a browser's handshake and often clears exactly those walls.
+#
+# It is optional on purpose: `pip install curl_cffi` enables it, its absence
+# changes nothing. It was NOT verifiable during development — the sandbox this
+# was written in routes through a TLS-terminating proxy, which replaces any
+# fingerprint we send, so whether it clears a given portal has to be measured
+# where the code actually runs.
+try:
+    from curl_cffi import requests as _cffi
+except ImportError:
+    _cffi = None
+
+_cffi_hosts: set[str] = set()   # hosts where plain requests hit a wall
+
 
 def _throttle(host: str) -> None:
     elapsed = time.monotonic() - _last_hit[host]
@@ -80,6 +97,13 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             return r
 
         if r.status_code in (403, 429):
+            # Try the browser-fingerprint transport once before backing off.
+            if _cffi is not None and host not in _cffi_hosts:
+                _cffi_hosts.add(host)
+                alt = _via_cffi(url, params, headers, timeout, json)
+                if alt is not None:
+                    log.info("%s: liberado via curl_cffi", host)
+                    return alt
             log.warning("%s: HTTP %s — backing off", host, r.status_code)
             time.sleep(3 * (attempt + 1))
             if attempt == retries - 1:
@@ -96,6 +120,27 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
         log.info("%s: HTTP %s", host, r.status_code)
         return None
     return None
+
+
+def _via_cffi(url, params, headers, timeout, want_json):
+    """One attempt with a browser TLS fingerprint. Never raises."""
+    try:
+        r = _cffi.get(
+            url, params=params,
+            headers={**DEFAULT_HEADERS, **(headers or {})},
+            timeout=timeout, impersonate="chrome",
+        )
+    except Exception as exc:  # noqa: BLE001 — optional path, must not break a run
+        log.debug("curl_cffi falhou em %s: %s", url, exc)
+        return None
+    if r.status_code != 200:
+        return None
+    if want_json:
+        try:
+            return r.json()
+        except ValueError:
+            return None
+    return r
 
 
 def get_json(url: str, **kw):

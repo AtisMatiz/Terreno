@@ -41,6 +41,18 @@ PORTALS = {
         "link_re": r"/imovel/[\w\-]+/id-\d+/",
         "slug": True,
     },
+    # Wimoveis e Imovelweb são o mesmo motor (grupo Navent) — mesma estrutura
+    # de URL e mesmo padrão de link, só muda o domínio.
+    "wimoveis": {
+        "base": "https://www.wimoveis.com.br",
+        "paths": [
+            "/chacaras-sitios-e-fazendas-venda-{uf_slug}.html",
+            "/terrenos-venda-{uf_slug}.html",
+        ],
+        "page_param": "pagina",
+        "link_re": r"/propriedades/[\w\-]+\.html",
+        "slug": False,
+    },
     "imovelweb": {
         "base": "https://www.imovelweb.com.br",
         "paths": [
@@ -162,4 +174,5 @@ def _harvest(html: str, spec: dict) -> list[str]:
 
 
 fetch_chavesnamao = make_fetcher("chavesnamao")
+fetch_wimoveis = make_fetcher("wimoveis")
 fetch_imovelweb = make_fetcher("imovelweb")

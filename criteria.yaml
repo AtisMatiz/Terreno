@@ -44,7 +44,9 @@ fontes:
   mercadolivre: true
   chavesnamao: true
   imovelweb: true
+  wimoveis: true      # mesmo grupo (Navent) do imovelweb
   pgfn: true          # leilões da PGFN (comprei.pgfn.gov.br) — ver nota nos perfis
+  caixa: true         # imóveis retomados da Caixa (CSV público por estado)
   brave: true
   facebook: true
 
@@ -61,8 +63,39 @@ fontes:
 # run do Actions registrar "pgfn: 0 resultados" e o run local trouxer lotes,
 # tire o pgfn do perfil ci.
 perfis:
-  ci: [brave, chavesnamao, pgfn]
-  local: [olx, vivareal, mercadolivre, imovelweb, chavesnamao, pgfn, facebook]
+  ci: [brave, chavesnamao, pgfn, caixa]
+  local: [olx, vivareal, mercadolivre, imovelweb, wimoveis, chavesnamao, pgfn, caixa, facebook]
+
+# Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
+# dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a
+# Brave é uma API com chave, então funciona do GitHub Actions mesmo nos sites
+# que bloqueiam IP de datacenter. Acrescentar um domínio aqui custa 2 consultas
+# por execução — muito mais barato do que manter mais um scraper.
+sites_alvo:
+  # portais nacionais
+  - wimoveis.com.br
+  - imovelweb.com.br
+  - vivareal.com.br
+  - zapimoveis.com.br
+  - olx.com.br
+  - chavesnamao.com.br
+  # especializados em rural
+  - imovelrural.com.br
+  - fazendasdobrasil.com.br
+  - ruralimoveis.com.br
+  - fazendasbrasil.com.br
+  - agroterras.com.br
+  # leilões e bancos
+  - venda-imoveis.caixa.gov.br
+  - comprei.pgfn.gov.br
+  - megaleiloes.com.br
+  - zukerman.com.br
+  - sodresantoro.com.br
+  - superbid.net
+  # redes de corretagem
+  - century21.com.br
+  - remax.com.br
+  - lopes.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.

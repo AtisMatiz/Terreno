@@ -19,6 +19,7 @@ from .. import http
 from ..config import llm_enabled
 from ..extract import rules
 from ..models import Listing
+from .base import UF_NAMES
 
 log = logging.getLogger("terreno.sources.brave")
 
@@ -61,6 +62,24 @@ def _daily_allowance(store, per_run: int, per_month: int) -> int:
     return max(0, min(per_run, max(fair_share, 0)))
 
 
+def _site_queries(criteria) -> list[str]:
+    """One `site:` query per target domain, aimed at the region (or state).
+
+    This is how the search covers dozens of portals and agencies without a
+    scraper for each. Brave is an API with a key, so these reach sites that
+    refuse our datacenter IP directly — including wimoveis and imovelweb, which
+    answer 403 to the scrapers but are perfectly readable through search.
+    """
+    sites = criteria.raw.get("sites_alvo") or []
+    if not sites:
+        return []
+    uf = criteria.states[0] if criteria.states else ""
+    alvo = criteria.regiao or (UF_NAMES.get(uf, uf).replace("-", " ") if uf else "")
+    if not alvo:
+        return []
+    return [f"fazenda OR sítio OR chácara à venda {alvo} site:{d}" for d in sites]
+
+
 def _places(criteria) -> list[str]:
     """Places to search, most specific first.
 
@@ -72,7 +91,6 @@ def _places(criteria) -> list[str]:
     places = [f"{m} {uf}".strip() for m in criteria.municipalities]
     if criteria.regiao:
         places.append(f"{criteria.regiao} {uf}".strip())
-    from .base import UF_NAMES
     places.extend(UF_NAMES.get(u, u).replace("-", " ") for u in criteria.states)
     return places
 
@@ -97,8 +115,12 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     # Round-robin by template, not by place: with 35 municipalities and a
     # 100-query allowance, grouping by place would cover three towns and
     # ignore the rest of the region.
-    queries = [t.format(place=p) for t in TEMPLATES for p in places]
-    queries = list(dict.fromkeys(queries))[:allowance]
+    genericas = [t.format(place=p) for t in TEMPLATES for p in places]
+
+    # Site-targeted queries go first and are never crowded out: each covers a
+    # whole portal, so they buy far more coverage per query than the 37th
+    # municipality of a generic template does.
+    queries = list(dict.fromkeys(_site_queries(criteria) + genericas))[:allowance]
     log.info("brave: %d queries (allowance %d)", len(queries), allowance)
 
     already = store.seen_urls()

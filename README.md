@@ -33,6 +33,30 @@ Mão source still runs and the page still renders.
 | **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) | anywhere |
 | **C — Facebook** | Marketplace and groups | `APIFY_TOKEN`, or burner cookies | local only |
 
+### Sobre os 403 — o que já foi tentado
+
+Medido, não suposto. OLX, VivaReal, Imovelweb, Wimoveis, a API do Mercado Livre
+e o CSV da Caixa recusam IP de datacenter, e os runners do GitHub Actions são
+datacenter. Quatro saídas, em ordem de custo-benefício:
+
+1. **Runner self-hosted** — o mesmo workflow do Actions rodando na sua máquina,
+   com o seu IP residencial. Resolve *todos* os 403 de uma vez, é gratuito, e
+   mantém a orquestração do GitHub. É a resposta certa se você quiser tudo
+   num lugar só: Settings → Actions → Runners → New self-hosted runner, depois
+   troque `runs-on: ubuntu-latest` por `runs-on: self-hosted` no workflow.
+2. **Busca indexada como ponte** (já ativo) — a Brave é uma API com chave, então
+   alcança do CI o conteúdo dos sites que bloqueiam nosso IP. É para isso que
+   serve `sites_alvo`: uma consulta `site:wimoveis.com.br` traz os anúncios do
+   Wimoveis sem nunca falar com o Wimoveis.
+3. **Impressão digital de TLS** — parte desses bloqueios olha o handshake, não o
+   IP. `pip install curl_cffi` liga um segundo transporte que imita o Chrome;
+   `terreno/http.py` o usa sozinho quando leva 403. **Não foi possível validar
+   durante o desenvolvimento**: o sandbox usado passa por um proxy que termina o
+   TLS e substitui qualquer impressão digital. Instale e rode uma vez para
+   descobrir — o log diz `liberado via curl_cffi` quando funciona.
+4. **Proxy residencial pago** — resolve, custa a partir de ~US$ 1/GB, e foi
+   descartado por causa do teto de R$ 0.
+
 ### Why there are two profiles
 
 Measured, not assumed: **OLX, VivaReal, Imovelweb and the Mercado Livre API all
