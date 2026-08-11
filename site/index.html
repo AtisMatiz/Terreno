@@ -152,7 +152,7 @@
 <main id="grade"></main>
 <footer id="rodape"></footer>
 
-<script id="dados" type="application/json">{"generated_at": "10/08/2026 às 22:14", "listings": [], "new_count": 0, "sources": ["pgfn", "chavesnamao", "caixa", "brave"], "warnings": ["pgfn: 0 resultados", "caixa: 0 resultados", "brave: 0 resultados"], "criterios": {"estados": ["SP"], "regiao": "vale do paraiba", "municipios": [], "area_min": 2.0, "area_max": 10.0, "preco_min": 100000.0, "preco_max": 2000000.0}}</script>
+<script id="dados" type="application/json">{"generated_at": "10/08/2026 às 22:41", "listings": [], "new_count": 0, "sources": ["pgfn", "chavesnamao", "caixa", "brave"], "warnings": ["pgfn: 0 resultados", "caixa: 0 resultados", "www.wimoveis.com.br: bloqueado"], "criterios": {"estados": ["SP"], "regiao": "vale do paraiba", "municipios": [], "area_min": 2.0, "area_max": 10.0, "preco_min": 100000.0, "preco_max": 2000000.0}}</script>
 <script>
 (function(){
   const dados = JSON.parse(document.getElementById('dados').textContent);
@@ -162,6 +162,17 @@
   let ocultos = new Set(JSON.parse(localStorage.getItem(CHAVE_OCULTOS) || '[]'));
   let verOcultos = false, soNovos = false;
   const abertos = new Set();
+
+  // Every field below comes from scraped external listings -- untrusted text,
+  // including public posts pulled in via site:facebook.com. It reaches the DOM
+  // through innerHTML for layout convenience, so anything interpolated into
+  // that HTML must be escaped here first, or a crafted title/description runs
+  // arbitrary script in the viewer's browser (stored XSS).
+  const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => (
+    {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  // Only http(s) URLs are safe in an href/src -- a "javascript:" or "data:"
+  // scheme from a scraped field would otherwise execute on click/load.
+  const safeUrl = u => (/^https?:\/\//i).test(u || '') ? escHtml(u) : '#';
 
   const brl = n => n == null ? '—' : 'R$ ' + Math.round(n).toLocaleString('pt-BR');
   const ha  = n => n == null ? 'área n/d'
@@ -216,7 +227,7 @@
     el.className = 'card' + (ocultos.has(it.key) ? ' oculto' : '');
     const aberto = abertos.has(it.key);
     const img = it.image
-      ? `<img class="thumb" src="${it.image}" loading="lazy" alt=""
+      ? `<img class="thumb" src="${safeUrl(it.image)}" loading="lazy" alt=""
              onerror="this.replaceWith(Object.assign(document.createElement('div'),
              {className:'thumb semimg',textContent:'🗺️'}))">`
       : `<div class="thumb semimg">🗺️</div>`;
@@ -227,19 +238,20 @@
     ].join('');
     const onde = [it.municipality, it.uf].filter(Boolean).join('/');
     const provas = (it.reasons || []).map(r =>
-      `<span class="${r.startsWith('⚠') ? 'alerta' : ''}">${r}</span>`).join('');
+      `<span class="${r.startsWith('⚠') ? 'alerta' : ''}">${escHtml(r)}</span>`).join('');
+    const link = safeUrl(it.url);
 
     el.innerHTML = `
       ${img}
       <div class="corpo">
         <div class="selos">${selos}</div>
-        <h2 class="titulo"><a href="${it.url}" target="_blank" rel="noopener">
-          ${it.title || 'sem título'}</a></h2>
+        <h2 class="titulo"><a href="${link}" target="_blank" rel="noopener">
+          ${escHtml(it.title) || 'sem título'}</a></h2>
         <div class="preco">${brl(it.price)}</div>
         <div class="dados">
           <span>${ha(it.area_ha)}</span>
           ${it.price_per_ha ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
-          ${onde ? `<span>${onde}</span>` : ''}
+          ${onde ? `<span>${escHtml(onde)}</span>` : ''}
         </div>
         <div class="nota">pontuação <b>${pct(it.score)}</b>
           <button class="btn-detalhe">${aberto ? 'ocultar detalhe' : 'ver detalhe'}</button>
@@ -247,7 +259,7 @@
         <div class="barras" ${aberto ? '' : 'hidden'}>${barras(it)}</div>
         <div class="provas" ${aberto ? '' : 'hidden'}>${provas}</div>
         <div class="rodape">
-          <a href="${it.url}" target="_blank" rel="noopener">${it.source} ↗</a>
+          <a href="${link}" target="_blank" rel="noopener">${escHtml(it.source)} ↗</a>
           <button class="x" title="ocultar esta oferta">✕</button>
         </div>
       </div>`;
