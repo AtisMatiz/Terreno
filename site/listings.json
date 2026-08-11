@@ -1,14 +1,16 @@
 {
- "generated_at": "10/08/2026 às 20:22",
+ "generated_at": "10/08/2026 às 21:49",
  "listings": [],
  "new_count": 0,
  "sources": [
   "pgfn",
   "chavesnamao",
+  "caixa",
   "brave"
  ],
  "warnings": [
   "pgfn: 0 resultados",
+  "caixa: 0 resultados",
   "brave: 0 resultados"
  ],
  "criterios": {
