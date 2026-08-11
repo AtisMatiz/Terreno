@@ -33,6 +33,11 @@ concurrency:
 jobs:
   search:
     runs-on: ubuntu-latest
+    # Safety net independent of the application-level time budget in
+    # brave.py: if something still hangs, this bounds the CI minutes spent
+    # and the wait before the next scheduled run, instead of relying only on
+    # code inside the run to behave.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 

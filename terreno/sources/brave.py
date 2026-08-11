@@ -12,6 +12,7 @@ Two guards matter here and are both enforced against the SQLite ledger:
 from __future__ import annotations
 
 import logging
+import time
 from calendar import monthrange
 from datetime import datetime, timezone
 
@@ -159,12 +160,29 @@ def fetch(criteria, store, budgets) -> list[Listing]:
 
 def _visit(candidates: dict[str, str], budgets) -> list[Listing]:
     """Fetch each candidate once and extract. Rules first; the model only sees
-    pages the rules could not read, and only when it is switched on."""
+    pages the rules could not read, and only when it is switched on.
+
+    Bounded two ways, not just by count: a page cap alone does not protect
+    against a handful of slow or unresponsive sites among the candidates each
+    costing 20-40s (timeout x retries) with nothing to stop the run
+    ballooning past what a scheduled CI job should ever take. The time budget
+    is what actually keeps a run's length predictable.
+    """
     cap = int(budgets.get("max_paginas_novas", 200))
+    prazo_s = int(budgets.get("brave_segundos_max_visita", 90))
     use_llm = llm_enabled()
     out: list[Listing] = []
+    inicio = time.monotonic()
+    visitadas = 0
 
     for url, hint in list(candidates.items())[:cap]:
+        if time.monotonic() - inicio > prazo_s:
+            restantes = len(candidates) - visitadas
+            log.info("brave: prazo de %ds atingido, %d candidatos não visitados",
+                     prazo_s, restantes)
+            break
+        visitadas += 1
+
         resp = http.get(url, timeout=20, retries=2)
         if resp is None or "text/html" not in resp.headers.get("content-type", ""):
             continue
@@ -180,5 +198,6 @@ def _visit(candidates: dict[str, str], budgets) -> list[Listing]:
             listing.title = listing.title or hint
             out.append(listing)
 
-    log.info("brave: %d listings extracted", len(out))
+    log.info("brave: %d listings extracted from %d candidates visited",
+             len(out), visitadas)
     return out

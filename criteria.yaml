@@ -105,6 +105,7 @@ orcamentos:
   apify_usd_por_mes: 5.00           # crédito gratuito da Apify
   max_paginas_por_fonte: 10
   max_paginas_novas: 200            # páginas visitadas pela camada Brave
+  brave_segundos_max_visita: 90     # tempo máximo visitando páginas candidatas
   max_paginas_detalhe_por_fonte: 60
   max_paginas_enriquecimento: 80
 
