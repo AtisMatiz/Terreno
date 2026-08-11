@@ -1,8 +1,11 @@
 requests>=2.31
 PyYAML>=6.0
-# Optional extras:
-#   curl_cffi>=0.7    -> browser TLS fingerprint; may clear the 403s from
-#                        Caixa, OLX, Imovelweb and Wimoveis. Install and rerun
-#                        to find out — see README, "Sobre os 403".
+# Installed for real (not commented) because http.py and caixa.py already
+# gate every use behind `if _cffi is not None` -- leaving it commented meant
+# that code path was silently a no-op in CI, since nothing ever installed it
+# there. This is what actually lets tonight's Caixa/curl_cffi fix be tested
+# for real on the next scheduled run instead of only in theory.
+curl_cffi>=0.7
+# Optional extras, left commented -- opt in deliberately:
 #   anthropic>=0.40   -> LLM extraction / fit scoring (ENABLE_LLM=1)
 #   playwright>=1.44  -> local Facebook fallback (scripts/run_facebook.sh)
