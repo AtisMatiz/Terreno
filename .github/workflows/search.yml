@@ -33,11 +33,14 @@ concurrency:
 jobs:
   search:
     runs-on: ubuntu-latest
-    # Safety net independent of the application-level time budget in
-    # brave.py: if something still hangs, this bounds the CI minutes spent
-    # and the wait before the next scheduled run, instead of relying only on
-    # code inside the run to behave.
-    timeout-minutes: 20
+    # The only time budget Brave's page-visiting phase has left (see
+    # terreno/sources/brave_visit.py) -- it deliberately visits its entire
+    # backlog with no per-run cutoff of its own, so this is what actually
+    # bounds a run now. 90 minutes is generous headroom for a backlog of a
+    # few thousand candidates; free to raise further since Actions minutes
+    # are unmetered on a public repo. Still a real backstop: if something
+    # hangs outright, this is what ends it instead of running forever.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 

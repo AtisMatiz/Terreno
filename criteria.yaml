@@ -104,10 +104,13 @@ orcamentos:
   brave_consultas_por_mes: 2000     # cota gratuita da Brave
   apify_usd_por_mes: 5.00           # crédito gratuito da Apify
   max_paginas_por_fonte: 10
-  max_paginas_novas: 200            # páginas visitadas pela camada Brave
-  brave_segundos_max_visita: 90     # tempo máximo visitando páginas candidatas
-  brave_paralelismo: 10             # páginas candidatas visitadas ao mesmo tempo
-  brave_max_fila_pendentes: 2000    # candidatos não visitados guardados entre execuções
+  # Sem teto de tempo ou de contagem para visitar candidatos do Brave: cada
+  # execução visita a fila pendente inteira (terreno/sources/brave_visit.py),
+  # o que a limita agora é só o timeout-minutes do job no GitHub Actions —
+  # ver .github/workflows/search.yml. brave_paralelismo controla quantas
+  # páginas são buscadas ao mesmo tempo (rede é o gargalo, não CPU).
+  brave_paralelismo: 15
+  brave_max_fila_pendentes: 5000    # teto de segurança contra fila sem fim, não uma cota por execução
   max_paginas_detalhe_por_fonte: 60
   max_paginas_enriquecimento: 80
 
