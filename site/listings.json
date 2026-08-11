@@ -1,5 +1,5 @@
 {
- "generated_at": "11/08/2026 às 06:51",
+ "generated_at": "11/08/2026 às 12:50",
  "listings": [
   {
    "key": "47fa5609466c8c80",
@@ -18,7 +18,7 @@
    "lon": null,
    "image": "https://www.chavesnamao.com.br/imn/0850x0450/N/60/imoveis/37515/32739455/sp-sao-jose-dos-campos-freitas-nao-encontrado-a-venda-3-s-69ebc7d6-1.jpg",
    "posted_at": "",
-   "score": 0.587,
+   "score": 0.527,
    "reasons": [
     "nascente",
     "lago/represa",
@@ -104,12 +104,294 @@
     }
    },
    "first_seen": "2026-08-11T09:51:29+00:00",
-   "last_seen": "2026-08-11T09:51:29+00:00",
+   "last_seen": "2026-08-11T15:50:25+00:00",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "f3c272bbaa13c09e",
+   "source": "brave",
+   "source_id": "",
+   "url": "https://www.sebastiaoimoveis.com.br/imobiliaria/cachoeira-paulista-sp/imoveis/139",
+   "title": "Grupo 07 Brasil - Consultoria Imobiliária em São José dos Campos-SP",
+   "description": "9 Imóveis em Cachoeira Paulista - SP - 139 Imóveis Venda Apartamentos 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Casas 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Imóveis comerciais Imóveis rurais Terrenos Locação Apartamentos 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Casas 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Imóveis comerciais Imóveis rurais Terrenos Temporada Institucional Quem somos Serviços Equipe Trabalhe conosco Parceiros Dicionário imobiliário Links úteis Notícias Contato Fale conosco Ligamos para você Área do cliente Portuguese English Spanish --> Whatsapp - Vivo (12) 996445613 Início Cachoeira Paulista - SP Voltar 9 Imóveis, Cachoeira Paulista, SP Mais recentes Mais recentes Maior valor Menor valor Busca avançada Transação Selecione Venda Locação Temporada Lançamento Tipo de imóvel Apartamento Cobertura Duplex Loft Triplex Bangalô Casa Casa de Praia Casa em condomínio Chácara Mansão Sobrado Sobrado em Condomínio Andar Comercial Área Comercial Área Industrial Área para condomínios de casas ou apartamentos Área para Incorporação Área para Loteamento Casa Cerâmica Colégio Conjunto Comercial Empresa Faculdade Galpão Hospital Hotel Ponto Comercial Posto de gasolina combustível Pousada Pousada Prédio comercial Sala Salão Comercial Shopping Sobreloja Supermercado Àrea Área de compensação Ambiental Chácara Eucalipto Fazenda Floresta de eucaliptos Haras Hotel Fazenda Pousada Sítio Terreno Área Área Área de compensação Ambiental Área para condomínios de casas ou apartamentos Área para Loteamento Chácara Ilha Sítio Terreno Terreno em condomínio Terreno1 Cidade Selecione Guapó Uruaçu Aiuruoca Belo Horizonte Bocaiúva Cachoeira de Minas Cambuí Carmo de Minas Caxambu Conceição do Rio Verde Conceição dos Ouros Cristina Delfim Moreira Entre Rios de Minas Itajubá Itanhandu Jesuânia Joaquim Felício Lambari Maria da Fé Marmelópolis Olímpio Noronha Paraisópolis Passa Quatro Pedralva Piranguçu Piranguinho Pouso Alegre Pouso Alto São Lourenço São Th",
+   "price": 150000.0,
+   "price_first": 150000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.sebastiaoimoveis.com.br/img/logo-topo.png",
+   "posted_at": "",
+   "score": 0.229,
+   "reasons": [
+    "menção a loteamento/condomínio",
+    "cachoeira",
+    "rio/riacho",
+    "casa",
+    "galpão",
+    "tranquilo",
+    "⚠ vizinhança próxima",
+    "⚠ eucalipto/pinus"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "cachoeira",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.47,
+     "peso": 15,
+     "provas": [
+      "casa",
+      "galpão"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "⚠ vizinhança próxima"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "distancia": {
+     "rotulo": "Distância",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "fertilidade": {
+     "rotulo": "Solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "⚠ eucalipto/pinus"
+     ]
+    },
+    "mata": {
+     "rotulo": "Mata nativa",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    }
+   },
+   "first_seen": "2026-08-11T15:50:25+00:00",
+   "last_seen": "2026-08-11T15:50:25+00:00",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "7bb57af5311b45c4",
+   "source": "brave",
+   "source_id": "",
+   "url": "https://www.sebastiaoimoveis.com.br/imobiliaria/areias-sp/imoveis/1083",
+   "title": "Grupo 07 Brasil - Consultoria Imobiliária em São José dos Campos-SP",
+   "description": "3 Imóveis em Areias - SP - 1083 Imóveis Venda Apartamentos 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Casas 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Imóveis comerciais Imóveis rurais Terrenos Locação Apartamentos 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Casas 1 Quarto 2 Quartos 3 Quartos 4 Quartos 5 Quartos Imóveis comerciais Imóveis rurais Terrenos Temporada Institucional Quem somos Serviços Equipe Trabalhe conosco Parceiros Dicionário imobiliário Links úteis Notícias Contato Fale conosco Ligamos para você Área do cliente Portuguese English Spanish --> Whatsapp - Vivo (12) 996445613 Início Areias - SP Voltar 3 Imóveis, Areias, SP Mais recentes Mais recentes Maior valor Menor valor Busca avançada Transação Selecione Venda Locação Temporada Lançamento Tipo de imóvel Apartamento Cobertura Duplex Loft Triplex Bangalô Casa Casa de Praia Casa em condomínio Chácara Mansão Sobrado Sobrado em Condomínio Andar Comercial Área Comercial Área Industrial Área para condomínios de casas ou apartamentos Área para Incorporação Área para Loteamento Casa Cerâmica Colégio Conjunto Comercial Empresa Faculdade Galpão Hospital Hotel Ponto Comercial Posto de gasolina combustível Pousada Pousada Prédio comercial Sala Salão Comercial Shopping Sobreloja Supermercado Àrea Área de compensação Ambiental Chácara Eucalipto Fazenda Floresta de eucaliptos Haras Hotel Fazenda Pousada Sítio Terreno Área Área Área de compensação Ambiental Área para condomínios de casas ou apartamentos Área para Loteamento Chácara Ilha Sítio Terreno Terreno em condomínio Terreno1 Cidade Selecione Guapó Uruaçu Aiuruoca Belo Horizonte Bocaiúva Cachoeira de Minas Cambuí Carmo de Minas Caxambu Conceição do Rio Verde Conceição dos Ouros Cristina Delfim Moreira Entre Rios de Minas Itajubá Itanhandu Jesuânia Joaquim Felício Lambari Maria da Fé Marmelópolis Olímpio Noronha Paraisópolis Passa Quatro Pedralva Piranguçu Piranguinho Pouso Alegre Pouso Alto São Lourenço São Thomé das Letras Sapucaí-Mirim Soleda",
+   "price": 150000.0,
+   "price_first": 150000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.sebastiaoimoveis.com.br/img/logo-topo.png",
+   "posted_at": "",
+   "score": 0.229,
+   "reasons": [
+    "menção a loteamento/condomínio",
+    "cachoeira",
+    "rio/riacho",
+    "casa",
+    "galpão",
+    "tranquilo",
+    "⚠ vizinhança próxima",
+    "⚠ eucalipto/pinus"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "cachoeira",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.47,
+     "peso": 15,
+     "provas": [
+      "casa",
+      "galpão"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "⚠ vizinhança próxima"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "distancia": {
+     "rotulo": "Distância",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "fertilidade": {
+     "rotulo": "Solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "⚠ eucalipto/pinus"
+     ]
+    },
+    "mata": {
+     "rotulo": "Mata nativa",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    }
+   },
+   "first_seen": "2026-08-11T15:50:25+00:00",
+   "last_seen": "2026-08-11T15:50:25+00:00",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "d91429d4d28fa0ed",
+   "source": "brave",
+   "source_id": "",
+   "url": "https://www.mgfimoveis.com.br/venda/fazenda-sitio/sp-cacapava",
+   "title": "Fazendas e Sítios à Venda em Caçapava no Estado de São Paulo",
+   "description": "449 imóveis ao buscar Fazendas e Sítios à Venda em Caçapava no Estado de São Paulo.",
+   "price": 1200000.0,
+   "price_first": 1200000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 247933.88,
+   "municipality": "Caçapava",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://a.mgfimoveis.com.br/ui/legacy/banner/mgfimoveisbr-640x314-v1.png",
+   "posted_at": "",
+   "score": 0.15,
+   "reasons": [
+    "R$/ha 247.934"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "distancia": {
+     "rotulo": "Distância",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "fertilidade": {
+     "rotulo": "Solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "mata": {
+     "rotulo": "Mata nativa",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    }
+   },
+   "first_seen": "2026-08-11T15:50:25+00:00",
+   "last_seen": "2026-08-11T15:50:25+00:00",
    "is_new": true,
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 3,
  "sources": [
   "pgfn",
   "chavesnamao",
@@ -118,6 +400,9 @@
  ],
  "warnings": [
   "pgfn: 0 resultados",
+  "prolarimoveis.com.br: bloqueado",
+  "www.attria.com.br: bloqueado",
+  "www.edkimoveis.com.br: bloqueado",
   "www1.sodresantoro.com.br: bloqueado"
  ],
  "criterios": {
