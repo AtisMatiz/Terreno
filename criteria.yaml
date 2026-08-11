@@ -106,6 +106,8 @@ orcamentos:
   max_paginas_por_fonte: 10
   max_paginas_novas: 200            # páginas visitadas pela camada Brave
   brave_segundos_max_visita: 90     # tempo máximo visitando páginas candidatas
+  brave_paralelismo: 10             # páginas candidatas visitadas ao mesmo tempo
+  brave_max_fila_pendentes: 2000    # candidatos não visitados guardados entre execuções
   max_paginas_detalhe_por_fonte: 60
   max_paginas_enriquecimento: 80
 

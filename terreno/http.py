@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import logging
 import random
+import threading
 import time
 from collections import defaultdict
 from urllib.parse import urlsplit
@@ -35,6 +36,13 @@ HOST_INTERVAL = {
     "nominatim.openstreetmap.org": 1.1,
 }
 
+# Layer B now visits candidate pages from several threads at once, so the
+# per-host throttle has to be safe under concurrency, not just correct for a
+# single caller. A lock guards only the bookkeeping (reserving the next
+# allowed slot for a host), never the sleep itself -- holding it during
+# time.sleep() would serialize every request onto one host's clock, exactly
+# the throughput parallelism is meant to buy back.
+_throttle_lock = threading.Lock()
 _last_hit: dict[str, float] = defaultdict(float)
 _blocked: set[str] = set()
 
@@ -60,11 +68,21 @@ _cffi_hosts: set[str] = set()   # hosts where plain requests hit a wall
 
 
 def _throttle(host: str) -> None:
-    elapsed = time.monotonic() - _last_hit[host]
-    wait = HOST_INTERVAL.get(host, MIN_INTERVAL) - elapsed
-    if wait > 0:
-        time.sleep(wait + random.uniform(0, 0.4))
-    _last_hit[host] = time.monotonic()
+    """Reserve this thread's slot for `host`, then sleep outside the lock.
+
+    Two threads hitting *different* hosts never wait on each other at all --
+    each reservation only depends on that host's own last slot. Two threads
+    hitting the *same* host get staggered by the reservation itself, so the
+    politeness guarantee holds even under concurrency.
+    """
+    interval = HOST_INTERVAL.get(host, MIN_INTERVAL) + random.uniform(0, 0.4)
+    with _throttle_lock:
+        now = time.monotonic()
+        proxima_vez = max(now, _last_hit[host] + interval)
+        _last_hit[host] = proxima_vez
+    espera = proxima_vez - time.monotonic()
+    if espera > 0:
+        time.sleep(espera)
 
 
 def get(url: str, *, params: dict | None = None, headers: dict | None = None,

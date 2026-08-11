@@ -77,6 +77,18 @@ CREATE TABLE IF NOT EXISTS source_health (
     last_ok               TEXT,
     last_checked          TEXT NOT NULL
 );
+
+-- Candidatos do Brave que o orçamento de tempo não deixou visitar. Sem isso,
+-- toda execução redescobre as mesmas ~800 páginas e visita só as primeiras
+-- ~30 dentro do prazo, sempre as mesmas -- a fila persistente é o que garante
+-- que o resto seja alcançado ao longo de várias execuções, em vez de nunca.
+CREATE TABLE IF NOT EXISTS brave_pendentes (
+    url            TEXT PRIMARY KEY,
+    dica           TEXT,
+    descoberto_em  TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_brave_pendentes_descoberto
+    ON brave_pendentes(descoberto_em);
 """
 
 
@@ -241,3 +253,57 @@ class Store:
         )
         self.db.commit()
         return novo
+
+    # ------------------------------------------------------ brave_pendentes
+    def brave_pendentes_carregar(self, limite: int) -> list[tuple[str, str]]:
+        """Candidatos ainda não visitados, mais antigos primeiro -- é isso que
+        garante que o backlog eventualmente seja coberto em vez de crescer
+        para sempre atrás dos candidatos recém-descobertos."""
+        linhas = self.db.execute(
+            "SELECT url, dica FROM brave_pendentes ORDER BY descoberto_em ASC LIMIT ?",
+            (limite,),
+        ).fetchall()
+        return [(r["url"], r["dica"] or "") for r in linhas]
+
+    def brave_pendentes_adicionar(self, candidatos: dict[str, str]) -> None:
+        """Registra candidatos ainda não visitados. INSERT OR IGNORE preserva
+        o descoberto_em original de quem já estava na fila -- se sobrescrevesse
+        a data, perderia a ordem FIFO a cada execução."""
+        if not candidatos:
+            return
+        agora = _now()
+        self.db.executemany(
+            "INSERT OR IGNORE INTO brave_pendentes (url, dica, descoberto_em) VALUES (?, ?, ?)",
+            [(url, dica, agora) for url, dica in candidatos.items()],
+        )
+        self.db.commit()
+
+    def brave_pendentes_remover(self, urls) -> None:
+        """Remove candidatos já tentados (com sucesso ou não) -- não retentamos
+        indefinidamente uma página que não deu em nada."""
+        urls = list(urls)
+        if not urls:
+            return
+        self.db.executemany(
+            "DELETE FROM brave_pendentes WHERE url = ?", [(u,) for u in urls]
+        )
+        self.db.commit()
+
+    def brave_pendentes_total(self) -> int:
+        return self.db.execute(
+            "SELECT COUNT(*) AS n FROM brave_pendentes"
+        ).fetchone()["n"]
+
+    def brave_pendentes_podar(self, maximo: int) -> int:
+        """Descarta os candidatos mais antigos além do limite, para a fila não
+        crescer sem parar se a descoberta correr mais rápido que a visita."""
+        excesso = self.brave_pendentes_total() - maximo
+        if excesso <= 0:
+            return 0
+        self.db.execute(
+            "DELETE FROM brave_pendentes WHERE url IN "
+            "(SELECT url FROM brave_pendentes ORDER BY descoberto_em ASC LIMIT ?)",
+            (excesso,),
+        )
+        self.db.commit()
+        return excesso

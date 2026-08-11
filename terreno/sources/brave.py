@@ -14,6 +14,7 @@ from __future__ import annotations
 import logging
 import time
 from calendar import monthrange
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
 from .. import http
@@ -134,6 +135,25 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     already = store.seen_urls()
     candidates: dict[str, str] = {}   # url -> snippet title
 
+    # Pendentes de execuções anteriores entram primeiro -- são os candidatos
+    # que o orçamento de tempo não deixou visitar da última vez, e sem essa
+    # fila persistente seriam descobertos de novo (gastando cota da Brave à
+    # toa) e ainda assim nunca alcançados, sempre atropelados pelos ~800 novos
+    # candidatos de cada execução. Metade do teto de páginas fica reservada
+    # para eles, a outra metade para os candidatos frescos desta execução --
+    # sem essa divisão, um backlog grande faria a descoberta de anúncios
+    # genuinamente novos parar por completo.
+    cap = int(budgets.get("max_paginas_novas", 200))
+    limite_pendentes = max(1, cap // 2)
+    pendentes_carregados = 0
+    for url, dica in store.brave_pendentes_carregar(limite_pendentes):
+        if url not in already:
+            candidates[url] = dica
+            pendentes_carregados += 1
+    if pendentes_carregados:
+        log.info("brave: %d candidatos pendentes de execuções anteriores",
+                 pendentes_carregados)
+
     for query in queries:
         data = http.get_json(
             API,
@@ -161,50 +181,108 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                 continue
             candidates[url] = result.get("title") or ""
 
-    log.info("brave: %d new candidate pages", len(candidates))
-    return _visit(candidates, budgets)
+    novos = len(candidates) - pendentes_carregados
+    log.info("brave: %d candidatos pendentes + %d novos = %d no total",
+             pendentes_carregados, novos, len(candidates))
+
+    visitados, listings = _visit(candidates, budgets)
+
+    # O que foi tentado (com sucesso ou não) sai da fila; o que sobrou --
+    # inclusive candidatos frescos desta execução que nem chegaram a ser
+    # tentados -- entra ou permanece, para a próxima execução continuar
+    # daqui em vez de começar do zero.
+    store.brave_pendentes_remover(visitados)
+    nao_visitados = {u: d for u, d in candidates.items() if u not in visitados}
+    store.brave_pendentes_adicionar(nao_visitados)
+    limite_fila = int(budgets.get("brave_max_fila_pendentes", 2000))
+    podados = store.brave_pendentes_podar(limite_fila)
+    if podados:
+        log.info("brave: %d candidatos antigos descartados da fila (limite %d)",
+                 podados, limite_fila)
+
+    return listings
 
 
-def _visit(candidates: dict[str, str], budgets) -> list[Listing]:
-    """Fetch each candidate once and extract. Rules first; the model only sees
-    pages the rules could not read, and only when it is switched on.
+def _visitar_um(url: str, dica: str, use_llm: bool) -> Listing | None:
+    """O trabalho de uma única página candidata -- roda em uma thread do pool."""
+    resp = http.get(url, timeout=20, retries=2)
+    if resp is None or "text/html" not in resp.headers.get("content-type", ""):
+        return None
 
-    Bounded two ways, not just by count: a page cap alone does not protect
-    against a handful of slow or unresponsive sites among the candidates each
-    costing 20-40s (timeout x retries) with nothing to stop the run
-    ballooning past what a scheduled CI job should ever take. The time budget
-    is what actually keeps a run's length predictable.
+    listing = rules.extract(resp.text, url, source=NAME)
+    if use_llm and rules.is_thin(listing):
+        from ..extract import llm
+        melhor = llm.extract(resp.text, url, source=NAME)
+        if melhor:
+            listing = melhor
+
+    if listing:
+        listing.title = listing.title or dica
+    return listing
+
+
+def _visit(candidates: dict[str, str], budgets) -> tuple[set[str], list[Listing]]:
+    """Visita cada candidato em paralelo e extrai o que der. Regras primeiro; o
+    modelo só vê páginas que as regras não conseguiram ler, e só quando ligado.
+
+    Limitado de duas formas, não só por contagem: um teto de páginas por si só
+    não protege contra alguns sites lentos ou sem resposta entre os
+    candidatos, cada um custando 20-40s (timeout x tentativas) sem nada
+    impedindo a execução de crescer além do que um job agendado deveria levar.
+    O orçamento de tempo é o que de fato mantém a duração previsível.
+
+    Paralelo porque o gargalo é rede, não CPU: ~800 candidatos visitados um a
+    um a ~1-3s cada levaria 15-40 minutos; um pool de threads dentro do mesmo
+    orçamento de tempo visita muito mais no mesmo período, porque as threads
+    passam a maior parte do tempo esperando resposta de servidores diferentes,
+    não competindo entre si.
+
+    Retorna as URLs de fato tentadas (para a chamadora tirar da fila) e os
+    anúncios extraídos. URLs nunca iniciadas ou canceladas pelo prazo ficam de
+    fora de `visitados` -- a chamadora as devolve para a fila, então um lote
+    grande é coberto ao longo de várias execuções em vez de recomeçar do zero.
     """
     cap = int(budgets.get("max_paginas_novas", 200))
     prazo_s = int(budgets.get("brave_segundos_max_visita", 90))
+    paralelismo = int(budgets.get("brave_paralelismo", 10))
     use_llm = llm_enabled()
+    fila = list(candidates.items())[:cap]
+
     out: list[Listing] = []
+    visitados: set[str] = set()
     inicio = time.monotonic()
-    visitadas = 0
 
-    for url, hint in list(candidates.items())[:cap]:
-        if time.monotonic() - inicio > prazo_s:
-            restantes = len(candidates) - visitadas
-            log.info("brave: prazo de %ds atingido, %d candidatos não visitados",
-                     prazo_s, restantes)
-            break
-        visitadas += 1
+    with ThreadPoolExecutor(max_workers=paralelismo) as pool:
+        futuros = {
+            pool.submit(_visitar_um, url, dica, use_llm): url
+            for url, dica in fila
+        }
+        for futuro in as_completed(futuros):
+            url = futuros[futuro]
+            visitados.add(url)
+            try:
+                listing = futuro.result()
+            except Exception as exc:  # noqa: BLE001 — uma página ruim não pode derrubar a execução
+                log.debug("brave: falha ao processar %s: %s", url, exc)
+                listing = None
+            if listing:
+                out.append(listing)
 
-        resp = http.get(url, timeout=20, retries=2)
-        if resp is None or "text/html" not in resp.headers.get("content-type", ""):
-            continue
+            if time.monotonic() - inicio > prazo_s:
+                pendentes = [u for u in futuros.values() if u not in visitados]
+                if pendentes:
+                    log.info(
+                        "brave: prazo de %ds atingido, %d candidatos não concluídos",
+                        prazo_s, len(pendentes),
+                    )
+                # cancel_futures descarta o que ainda nem começou; o que já
+                # está em andamento (no máximo `paralelismo` páginas) termina
+                # naturalmente, com o próprio timeout de cada requisição como
+                # limite -- não fica thread nenhuma rodando depois que a
+                # função retorna.
+                pool.shutdown(cancel_futures=True)
+                break
 
-        listing = rules.extract(resp.text, url, source=NAME)
-        if use_llm and rules.is_thin(listing):
-            from ..extract import llm
-            better = llm.extract(resp.text, url, source=NAME)
-            if better:
-                listing = better
-
-        if listing:
-            listing.title = listing.title or hint
-            out.append(listing)
-
-    log.info("brave: %d listings extracted from %d candidates visited",
-             len(out), visitadas)
-    return out
+    log.info("brave: %d listings extraídos de %d/%d candidatos tentados",
+             len(out), len(visitados), len(fila))
+    return visitados, out
