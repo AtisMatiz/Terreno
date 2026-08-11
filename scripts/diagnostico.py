@@ -41,10 +41,15 @@ import requests  # noqa: E402
 
 from terreno.http import DEFAULT_HEADERS  # noqa: E402
 
+# Catch more than ImportError on purpose: curl_cffi carries a compiled
+# extension, and a broken load raises OSError. "Não instalado" and "instalado
+# mas quebrado" pedem providências completamente diferentes.
 try:
     from curl_cffi import requests as cffi
-except ImportError:
+    CFFI_ERRO = ""
+except Exception as exc:  # noqa: BLE001 — see above
     cffi = None
+    CFFI_ERRO = f"{type(exc).__name__}: {exc}"
 
 TIMEOUT = 25
 
@@ -98,9 +103,18 @@ def _cffi(url: str, headers: dict | None, *, sujo: bool, alvo: str) -> str:
 
 def main() -> int:
     if cffi is None:
-        print("AVISO: curl_cffi não está instalado — os testes 2, 3 e 4 vão\n"
-              "       aparecer como ausentes. `pip3 install curl_cffi` para\n"
-              "       o diagnóstico ficar completo.\n")
+        # `pip3` e `python3` podem ser instalações diferentes do Python na
+        # mesma máquina -- é o motivo mais comum de o pip dizer "Requirement
+        # already satisfied" e o script seguinte não achar o pacote. Por isso
+        # o caminho do interpretador aparece aqui: é o dado que resolve essa
+        # confusão, e `python3 -m pip` instala no Python certo por construção.
+        print("AVISO: o curl_cffi não pôde ser carregado — os testes 2, 3 e 4\n"
+              f"       vão aparecer como ausentes.\n\n"
+              f"       Motivo: {CFFI_ERRO}\n"
+              f"       Python em uso: {sys.executable}\n\n"
+              "       Se o pip disse que já estava instalado, ele instalou em\n"
+              "       OUTRO Python. Instale no que este script usa:\n\n"
+              "           python3 -m pip install curl_cffi\n")
 
     largura = max(len(nome) for nome, _, _ in ALVOS)
     cab = (f"{'fonte'.ljust(largura)}  {'1 requests'.ljust(18)}"
