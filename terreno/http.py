@@ -87,8 +87,28 @@ except Exception as _exc:  # noqa: BLE001 — see above
 # than an edit-commit-rerun cycle.
 IMPERSONATE = os.getenv("TERRENO_IMPERSONATE", "chrome")
 
+# ...and the rest of the ladder, tried in order when the first one is refused.
+#
+# Not speculative: measured on a GitHub Actions runner, 2026-08-12. OLX answers
+# 403 to `chrome` and `chrome124`, and 200 to `safari` and `firefox`. A single
+# fixed target therefore reports "blocked" for a host that is not blocked at
+# all -- the wall is fingerprint-specific, so the choice of imitation *is* the
+# result, and one guess cannot be the answer. Anti-bot vendors update their
+# databases per browser at their own pace, so which target works rotates over
+# time; walking the ladder finds today's answer without anyone editing code.
+IMPERSONATE_ESCADA = [
+    alvo.strip() for alvo in
+    os.getenv("TERRENO_IMPERSONATE_ESCADA", "chrome,safari,firefox,chrome124").split(",")
+    if alvo.strip()
+]
+if IMPERSONATE not in IMPERSONATE_ESCADA:
+    IMPERSONATE_ESCADA.insert(0, IMPERSONATE)
+
 _cffi_ok: set[str] = set()      # hosts the browser transport got through
-_cffi_falhou: set[str] = set()  # ...and hosts where it was tried and did not
+_cffi_falhou: set[str] = set()  # ...and hosts where every rung was refused
+# host -> the rung that actually worked, so later requests to it skip straight
+# there instead of re-walking the ladder and re-paying for the refusals.
+_cffi_alvo: dict[str, str] = {}
 
 # Headers that describe *who is asking* rather than *what is being asked for*.
 # curl_cffi's `impersonate` sets a complete, self-consistent set of these to
@@ -302,7 +322,13 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
         # only spends another throttle slot to learn the same thing again.
         if host in _cffi_ok:
             _throttle(host)
-            pronto = _via_cffi(url, params, headers, timeout, json)
+            # Must pass the rung that actually worked for this host. Without
+            # it this fast path silently retried the *default* imitation --
+            # the very one already measured to be refused -- so a host cleared
+            # by `safari` paid a guaranteed 403 on every single request before
+            # falling through and finding safari again.
+            pronto = _via_cffi(url, params, headers, timeout, json,
+                               alvo=_cffi_alvo.get(host))
             if pronto is not None:
                 return pronto
 
@@ -412,39 +438,55 @@ def _tentar_cffi(url, params, headers, timeout, want_json, host, motivo=""):
     if host in _cffi_falhou:
         return None
 
-    resultado = _via_cffi(url, params, headers, timeout, want_json, motivo=motivo)
-    if resultado is None:
-        _cffi_falhou.add(host)
-    else:
-        _cffi_ok.add(host)
-        log.info("%s: liberado via curl_cffi (impersonate=%s)%s",
-                 host, IMPERSONATE, motivo)
-    return resultado
+    # A rung already known to work for this host goes first and alone; the
+    # ladder is only walked while the answer is still unknown.
+    conhecido = _cffi_alvo.get(host)
+    alvos = [conhecido] if conhecido else IMPERSONATE_ESCADA
+
+    for alvo in alvos:
+        resultado = _via_cffi(url, params, headers, timeout, want_json,
+                              motivo=motivo, alvo=alvo)
+        if resultado is not None:
+            _cffi_ok.add(host)
+            _cffi_alvo[host] = alvo
+            log.info("%s: liberado via curl_cffi (impersonate=%s)%s",
+                     host, alvo, motivo)
+            return resultado
+
+    _cffi_falhou.add(host)
+    if len(alvos) > 1:
+        log.warning("%s: curl_cffi recusado em todas as imitações (%s)",
+                    host, ", ".join(alvos))
+    return None
 
 
-def _via_cffi(url, params, headers, timeout, want_json, *, motivo=""):
+def _via_cffi(url, params, headers, timeout, want_json, *, motivo="", alvo=None):
     """One attempt with a browser TLS fingerprint. Never raises.
 
     Deliberately does not forward DEFAULT_HEADERS -- see
     `_HEADERS_DE_IMPRESSAO` for why sending our own User-Agent here defeats
     the impersonation instead of helping it.
+
+    `alvo` names the browser to imitate; None means the configured default.
+    Callers that walk `IMPERSONATE_ESCADA` pass one rung at a time.
     """
     if _cffi is None:
         return None
+    alvo = alvo or IMPERSONATE
     host = urlsplit(url).netloc
     try:
         r = _cffi.get(
             url, params=params,
             headers=_headers_semanticos(headers),
-            timeout=timeout, impersonate=IMPERSONATE,
+            timeout=timeout, impersonate=alvo,
         )
     except Exception as exc:  # noqa: BLE001 — optional path, must not break a run
         log.warning("%s: curl_cffi (impersonate=%s) falhou%s: %s: %s",
-                    host, IMPERSONATE, motivo, type(exc).__name__, exc)
+                    host, alvo, motivo, type(exc).__name__, exc)
         return None
     if r.status_code != 200:
         log.warning("%s: curl_cffi (impersonate=%s) devolveu HTTP %s%s",
-                    host, IMPERSONATE, r.status_code, motivo)
+                    host, alvo, r.status_code, motivo)
         return None
     if want_json:
         try:

@@ -11,7 +11,9 @@ Living document. Append new sessions at the bottom under "## Session history". K
 - Ask a question once, then wait — no re-asking, no restating answers already given. (Also in CLAUDE.md, both global and project-level.)
 - Claude can and should operate GitHub Actions directly (trigger runs, poll status, read logs via the `mcp__github__actions_*` / `get_job_logs` tools) instead of asking the user to download/paste logs.
 - Repo `AtisMatiz/Terreno` is **public**, so GitHub Actions minutes are free/unmetered — job timeouts can be raised generously without a real cost tradeoff; the only reason to keep them bounded is as a backstop against a genuine hang.
-- PGFN (`comprei.pgfn.gov.br`) is out of `perfis.ci` for good now (moved there 2026-08-11, see below) — it's a manual-local-run source like the rest of the datacenter-blocked ones, not a "for now" placeholder.
+- PGFN (`comprei.pgfn.gov.br`) is out of `perfis.ci`. Revisit only if the unblocker measurably clears it.
+- **A source returning zero results is not evidence of a block.** Established the hard way, three separate times: VivaReal's zero was our own oversized `size` param, Mercado Livre's was a missing OAuth token, Facebook's was a payload that matched no field in the actor's schema. Read the response body before concluding anything about the network.
+- **Measure in the right place.** This sandbox routes through a TLS-terminating proxy, so any fingerprint measurement taken here is meaningless — but GitHub Actions runners do **not** intercept TLS, they merely have a datacenter IP. Those are different questions and conflating them cost real time. `scripts/diagnostico.py` + the `diagnostico` workflow exist to answer them where the answer means something.
 - When polling a long-running GitHub Actions run, use a real external timer (`Monitor` with `curl`, or a `Bash --run_in_background` loop hitting the GitHub API) — never judge run duration from this sandbox's own elapsed time / background-sleep completions, which do not reliably track real wall-clock time here. Misreading elapsed time as "stuck" previously caused a live, healthy run to be cancelled by mistake.
 - Front-load every access request for the session's likely work at the start (check `SuggestConnectors`/`ListConnectors` before asking for a raw key) rather than piecemeal mid-task. Not standing authorization for destructive/production-facing/hard-to-reverse actions — those still get a check-in at the moment they're taken, regardless of what's been granted upfront.
 - Delegate cheap, judgment-free subtasks (file/codebase search, fetching/summarizing docs, running a known script and reporting results, repetitive checks across files) to Haiku subagents (Agent tool, `model: "haiku"`) instead of doing them inline. Reserve the default model for real judgment calls.
@@ -41,6 +43,14 @@ Living document. Append new sessions at the bottom under "## Session history". K
 | `pgfn` | ❌ `SSLZeroReturnError` | refused at the TLS handshake |
 | `mercadolivre` | ❌ 403 | **not a block** — API needs OAuth; now uses `client_credentials`, awaiting the user's app credentials |
 | `facebook` | ❌ 400 | **was our bug** — wrong Apify payload, fixed |
+
+**Scoring** (`terreno/scoring.py`, 2026-08-11 rework): seven dimensions summing to 100 — Água 30, Benfeitorias 20, Acessibilidade 15, Silêncio 10, Aptidão agroflorestal e solo 10, Documentação 10, Topografia 5. Plus two modifiers outside the base, each exposed as its own row in `dimensoes`: **preço/ha** (bonus below `preco_por_ha.ideal`, penalty above `teto_alerta`) and **proximidade** to `localizacao.centro` (Monteiro Lobato). `motivo_descarte()` handles hard discards — dirt road >8 km, `contrato de gaveta`, non-rural, area <0.5 ha — kept separate from scoring so the caller decides. `estrelas()` surfaces cachoeira and similar without scoring them; `destaques()` builds the per-theme strings the Telegram card prints.
+
+**Two output channels, deliberately different widths.** Everything scored reaches the site. Telegram gets a narrower list, gated in `run.py` by two rules that both *leave the listing on the site*: price per hectare above `teto_alerta` (`notificavel`), and already sold/removed (`terreno/disponibilidade.py`, checked in parallel over the shortlist only, where a network failure counts as available so an outage cannot delete a good listing).
+
+**Photo reading** (`terreno/extract/imagem.py`): Haiku vision, gated to scores ≥ `saida.nota_minima_imagem` (70/100). Keywords are free and run on everything; images cost per listing, so the spend tracks the shortlist. Needs `ENABLE_LLM=1` + `ANTHROPIC_API_KEY`, otherwise it logs once and skips.
+
+**Unblocker transport** (`terreno/http.py`): escalation is `requests` → `curl_cffi` → ZenRows. Off unless `TERRENO_UNBLOCKER=zenrows` and `ZENROWS_API_KEY` are both set (repository secret + variable, added by the user 2026-08-11). Hard per-process cap `TERRENO_UNBLOCKER_MAX_POR_RUN` (default 15 requests) because `brave_visit` walks the whole pending queue and could otherwise spend a month's free allowance in one run. Key is redacted from every log line.
 
 **The user's local setup is working** (macOS, Python 3.13 at `/Library/Frameworks/Python.framework/Versions/3.13`): repo cloned at `~/Documents/Terreno`, `.env` filled in, `./scripts/run_local.sh` runs end-to-end, pushes results, and Telegram alerts arrive. Their `pip3` and `python3` point at **different Python installs** — always tell them `python3 -m pip install ...`, never bare `pip3`.
 
@@ -100,6 +110,24 @@ Living document. Append new sessions at the bottom under "## Session history". K
 
 ## Session history
 
+### 2026-08-12 (MEASURED: what is actually blocked, and what never was)
+**The decisive run.** `diagnostico` on a GitHub Actions runner (run 31630009812), with ZenRows enabled:
+
+| fonte | requests | curl_cffi (chrome) | curl_cffi (outros) | ZenRows |
+|---|---|---|---|---|
+| `pgfn` | SSLError | **OK 200** | — | não precisou |
+| `olx` | 403 | 403 | **OK 200 com safari e firefox** | 422 |
+| `wimoveis` | 403 | 403 | 403 | **OK 200** |
+| `imovelweb` | 403 | 403 | 403 | 422 |
+| `caixa` | OK 200 | OK 200 | — | não precisou |
+
+- **PGFN is fixed and free.** curl_cffi clears it from a datacenter IP. The long-standing note that "curl_cffi does not help PGFN" was never a measurement — curl_cffi was only ever invoked from the 403 branch, and PGFN fails as an exception, so it had never once been tried. Fixing that reachability bug was the whole fix.
+- **OLX is fixed and free, but only under `safari`/`firefox`.** `chrome` and `chrome124` are both refused. A single fixed imitation target therefore reports "blocked" for a host that is not blocked — the choice of imitation *is* the result. Hence `IMPERSONATE_ESCADA`: walk the rungs, remember the winner per host, re-walk only when the answer is unknown.
+- **wimoveis needs the paid unblocker** (ZenRows clears it; nothing free does).
+- **imovelweb is refused by everything**, including ZenRows (422). Brave's `site:` coverage is what is left for it.
+- Bug caught in my own ladder before it shipped: the `_cffi_ok` fast path re-used the *default* imitation instead of the memorised winner, so a host cleared by `safari` would have paid a guaranteed 403 on every request before rediscovering safari. Fixed and covered by a test.
+
+
 ### 2026-08-11 (Mercado Livre OAuth via client_credentials)
 - User started creating the ML app; walked them through the form (only the `Client Credentials` flow and the `Mercado Livre` business unit matter — every permission can stay "Sem acesso", no notification topics, redirect URI is required by the form but unused by this grant).
 - Found the design flaw before it bit: the existing `ML_ACCESS_TOKEN`-in-`.env` approach could never have worked for more than one afternoon, because ML tokens expire in ~6 hours. Rewrote the source to mint its own token per run via the `client_credentials` grant (authenticates the application, so no browser step and nothing to renew), keeping `ML_ACCESS_TOKEN` as a manual override. Added `ML_CLIENT_ID`/`ML_CLIENT_SECRET` to `.env.example` and the workflow's env block.
@@ -134,37 +162,13 @@ Living document. Append new sessions at the bottom under "## Session history". K
 - Since the branch (`claude/init-gagwem`) had already been merged via PR #1 into the default branch, restarted it from the latest default branch before adding this session's commits, per the "merged PR is finished" rule.
 - Verified all new `Store` methods directly against a temp SQLite file (promotion at the threshold, weekly gating, clearing after marking consulted) and the extractor fix against both a real single listing and a synthetic index page.
 
-### 2026-08-11 (blocked-sites list + local-run guide)
-- User asked for an explicit, canonical list of sources blocked from CI's datacenter IP (PGFN as the example) and an easy manual way to run them locally.
-- Moved `pgfn` out of `perfis.ci` in `criteria.yaml` (it was timing out there anyway — confirmed network-level block, not a 403 a TLS-fingerprint trick would fix) — `ci` is now `[brave, chavesnamao, caixa]`, `local` unchanged (still has pgfn plus everything else blocked in datacenter).
-- Rewrote `criteria.yaml`'s `perfis:` comment and README's "Blocked sites" section (was "Why there are two profiles", had stale info: said caixa was still 403'd — it isn't, since curl_cffi fixed it — and listed pgfn as `ci + local`) to state the canonical blocked list plainly and explain the local-run command.
-- `scripts/run_local.sh`: added a `.env`-missing warning banner; sources-about-to-run is already logged by `terreno/run.py` before fetching, so no code change needed there.
-- Verified `load_criteria().profile('ci')`/`profile('local')` parse correctly after the change.
+### Earlier sessions (compressed)
 
-### 2026-08-11 (/init + /start)
-- Ran `/init`: left the existing personal CLAUDE.md as-is, installed the GitHub CLI (`gh` was missing), added `ruff.toml` (no linter had been configured — found 21 pre-existing, mostly auto-fixable issues, left unfixed since that wasn't asked for). Skipped a proposed Black format-on-edit hook (user declined).
-- Ran `/start`: caught up via this file, logged its standing rules (front-load access, delegate to Haiku, worktree-branch when stuck, no play-by-play chat output) below. No connectors currently available/needed for Vercel/Telegram/Brave/Apify. No other code changes this session.
+Reasoning that a Standing rule or Known bug still depends on has been moved into those sections; these lines are the sequence only.
 
-### 2026-08-11 (overnight — /improve + /automate)
-- Created backup branch `backup/2026-08-11-pre-improve` before any changes.
-- Found and fixed via real production logs: Brave 422 (two causes), curl_cffi/Caixa 200-with-CAPTCHA trigger bug + missing real dependency, unbounded Brave visit phase (added a since-removed 90s budget + job `timeout-minutes: 20`), Wimoveis/PGFN wasting the visit budget (`SKIP_HOSTS`).
-- Fixed stored-XSS in the page template and a Telegram HTML-escaping bug.
-- Added `source_health` tracking + Telegram alert after 3 consecutive silent/blocked runs for a source.
-- Confirmed GitHub Pages was live and actually publishing (`https://atismatiz.github.io/Terreno/`).
-- Delivered a 1-page Portuguese summary of the night's work to the user.
+- **blocked-sites list + local-run guide** — moved `pgfn` out of `perfis.ci` (it was timing out there for nothing), rewrote the stale "why two profiles" docs into a canonical blocked list, added a `.env`-missing warning to `run_local.sh`.
+- **/init + /start** — installed the GitHub CLI, added `ruff.toml` (21 pre-existing findings, left unfixed), logged the /start standing rules. Declined a Black format-on-edit hook.
+- **overnight /improve + /automate** — backup branch `backup/2026-08-11-pre-improve`; fixed Brave 422 (two causes), the curl_cffi/Caixa 200-with-CAPTCHA trigger, an unbounded Brave visit phase, stored XSS in the page template, Telegram HTML escaping; added `source_health` alerting; confirmed Pages was publishing.
+- **Brave parallelization + persistent queue** — made `http.py`'s per-host throttle thread-safe, parallelized page visiting, added the `brave_pendentes` queue so a backlog carries across runs instead of being rediscovered and abandoned. One self-inflicted false alarm here produced the standing rule about never judging run duration from sandbox elapsed time.
+- **Brave discover/visit split** — separated the API-limited discovery from the unlimited visiting, removed the artificial visit budget, raised parallelism to 50 with a 40s per-page timeout and cross-run retry-then-discard (`falhas`, 2 strikes). Verified live: 689/689 and 618/618 candidates cleared in one pass each.
 
-### 2026-08-11 (Brave parallelization + persistent queue)
-- User asked what Brave does and to fix it discovering ~800 candidates but only having time to visit ~30.
-- Made `http.py`'s per-host throttle thread-safe (atomic slot reservation under a lock, sleep outside it).
-- Parallelized Brave's page-visiting with `ThreadPoolExecutor`, added a persistent `brave_pendentes` SQLite queue so an unvisited backlog carries over between runs instead of being rediscovered and abandoned every time.
-- Validated on real GitHub Actions runs (with one self-corrected false alarm: mistook a healthy in-progress run for a deadlock due to this sandbox's unreliable elapsed-time tracking, cancelled it, then found via logs it had actually completed correctly — disclosed to the user as its own mistake, not a code bug).
-- Explained Vercel's purpose (holding the GitHub PAT server-side, since Pages can't hold secrets) as a mid-task aside.
-
-### 2026-08-11 (Brave discover/visit split, uncapped visiting, higher parallelism, retry-then-discard)
-- User: stop rationing Brave's visit phase across runs — split into a discovery program and a visiting program, and let the visiting program read *all* candidates found regardless of count/time, since visiting isn't API-limited (only Brave's search queries are).
-- Split `brave.py` into `brave_discover.py` (queries Brave, queues URLs, bound by the real API quota) and `brave_visit.py` (loads and visits the *entire* queue, no per-run cap), with `brave.py` left as a thin orchestrator. Removed the now-dead `max_paginas_novas`/`brave_segundos_max_visita` config; raised the workflow's `timeout-minutes` 20→90 as the real (and free, since the repo is public) backstop.
-- Verified live: a run visited 689/689 queued candidates in one pass (~3 min), clearing the entire backlog that had built up under the old capped design.
-- Follow-up ask: raise parallelism to 50 (confirmed no real "power limit" — visiting is I/O-bound, thread overhead is trivial), set a generous 40s per-page timeout as the "failed to access" threshold, and give fetch failures a second chance across runs (2-strikes discard) instead of dropping them on the first bad connection — distinct from a page that loads fine but has no listing, which is still discarded immediately.
-- Implemented: `brave_pendentes` gained a `falhas` column (with an explicit `ALTER TABLE` migration, since the DB file is committed and `CREATE TABLE IF NOT EXISTS` never alters an existing table), `brave_visit.py` now categorizes every candidate into success/no-content/fetch-failure and calls a new `Store.brave_pendentes_registrar_falha()` for the failure path.
-- Verified live: `brave_paralelismo: 50`, `40s por página` confirmed active in logs; 618/618 candidates visited in ~90s (vs ~178s for a similar batch at parallelism 15); 171 fetch failures correctly queued for one retry (0 discarded, since none had failed twice yet).
-- Also answered: PGFN can't be fixed with `curl_cffi` (it's a network-level timeout, not TLS fingerprinting) — a free fix would need a residential-IP tunnel from a home machine; user deferred this for now.
