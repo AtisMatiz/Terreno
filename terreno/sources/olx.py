@@ -37,6 +37,11 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             if resp is None:
                 break
 
+            # Debug: log response details to understand what we received
+            log.debug("olx: got response status=%s content_length=%d first_100_chars=%r",
+                      getattr(resp, 'status_code', 'N/A'),
+                      len(resp.text) if resp.text else 0,
+                      resp.text[:100] if resp.text else "")
             data = next_data(resp.text)
             if not data:
                 log.warning("olx: no __NEXT_DATA__ on %s p%d", uf, page)
