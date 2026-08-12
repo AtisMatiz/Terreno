@@ -176,13 +176,16 @@ class _ZenRows:
     def __init__(self, chave: str) -> None:
         self.chave = chave
 
-    def montar(self, destino: str, headers: dict | None = None) -> str:
+    def montar(self, destino: str, headers: dict | None = None, *,
+              js_render: bool = False) -> str:
         opcoes = {
             "apikey": self.chave,
             "url": destino,
             "premium_proxy": "true",
             "proxy_country": "br",
         }
+        if js_render:
+            opcoes["js_render"] = "true"
         if headers:
             # Sem isto a ZenRows ignora cabeçalhos enviados na requisição —
             # e um `Authorization` ou `x-domain` silenciosamente descartado
@@ -544,22 +547,43 @@ def _via_unblocker(url, params, headers, timeout, want_json, *, motivo="",
     host = urlsplit(url).netloc
     destino = _mesclar_params(url, params)
     semanticos = _headers_semanticos(headers)
-    pedido = prov.montar(destino, semanticos)
 
-    global _unblocker_gastos
-    with _unblocker_lock:
-        _unblocker_gastos += 1
-        usados = _unblocker_gastos
-    log.info("%s: tentando o desbloqueador %s (%d/%d nesta execução)%s",
-             host, prov.nome, usados, _unblocker_cap(), motivo)
+    def _uma_tentativa(js_render: bool):
+        global _unblocker_gastos
+        with _unblocker_lock:
+            _unblocker_gastos += 1
+            usados = _unblocker_gastos
+        log.info("%s: tentando o desbloqueador %s%s (%d/%d nesta execução)%s",
+                 host, prov.nome, " com js_render" if js_render else "",
+                 usados, _unblocker_cap(), motivo)
+        pedido = prov.montar(destino, semanticos, js_render=js_render)
+        try:
+            return _session.get(pedido, headers=semanticos,
+                                timeout=max(timeout, UNBLOCKER_TIMEOUT_MIN))
+        except requests.RequestException as exc:
+            log.warning("%s: desbloqueador %s falhou%s: %s: %s", host, prov.nome,
+                        motivo, type(exc).__name__,
+                        _redigir(str(exc), prov.chave))
+            return None
 
-    try:
-        r = _session.get(pedido, headers=semanticos,
-                         timeout=max(timeout, UNBLOCKER_TIMEOUT_MIN))
-    except requests.RequestException as exc:
-        log.warning("%s: desbloqueador %s falhou%s: %s: %s", host, prov.nome,
-                    motivo, type(exc).__name__,
-                    _redigir(str(exc), prov.chave))
+    r = _uma_tentativa(js_render=False)
+
+    # RESP001 ("Could not get content") é a ZenRows dizendo que não conseguiu
+    # buscar a página com o transporte simples -- medido em olx/imovelweb/
+    # mercadolivre-api, 2026-08-12. Documentação da própria ZenRows aponta
+    # `js_render=true` como o próximo passo para esse código específico, então
+    # essa segunda tentativa (mais cara: ~25 créditos contra ~10) só acontece
+    # quando o sinal for exatamente esse, nunca para qualquer outro erro --
+    # não vale gastar o dobro em cima de um 401/403 que js_render não resolve.
+    if (r is not None and r.status_code == 422
+            and "RESP001" in (r.text or "") and not _unblocker_cap_atingido()):
+        log.info("%s: RESP001 do desbloqueador -- tentando de novo com "
+                 "js_render", host)
+        r2 = _uma_tentativa(js_render=True)
+        if r2 is not None:
+            r = r2
+
+    if r is None:
         return None
 
     if r.status_code != 200:
