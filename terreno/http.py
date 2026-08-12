@@ -445,6 +445,7 @@ def _tentar_cffi(url, params, headers, timeout, want_json, host, motivo=""):
     # ladder is only walked while the answer is still unknown.
     conhecido = _cffi_alvo.get(host)
     alvos = [conhecido] if conhecido else IMPERSONATE_ESCADA
+    log.debug("%s: escada a percorrer: %s (conhecido=%r)", host, alvos, conhecido)
 
     for alvo in alvos:
         resultado = _via_cffi(url, params, headers, timeout, want_json,
