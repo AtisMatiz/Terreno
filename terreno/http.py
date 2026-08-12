@@ -1,5 +1,11 @@
 """Shared HTTP client. Every source goes through this — polite rate limiting,
 retries, and a per-host backoff live here once rather than in five scrapers.
+
+Três transportes, em escalada: `requests` -> `curl_cffi` (grátis, imita a
+impressão digital de um navegador) -> serviço de desbloqueio pago, este último
+desligado por padrão e limitado por um teto de requisições **por processo**
+(um contador de módulo, deliberadamente não o `budget_ledger` do SQLite: este
+módulo não tem handle de `store` e não deve passar a ter).
 """
 
 from __future__ import annotations
@@ -7,10 +13,11 @@ from __future__ import annotations
 import logging
 import os
 import random
+import re
 import threading
 import time
 from collections import defaultdict
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 
 import requests
 
@@ -106,6 +113,160 @@ def _headers_semanticos(headers: dict | None) -> dict:
             if k.lower() not in _HEADERS_DE_IMPRESSAO}
 
 
+# ---------------------------------------------------------------------------
+# Terceiro transporte: serviço de desbloqueio (pago), só como último recurso.
+#
+# Por que existe: `olx.com.br` e `imovelweb.com.br` devolvem 403 e o
+# `comprei.pgfn.gov.br` recusa no handshake TLS *tanto do CI quanto de um IP
+# residencial brasileiro* — medido. Isso elimina o IP como causa, e com ele
+# elimina o proxy comum como solução: trocar de IP muda justamente a única
+# coisa já provada irrelevante. O que ainda pode ajudar é um serviço que traz
+# a própria impressão digital, navegador sem cabeça e resolução de desafio. O
+# `curl_cffi` acima é a tentativa gratuita da mesma ideia; isto é o pago, para
+# quando ela não basta.
+#
+# Desligado por padrão, e por padrão significa "não muda nada": só liga quando
+# TERRENO_UNBLOCKER nomeia um provedor E a chave dele está no ambiente.
+UNBLOCKER_ENV = "TERRENO_UNBLOCKER"
+UNBLOCKER_MAX_ENV = "TERRENO_UNBLOCKER_MAX_POR_RUN"
+UNBLOCKER_MAX_PADRAO = 15
+
+# O tempo limite normal (25s) é curto para um serviço que abre um navegador
+# sem cabeça e pode ter de resolver um desafio antes de responder.
+UNBLOCKER_TIMEOUT_MIN = 60
+
+ZENROWS_ENDPOINT = "https://api.zenrows.com/v1/"
+
+
+class _ZenRows:
+    """ZenRows Universal Scraper API.
+
+    A URL de destino vai como UM valor percent-encoded do parâmetro `url`.
+    Isso não é detalhe de estilo: vários chamadores passam `params=`
+    (`sources/olx.py`, `sources/htmlportal.py`, `sources/pgfn.py`), e repassar
+    esses params para o endpoint da ZenRows os transformaria em *opções da
+    ZenRows*, não em params da URL de destino — a requisição buscaria
+    silenciosamente a página errada. Por isso `_mesclar_params` dobra tudo
+    dentro do destino antes de codificar.
+    """
+
+    nome = "zenrows"
+    env_chave = "ZENROWS_API_KEY"
+
+    def __init__(self, chave: str) -> None:
+        self.chave = chave
+
+    def montar(self, destino: str, headers: dict | None = None) -> str:
+        opcoes = {
+            "apikey": self.chave,
+            "url": destino,
+            "premium_proxy": "true",
+            "proxy_country": "br",
+        }
+        if headers:
+            # Sem isto a ZenRows ignora cabeçalhos enviados na requisição —
+            # e um `Authorization` ou `x-domain` silenciosamente descartado
+            # vira um 401 do destino que parece bloqueio.
+            opcoes["custom_headers"] = "true"
+        return ZENROWS_ENDPOINT + "?" + urlencode(opcoes, quote_via=quote)
+
+
+# Registro de provedores: acrescentar um segundo é acrescentar uma classe e uma
+# entrada aqui, sem reorganizar nada. Só o ZenRows está implementado.
+_UNBLOCKER_PROVEDORES = {_ZenRows.nome: _ZenRows}
+
+_unblocker_ok: set[str] = set()      # hosts que o desbloqueador liberou
+_unblocker_falhou: set[str] = set()  # ...e hosts onde foi tentado e não passou
+
+# Teto de crédito por execução. É obrigatório, não opcional: o
+# `brave_visit.py` percorre a fila pendente inteira (hoje ~577 URLs) e uma
+# execução recente registrou 22 hosts bloqueados distintos. Sem teto, uma
+# execução poderia queimar a cota de um mês (uma requisição premium na ZenRows
+# custa 10 créditos; a faixa gratuita são 5.000/mês, ~500 requisições).
+#
+# É de propósito um contador de processo, NÃO o `budget_ledger` do SQLite:
+# este módulo não tem (e não deve passar a ter) um handle de `store`. A
+# consequência honesta é que o teto vale por processo — duas execuções
+# simultâneas têm um teto cada.
+_unblocker_lock = threading.Lock()
+_unblocker_gastos = 0
+_unblocker_cap_avisado = False
+_unblocker_config_avisada = False
+
+
+def _unblocker_cap() -> int:
+    bruto = os.getenv(UNBLOCKER_MAX_ENV, "")
+    try:
+        return int(bruto)
+    except ValueError:
+        if bruto:
+            log.warning("%s=%r não é um número inteiro — usando o padrão %d",
+                        UNBLOCKER_MAX_ENV, bruto, UNBLOCKER_MAX_PADRAO)
+        return UNBLOCKER_MAX_PADRAO
+
+
+def _unblocker_ativo():
+    """O provedor configurado, ou None. Lido do ambiente a cada chamada para
+    que ligar/desligar seja uma variável de ambiente, não um reimport."""
+    global _unblocker_config_avisada
+    nome = (os.getenv(UNBLOCKER_ENV) or "").strip().lower()
+    if nome in ("", "0", "false", "no", "off", "nao", "não"):
+        return None
+    classe = _UNBLOCKER_PROVEDORES.get(nome)
+    if classe is None:
+        if not _unblocker_config_avisada:
+            _unblocker_config_avisada = True
+            log.warning("%s=%r não é um provedor conhecido (conhecidos: %s) — "
+                        "desbloqueador desligado", UNBLOCKER_ENV, nome,
+                        ", ".join(sorted(_UNBLOCKER_PROVEDORES)))
+        return None
+    chave = (os.getenv(classe.env_chave) or "").strip()
+    if not chave:
+        if not _unblocker_config_avisada:
+            _unblocker_config_avisada = True
+            log.warning("%s=%s pedido mas %s não está no ambiente — "
+                        "desbloqueador desligado", UNBLOCKER_ENV, nome,
+                        classe.env_chave)
+        return None
+    return classe(chave)
+
+
+def _redigir(texto: str, chave: str = "") -> str:
+    """Nunca deixar a chave de API sair no log — nem embutida numa URL que a
+    própria `requests` põe na mensagem da exceção."""
+    limpo = texto or ""
+    if chave:
+        limpo = limpo.replace(chave, "REDACTED")
+    return re.sub(r"(?i)(apikey=)[^&\s\"'>]+", r"\1REDACTED", limpo)
+
+
+def _mesclar_params(url: str, params: dict | None) -> str:
+    """Dobra `params=` dentro da própria URL de destino, preservando os que já
+    estavam na query."""
+    if not params:
+        return url
+    partes = urlsplit(url)
+    pares = parse_qsl(partes.query, keep_blank_values=True)
+    pares += [(k, v) for k, v in params.items() if v is not None]
+    return urlunsplit(partes._replace(query=urlencode(pares, doseq=True)))
+
+
+def _unblocker_cap_atingido() -> bool:
+    global _unblocker_cap_avisado
+    cap = _unblocker_cap()
+    with _unblocker_lock:
+        if _unblocker_gastos < cap:
+            return False
+        avisar = not _unblocker_cap_avisado
+        _unblocker_cap_avisado = True
+        gastos = _unblocker_gastos
+    if avisar:
+        log.warning("desbloqueador: teto de %d requisições por execução "
+                    "atingido (%d usadas) — nenhuma outra será feita nesta "
+                    "execução; ajuste com %s", cap, gastos, UNBLOCKER_MAX_ENV)
+    return True
+
+
 def _throttle(host: str) -> None:
     """Reserve this thread's slot for `host`, then sleep outside the lock.
 
@@ -145,6 +306,15 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             if pronto is not None:
                 return pronto
 
+        # Mesma economia para o desbloqueador, mas só quando o transporte
+        # gratuito já foi medido como insuficiente neste host: ir direto ao
+        # pago sem isso gastaria crédito onde o curl_cffi resolveria.
+        if host in _unblocker_ok and host in _cffi_falhou:
+            pronto = _tentar_unblocker(url, params, headers, timeout, json,
+                                       host, motivo=" (host já sabido)")
+            if pronto is not None:
+                return pronto
+
         _throttle(host)
         try:
             r = _session.get(url, params=params, headers=headers, timeout=timeout)
@@ -159,6 +329,12 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             # "curl_cffi doesn't help here" without curl_cffi ever being tried.
             alt = _tentar_cffi(url, params, headers, timeout, json, host,
                                motivo=f" (após {type(exc).__name__})")
+            if alt is not None:
+                return alt
+            # Escalada: requests -> curl_cffi -> desbloqueador. O grátis
+            # primeiro, sempre; o pago só quando ele não bastou.
+            alt = _tentar_unblocker(url, params, headers, timeout, json, host,
+                                    motivo=f" (após {type(exc).__name__})")
             if alt is not None:
                 return alt
             time.sleep(2 ** attempt)
@@ -177,6 +353,10 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             # Try the browser-fingerprint transport before backing off.
             alt = _tentar_cffi(url, params, headers, timeout, json, host,
                                motivo=f" (após HTTP {r.status_code})")
+            if alt is not None:
+                return alt
+            alt = _tentar_unblocker(url, params, headers, timeout, json, host,
+                                    motivo=f" (após HTTP {r.status_code})")
             if alt is not None:
                 return alt
             # The body goes in the log for the same reason the generic-4xx
@@ -271,6 +451,95 @@ def _via_cffi(url, params, headers, timeout, want_json, *, motivo=""):
             return r.json()
         except ValueError:
             log.warning("%s: curl_cffi passou mas a resposta não era JSON", host)
+            return None
+    return r
+
+
+def _tentar_unblocker(url, params, headers, timeout, want_json, host, motivo=""):
+    """Último recurso, uma tentativa por host por execução, com o resultado
+    dito no log.
+
+    Mesma disciplina do `_tentar_cffi`: um host já sabido como "precisa do
+    desbloqueador" ou "nem com ele passa" não repete tentativas condenadas a
+    cada retry — e aqui isso não é só tempo perdido, é crédito pago.
+    """
+    prov = _unblocker_ativo()
+    if prov is None:
+        return None
+    if host in _unblocker_falhou:
+        return None
+    if _unblocker_cap_atingido():
+        # Não marca o host como fracassado: o que faltou foi orçamento, não
+        # capacidade — e confundir os dois esconderia um host que o
+        # desbloqueador resolveria.
+        return None
+
+    resultado = _via_unblocker(url, params, headers, timeout, want_json,
+                               motivo=motivo, prov=prov)
+    if resultado is None:
+        _unblocker_falhou.add(host)
+    else:
+        _unblocker_ok.add(host)
+        log.info("%s: liberado via desbloqueador %s%s", host, prov.nome, motivo)
+    return resultado
+
+
+def _via_unblocker(url, params, headers, timeout, want_json, *, motivo="",
+                   prov=None):
+    """Uma tentativa pelo serviço de desbloqueio. Nunca levanta exceção.
+
+    Devolve exatamente as mesmas formas que o `get()` já devolve — um objeto
+    `Response` (com `.text`, `.headers["content-type"]` e `.content`, que os
+    chamadores usam: ver `extract/imagem.py` e `sources/caixa.py`) ou o JSON já
+    convertido quando `json=True` — para que nenhum chamador precise mudar.
+    """
+    if prov is None:
+        prov = _unblocker_ativo()
+        if prov is None:
+            return None
+        if _unblocker_cap_atingido():
+            return None
+    host = urlsplit(url).netloc
+    destino = _mesclar_params(url, params)
+    semanticos = _headers_semanticos(headers)
+    pedido = prov.montar(destino, semanticos)
+
+    global _unblocker_gastos
+    with _unblocker_lock:
+        _unblocker_gastos += 1
+        usados = _unblocker_gastos
+    log.info("%s: tentando o desbloqueador %s (%d/%d nesta execução)%s",
+             host, prov.nome, usados, _unblocker_cap(), motivo)
+
+    try:
+        r = _session.get(pedido, headers=semanticos,
+                         timeout=max(timeout, UNBLOCKER_TIMEOUT_MIN))
+    except requests.RequestException as exc:
+        log.warning("%s: desbloqueador %s falhou%s: %s: %s", host, prov.nome,
+                    motivo, type(exc).__name__,
+                    _redigir(str(exc), prov.chave))
+        return None
+
+    if r.status_code != 200:
+        # A ZenRows devolve erros explícitos em JSON (plano errado, chave
+        # inválida, créditos esgotados). Mostrar o corpo é a diferença entre
+        # "a parede venceu" e "sua conta está mal configurada" — e este módulo
+        # foi consertado justamente porque um fallback que falhava em silêncio
+        # era indistinguível de uma dependência ausente.
+        trecho = _redigir((r.text or "")[:400].replace("\n", " "), prov.chave)
+        log.warning("%s: desbloqueador %s devolveu HTTP %s%s%s", host,
+                    prov.nome, r.status_code, motivo,
+                    f" — {trecho}" if trecho else "")
+        return None
+
+    if want_json:
+        try:
+            return r.json()
+        except ValueError:
+            trecho = _redigir((r.text or "")[:200].replace("\n", " "),
+                              prov.chave)
+            log.warning("%s: desbloqueador %s passou mas a resposta não era "
+                        "JSON — %s", host, prov.nome, trecho)
             return None
     return r
 

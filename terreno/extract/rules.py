@@ -7,12 +7,16 @@ extractor is only consulted when this returns something too thin to use.
 
 from __future__ import annotations
 
+import logging
 import re
 import unicodedata
+from urllib.parse import urlsplit
 
 from ..models import Listing
 from ..sources.base import json_ld, strip_tags
-from ..units import area_to_ha, price_to_brl
+from ..units import area_to_ha, parse_number, price_to_brl
+
+log = logging.getLogger("terreno.extract.rules")
 
 _META = r'<meta[^>]+(?:property|name)=["\']{key}["\'][^>]+content=["\']([^"\']*)["\']'
 
@@ -24,6 +28,169 @@ _LOCATION_RE = re.compile(
 )
 
 
+# --------------------------------------------------------- páginas genéricas
+#
+# What reaches this extractor from Layer B is "whatever Brave returned", which
+# includes a lot of pages that are *about* rural property without *being* one
+# offer: agency home pages, broker profiles, blog listicles, search results.
+# Every one of those that slips through becomes a Telegram message with a link
+# that answers none of the owner's questions.
+#
+# The asymmetry is deliberate and the whole design rests on it: dropping one
+# genuine listing costs almost nothing (the goal is a short, high-quality feed,
+# and the same plot is usually cross-posted on several portals anyway), while a
+# single junk link is the failure actually being complained about. So each
+# guard below is allowed to be somewhat trigger-happy, and the reason it fired
+# is logged at debug so an over-blocking guard can be found and loosened
+# without guessing.
+
+# Path segments that belong to a site's *navigation*, never to one offer.
+# Terminated by a hyphen as well as by "/" so "/corretor-de-imoveis-sp" and
+# "/imobiliaria-em-sao-jose-dos-campos" match too.
+_URL_NAO_ANUNCIO = re.compile(
+    r"/(?:imobiliaria|imobiliarias|corretor|corretores|corretora|consultoria|"
+    r"blog|noticia|noticias|artigo|artigos|dicas|guia|"
+    r"busca|buscar|buscas|search|pesquisa|resultado|resultados|"
+    r"lista|listas|listagem|categoria|categorias|tag|tags|"
+    r"quem-somos|sobre|sobre-nos|contato|equipe|time|anuncie|anunciar|"
+    r"depoimentos|servicos|servico)(?:[-/?#]|$)",
+    re.I,
+)
+
+# Something in the URL that identifies *this* property: a portal id, or a path
+# segment portals use for a single listing's page.
+_URL_ID_NUMERICO = re.compile(r"(?:^|[/=_-])(\d{5,})(?=$|[/._&?-])")
+_URL_SEGMENTO_ANUNCIO = re.compile(
+    r"/(?:imovel|anuncio|propriedade|ficha|detalhe|detalhes|item|oferta|listing)(?:[-/]|$)",
+    re.I,
+)
+_URL_ID_PARAM = re.compile(r"[?&](?:id|codigo|cod|ref|imovel|imovel_id)=[\w-]+", re.I)
+
+# "2 Melhores Sítios à Venda em ...", "Os 10 melhores sítios ..."
+_TITULO_LISTICLE = re.compile(
+    r"^\W*(?:os|as)?\s*\d{1,3}\s+(?:melhor|melhores|maiores|mais|op[çc][õo]es|"
+    r"im[óo]ve|s[íi]tio|ch[áa]cara|fazenda|terreno|casa|lote|[áa]rea)",
+    re.I,
+)
+# A plural property noun offered for sale is an inventory page, not an offer.
+_TITULO_PLURAL = re.compile(
+    r"\b(?:s[íi]tios|ch[áa]caras|fazendas|terrenos|im[óo]veis|casas|lotes|"
+    r"[áa]reas|propriedades)\b[^.|]{0,40}?\b(?:[àa]\s+venda|para\s+vender|"
+    r"dispon[íi]veis|em\s+\d{4})",
+    re.I,
+)
+# "Chácaras e sítios em X" — plural inventory without an explicit "à venda".
+_TITULO_PLURAL_DUPLO = re.compile(
+    r"\b(?:s[íi]tios|ch[áa]caras|fazendas|terrenos|lotes)\b\s*(?:,|e|/|\+)\s*"
+    r"\b(?:s[íi]tios|ch[áa]caras|fazendas|terrenos|lotes)\b",
+    re.I,
+)
+# The page describing whoever is selling, rather than what is for sale.
+_TITULO_AGENCIA = re.compile(
+    r"consultoria\s+imobili[áa]ria|assessoria\s+imobili[áa]ria|"
+    r"especialista\s+em|corretor(?:a)?\s+de\s+im[óo]veis|imobili[áa]ria\s+em|"
+    r"quem\s+somos|sobre\s+n[óo]s|anuncie\s+seu\s+im[óo]vel|"
+    r"encontre\s+(?:seu|o|os)\s+(?:melhor(?:es)?\s+)?im[óo]ve|"
+    r"os\s+melhores\s+im[óo]veis|compra\s+e\s+venda\s+de\s+im[óo]veis",
+    re.I,
+)
+
+# Result-set furniture. These only exist where several properties are listed.
+_CORPO_INDICE = re.compile(
+    r"\b\d{1,6}\s+im[óo]ve(?:l|is)\s+encontrad|"
+    r"\b\d{1,6}\s+an[úu]ncios?\s+encontrad|"
+    r"\b\d{1,6}\s+resultados?\s+encontrad|"
+    r"p[áa]gina\s+\d+\s+de\s+\d+|"
+    r"resultados?\s+da\s+busca|refine\s+sua\s+busca|"
+    r"\b\d{1,6}\s+im[óo]veis\s+(?:[àa]\s+venda|dispon[íi]veis)\b",
+    re.I,
+)
+# Weaker: a real listing page occasionally carries a "similar properties"
+# widget with these. Only blocks when the URL also has no per-listing id.
+_CORPO_BUSCA_FRACO = re.compile(
+    r"ordenar\s+por|filtrar\s+por|pr[óo]xima\s+p[áa]gina|ver\s+mais\s+im[óo]veis",
+    re.I,
+)
+
+_AREA_MENCAO = re.compile(
+    r"(\d{1,3}(?:[.\s]\d{3})*(?:,\d+)?|\d+(?:[.,]\d+)?)\s*"
+    r"(alqueires?|hectares?|ha|m²|m2|km²|km2)\b",
+    re.I,
+)
+_AREA_FATOR = {
+    "alqueire": 2.42, "alqueires": 2.42, "hectare": 1.0, "hectares": 1.0,
+    "ha": 1.0, "m²": 1e-4, "m2": 1e-4, "km²": 100.0, "km2": 100.0,
+}
+
+
+def _tem_id_de_anuncio(url: str) -> bool:
+    """Whether the URL points at one identified property rather than a section."""
+    partes = urlsplit(url)
+    caminho = partes.path
+    return bool(
+        _URL_ID_NUMERICO.search(caminho)
+        or _URL_SEGMENTO_ANUNCIO.search(caminho)
+        or _URL_ID_PARAM.search("?" + partes.query)
+    )
+
+
+def _areas_distintas(texto: str) -> int:
+    """How many distinct *land-scale* areas the page mentions.
+
+    Built areas ("casa de 180 m²") are excluded by the 0.5 ha floor, so this
+    counts plots, and three plots on one page means an index, exactly as three
+    distinct prices does.
+    """
+    vistos: set[float] = set()
+    for numero, unidade in _AREA_MENCAO.findall(texto):
+        valor = parse_number(numero)
+        if valor is None:
+            continue
+        ha = valor * _AREA_FATOR.get(unidade.lower(), 0.0)
+        if ha >= 0.5:
+            vistos.add(round(ha, 2))
+    return len(vistos)
+
+
+def _motivo_generica(url: str, title: str, body: str, haystack: str,
+                     price: float | None, area_ha: float | None,
+                     estruturado: bool = False) -> str:
+    """Name of the guard that says this page is not a single offer, or ""."""
+    tem_id = _tem_id_de_anuncio(url)
+    titulo_e_corpo = f"{title}\n{body}"
+
+    if _URL_NAO_ANUNCIO.search(urlsplit(url).path):
+        return "url_de_secao"
+    if _TITULO_LISTICLE.search(title):
+        return "titulo_listicle"
+    if _TITULO_PLURAL.search(title):
+        return "titulo_plural"
+    if _TITULO_PLURAL_DUPLO.search(title):
+        return "titulo_plural_duplo"
+    if _TITULO_AGENCIA.search(title):
+        return "titulo_de_agencia"
+    if _CORPO_INDICE.search(titulo_e_corpo):
+        return "marcadores_de_resultado"
+    # A partir daqui os sinais são indiretos, e a mesma isenção do teste de
+    # preços vale: uma página cuja estrutura declara *um* anúncio com preço
+    # está falando de um imóvel específico, mesmo que ao lado dele haja uma
+    # vitrine de "imóveis semelhantes" com outras áreas e outros preços.
+    if estruturado:
+        return ""
+    if _areas_distintas(haystack) >= 3:
+        return "muitas_areas"
+    if not tem_id:
+        # No id in the URL is not damning by itself (plenty of agency sites use
+        # a bare slug), but combined with either of these it is.
+        if price is not None and area_ha is None:
+            # "área n/d" plus an unidentifiable URL: two of the four links the
+            # owner complained about looked exactly like this.
+            return "preco_sem_area_sem_id"
+        if _CORPO_BUSCA_FRACO.search(body):
+            return "corpo_de_busca_sem_id"
+    return ""
+
+
 def meta(html: str, key: str) -> str:
     m = re.search(_META.format(key=re.escape(key)), html, re.I)
     return m.group(1).strip() if m else ""
@@ -32,6 +199,12 @@ def meta(html: str, key: str) -> str:
 def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     """Best-effort structured listing from a page. None when the page clearly
     is not an individual offer."""
+    # Cheapest guard first: a URL that is a section of a site rather than one
+    # property needs no parsing at all to be rejected.
+    if _URL_NAO_ANUNCIO.search(urlsplit(url).path):
+        log.debug("descartado (url_de_secao): %s", url)
+        return None
+
     title = ""
     description = ""
     price = None
@@ -76,6 +249,15 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     body = strip_tags(html)[:6000]
     haystack = f"{title} {description} {body}"
 
+    # The location is resolved *before* the area, not after: the UF is what
+    # decides which alqueire a "3 alqueires" listing means, and without it the
+    # area is now (correctly) left unknown rather than guessed. Reading the
+    # municipality first turns most of those unknowns back into real hectares.
+    if not municipality:
+        m = _LOCATION_RE.search(f"{title} {description}") or _LOCATION_RE.search(body)
+        if m:
+            municipality, uf = _clean_municipality(m.group(1)), m.group(2)
+
     preco_estruturado = price is not None
     if price is None:
         price = price_to_brl(haystack)
@@ -90,12 +272,14 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     # even on a page whose surrounding text also mentions other prices (e.g.
     # a "similar listings" sidebar).
     if not preco_estruturado and len(re.findall(r"r\$\s*\d", haystack, re.I)) >= 3:
+        log.debug("descartado (muitos_precos): %s", url)
         return None
 
-    if not municipality:
-        m = _LOCATION_RE.search(f"{title} {description}") or _LOCATION_RE.search(body)
-        if m:
-            municipality, uf = _clean_municipality(m.group(1)), m.group(2)
+    motivo = _motivo_generica(url, title, body, haystack, price, area_ha,
+                              estruturado=preco_estruturado)
+    if motivo:
+        log.debug("descartado (%s): %s", motivo, url)
+        return None
 
     # A page with neither a price nor an area is almost certainly a category
     # or index page rather than a single offer — not worth a card.

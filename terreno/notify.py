@@ -62,10 +62,15 @@ DESTAQUES = (
 
 # Only these alqueire variants have a determined name. Anything else (including
 # "") means the variant was not determined, and no variant name is printed.
+# Must stay in step with _ALQUEIRE_TIPO in terreno/units.py -- a variant the
+# units module can produce but this dict lacks would silently print the neutral
+# word "alqueires" instead of the determined name, which reads as "we could not
+# tell" when in fact we could.
 ALQUEIRE_NOMES = {
     "paulista": "Alqueire Paulista",
     "mineiro": "Alqueire Mineiro",
     "norte": "Alqueire do Norte",
+    "amazonense": "Alqueire Amazonense",
 }
 
 

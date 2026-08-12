@@ -9,7 +9,7 @@ from .config import Criteria, fold
 from .extract.rules import extract as rules_extract
 from .http import get as http_get
 from .models import Listing
-from .units import area_to_ha, price_per_ha, price_to_brl
+from .units import area_detalhada, price_per_ha, price_to_brl
 
 log = logging.getLogger("terreno.pipeline")
 
@@ -22,7 +22,18 @@ def normalize(listing: Listing) -> Listing:
     if listing.price is None:
         listing.price = price_to_brl(text)
     if listing.area_ha is None:
-        listing.area_ha = area_to_ha(text, listing.uf)
+        # area_detalhada rather than area_to_ha: the alqueire is regionally
+        # ambiguous (paulista 2.42 ha vs mineiro 4.84 -- a factor of two), and
+        # when the UF does not settle which one the listing means, it returns
+        # no hectare figure at all rather than a guess. Keeping the alqueire
+        # count lets the card say "3 alqueires" honestly; a guessed hectare
+        # figure would silently corrupt price-per-hectare and the area filter,
+        # and would do it invisibly.
+        detalhe = area_detalhada(text, listing.uf)
+        listing.area_ha = detalhe.ha
+        if detalhe.alqueires is not None:
+            listing.area_alqueires = detalhe.alqueires
+            listing.area_alqueire_tipo = detalhe.alqueire_tipo
 
     listing.uf = (listing.uf or "").upper()[:2]
     listing.municipality = (listing.municipality or "").strip()
