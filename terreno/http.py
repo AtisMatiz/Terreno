@@ -577,17 +577,24 @@ def _via_unblocker(url, params, headers, timeout, want_json, *, motivo="",
 
     r = _uma_tentativa(js_render=False)
 
-    # RESP001 ("Could not get content") é a ZenRows dizendo que não conseguiu
-    # buscar a página com o transporte simples -- medido em olx/imovelweb/
-    # mercadolivre-api, 2026-08-12. Documentação da própria ZenRows aponta
-    # `js_render=true` como o próximo passo para esse código específico, então
-    # essa segunda tentativa (mais cara: ~25 créditos contra ~10) só acontece
-    # quando o sinal for exatamente esse, nunca para qualquer outro erro --
-    # não vale gastar o dobro em cima de um 401/403 que js_render não resolve.
-    if (r is not None and r.status_code == 422
-            and "RESP001" in (r.text or "") and not _unblocker_cap_atingido()):
-        log.info("%s: RESP001 do desbloqueador -- tentando de novo com "
-                 "js_render", host)
+    # RESP001 ("Could not get content") e RESP002 ("Page not found") são a
+    # ZenRows dizendo que não conseguiu buscar a página de verdade com o
+    # transporte simples -- medido 2026-08-12: olx/imovelweb/mercadolivre-api
+    # devolveram RESP001; wimoveis devolveu RESP002 (404) para a mesma URL que
+    # funciona direto de uma conexão residencial, o que é a assinatura de um
+    # desafio JS do Cloudflare que o modo simples da ZenRows não resolve, não
+    # de a página realmente não existir. A documentação da própria ZenRows
+    # aponta `js_render=true` como o próximo passo para RESP001; a mesma causa
+    # provável (desafio JS) vale para RESP002. Essa segunda tentativa (mais
+    # cara: ~25 créditos contra ~10) só acontece para esses dois códigos
+    # específicos, nunca para qualquer outro erro -- não vale gastar o dobro
+    # em cima de um 401/403 que js_render não resolve.
+    if (r is not None and r.status_code in (422, 404)
+            and any(c in (r.text or "") for c in ("RESP001", "RESP002"))
+            and not _unblocker_cap_atingido()):
+        codigo = "RESP001" if "RESP001" in (r.text or "") else "RESP002"
+        log.info("%s: %s do desbloqueador -- tentando de novo com js_render",
+                 host, codigo)
         r2 = _uma_tentativa(js_render=True)
         if r2 is not None:
             r = r2
