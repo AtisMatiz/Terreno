@@ -91,6 +91,13 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             if not data:
                 break
 
+            # Verificar se a resposta é realmente JSON Spring PageImpl (não XML)
+            if not isinstance(data, dict) or "content" not in data:
+                log.warning("pgfn: resposta de %s não era JSON PageImpl (tipo: %s, chaves: %s)",
+                           uf, type(data).__name__,
+                           sorted(data.keys()) if isinstance(data, dict) else "N/A")
+                break
+
             content = data.get("content") or []
             if not content and page == 0:
                 log.info("pgfn: nenhum anúncio ativo em %s", uf)
