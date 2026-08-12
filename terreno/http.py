@@ -155,6 +155,14 @@ UNBLOCKER_MAX_PADRAO = 15
 # sem cabeça e pode ter de resolver um desafio antes de responder.
 UNBLOCKER_TIMEOUT_MIN = 60
 
+# js_render é o modo mais lento da ZenRows -- ela abre um navegador de verdade
+# e espera o desafio (Cloudflare, tipicamente) resolver sozinho. Medido
+# 2026-08-12 contra wimoveis: os 60s normais não foram suficientes -- a
+# tentativa deu `ReadTimeout` sem nunca chegar a responder, então o retry que
+# existia para resolver exatamente esse tipo de bloqueio nunca tinha, de fato,
+# tempo de terminar.
+UNBLOCKER_TIMEOUT_JS = 100
+
 ZENROWS_ENDPOINT = "https://api.zenrows.com/v1/"
 
 
@@ -567,9 +575,10 @@ def _via_unblocker(url, params, headers, timeout, want_json, *, motivo="",
                  host, prov.nome, " com js_render" if js_render else "",
                  usados, _unblocker_cap(), motivo)
         pedido = prov.montar(destino, semanticos, js_render=js_render)
+        piso = UNBLOCKER_TIMEOUT_JS if js_render else UNBLOCKER_TIMEOUT_MIN
         try:
             return _session.get(pedido, headers=semanticos,
-                                timeout=max(timeout, UNBLOCKER_TIMEOUT_MIN))
+                                timeout=max(timeout, piso))
         except requests.RequestException as exc:
             log.warning("%s: desbloqueador %s falhou%s: %s: %s", host, prov.nome,
                         motivo, type(exc).__name__,
