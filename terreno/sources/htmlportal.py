@@ -46,8 +46,8 @@ PORTALS = {
     "wimoveis": {
         "base": "https://www.wimoveis.com.br",
         "paths": [
-            "/chacaras-sitios-e-fazendas-venda.html",
-            "/terrenos-venda.html",
+            "/chacaras-sitios-e-fazendas-venda-{uf_slug}/",
+            "/terrenos-venda-{uf_slug}/",
         ],
         "page_param": "pagina",
         "link_re": r"/propriedades/[\w\-]+\.html",
