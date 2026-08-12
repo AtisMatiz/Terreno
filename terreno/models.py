@@ -94,6 +94,13 @@ class Listing:
         d = asdict(self)
         d["reasons"] = "\n".join(self.reasons)
         d["dimensoes"] = json.dumps(self.dimensoes, ensure_ascii=False)
+        # SQLite has no dict or list type, so the structured fields go in as
+        # JSON text. ensure_ascii=False keeps the Portuguese readable when
+        # someone opens the database by hand.
+        d["destaques"] = json.dumps(self.destaques, ensure_ascii=False)
+        d["estrelas"] = json.dumps(self.estrelas, ensure_ascii=False)
+        d["imagem_analise"] = json.dumps(self.imagem_analise, ensure_ascii=False)
+        d["notificavel"] = 1 if self.notificavel else 0
         d["key"] = self.key
         return d
 

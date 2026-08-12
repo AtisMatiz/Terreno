@@ -92,7 +92,13 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
             coords = geo.geocode(f"{item.municipality}, {item.uf}", store)
             if coords:
                 item.lat, item.lon = coords
-                if geo.haversine_km(center_coords, coords) > float(criteria.radius_km):
+                # Kept on the listing, not just tested and thrown away: the
+                # scorer ranks by this distance, which is what makes a
+                # neighbouring município outrank a far corner of the same
+                # region instead of the two being indistinguishable.
+                item.distancia_centro_km = round(
+                    geo.haversine_km(center_coords, coords), 1)
+                if item.distancia_centro_km > float(criteria.radius_km):
                     continue
         kept.append(item)
     return kept
@@ -140,37 +146,96 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
     gate drops urban lots and town houses outright, and each dimension keeps
     its own sub-score so the page can explain the ranking.
     """
-    ppha = [x.price_per_ha for x in listings if x.price_per_ha]
-    melhor = min(ppha) if ppha else None
     nota_minima = criteria.nota_minima
+    pph = criteria.raw.get("preco_por_ha") or {}
+    bom = float(pph.get("ideal", scoring.PRECO_HA_BOM))
+    limite = float(pph.get("teto_alerta", scoring.PRECO_HA_LIMITE))
 
     kept: list[Listing] = []
-    descartados = 0
+    descartados: dict[str, int] = {}
     for item in listings:
         text = f"{item.title} {item.description}"
 
-        rural, aviso = scoring.tipo_ok(text)
-        if not rural:
-            descartados += 1
+        motivo = scoring.motivo_descarte(text, item.area_ha)
+        if motivo:
+            descartados[motivo] = descartados.get(motivo, 0) + 1
             continue
 
-        nota, detalhe, evidencias = scoring.avaliar(text)
+        # Price per hectare and distance to the centre of interest are scored
+        # inside `avaliar` now, against the absolute thresholds from
+        # criteria.yaml. They used to be a *relative* blend here -- 15% of the
+        # score for being the cheapest R$/ha of whatever this particular run
+        # happened to collect -- which measured the batch, not the property: on
+        # a run of only expensive listings the dearest of them still scored
+        # full marks. Absolute thresholds are what the owner actually asked
+        # for, and keeping both would have double-counted price.
+        nota, detalhe, evidencias, estrelas = scoring.avaliar(
+            text,
+            price_per_ha=item.price_per_ha,
+            distancia_centro_km=item.distancia_centro_km,
+            preco_ha_bom=bom,
+            preco_ha_limite=limite,
+        )
 
-        valor = 0.0
-        if melhor and item.price_per_ha:
-            # 1.0 at the cheapest R$/ha this run, decaying as it gets dearer.
-            valor = max(0.0, min(1.0, melhor / item.price_per_ha))
-            evidencias.append(f"R$/ha {item.price_per_ha:,.0f}".replace(",", "."))
-
-        # Price is a constraint, not the point — the profile dominates.
-        item.score = round(0.85 * nota + 0.15 * valor, 3)
+        _, aviso = scoring.tipo_ok(text)
+        item.score = nota
         item.dimensoes = detalhe
         item.reasons = ([aviso] if aviso else []) + evidencias
+        item.estrelas = estrelas
+        item.destaques = scoring.destaques(detalhe)
+
+        # Above the ceiling the listing still belongs on the site -- it may be
+        # worth it for reasons price alone does not capture -- but it does not
+        # earn a Telegram ping. Discarding would lose it; notifying on
+        # everything is the flood being fixed.
+        item.notificavel = not (item.price_per_ha and item.price_per_ha > limite)
 
         if item.score >= nota_minima:
             kept.append(item)
 
-    if descartados:
-        log.info("%d anúncios descartados por não serem imóvel rural", descartados)
+    for motivo, n in sorted(descartados.items(), key=lambda kv: -kv[1]):
+        log.info("%d anúncio(s) descartado(s): %s", n, motivo)
     kept.sort(key=lambda x: (x.score, x.first_seen), reverse=True)
     return kept
+
+
+def enriquecer_imagens(listings: list[Listing], criteria: Criteria) -> int:
+    """Lê a foto principal dos anúncios de nota alta. Devolve quantos leu.
+
+    O corte mora aqui, e não dentro de `extract/imagem.py`, para que o gasto
+    fique visível no lugar onde a decisão de gastar é tomada: palavra-chave é
+    grátis e roda em todos os resultados, imagem custa por anúncio. Num run que
+    descobre centenas de candidatos e aprova oito, a diferença é entre centenas
+    de chamadas e oito.
+    """
+    corte = float(criteria.output("nota_minima_imagem", 70)) / 100.0
+    alvos = [x for x in listings if x.score >= corte and x.image]
+    if not alvos:
+        return 0
+
+    from .extract import imagem
+    if imagem._client() is None:
+        # Sem ENABLE_LLM/ANTHROPIC_API_KEY não há o que fazer, e dizer isso uma
+        # vez é melhor que uma linha por anúncio.
+        log.info("imagem: %d anúncio(s) acima de %.0f/100, mas a leitura de "
+                 "imagem está desligada (precisa de ENABLE_LLM=1 e "
+                 "ANTHROPIC_API_KEY)", len(alvos), corte * 100)
+        return 0
+
+    lidos = 0
+    for item in alvos:
+        analise = imagem.analisar(item.image)
+        if not analise:
+            continue
+        item.imagem_analise = analise
+        lidos += 1
+        # A foto é evidência adicional, nunca substitui a nota determinística.
+        # Uma imagem que nem mostra o imóvel (mapa, logotipo, foto de corretor)
+        # é justamente o tipo de coisa que vale registrar.
+        if analise.get("mostra_o_imovel") is False:
+            item.reasons.append("⚠ foto não mostra o imóvel")
+        elif analise.get("resumo"):
+            item.reasons.append(f"foto: {analise['resumo']}")
+    log.info("imagem: %d de %d anúncio(s) acima de %.0f/100 analisados",
+             lidos, len(alvos), corte * 100)
+    return lidos

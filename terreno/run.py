@@ -12,7 +12,7 @@ import argparse
 import logging
 import sys
 
-from . import http, notify, pipeline, render
+from . import disponibilidade, http, notify, pipeline, render
 from .config import (DB_PATH, SITE_DIR, env, llm_enabled, load_criteria,
                      salvar_criterios)
 from .sources import REGISTRY
@@ -133,6 +133,11 @@ def main(argv=None) -> int:
         if streak >= LIMIAR_ALERTA_SAUDE:
             alertas_saude.append(f"{name}: sem resultado há {streak} execuções seguidas")
 
+    # Photo reading runs only on the shortlist, before storing, so the vision
+    # evidence it adds is persisted with everything else. The score cutoff is
+    # applied inside -- see pipeline.enriquecer_imagens for why it lives there.
+    pipeline.enriquecer_imagens(scored, criteria)
+
     fresh = []
     for item in scored:
         stored = store.upsert(item)
@@ -155,8 +160,29 @@ def main(argv=None) -> int:
     store.record_run(summary)
     log.info(summary)
 
-    if fresh or alertas_saude:
-        notify.telegram(fresh, env("TERRENO_PAGE_URL"),
+    # Everything scored reaches the page; the Telegram list is deliberately
+    # narrower. Two gates, both meant to keep the channel worth reading rather
+    # than to hide listings: price per hectare above the ceiling
+    # (`notificavel`, set in pipeline.score_all) and anything already sold or
+    # taken down. Both leave the listing on the site.
+    para_avisar = [item for item in fresh if item.notificavel]
+    caros = len(fresh) - len(para_avisar)
+    if caros:
+        log.info("%d anúncio(s) novo(s) acima do teto de R$/ha — no site, "
+                 "fora do Telegram", caros)
+
+    if para_avisar and criteria.output("checar_disponibilidade", True):
+        fora = disponibilidade.urls_indisponiveis(x.url for x in para_avisar)
+        if fora:
+            for item in para_avisar:
+                if item.url in fora:
+                    item.disponibilidade = "indisponivel"
+            para_avisar = [x for x in para_avisar if x.url not in fora]
+            log.info("%d anúncio(s) já vendido(s) ou fora do ar — não avisados",
+                     len(fora))
+
+    if para_avisar or alertas_saude:
+        notify.telegram(para_avisar, env("TERRENO_PAGE_URL"),
                         int(criteria.output("top_n_no_alerta", 8)),
                         alertas=alertas_saude)
 

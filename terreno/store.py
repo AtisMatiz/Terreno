@@ -33,6 +33,14 @@ CREATE TABLE IF NOT EXISTS listings (
     score           REAL DEFAULT 0,
     reasons         TEXT,
     dimensoes       TEXT,
+    area_alqueires  REAL,
+    area_alqueire_tipo TEXT,
+    distancia_centro_km REAL,
+    destaques       TEXT,
+    estrelas        TEXT,
+    disponibilidade TEXT,
+    notificavel     INTEGER DEFAULT 1,
+    imagem_analise  TEXT,
     first_seen      TEXT NOT NULL,
     last_seen       TEXT NOT NULL,
     dismissed       INTEGER DEFAULT 0
@@ -138,6 +146,24 @@ class Store:
                 "ALTER TABLE brave_pendentes ADD COLUMN falhas INTEGER NOT NULL DEFAULT 0"
             )
 
+        # Same reason, for the scoring/notification fields added later. Declared
+        # as (nome, tipo) so adding one more is a single line rather than
+        # another hand-written ALTER.
+        novas = (
+            ("area_alqueires", "REAL"),
+            ("area_alqueire_tipo", "TEXT"),
+            ("distancia_centro_km", "REAL"),
+            ("destaques", "TEXT"),
+            ("estrelas", "TEXT"),
+            ("disponibilidade", "TEXT"),
+            ("notificavel", "INTEGER DEFAULT 1"),
+            ("imagem_analise", "TEXT"),
+        )
+        existentes = {r["name"] for r in self.db.execute("PRAGMA table_info(listings)")}
+        for nome, tipo in novas:
+            if nome not in existentes:
+                self.db.execute(f"ALTER TABLE listings ADD COLUMN {nome} {tipo}")
+
     def close(self) -> None:
         self.db.commit()
         self.db.close()
@@ -168,11 +194,15 @@ class Store:
             """
             INSERT INTO listings (key, source, source_id, url, title, description,
                 price, price_first, area_ha, price_per_ha, municipality, uf, lat, lon,
-                image, posted_at, score, reasons, dimensoes, first_seen, last_seen)
+                image, posted_at, score, reasons, dimensoes, area_alqueires,
+                area_alqueire_tipo, distancia_centro_km, destaques, estrelas,
+                disponibilidade, notificavel, imagem_analise, first_seen, last_seen)
             VALUES (:key, :source, :source_id, :url, :title, :description,
                 :price, :price_first, :area_ha, :price_per_ha, :municipality, :uf,
                 :lat, :lon, :image, :posted_at, :score, :reasons, :dimensoes,
-                :first_seen, :last_seen)
+                :area_alqueires, :area_alqueire_tipo, :distancia_centro_km,
+                :destaques, :estrelas, :disponibilidade, :notificavel,
+                :imagem_analise, :first_seen, :last_seen)
             ON CONFLICT(key) DO UPDATE SET
                 url=excluded.url, title=excluded.title, description=excluded.description,
                 price=excluded.price, area_ha=excluded.area_ha,
@@ -180,6 +210,13 @@ class Store:
                 uf=excluded.uf, lat=excluded.lat, lon=excluded.lon, image=excluded.image,
                 posted_at=excluded.posted_at, score=excluded.score,
                 reasons=excluded.reasons, dimensoes=excluded.dimensoes,
+                area_alqueires=excluded.area_alqueires,
+                area_alqueire_tipo=excluded.area_alqueire_tipo,
+                distancia_centro_km=excluded.distancia_centro_km,
+                destaques=excluded.destaques, estrelas=excluded.estrelas,
+                disponibilidade=excluded.disponibilidade,
+                notificavel=excluded.notificavel,
+                imagem_analise=excluded.imagem_analise,
                 last_seen=excluded.last_seen
             """,
             d,

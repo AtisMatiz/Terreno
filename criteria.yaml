@@ -20,7 +20,13 @@ localizacao:
   # é o que faz Caçapava valer mais que Cunha sem excluir nenhuma das duas.
   # null desliga tanto o filtro de raio quanto o bônus de proximidade.
   centro: "Monteiro Lobato, SP"
-  raio_km: 60
+  # Limite de sanidade, não o critério de escolha. A ordenação por proximidade
+  # é feita pela nota (ver `proximidade_centro` em terreno/scoring.py), então o
+  # raio existe só para cortar o que está claramente fora da região. Estava em
+  # 60 km, o que excluía Cunha (~110 km) por completo — e o pedido era que Cunha
+  # aparecesse valendo menos que Caçapava, não que desaparecesse. Um raio
+  # apertado faz o filtro decidir o que a nota deveria decidir.
+  raio_km: 150
 
 # ---------------------------------------------------------------- tamanho
 # Sempre em hectares. A conversão cuida do alqueire, que varia por estado:
