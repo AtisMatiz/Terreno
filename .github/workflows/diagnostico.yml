@@ -1,0 +1,42 @@
+# Mede, do próprio runner do GitHub Actions, qual transporte consegue passar
+# em cada host bloqueado.
+name: diagnostico
+
+# Só manual. Não descobre imóveis nem escreve nada no repositório: é uma
+# medição, e roda quando alguém quer saber, não todo dia.
+on:
+  workflow_dispatch:
+
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # curl_cffi é opcional no projeto, mas aqui é o objeto do teste: sem ele
+      # as colunas 2, 3 e 4 do relatório saem vazias e a medição não serve.
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+          python -c "import curl_cffi; print('curl_cffi', curl_cffi.__version__)"
+
+      # Por que isto vale a pena rodar aqui: o sandbox onde o código é escrito
+      # passa por um proxy que termina o TLS e substitui a impressão digital,
+      # então lá a medição é inútil por construção. O runner do Actions NÃO
+      # intercepta TLS — o que ele tem é um IP de datacenter. São perguntas
+      # diferentes, e esta separação é justamente o que faltava:
+      #
+      #   curl_cffi passa aqui  -> era impressão digital, e está resolvido de
+      #                            graça, no lugar onde a busca já roda.
+      #   curl_cffi falha aqui  -> ambíguo (pode ser o IP), e aí a resposta é
+      #                            um serviço de desbloqueio ou nada.
+      - name: Diagnóstico por fonte
+        env:
+          ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
+          TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
+        run: python scripts/diagnostico.py

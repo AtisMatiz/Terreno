@@ -21,14 +21,15 @@ import json
 import logging
 import os
 import re
-import unicodedata
+from collections import Counter
+from datetime import UTC, datetime
 from pathlib import Path
-from urllib.parse import quote_plus
+from urllib.parse import urlencode
 
 from .. import http
-from ..config import env
+from ..config import env, fold
 from ..models import Listing
-from ..units import area_to_ha, price_to_brl
+from ..units import area_detalhada, area_to_ha, price_to_brl
 
 log = logging.getLogger("terreno.sources.facebook")
 
@@ -37,22 +38,30 @@ RESOURCE = "apify_usd"
 APIFY_RUN = "https://api.apify.com/v2/acts/{actor}/run-sync-get-dataset-items"
 APIFY_LIMITS = "https://api.apify.com/v2/users/me/limits"
 DEFAULT_ACTOR = os.getenv("APIFY_FB_ACTOR", "apify~facebook-marketplace-scraper")
-# Conservative estimate of actor cost per run, used to pre-check the ledger.
-EST_USD_PER_RUN = 0.15
 
 # The actor's real input schema, read from
-# https://api.apify.com/v2/acts/apify~facebook-marketplace-scraper/builds/default:
+# https://api.apify.com/v2/acts/apify~facebook-marketplace-scraper/builds/default
+# (public, no token needed — re-read it before ever changing this payload):
 #
-#     required:  startUrls  (array of {"url": ...})
-#     optional:  resultsLimit (int), includeListingDetails (bool)
+#     required:  startUrls  (array of {"url": ...}), each matching
+#                ^https?://www\.facebook\.com/marketplace/.*
+#     optional:  resultsLimit (int, min 1), includeListingDetails (bool)
 #
-# The payload sent until now (`search`/`maxItems`/`country`) matched none of
-# those, which is why every call came back
-# `400 Input is not valid: Field input.startUrls is required`. Worth checking
-# the schema again if this breaks: actors change theirs between versions, and
-# the error message names the offending field, so it is a cheap thing to
-# re-derive rather than guess at.
+# The payload sent until 2026-08-11 (`search`/`maxItems`/`country`) matched none
+# of those, which is why every call came back
+# `400 Input is not valid: Field input.startUrls is required`. The error message
+# names the offending field, so it is a cheap thing to re-derive rather than
+# guess at.
 MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
+
+# Pay-per-result: the actor's README states $5 per 1000 items, i.e. $0.005 an
+# item, and it is billed on items returned rather than on runs. So the cost of
+# a run is bounded by `resultsLimit` and the ledger estimate has to be derived
+# from it -- a fixed 0.15 under-counted a 40-item run by a third, which is how
+# a $5/month credit gets overspent while the guard still reports headroom.
+USD_POR_ITEM = 0.005
+RESULTS_LIMIT = max(1, int(os.getenv("APIFY_FB_RESULTS", "30")))
+EST_USD_PER_RUN = max(0.02, round(RESULTS_LIMIT * USD_POR_ITEM, 4))
 
 # Descriptions are not a nice-to-have here: scoring reads water, area and
 # building evidence out of the listing text (terreno/scoring.py), and a
@@ -100,33 +109,135 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
     # no extra coverage.
     payload = {
         "startUrls": [{"url": u} for u in urls],
-        "resultsLimit": 40,
+        "resultsLimit": RESULTS_LIMIT,
         "includeListingDetails": INCLUDE_DETAILS,
     }
-    log.info("apify: %d URL(s) de busca, detalhes=%s", len(urls), INCLUDE_DETAILS)
+    log.info("apify: %d URL(s) de busca, limite=%d, detalhes=%s (~US$ %.2f)",
+             len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, EST_USD_PER_RUN)
     for u in urls:
         log.debug("apify: %s", u)
 
     items = _apify_post(DEFAULT_ACTOR, token, payload)
     store.budget_spend(RESOURCE, EST_USD_PER_RUN)
+    items = [i for i in (items or []) if isinstance(i, dict)]
+
+    # Cada item traz de volta a start URL que o produziu (`facebookUrl`), o que
+    # é a única forma de saber qual localidade rendeu zero. Uma localidade
+    # inexistente devolve página vazia, não erro, então sem esta contagem ela
+    # ficaria para sempre na lista consumindo uma vaga de `MAX_START_URLS` sem
+    # que nada dissesse isso.
+    por_url = Counter(str(i.get("facebookUrl") or "?") for i in items)
+    for u in urls:
+        log.info("apify: %d item(ns) de %s", por_url.get(u, 0), u)
 
     uf_padrao = criteria.states[0] if criteria.states else ""
     out: list[Listing] = []
-    for item in items or []:
+    descartados = 0
+    for item in items:
         listing = _from_apify(item, uf_padrao)
         if listing:
             out.append(listing)
+        else:
+            descartados += 1
+
+    if items and not out:
+        # O modo de falha mais caro deste ator: a chamada é aceita, os itens
+        # chegam, e o mapeamento não reconhece nenhum campo -- crédito gasto,
+        # zero listings, nenhum erro em lugar nenhum. As chaves do primeiro
+        # item são exatamente o que se precisa para consertar `_from_apify`.
+        log.warning("apify: %d itens retornados e nenhum virou listing — "
+                    "o formato do ator provavelmente mudou. Chaves do 1º item: %s",
+                    len(items), ", ".join(sorted(items[0])[:25]))
+    elif descartados:
+        log.info("apify: %d item(ns) descartados (vendidos/pendentes ou sem URL de item)",
+                 descartados)
+    if INCLUDE_DETAILS and out and not any(item.description for item in out):
+        # Sem descrição o scoring não tem como ler água, área nem benfeitoria,
+        # então pagar por detalhes e não receber texto é dinheiro fora — e o
+        # nome do campo de descrição não é documentado, só inferido.
+        log.warning("apify: detalhes pedidos mas nenhum item trouxe descrição — "
+                    "confira o nome do campo (tentados: %s)", ", ".join(CAMPOS_DESCRICAO))
 
     log.info("facebook/apify: %d listings", len(out))
     return out
 
 
-def _slug_cidade(nome: str) -> str:
-    """"São José dos Campos" -> "saojosedoscampos", que é a forma que o
-    Facebook usa nas URLs de Marketplace por cidade."""
-    plano = unicodedata.normalize("NFKD", nome.lower())
-    plano = "".join(c for c in plano if not unicodedata.combining(c))
-    return re.sub(r"[^a-z0-9]", "", plano)
+CONSULTA = os.getenv("APIFY_FB_CONSULTA", "sitio chacara fazenda terreno rural")
+
+# Marketplace só existe por localidade, e a localidade é uma *página de cidade*
+# do Facebook: ou o slug dela ou o id numérico. Não é derivável do nome do
+# município. Duas coisas foram medidas antes de escrever esta tabela:
+#
+#  1. `https://www.facebook.com/marketplace/search/?query=...`, sem cidade,
+#     devolve HTTP 400 do próprio Facebook ("Sorry, something went wrong").
+#     Era a primeira URL da lista e a única "que nunca é cortada", ou seja o
+#     ator gastava crédito abrindo uma página de erro em todo run. Removida.
+#     O README do ator também só documenta três formas, todas com cidade:
+#     `/marketplace/<local>/`, `/marketplace/<local>/<categoria>` e
+#     `/marketplace/<local>/search/?query=...`.
+#  2. Município pequeno simplesmente não tem página de cidade no Marketplace.
+#     `saojosedoscampos` e `saopaulo` estão indexados como "Buy and Sell in
+#     ...", e Pindamonhangaba aparece pelo id `106437592726976`; Monteiro
+#     Lobato, São Bento do Sapucaí e Santo Antônio do Pinhal não têm nada além
+#     de grupos e páginas comuns. Slug derivado do nome ("monteirolobato")
+#     portanto acerta as cidades grandes e falha exatamente nos municípios que
+#     são o alvo -- e falha em silêncio, com uma página vazia em vez de erro.
+#
+# Daí a troca: buscar a partir dos polos da região, não de cada município. A
+# busca do Marketplace já é por raio (a dezenas de km, mesma ordem do
+# `raio_km: 60` dos critérios), então São José dos Campos e Pindamonhangaba
+# cobrem Monteiro Lobato; e o recorte fino continua sendo feito depois, pelo
+# filtro de município/raio do pipeline, que é onde ele é confiável.
+#
+# Tokens confirmados como páginas de cidade reais e indexadas do Marketplace:
+LOCAIS_MARKETPLACE = {
+    "sao jose dos campos": "saojosedoscampos",
+    "pindamonhangaba": "106437592726976",
+    "sao paulo": "saopaulo",
+}
+# Polos por região e, se a região não for conhecida, por UF.
+POLOS_REGIAO = {
+    "vale do paraiba": ["saojosedoscampos", "106437592726976"],
+}
+POLOS_UF = {
+    "SP": ["saopaulo"],
+}
+
+
+def _locais(criteria) -> list[str]:
+    """Tokens de localidade do Marketplace (slug ou id numérico) a consultar.
+
+    `APIFY_FB_LOCAIS` (vírgula) é o jeito de acrescentar uma cidade sem mexer
+    no código -- basta copiar o pedaço da URL do Marketplace dela.
+    """
+    override = env("APIFY_FB_LOCAIS")
+    if override:
+        return [t.strip().strip("/") for t in override.split(",") if t.strip()]
+
+    tokens: list[str] = []
+    sem_pagina: list[str] = []
+    for municipio in criteria.municipalities:
+        token = LOCAIS_MARKETPLACE.get(fold(municipio))
+        if token:
+            tokens.append(token)
+        else:
+            sem_pagina.append(municipio)
+
+    polos = POLOS_REGIAO.get(fold(criteria.regiao or ""), [])
+    tokens += [t for t in polos if t not in tokens]
+    if not tokens:
+        for uf in criteria.states:
+            tokens += [t for t in POLOS_UF.get(uf, []) if t not in tokens]
+
+    if sem_pagina:
+        # Não é um aviso de erro: é o caso normal para município pequeno, e o
+        # ponto é que o log diga em voz alta quem está sendo coberto por raio
+        # em vez de por busca própria.
+        log.info("apify: %d município(s) sem página de cidade no Marketplace "
+                 "(%s) — cobertos pelo raio dos polos %s; APIFY_FB_LOCAIS "
+                 "acrescenta uma cidade à mão",
+                 len(sem_pagina), ", ".join(sem_pagina[:6]), ", ".join(tokens) or "(nenhum)")
+    return tokens
 
 
 def _start_urls(criteria) -> list[str]:
@@ -135,39 +246,30 @@ def _start_urls(criteria) -> list[str]:
     `APIFY_FB_START_URLS` (separadas por vírgula) substitui tudo isto — é a
     saída para quando o Facebook mudar o formato de novo, sem precisar de uma
     nova versão do código.
-
-    Sem override, monta uma busca por município do recorte atual. O slug de
-    cidade é derivado do nome, o que acerta na maioria dos municípios
-    brasileiros mas não em todos; um slug errado devolve uma página vazia em
-    vez de erro, então a lista é limitada por `MAX_START_URLS` para um engano
-    custar pouco crédito. O log diz quais URLs foram usadas, que é como se
-    descobre qual delas não rendeu nada.
     """
     override = env("APIFY_FB_START_URLS")
     if override:
         return [u.strip() for u in override.split(",") if u.strip()][:MAX_START_URLS]
 
-    consulta = quote_plus("sitio chacara fazenda terreno rural")
+    # `exact=false` é o padrão do próprio Marketplace para uma busca de várias
+    # palavras; min/maxPrice são os mesmos parâmetros que a UI dele põe na URL.
+    # Filtrar preço na origem é o que faz o `resultsLimit` ser gasto em terra e
+    # não em sofá usado -- os limites só entram quando são de fato limites.
+    params: dict[str, str] = {"query": CONSULTA, "exact": "false"}
+    if criteria.price_min > 0:
+        params["minPrice"] = str(int(criteria.price_min))
+    if 0 < criteria.price_max < 1e9:
+        params["maxPrice"] = str(int(criteria.price_max))
+    consulta = urlencode(params)
 
-    # A busca geral vem primeiro e nunca é cortada: é a única que não depende
-    # de nenhum slug estar certo, então é justamente a que não pode cair fora
-    # quando a lista é truncada -- que era o efeito de deixá-la no fim.
-    urls = [f"https://www.facebook.com/marketplace/search/?query={consulta}"]
-
-    municipios = [m for m in criteria.municipalities if _slug_cidade(m)]
-    urls += [
-        f"https://www.facebook.com/marketplace/{_slug_cidade(m)}/search/?query={consulta}"
-        for m in municipios
+    urls = [
+        f"https://www.facebook.com/marketplace/{token}/search/?{consulta}"
+        for token in _locais(criteria)
     ]
     if len(urls) > MAX_START_URLS:
-        # O corte é alfabético, então sem este aviso a busca ficaria
-        # permanentemente presa nos primeiros municípios da lista sem que
-        # nada no log dissesse isso. APIFY_FB_MAX_URLS levanta o teto;
-        # APIFY_FB_START_URLS escolhe as cidades à mão.
-        log.info("apify: %d municípios no recorte, mas só cabem %d URLs — "
-                 "cobrindo %s (ajuste APIFY_FB_MAX_URLS ou APIFY_FB_START_URLS)",
-                 len(municipios), MAX_START_URLS - 1,
-                 ", ".join(municipios[:MAX_START_URLS - 1]))
+        log.info("apify: %d localidades, mas só cabem %d URLs "
+                 "(ajuste APIFY_FB_MAX_URLS ou APIFY_FB_LOCAIS)",
+                 len(urls), MAX_START_URLS)
     return urls[:MAX_START_URLS]
 
 
@@ -192,35 +294,146 @@ def _apify_post(actor: str, token: str, payload: dict):
         return []
 
 
-def _from_apify(item: dict, uf: str) -> Listing | None:
-    url = item.get("listingUrl") or item.get("url") or ""
-    if not url:
-        return None
-    title = item.get("marketplace_listing_title") or item.get("title") or ""
-    description = item.get("description") or item.get("custom_title") or ""
-    price_raw = item.get("listing_price") or item.get("price") or ""
-    if isinstance(price_raw, dict):
-        price_raw = price_raw.get("formatted_amount") or price_raw.get("amount") or ""
+# O item base do ator é o objeto GraphQL do Facebook quase cru — os nomes de
+# campo abaixo estão todos no exemplo de saída do README do ator (conferidos um
+# a um: `listingUrl`, `id`, `marketplace_listing_title`, `listing_price`,
+# `location.reverse_geocode`, `primary_listing_photo.image.uri`, `is_sold`).
+#
+# O que `includeListingDetails` acrescenta NÃO é documentado — o README só
+# promete "description, location coordinates, time stamp, listing attributes".
+# Daí a lista de candidatos: o resto do payload usa nomes crus do GraphQL, onde
+# a descrição é `redacted_description: {text: ...}`, então essa é a primeira
+# tentativa, com os nomes óbvios atrás dela. Se nenhuma pegar, `_via_apify`
+# avisa em vez de devolver descrição vazia caladamente.
+CAMPOS_DESCRICAO = (
+    "redacted_description", "description", "marketplace_listing_description",
+    "listing_description", "custom_title",
+)
 
-    location = item.get("location") or {}
-    if isinstance(location, dict):
-        municipality = (location.get("reverse_geocode") or {}).get("city", "") \
-            or location.get("city", "")
-    else:
-        municipality = str(location)
+
+def _texto(valor) -> str:
+    """String de um campo que pode vir crua ou embrulhada em `{"text": ...}`."""
+    if isinstance(valor, str):
+        return valor.strip()
+    if isinstance(valor, dict):
+        for chave in ("text", "value", "uri"):
+            interno = valor.get(chave)
+            if isinstance(interno, str) and interno.strip():
+                return interno.strip()
+    return ""
+
+
+def _descricao(item: dict) -> str:
+    for campo in CAMPOS_DESCRICAO:
+        texto = _texto(item.get(campo))
+        if texto:
+            return texto
+    return ""
+
+
+def _preco(item: dict) -> float | None:
+    """Preço em BRL. `amount` primeiro: é o valor de máquina ("350000.00"),
+    sem o "R$" nem a separação de milhar do `formatted_amount`, então não
+    depende de o parser acertar a localidade."""
+    for campo in ("listing_price", "min_listing_price", "max_listing_price", "price"):
+        bruto = item.get(campo)
+        if isinstance(bruto, dict):
+            for chave in ("amount", "formatted_amount"):
+                valor = price_to_brl(str(bruto.get(chave) or ""))
+                if valor:
+                    return valor
+        elif bruto:
+            valor = price_to_brl(str(bruto))
+            if valor:
+                return valor
+    return None
+
+
+def _numero(valor) -> float | None:
+    try:
+        return float(valor)
+    except (TypeError, ValueError):
+        return None
+
+
+def _data_publicacao(item: dict) -> str:
+    """Data do anúncio como texto ISO. O GraphQL do Facebook dá `creation_time`
+    em epoch de segundos, e um "1712000000" cru é o que apareceria no card."""
+    for campo in ("creation_time", "createdAt", "created_time", "posted_at"):
+        bruto = item.get(campo)
+        if isinstance(bruto, (int, float)) and bruto > 0:
+            segundos = bruto / 1000 if bruto > 1e11 else bruto  # ms ou s
+            try:
+                return datetime.fromtimestamp(segundos, UTC).isoformat(
+                    timespec="seconds")
+            except (OverflowError, OSError, ValueError):
+                continue
+        texto = _texto(bruto)
+        if texto:
+            return texto
+    return ""
+
+
+def _from_apify(item: dict, uf: str) -> Listing | None:
+    url = _texto(item.get("listingUrl")) or _texto(item.get("url"))
+    if url.startswith("/"):
+        url = "https://www.facebook.com" + url
+    # Só anúncio individual serve. O ator devolve a start URL em `facebookUrl`,
+    # e uma página de busca entrando aqui como se fosse anúncio seria um item
+    # inútil publicado no site — a checagem positiva é o que garante que o que
+    # sai daqui é `/marketplace/item/<id>`.
+    if "/marketplace/item/" not in url:
+        log.debug("apify: item sem URL de anúncio, descartado: %r", url[:120])
+        return None
+    # `is_sold`/`is_pending` vêm no item base, sem custo de detalhe. Anúncio
+    # vendido é ruído puro numa lista que quer ser curta.
+    if item.get("is_sold") or item.get("is_pending") or item.get("is_hidden"):
+        return None
+
+    title = _texto(item.get("marketplace_listing_title")) or _texto(item.get("title"))
+    description = _descricao(item)
+
+    location = item.get("location")
+    location = location if isinstance(location, dict) else {}
+    geo = location.get("reverse_geocode")
+    geo = geo if isinstance(geo, dict) else {}
+    municipality = _texto(geo.get("city")) or _texto(location.get("city"))
+    if not municipality:
+        pagina = geo.get("city_page")
+        if isinstance(pagina, dict):
+            municipality = _texto(pagina.get("display_name")).split(",")[0]
+
+    # A UF do próprio anúncio, quando o Facebook a dá como sigla, vale mais que
+    # a do recorte: é ela que resolve o alqueire (paulista 2,42 ha vs. mineiro
+    # 4,84 ha) e um anúncio de MG caindo como SP tem a área pela metade.
+    estado = _texto(geo.get("state"))
+    uf_item = estado.upper() if re.fullmatch(r"[A-Za-z]{2}", estado) else uf
+
+    area = area_detalhada(f"{title}\n{description}", uf_item)
+
+    foto = item.get("primary_listing_photo")
+    imagem = ""
+    if isinstance(foto, dict):
+        imagem = _texto(foto.get("image")) or _texto(foto.get("uri"))
+    if not imagem:
+        imagem = _texto(item.get("image"))
 
     return Listing(
         source=NAME,
-        source_id=str(item.get("id") or item.get("listingId") or ""),
+        source_id=_texto(item.get("id")) or url.rstrip("/").split("/")[-1],
         url=url,
         title=title,
         description=description,
-        price=price_to_brl(str(price_raw)),
-        area_ha=area_to_ha(f"{title} {description}", uf),
+        price=_preco(item),
+        area_ha=area.ha,
+        area_alqueires=area.alqueires,
+        area_alqueire_tipo=area.alqueire_tipo,
         municipality=municipality,
-        uf=uf,
-        image=item.get("primary_listing_photo", {}).get("image", {}).get("uri", "")
-        if isinstance(item.get("primary_listing_photo"), dict) else item.get("image", ""),
+        uf=uf_item,
+        lat=_numero(location.get("latitude")),
+        lon=_numero(location.get("longitude")),
+        posted_at=_data_publicacao(item),
+        image=imagem,
     )
 
 
@@ -239,7 +452,7 @@ def _via_playwright(criteria, budgets) -> list[Listing]:
         return []
 
     out: list[Listing] = []
-    with open(cookies_file, "r", encoding="utf-8") as fh:
+    with open(cookies_file, encoding="utf-8") as fh:
         cookies = json.load(fh)
 
     with sync_playwright() as pw:

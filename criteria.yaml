@@ -15,9 +15,18 @@ localizacao:
   regiao: "vale do paraiba"     # null para o estado inteiro
   municipios: []                # ex: [Monteiro Lobato, São Bento do Sapucaí]
 
-  # Filtro por raio a partir de um ponto (opcional). null desliga.
-  centro: null                  # ex: "Monteiro Lobato, SP"
-  raio_km: 60
+  # Área de interesse principal. Não é só um filtro de raio: a distância até
+  # este ponto entra na nota, então quanto mais perto, melhor a pontuação —
+  # é o que faz Caçapava valer mais que Cunha sem excluir nenhuma das duas.
+  # null desliga tanto o filtro de raio quanto o bônus de proximidade.
+  centro: "Monteiro Lobato, SP"
+  # Limite de sanidade, não o critério de escolha. A ordenação por proximidade
+  # é feita pela nota (ver `proximidade_centro` em terreno/scoring.py), então o
+  # raio existe só para cortar o que está claramente fora da região. Estava em
+  # 60 km, o que excluía Cunha (~110 km) por completo — e o pedido era que Cunha
+  # aparecesse valendo menos que Caçapava, não que desaparecesse. Um raio
+  # apertado faz o filtro decidir o que a nota deveria decidir.
+  raio_km: 150
 
 # ---------------------------------------------------------------- tamanho
 # Sempre em hectares. A conversão cuida do alqueire, que varia por estado:
@@ -34,8 +43,22 @@ preco:
   min: 100000
   max: 2000000
 
-# Teto opcional de R$ por hectare. null = sem teto.
+# Teto de R$ por hectare que **descarta** o anúncio de vez. null = sem teto.
+# Diferente de `preco_por_ha` abaixo, que só muda nota e canal.
 max_preco_por_ha: null
+
+# Preço por hectare — o critério que o dono usa para separar oportunidade de
+# anúncio caro, e que age em dois níveis de propósito:
+#
+#   ideal      — abaixo disso a nota sobe. É o alvo, não um limite.
+#   teto_alerta— acima disso o anúncio **continua no site** mas não vai para o
+#                Telegram. O objetivo é uma lista curta e boa no Telegram sem
+#                perder nada da lista completa: descartar seria jogar fora um
+#                imóvel que pode valer por outros motivos; mandar tudo seria
+#                voltar ao problema de sempre.
+preco_por_ha:
+  ideal: 100000
+  teto_alerta: 150000
 
 # ---------------------------------------------------------------- fontes
 fontes:
@@ -154,3 +177,17 @@ saida:
   # Nota mínima (0..1) para aparecer na página. 0 mostra tudo que passou nos
   # filtros rígidos de preço, área e localização.
   nota_minima: 0.15
+
+  # Nota mínima (0..100) para valer uma leitura das fotos por um modelo com
+  # visão. Palavra-chave é grátis e roda em todo resultado; imagem custa por
+  # anúncio, e a maioria dos anúncios nunca vai interessar — então esta etapa
+  # olha só a lista curta. Num run com centenas de candidatos e oito aprovados,
+  # é a diferença entre centenas de chamadas e oito. Precisa de ENABLE_LLM=1 e
+  # ANTHROPIC_API_KEY; sem isso a etapa simplesmente não roda.
+  nota_minima_imagem: 70
+
+  # Só anúncios ainda disponíveis vão para o Telegram. Um anúncio já vendido
+  # ou removido é verificado antes do aviso (terreno/disponibilidade.py).
+  # "desconhecido" (falha de rede) conta como disponível de propósito: uma
+  # instabilidade momentânea não pode apagar um imóvel bom.
+  checar_disponibilidade: true

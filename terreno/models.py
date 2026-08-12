@@ -29,12 +29,43 @@ class Listing:
     source_id: str = ""             # portal's own id, when exposed
     posted_at: str = ""             # portal's publication date, when exposed
 
+    # Alqueire as the listing actually stated it. The alqueire is regionally
+    # ambiguous (paulista 2.42 ha, mineiro/geral 4.84 ha -- a factor of two),
+    # so when the variant cannot be determined from the UF the area is NOT
+    # converted: `area_ha` stays None and these carry the honest figure
+    # instead. A doubled area silently corrupts price-per-hectare and the area
+    # filter, which is worse than admitting the unit is unknown.
+    area_alqueires: float | None = None
+    area_alqueire_tipo: str = ""    # "paulista" | "mineiro" | "norte" | "" if unknown
+
     # Filled by the pipeline, not by sources.
     price_per_ha: float | None = None
     score: float = 0.0
     reasons: list[str] = field(default_factory=list)
     # Per-dimension breakdown from terreno.scoring, so the page can show why.
     dimensoes: dict = field(default_factory=dict)
+    # Straight-line km to `localizacao.centro` (Monteiro Lobato). None when the
+    # listing's municipality could not be geocoded -- treated as neutral by the
+    # scorer, never as a penalty, since silence is not evidence of distance.
+    distancia_centro_km: float | None = None
+    # Short per-theme strings from the scorer, for the notification card. Keys
+    # are only present when there is real evidence; absent means unknown, and
+    # nothing downstream may substitute filler for a missing key.
+    destaques: dict = field(default_factory=dict)
+    # Standout features worth flagging without scoring them -- "cachoeira" is
+    # explicitly not a requirement but is wanted highlighted when present.
+    estrelas: list[str] = field(default_factory=list)
+    # "disponivel" | "indisponivel" | "desconhecido". A network failure yields
+    # "desconhecido", never "indisponivel": a transient outage must not delete
+    # a good listing.
+    disponibilidade: str = "desconhecido"
+    # False when the listing is worth publishing on the site but not worth a
+    # Telegram ping (currently: price per hectare above the notify ceiling).
+    notificavel: bool = True
+    # Vision read of the listing photos. Only populated for high scorers --
+    # see terreno.extract.imagem -- so the token cost tracks the shortlist,
+    # not the whole crawl.
+    imagem_analise: dict = field(default_factory=dict)
     first_seen: str = field(default_factory=_now)
     last_seen: str = field(default_factory=_now)
     price_first: float | None = None
@@ -63,6 +94,13 @@ class Listing:
         d = asdict(self)
         d["reasons"] = "\n".join(self.reasons)
         d["dimensoes"] = json.dumps(self.dimensoes, ensure_ascii=False)
+        # SQLite has no dict or list type, so the structured fields go in as
+        # JSON text. ensure_ascii=False keeps the Portuguese readable when
+        # someone opens the database by hand.
+        d["destaques"] = json.dumps(self.destaques, ensure_ascii=False)
+        d["estrelas"] = json.dumps(self.estrelas, ensure_ascii=False)
+        d["imagem_analise"] = json.dumps(self.imagem_analise, ensure_ascii=False)
+        d["notificavel"] = 1 if self.notificavel else 0
         d["key"] = self.key
         return d
 
