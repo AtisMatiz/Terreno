@@ -56,6 +56,8 @@ jobs:
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          ML_CLIENT_ID: ${{ secrets.ML_CLIENT_ID }}
+          ML_CLIENT_SECRET: ${{ secrets.ML_CLIENT_SECRET }}
           ML_ACCESS_TOKEN: ${{ secrets.ML_ACCESS_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ENABLE_LLM: ${{ vars.ENABLE_LLM }}

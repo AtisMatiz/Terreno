@@ -28,7 +28,7 @@ Mão source still runs and the page still renders.
 
 | Layer | Sources | Needs | Where it runs |
 |---|---|---|---|
-| **A — portals** | OLX, VivaReal/ZAP, Mercado Livre, Chaves na Mão, Imovelweb | nothing (ML wants a free token) | mostly local, see below |
+| **A — portals** | OLX, Mercado Livre, Chaves na Mão, Imovelweb, Wimoveis | ML needs a free app (`ML_CLIENT_ID`/`ML_CLIENT_SECRET`) | mostly local, see below |
 | **A′ — leilões** | Comprei PGFN (`comprei.pgfn.gov.br`) | nothing — public API | local only |
 | **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) | anywhere |
 | **C — Facebook** | Marketplace and groups | `APIFY_TOKEN`, or burner cookies | local only |
@@ -41,7 +41,7 @@ mesmos 403 — o que derrubou a explicação única e obrigou a separar as causa
 
 | Fonte | Causa real | Tem saída? |
 |---|---|---|
-| `mercadolivre` | A API exige OAuth. Sem `ML_ACCESS_TOKEN`, 403 é a resposta documentada para chamada anônima. | Sim: pegar um token grátis. Nada a ver com IP. |
+| `mercadolivre` | A API exige OAuth. 403 é a resposta documentada para chamada anônima — e uma conexão residencial recebe o mesmo 403, o que prova que não é IP. | Sim: `ML_CLIENT_ID` + `ML_CLIENT_SECRET` de um app grátis. Nada a ver com IP. |
 | `pgfn` | Conexão recusada no handshake TLS (`SSLZeroReturnError`) — uma recusa, não uma queda de rede. | Talvez: o `curl_cffi` nunca havia sido acionado nesse caminho (ver abaixo). Agora é. |
 | `olx`, `imovelweb` | 403 de verdade, provavelmente impressão digital de TLS/HTTP2. | Talvez, pelo mesmo motivo. |
 | `vivareal` | Nunca foi bloqueio: `size=100` estourava o limite da API, que responde `400 "Size is above acceptable limit"`. Só parecia bloqueio porque de um IP de datacenter o Cloudflare responde 403 *antes* de a API poder explicar. | Corrigido — e depois desligado, porque o portal tem problemas mesmo num navegador comum. |
@@ -91,25 +91,17 @@ Se o diagnóstico disser que não é impressão digital, as saídas restantes s�
 
 ### Blocked sites — the ones that need a local run
 
-Measured, not assumed, one signature per source: **OLX, VivaReal, Imovelweb and
-the Mercado Livre API return HTTP 403** to datacenter IP ranges; **PGFN drops
-the connection at the network level** (`ConnectTimeoutError`/`SSLZeroReturnError`,
-not a 403 — confirmed on real runs, so a different TLS fingerprint would not
-help); **Facebook** is stricter still. GitHub Actions runners are datacenter
-IPs, so none of these ever produce a result in CI — only from your own
-connection. The canonical list is the `perfis.local` block in `criteria.yaml`
-minus whatever also appears in `perfis.ci`; today that's:
+The canonical list is the `perfis.local` block in `criteria.yaml` minus
+whatever also appears in `perfis.ci`; today that's `olx`, `mercadolivre`,
+`imovelweb`, `wimoveis`, `pgfn` and `facebook`. `chavesnamao`, `caixa` and
+`brave` answer fine from GitHub's datacenter IP (caixa via the `curl_cffi`
+fallback in `terreno/http.py`) and stay in `ci` too.
 
-- `olx`
-- `vivareal`
-- `mercadolivre`
-- `imovelweb`
-- `wimoveis`
-- `pgfn`
-- `facebook`
-
-`chavesnamao`, `caixa` and `brave` answer fine from GitHub's datacenter IP
-(caixa via the `curl_cffi` fallback in `terreno/http.py`) and stay in `ci` too.
+"Needs a local run" is where each of these currently *sits*, not a proven
+property of it — see the table above for what is actually wrong with each, and
+note that two entries on that list turned out not to be IP-blocked at all.
+`mercadolivre` in particular belongs in `ci` as soon as its credentials are in
+place, since its 403 was never about the IP.
 
 ```bash
 python -m terreno.run --profile ci      # brave + chavesnamao + caixa — what the Action runs
@@ -118,8 +110,9 @@ python -m terreno.run --profile local   # everything above, plus ci's sources �
 
 Both write to the same SQLite database and the same page, so the result is one
 merged view regardless of which half produced a given listing. Edit the
-`perfis:` block in `criteria.yaml` to move a source between them — if you get
-a Mercado Livre token, for instance, move `mercadolivre` into `ci`.
+`perfis:` block in `criteria.yaml` to move a source between them — once the
+Mercado Livre app credentials are set, for instance, move `mercadolivre` into
+`ci`, since nothing about its refusal was ever IP-related.
 
 **Running it manually** — one command, from a clone of this repo on your own
 machine (residential IP, not a VPN/VPS):
@@ -260,7 +253,8 @@ variables → Actions:
 |---|---|
 | `BRAVE_API_KEY` | Layer B |
 | `APIFY_TOKEN` | Facebook via Apify |
-| `ML_ACCESS_TOKEN` | Mercado Livre |
+| `ML_CLIENT_ID` + `ML_CLIENT_SECRET` | Mercado Livre (token gerado a cada execução; não expira do seu lado) |
+| `ML_ACCESS_TOKEN` | Alternativa manual ao par acima — **expira em ~6h**, use só para teste |
 | `ANTHROPIC_API_KEY` + variable `ENABLE_LLM=1` | LLM extraction and scoring |
 | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` | new-match pings |
 | variable `TERRENO_PAGE_URL` | link inside the Telegram message |

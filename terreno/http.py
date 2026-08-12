@@ -179,7 +179,15 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
                                motivo=f" (após HTTP {r.status_code})")
             if alt is not None:
                 return alt
-            log.warning("%s: HTTP %s — backing off", host, r.status_code)
+            # The body goes in the log for the same reason the generic-4xx
+            # branch below does it: "token inválido", "scope insuficiente" and
+            # "your IP is blocked" all arrive as a bare 403, and without the
+            # body they are indistinguishable -- which is precisely the
+            # confusion that had Mercado Livre's auth failure filed as an IP
+            # block for weeks.
+            trecho = (r.text or "")[:200].replace("\n", " ")
+            log.warning("%s: HTTP %s — backing off%s", host, r.status_code,
+                        f" — {trecho}" if trecho else "")
             time.sleep(3 * (attempt + 1))
             if attempt == retries - 1:
                 # Persistent wall: stop hammering this host for the rest of the
