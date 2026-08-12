@@ -246,7 +246,13 @@ repo). `site/listings.json` carries the same data for anything else.
 
 ## Secrets
 
-Local runs read `.env`. CI reads repository secrets — Settings → Secrets and
+Local runs read `.env` from the project root, loaded automatically by
+`terreno/config.py` however you start the pipeline — `python -m terreno.run`
+directly, `scripts/run_local.sh`, or anything else. Variables already present
+in the environment win over the file, so CI secrets are never shadowed by a
+stray local `.env`.
+
+CI reads repository secrets — Settings → Secrets and
 variables → Actions:
 
 | Name | Unlocks |

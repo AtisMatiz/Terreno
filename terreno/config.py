@@ -169,6 +169,48 @@ def salvar_criterios(criteria: Criteria, path: str | Path | None = None) -> None
 
 
 # ---------------------------------------------------------------- segredos
+def _carregar_dotenv() -> None:
+    """Lê `.env` da raiz do projeto para o ambiente, uma vez, no import.
+
+    Antes disto só o `scripts/run_local.sh` carregava o `.env` (via `set -a`),
+    então rodar `python -m terreno.run` direto — exatamente o que o README
+    manda fazer no Quick start, logo depois de mandar criar o `.env` —
+    ignorava o arquivo inteiro e a fonte reclamava de credencial faltando com
+    a credencial ali no disco. Carregar aqui vale para qualquer forma de
+    invocar o pipeline, que é o único jeito de a promessa do README ser
+    verdadeira.
+
+    `setdefault`, não sobrescrita: variáveis já presentes no ambiente ganham.
+    No GitHub Actions os segredos chegam como variáveis de ambiente e não há
+    `.env` nenhum, e um `.env` esquecido no disco nunca deve silenciosamente
+    substituir um segredo passado de propósito.
+    """
+    caminho = ROOT / ".env"
+    try:
+        texto = caminho.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        # Ausente é o caso normal (CI). Ilegível merece aviso, mas não pode
+        # derrubar o import: um .env salvo como RTF pelo TextEdit, por
+        # exemplo, falha aqui e não deve levar o programa junto.
+        return
+    for linha in texto.splitlines():
+        linha = linha.strip()
+        if not linha or linha.startswith("#") or "=" not in linha:
+            continue
+        chave, _, valor = linha.partition("=")
+        chave, valor = chave.strip(), valor.strip()
+        # `export FOO=bar` também é forma comum de escrever um .env.
+        if chave.startswith("export "):
+            chave = chave[len("export "):].strip()
+        if len(valor) >= 2 and valor[0] == valor[-1] and valor[0] in "\"'":
+            valor = valor[1:-1]
+        if chave:
+            os.environ.setdefault(chave, valor)
+
+
+_carregar_dotenv()
+
+
 def env(name: str, default: str = "") -> str:
     return os.getenv(name, default).strip()
 
