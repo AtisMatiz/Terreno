@@ -3,3 +3,4 @@ __pycache__/
 .env
 fb_cookies.json
 .venv/
+.claude/worktrees/
