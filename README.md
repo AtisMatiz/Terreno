@@ -12,12 +12,18 @@ criteria.yaml ─► sources ─► normalize ─► dedup ─► filter ─► 
 
 ## Quick start
 
+Everything runs unattended in GitHub Actions — `.github/workflows/search.yml`,
+daily plus a manual "Rodar busca agora" button on the page itself. There is no
+local run to maintain: it was tried and abandoned (2026-08-12) once a paid
+unblocker and a browser-fingerprint ladder in `terreno/http.py` cleared most of
+what used to need a residential IP. To run a copy yourself:
+
 ```bash
 pip install -r requirements.txt
 cp .env.example .env          # fill in what you have; every key is optional
 $EDITOR criteria.yaml         # where, how much, what qualities matter
-python -m terreno.run --dry-run          # print matches, write nothing
-python -m terreno.run --profile local    # real run, writes DB + page
+python -m terreno.run --dry-run       # print matches, write nothing
+python -m terreno.run --profile ci    # real run, writes DB + page
 open site/index.html
 ```
 
@@ -26,18 +32,25 @@ Mão source still runs and the page still renders.
 
 ## The three layers
 
-| Layer | Sources | Needs | Where it runs |
-|---|---|---|---|
-| **A — portals** | OLX, Mercado Livre, Chaves na Mão, Imovelweb, Wimoveis | ML needs a free app (`ML_CLIENT_ID`/`ML_CLIENT_SECRET`) | mostly local, see below |
-| **A′ — leilões** | Comprei PGFN (`comprei.pgfn.gov.br`) | nothing — public API | local only |
-| **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) | anywhere |
-| **C — Facebook** | Marketplace and groups | `APIFY_TOKEN`, or burner cookies | local only |
+| Layer | Sources | Needs |
+|---|---|---|
+| **A — portals** | OLX, Mercado Livre, Chaves na Mão, Wimoveis | ML needs a free app (`ML_CLIENT_ID`/`ML_CLIENT_SECRET`); OLX and Wimoveis need `terreno/http.py`'s curl_cffi ladder / ZenRows, both already wired |
+| **A′ — leilões** | Comprei PGFN (`comprei.pgfn.gov.br`) | nothing — public API, cleared by curl_cffi |
+| **B — long tail** | Brave Search + page extraction | `BRAVE_API_KEY` (free tier) |
+| **C — Facebook** | Marketplace, via Apify | `APIFY_TOKEN` — the call happens on Apify's servers, so it never touches our IP and needed no local machine even before the local run was dropped |
+
+`imovelweb` is **disabled** (`fontes.imovelweb: false`) — refused by every
+transport measured, including the paid unblocker (HTTP 422). What coverage
+exists for it comes indirectly through Brave's `site:` queries.
 
 ### Sobre os 403 — quatro causas diferentes, não uma
 
 "Bloqueado por IP de datacenter" era um diagnóstico apressado. A primeira
-execução real do perfil `local`, de uma conexão residencial, devolveu os
-mesmos 403 — o que derrubou a explicação única e obrigou a separar as causas:
+execução real do então-existente perfil `local`, de uma conexão residencial,
+devolveu os mesmos 403 — o que derrubou a explicação única e obrigou a
+separar as causas (o perfil `local` em si foi abandonado depois, 2026-08-12,
+quando os transportes abaixo resolveram a maior parte do que ele existia
+para contornar):
 
 | Fonte | Causa real | Tem saída? |
 |---|---|---|
@@ -71,69 +84,49 @@ python3 scripts/diagnostico.py
 Ele bate uma vez em cada host de quatro formas (requests, `curl_cffi` com os
 nossos cabeçalhos, `curl_cffi` limpo, e variando o navegador imitado) e diz,
 por fonte, se a causa é impressão digital — corrigível aqui — ou o IP / uma
-sessão de navegador de verdade, que não é. Vale rodar da sua máquina: **num
-runner de CI, ou em qualquer sandbox atrás de um proxy que termina TLS, o
-resultado não significa nada**, porque o proxy substitui a impressão digital
-que estamos justamente tentando testar.
+sessão de navegador de verdade, que não é. Roda como workflow manual do GitHub
+Actions (`.github/workflows/diagnostico.yml`) de propósito: um runner do
+Actions **não** intercepta TLS (só tem um IP de datacenter), diferente de um
+sandbox de desenvolvimento atrás de um proxy que termina TLS e substitui
+qualquer impressão digital — medir no lugar errado é como essa pergunta ficou
+sem resposta por tanto tempo.
 
-Se o diagnóstico disser que não é impressão digital, as saídas restantes são:
+Medido num runner real (run 31630009812, 2026-08-12) e já aplicado ao código:
 
-1. **Runner self-hosted** — o mesmo workflow do Actions rodando na sua máquina,
-   com o seu IP residencial. Gratuito e mantém a orquestração do GitHub:
-   Settings → Actions → Runners → New self-hosted runner, depois troque
-   `runs-on: ubuntu-latest` por `runs-on: self-hosted` no workflow.
-2. **Busca indexada como ponte** (já ativo) — a Brave é uma API com chave, então
-   alcança do CI o conteúdo dos sites que bloqueiam nosso IP. É para isso que
-   serve `sites_alvo`: uma consulta `site:wimoveis.com.br` traz os anúncios do
-   Wimoveis sem nunca falar com o Wimoveis.
-3. **Proxy residencial pago** — resolve, custa a partir de ~US$ 1/GB, e foi
-   descartado por causa do teto de R$ 0.
+| Fonte | O que resolveu | Onde roda hoje |
+|---|---|---|
+| `pgfn` | curl_cffi (impersonate=chrome) | `perfis.ci` |
+| `olx` | curl_cffi, mas só com safari/firefox — `IMPERSONATE_ESCADA` em `terreno/http.py` testa vários e memoriza qual funcionou por host | `perfis.ci` |
+| `wimoveis` | nada grátis; só o desbloqueador pago (ZenRows) | `perfis.ci` |
+| `imovelweb` | nada — nem o ZenRows (HTTP 422) | desligado (`fontes.imovelweb: false`) |
 
-### Blocked sites — the ones that need a local run
+A saída que sobrou (proxy residencial pago, runner self-hosted) deixou de ser
+necessária: o que faltava era impressão digital, não IP, e isso já está
+coberto pelos dois transportes acima. Um runner self-hosted na máquina do
+dono foi considerado e descartado por decisão dele (2026-08-12) — ver a nota
+abaixo sobre a execução local.
 
-The canonical list is the `perfis.local` block in `criteria.yaml` minus
-whatever also appears in `perfis.ci`; today that's `olx`, `mercadolivre`,
-`imovelweb`, `wimoveis`, `pgfn` and `facebook`. `chavesnamao`, `caixa` and
-`brave` answer fine from GitHub's datacenter IP (caixa via the `curl_cffi`
-fallback in `terreno/http.py`) and stay in `ci` too.
+### Por que não há mais execução manual local
 
-"Needs a local run" is where each of these currently *sits*, not a proven
-property of it — see the table above for what is actually wrong with each, and
-note that two entries on that list turned out not to be IP-blocked at all.
-`mercadolivre` in particular belongs in `ci` as soon as its credentials are in
-place, since its 403 was never about the IP.
+Havia um perfil `local` e um `scripts/run_local.sh` para as fontes que só
+respondiam de um IP residencial. Foram abandonados por decisão do dono depois
+que a tabela acima mostrou que o problema real era impressão digital de TLS, e
+que corrigi-la no código resolvia quase tudo que o IP residencial resolvia —
+sem exigir uma máquina ligada e sem depender de alguém rodar um comando à mão.
 
-```bash
-python -m terreno.run --profile ci      # brave + chavesnamao + caixa — what the Action runs
-python -m terreno.run --profile local   # everything above, plus ci's sources — your machine
-```
+Duas fontes nunca precisaram de máquina local para começo, e só estavam no
+perfil antigo por hábito:
 
-Both write to the same SQLite database and the same page, so the result is one
-merged view regardless of which half produced a given listing. Edit the
-`perfis:` block in `criteria.yaml` to move a source between them — once the
-Mercado Livre app credentials are set, for instance, move `mercadolivre` into
-`ci`, since nothing about its refusal was ever IP-related.
+- **Mercado Livre** — sempre foi autenticação (OAuth `client_credentials`),
+  nunca IP. Já roda em `ci`.
+- **Facebook (via Apify)** — a chamada sai dos servidores da Apify, nunca do
+  nosso IP. Já roda em `ci`. Só o reserva por cookies/Playwright
+  (`scripts/run_facebook.sh`) continua manual, deliberadamente: é o único
+  caminho com risco real de banir a conta, então fica de fora da automação por
+  escolha, não por limitação técnica.
 
-**Running it manually** — one command, from a clone of this repo on your own
-machine (residential IP, not a VPN/VPS):
-
-```bash
-cd /path/to/Terreno
-./scripts/run_local.sh
-```
-
-That script runs `--profile local`, then commits and pushes `data/terreno.sqlite3`
-and `site/` if anything changed — same as what the Action does for its half. It
-needs a `.env` with whatever keys the blocked sources use (see
-[Secrets](#secrets)); `pip install -r requirements.txt` once beforehand if you
-haven't. First run prints which sources it's about to hit before fetching
-anything, so a bad `.env` or a typo in `criteria.yaml` shows up immediately.
-
-Schedule it with cron so it runs on its own instead of by hand:
-
-```
-0 7 * * * cd /path/to/Terreno && ./scripts/run_local.sh >> /tmp/terreno.log 2>&1
-```
+`imovelweb` é a única baixa real: nada resolve, incluindo o desbloqueador
+pago, então fica desligado. O que sobra dele vem da Brave.
 
 ## Criteria — two kinds, deliberately separated
 
@@ -246,11 +239,10 @@ repo). `site/listings.json` carries the same data for anything else.
 
 ## Secrets
 
-Local runs read `.env` from the project root, loaded automatically by
-`terreno/config.py` however you start the pipeline — `python -m terreno.run`
-directly, `scripts/run_local.sh`, or anything else. Variables already present
-in the environment win over the file, so CI secrets are never shadowed by a
-stray local `.env`.
+A local copy reads `.env` from the project root, loaded automatically by
+`terreno/config.py` regardless of how you start the pipeline. Variables
+already present in the environment win over the file, so CI secrets are
+never shadowed by a stray local `.env`.
 
 CI reads repository secrets — Settings → Secrets and
 variables → Actions:

@@ -546,7 +546,16 @@ def _via_unblocker(url, params, headers, timeout, want_json, *, motivo="",
             return None
     host = urlsplit(url).netloc
     destino = _mesclar_params(url, params)
-    semanticos = _headers_semanticos(headers)
+    # `_headers_semanticos` existe para o curl_cffi, onde Accept/User-Agent são
+    # parte do que a imitação de navegador já define de forma coerente com o
+    # handshake TLS -- mandar o nosso por cima quebraria essa coerência. O
+    # ZenRows não é isso: é um proxy remoto que repassa exatamente os
+    # cabeçalhos que dermos (via `custom_headers=true`), então aqui Accept é
+    # negociação de conteúdo real, não sinal de impressão digital. Medido
+    # 2026-08-12: filtrar o Accept aqui fez o PGFN devolver XML em vez do JSON
+    # que `?Accept: application/json` pede, e `desbloqueador zenrows passou
+    # mas a resposta não era JSON` escondeu isso atrás de um erro genérico.
+    semanticos = dict(headers or {})
 
     def _uma_tentativa(js_render: bool):
         global _unblocker_gastos

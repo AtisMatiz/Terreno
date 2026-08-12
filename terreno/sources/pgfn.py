@@ -78,6 +78,14 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             data = http.get_json(
                 API,
                 params={"ufs": codigo, "size": PAGE_SIZE, "page": page},
+                # Sem isto, o backend Spring serve o `PageImpl` como XML em vez
+                # de JSON quando o pedido chega sem uma preferência explícita
+                # -- medido 2026-08-12 através do desbloqueador (ZenRows), que
+                # usa seus próprios cabeçalhos-padrão de navegador na falta de
+                # `custom_headers`, e um deles nunca é "Accept: application/
+                # json". `data.get(...)` abaixo então recebia `None` (json()
+                # falhava) mesmo com a página tendo sido buscada com sucesso.
+                headers={"Accept": "application/json"},
                 retries=2,
             )
             if not data:

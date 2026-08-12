@@ -131,12 +131,6 @@
       <label>Preço máx. (R$)<input id="cPrecoMax" type="number" step="10000" min="0"></label>
     </div>
     <div class="linha">
-      <label>Perfil de fontes
-        <select id="cPerfil">
-          <option value="ci">ci — Brave, Chaves na Mão, PGFN</option>
-          <option value="local">local — portais + Facebook (só da sua máquina)</option>
-        </select>
-      </label>
       <label>Senha<input id="cSenha" type="password" placeholder="TERRENO_SENHA"></label>
       <label class="check"><input id="cSalvar" type="checkbox"> gravar como padrão</label>
       <button type="submit" id="cRodar">Rodar busca agora</button>
@@ -353,7 +347,6 @@
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           senha: $('cSenha').value,
-          perfil: $('cPerfil').value,
           salvar: $('cSalvar').checked,
           criterios,
         }),
