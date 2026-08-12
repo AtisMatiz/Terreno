@@ -68,21 +68,24 @@ fontes:
                       # não é um caso de bloqueio a resolver do nosso lado.
   mercadolivre: true
   chavesnamao: true
-  imovelweb: true
+  imovelweb: false    # desligado (2026-08-12): nada medido resolve esse host,
+                      # nem o desbloqueador pago (HTTP 422) — ver comentário em
+                      # `perfis` abaixo. O que sobra vem da Brave (site:).
   wimoveis: true      # mesmo grupo (Navent) do imovelweb
   pgfn: true          # leilões da PGFN (comprei.pgfn.gov.br) — ver nota nos perfis
   caixa: true         # imóveis retomados da Caixa (CSV público por estado)
   brave: true
   facebook: true
 
-# Onde cada fonte roda.
-#
-#   python -m terreno.run --profile ci      (o que o GitHub Actions roda)
-#   python -m terreno.run --profile local   (o que a sua máquina roda, ./scripts/run_local.sh)
+# Onde cada fonte roda. Só existe um lugar agora: o runner do GitHub Actions
+# (`python -m terreno.run --profile ci`, o que o workflow roda). A execução
+# manual local foi abandonada por decisão do dono (2026-08-12) — o
+# desbloqueador pago e a escada de impressões digitais em `terreno/http.py`
+# resolveram a maior parte do que antes só passava de um IP residencial, e o
+# resto (`imovelweb`) não passa nem de lá.
 #
 # MEDIDO (não suposto) num runner real do GitHub Actions, run 31630009812,
-# 2026-08-12, com `scripts/diagnostico.py` — é essa medição, não IP de
-# datacenter, que decide onde cada fonte roda hoje:
+# 2026-08-12, com `scripts/diagnostico.py`:
 #   * pgfn   — curl_cffi (impersonate=chrome) resolve. Nunca tinha sido
 #     tentado nesse caminho antes (só rodava depois de um 403, e o PGFN falha
 #     como exceção) — corrigido, e a resposta apareceu na hora.
@@ -90,17 +93,24 @@ fontes:
 #     `terreno/http.py` já tenta uma escada de navegadores (IMPERSONATE_ESCADA)
 #     em vez de um só, então isso também já está coberto.
 #   * wimoveis — nada grátis resolve; só o desbloqueador pago (ZenRows) passa.
-#     Fica em `ci` porque a chave já está configurada nos secrets do repo.
-#   * imovelweb — recusado por tudo, incluindo o ZenRows (HTTP 422). Fica só
-#     em `local`; o que sobra vem da cobertura indireta da Brave.
+#     Fica na lista porque a chave já está configurada nos secrets do repo.
+#   * imovelweb — recusado por tudo, incluindo o ZenRows (HTTP 422). Sem
+#     lugar nenhum para rodar agora; ver `fontes.imovelweb` acima. O que
+#     sobra vem da cobertura indireta da Brave (site:).
 #   * mercadolivre — nunca foi bloqueio de IP: a API exige OAuth
-#     (client_credentials, ver terreno/sources/mercadolivre.py). Só entra em
-#     `ci` quando ML_CLIENT_ID/ML_CLIENT_SECRET estiverem configurados.
+#     (client_credentials, ver terreno/sources/mercadolivre.py), por isso
+#     nunca dependeu de rodar localmente. Já entra aqui; sem
+#     ML_CLIENT_ID/ML_CLIENT_SECRET configurados ela só loga o aviso e
+#     devolve vazio, sem quebrar a execução.
+#   * facebook — o mesmo: a chamada via Apify sai dos servidores da Apify,
+#     nunca do nosso IP, então também nunca precisou de máquina local. Só o
+#     reserva (`FB_COOKIES_FILE`, Playwright) exigia isso, e continua
+#     simplesmente pulando quando esse arquivo não existe — o caso normal em
+#     CI.
 # `chavesnamao`, `caixa` e `brave` já respondiam do runner (chavesnamao e
-# Brave por natureza; caixa via curl_cffi) e continuam nos dois perfis.
+# Brave por natureza; caixa via curl_cffi).
 perfis:
-  ci: [brave, chavesnamao, caixa, pgfn, olx, wimoveis]
-  local: [olx, mercadolivre, imovelweb, wimoveis, chavesnamao, pgfn, caixa, facebook]
+  ci: [brave, chavesnamao, caixa, pgfn, olx, wimoveis, mercadolivre, facebook]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a

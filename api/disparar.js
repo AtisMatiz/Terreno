@@ -30,7 +30,7 @@ export default async function handler(req, res) {
   }
 
   const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
-  const { senha, criterios, perfil, salvar } = body;
+  const { senha, criterios, salvar } = body;
 
   // Comparison is intentionally simple: this guards a search trigger, not
   // anything destructive. The real protection is that the token never leaves
@@ -62,7 +62,9 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         ref,
         inputs: {
-          profile: perfil === "local" ? "local" : "ci",
+          // Só existe um perfil desde que a execução manual local foi
+          // abandonada (2026-08-12) -- não há mais nada para este campo
+          // escolher, então o parâmetro nem chega mais até aqui.
           overrides: Object.keys(permitido).length ? JSON.stringify(permitido) : "",
           salvar: salvar ? "true" : "false",
         },

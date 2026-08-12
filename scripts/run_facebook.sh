@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Facebook only. Separated from run_local.sh because it is the one source that
-# can get an account locked — keep it on the burner account's cookies, and keep
-# the cadence low.
+# Facebook cookies fallback only — a deliberately manual, low-cadence escape
+# hatch, kept separate from CI because it is the one source that can get an
+# account locked. Facebook's primary path (Apify) runs unattended in CI; this
+# script is for the Playwright/cookies backup, which needs a local browser
+# session and has no CI equivalent.
 #
 # Setup:
 #   1. Log in to Facebook as the BURNER account in a browser.

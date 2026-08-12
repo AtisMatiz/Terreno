@@ -6,12 +6,6 @@ on:
     - cron: "0 9 * * *"
   workflow_dispatch:
     inputs:
-      profile:
-        description: "Perfil de fontes"
-        required: false
-        default: "ci"
-        type: choice
-        options: [ci, local]
       overrides:
         description: "JSON com critérios a sobrescrever (enviado pela página)"
         required: false
@@ -72,7 +66,7 @@ jobs:
           ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
           TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
         run: |
-          ARGS="--profile ${{ inputs.profile || 'ci' }}"
+          ARGS="--profile ci"
           if [ "${{ inputs.salvar }}" = "true" ]; then ARGS="$ARGS --salvar-criterios"; fi
           python -m terreno.run $ARGS
 
