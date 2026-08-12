@@ -65,6 +65,12 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TERRENO_PAGE_URL: ${{ vars.TERRENO_PAGE_URL }}
           TERRENO_OVERRIDES: ${{ inputs.overrides }}
+          # Sem isto, wimoveis (só passa via ZenRows, medido no run do
+          # diagnostico 31630009812) voltaria a falhar silenciosamente aqui
+          # mesmo com o profile atualizado -- o workflow diagnostico.yml já
+          # recebia essas duas, o search.yml nunca tinha ganhado a mesma linha.
+          ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
+          TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
         run: |
           ARGS="--profile ${{ inputs.profile || 'ci' }}"
           if [ "${{ inputs.salvar }}" = "true" ]; then ARGS="$ARGS --salvar-criterios"; fi
