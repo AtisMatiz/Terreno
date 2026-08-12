@@ -1,0 +1,57 @@
+# Testa UMA fonte isoladamente, com as chaves reais do CI, sem tocar em
+# nada de produção. Existe para o ciclo editar -> rodar -> ler o log ser
+# rápido e barato o suficiente para repetir várias vezes por fonte -- ao
+# contrário de disparar o search.yml inteiro (até 90 min, visita a fila
+# inteira da Brave, comita resultado real) só para ver se um host específico
+# está respondendo.
+name: testar fonte
+
+on:
+  workflow_dispatch:
+    inputs:
+      fonte:
+        description: "Fonte a testar (mesmo nome do REGISTRY)"
+        required: true
+        type: choice
+        options: [pgfn, olx, wimoveis, facebook, mercadolivre, caixa, chavesnamao]
+      verbose:
+        description: "Log em DEBUG"
+        required: false
+        default: "true"
+
+permissions:
+  contents: read
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      # --dry-run: nunca escreve no banco, no site, nem no source_health --
+      # uma execução de teste não pode corromper a sequência de alertas que
+      # um run de verdade acompanha. --only isola a fonte escolhida das
+      # outras sete, então o tempo e o log ficam pequenos o bastante para
+      # repetir sem custo real.
+      - name: Rodar só a fonte escolhida
+        env:
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          ML_CLIENT_ID: ${{ secrets.ML_CLIENT_ID }}
+          ML_CLIENT_SECRET: ${{ secrets.ML_CLIENT_SECRET }}
+          ML_ACCESS_TOKEN: ${{ secrets.ML_ACCESS_TOKEN }}
+          ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
+          TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
+        run: |
+          FLAGS="--only ${{ inputs.fonte }} --dry-run"
+          if [ "${{ inputs.verbose }}" = "true" ]; then FLAGS="$FLAGS --verbose"; fi
+          python -m terreno.run $FLAGS
