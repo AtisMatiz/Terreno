@@ -16,6 +16,8 @@ import logging
 from calendar import monthrange
 from datetime import datetime, timezone
 
+import requests
+
 from .. import http
 from .base import UF_NAMES
 
@@ -41,18 +43,24 @@ TEMPLATES = [
     'fazenda OR sítio {place} escriturada hectares venda',
 ]
 
-# Hosts already covered by Layer A, plus hosts measured to be unreachable
-# from CI outright. Both are wasted effort the same way: fetching them here
-# just repeats a failure the pipeline already knows about. wimoveis.com.br
-# (403, same as imovelweb) and comprei.pgfn.gov.br (25s connect timeout) were
-# added after a production run showed the two PGFN timeouts alone consuming
-# most of the old visit budget -- irrelevant now that visiting has no shared
-# deadline to protect, but they are still dead weight worth skipping.
+# Hosts already covered by Layer A. Fetching them here just repeats a
+# failure (or a success) the pipeline already knows about from its own
+# dedicated source module.
 SKIP_HOSTS = (
     "olx.com.br", "vivareal.com.br", "zapimoveis.com.br",
-    "mercadolivre.com.br", "chavesnamao.com.br", "imovelweb.com.br",
-    "wimoveis.com.br", "comprei.pgfn.gov.br",
+    "mercadolivre.com.br", "chavesnamao.com.br", "comprei.pgfn.gov.br",
 )
+
+# Not covered by a dedicated source, but measured (2026-08-13) to serve a
+# real Cloudflare JS challenge to every free transport tried, including a
+# self-hosted headless browser -- see SESSION_NOTES. Still worth *finding*
+# through Brave/Tavily (the URL + whatever the search snippet shows is
+# strictly better than nothing), but never worth a live visit attempt right
+# now: that would just burn the visit's time on an outcome already known.
+# Results from these hosts go straight to `brave_frios` (cold storage)
+# instead of the active `brave_pendentes` queue -- archived, not lost, so a
+# working transport later can use them without re-spending a search query.
+COLD_HOSTS = ("wimoveis.com.br", "imovelweb.com.br")
 
 
 def _daily_allowance(store, per_run: int, per_month: int) -> int:
@@ -71,24 +79,33 @@ def _alvo(criteria) -> str:
     return criteria.regiao or (UF_NAMES.get(uf, uf).replace("-", " ") if uf else "")
 
 
-def _site_queries(criteria) -> list[str]:
+def _site_queries(criteria, store) -> list[str]:
     """One `site:` query per target domain, aimed at the region (or state).
 
     This is how the search covers dozens of portals and agencies without a
     scraper for each. Brave is an API with a key, so these reach sites that
     refuse our datacenter IP directly — including wimoveis and imovelweb, which
     answer 403 to the scrapers but are perfectly readable through search.
+
+    2026-08-13: these used to be queried on *every single run*, forever,
+    regardless of whether anything about a slow-moving rural-land inventory
+    could plausibly have changed since yesterday -- real waste against a
+    metered API with a hard monthly cap (see Standing rules, the day Brave's
+    cap was hit). Now seeded into the same `sites_descobertos` table the
+    auto-discovered hosts already use, so a curated site shares their
+    weekly cadence (`sites_descobertos_para_consultar`) instead of its own
+    unconditional one -- one mechanism, not two.
     """
     sites = criteria.raw.get("sites_alvo") or []
-    alvo = _alvo(criteria)
-    if not sites or not alvo:
-        return []
-    return [f"fazenda OR sítio OR chácara à venda {alvo} site:{d}" for d in sites]
+    if sites:
+        store.sites_alvo_semear(sites)
+    return []
 
 
 def _discovered_site_queries(criteria, store, dias: int = 7) -> dict[str, str]:
-    """`site:` queries for hosts `brave_visit.py` auto-discovered (see
-    `Store.registrar_extracao_brave`) rather than hand-curated in `sites_alvo`.
+    """`site:` queries for hosts due this week -- both hand-curated
+    (`sites_alvo`, seeded by `_site_queries`) and auto-discovered (see
+    `Store.registrar_extracao_brave`), unified under one weekly clock.
 
     Returns {query: host} so the caller can tell, after truncating the
     combined query list to the run's allowance, exactly which discovered
@@ -125,7 +142,8 @@ def discover(criteria, store, budgets) -> int:
     """
     from ..config import env
     token = env("BRAVE_API_KEY")
-    if not token:
+    token2 = env("BRAVE_API_KEY_2")
+    if not token and not token2:
         log.warning("BRAVE_API_KEY not set — Brave discovery skipped")
         return 0
 
@@ -144,17 +162,20 @@ def discover(criteria, store, budgets) -> int:
     # ignore the rest of the region.
     genericas = [t.format(place=p) for t in TEMPLATES for p in places]
 
-    # Auto-discovered sites (brave_visit.py promoted them after repeated real
-    # extractions) get the same "whole portal" priority as the hand-curated
-    # sites_alvo ones, just on their own weekly clock rather than every run.
+    # Seeds sites_alvo into the same weekly rotation auto-discovered hosts
+    # use (see _site_queries's docstring) -- side effect only, no queries
+    # returned directly anymore.
+    _site_queries(criteria, store)
+
+    # Auto-discovered *and* hand-curated sites (now unified, see above) get
+    # the same "whole portal" priority, on their shared weekly clock rather
+    # than every run.
     descobertos = _discovered_site_queries(criteria, store)
 
     # Site-targeted queries go first and are never crowded out: each covers a
     # whole portal, so they buy far more coverage per query than the 37th
     # municipality of a generic template does.
-    queries = list(dict.fromkeys(
-        _site_queries(criteria) + list(descobertos) + genericas
-    ))[:allowance]
+    queries = list(dict.fromkeys(list(descobertos) + genericas))[:allowance]
     log.info("brave: %d queries (allowance %d)", len(queries), allowance)
 
     consultados_agora = {host for q, host in descobertos.items() if q in queries}
@@ -165,30 +186,69 @@ def discover(criteria, store, budgets) -> int:
 
     already = store.seen_urls()
     novos: dict[str, str] = {}
+    frios: dict[str, str] = {}
 
     for query in queries:
-        data = http.get_json(
-            API,
-            # Brave's country codes are two-letter and uppercase ("BR").
-            # search_lang and result_filter are both omitted: Brave's enum
-            # validation rejected "pt" for search_lang (it wants a full
-            # locale like "pt-BR", not worth guessing at for every language),
-            # and nothing downstream reads result_filter anyway since the
-            # code only ever reads data["web"].
-            params={"q": query, "country": "BR", "count": 20},
-            headers={"X-Subscription-Token": token, "Accept": "application/json"},
-        )
+        data = _consultar(query, token, token2)
         store.budget_spend(RESOURCE, 1)
         if not data:
             continue
         for result in (data.get("web") or {}).get("results", []):
             url = result.get("url") or ""
-            if not url or url in already or url in novos:
+            if not url or url in already or url in novos or url in frios:
                 continue
             if any(host in url for host in SKIP_HOSTS):
                 continue
-            novos[url] = result.get("title") or ""
+            titulo = result.get("title") or ""
+            if any(host in url for host in COLD_HOSTS):
+                # Known blocked today (see COLD_HOSTS) -- archive straight
+                # to cold storage rather than a live visit whose outcome is
+                # already known, and keep the description too: it is the
+                # only information we will ever have about this URL until a
+                # working transport exists.
+                descricao = result.get("description") or ""
+                frios[url] = f"{titulo} — {descricao}"[:500] if descricao else titulo
+                continue
+            novos[url] = titulo
 
     store.brave_pendentes_adicionar(novos)
+    if frios:
+        n = store.brave_frios_adicionar(frios, motivo="desafio JS conhecido (ver COLD_HOSTS)")
+        log.info("brave: %d candidato(s) de host(s) conhecidos bloqueados -> frios (%d novos)",
+                 len(frios), n)
     log.info("brave: %d candidatos novos na fila de visita", len(novos))
     return len(novos)
+
+
+def _consultar(query: str, token: str, token2: str = ""):
+    """One Brave query, JSON or None. Tries `token`; on a 402 (monthly spend
+    cap exhausted -- exactly what happened 2026-08-13) falls back to `token2`
+    (a second account) instead of silently going quiet for the rest of the
+    run. Bypasses `http.get_json` on purpose: that layer collapses every
+    non-200 into a bare None, and telling "cap exhausted, try key 2" apart
+    from "bad request" needs the real status code.
+    """
+    for i, tok in enumerate(t for t in (token, token2) if t):
+        try:
+            r = http._session.get(
+                API, params={"q": query, "country": "BR", "count": 20},
+                headers={"X-Subscription-Token": tok, "Accept": "application/json"},
+                timeout=25,
+            )
+        except requests.RequestException as exc:
+            log.warning("api.search.brave.com: %s: %s", type(exc).__name__, exc)
+            continue
+        if r.status_code == 200:
+            try:
+                return r.json()
+            except ValueError:
+                log.warning("api.search.brave.com: response was not JSON")
+                return None
+        if r.status_code == 402 and i == 0 and token2:
+            log.warning("brave: cota mensal esgotada na chave principal — "
+                        "tentando BRAVE_API_KEY_2")
+            continue
+        log.warning("api.search.brave.com: HTTP %s — %s",
+                    r.status_code, (r.text or "")[:300])
+        return None
+    return None

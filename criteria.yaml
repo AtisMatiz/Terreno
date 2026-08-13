@@ -177,7 +177,7 @@ orcamentos:
   # runner, então o paralelismo pode ser alto sem custo real.
   brave_paralelismo: 50             # páginas candidatas buscadas ao mesmo tempo
   brave_timeout_pagina_s: 40        # tempo generoso por página até considerar "falha de acesso"
-  brave_max_falhas: 2               # falhas de acesso seguidas (entre execuções) até descartar o candidato
+  brave_max_falhas: 2               # falhas de acesso seguidas (entre execuções) até mover o candidato para o arquivo frio (brave_frios)
   brave_max_fila_pendentes: 5000    # teto de segurança contra fila sem fim, não uma cota por execução
   max_paginas_detalhe_por_fonte: 60
   max_paginas_enriquecimento: 80

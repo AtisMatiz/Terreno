@@ -80,7 +80,9 @@ jobs:
       - name: Instalar dependências
         run: pip install -r requirements.txt
 
-      - name: O snippet do Brave sozinho é útil para wimoveis/imovelweb?
+      - name: O snippet do Brave/Tavily sozinho é útil para wimoveis/imovelweb?
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          BRAVE_API_KEY_2: ${{ secrets.BRAVE_API_KEY_2 }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python scripts/diagnostico_brave_descricao.py
