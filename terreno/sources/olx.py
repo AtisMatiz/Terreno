@@ -40,19 +40,18 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             data = next_data(resp.text)
             if not data:
                 log.warning("olx: no __NEXT_DATA__ on %s p%d", uf, page)
-                # 2026-08-13: a real, large (700KB+) page comes back with a
-                # 200 -- not a bot-block body -- so this is very likely a
-                # Next.js App Router migration (streaming RSC payload via
-                # `self.__next_f.push`, not the classic Pages Router
-                # `__NEXT_DATA__` script tag), not a wall. Checking for the
-                # markers that would confirm it, one run at a time, instead
-                # of guessing at a rewrite.
-                tem_next_f = "self.__next_f.push" in resp.text
-                tem_json_ld = 'application/ld+json' in resp.text
-                idx = resp.text.find("self.__next_f.push")
-                log.debug("olx: response len=%d, __next_f=%s, json_ld=%s, snippet=%r",
-                          len(resp.text), tem_next_f, tem_json_ld,
-                          resp.text[idx:idx + 600] if idx >= 0 else resp.text[:300])
+                # Confirmed 2026-08-13: real 200, real 700KB+ page, App
+                # Router streaming payload (self.__next_f.push) instead of
+                # __NEXT_DATA__ -- and a JSON-LD block is also present.
+                # Capturing the JSON-LD itself now (not the RSC stream,
+                # which is an internal React format not meant to be parsed
+                # externally and would break on every OLX deploy).
+                import re as _re
+                m = _re.search(
+                    r'<script type="application/ld\+json"[^>]*>(.*?)</script>',
+                    resp.text, _re.S)
+                log.debug("olx: response len=%d, json_ld=%r",
+                          len(resp.text), m.group(1)[:1500] if m else None)
                 break
 
             ads = _extract_ads(data)
