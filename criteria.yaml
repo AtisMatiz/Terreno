@@ -71,7 +71,10 @@ fontes:
   imovelweb: false    # desligado (2026-08-12): nada medido resolve esse host,
                       # nem o desbloqueador pago (HTTP 422) — ver comentário em
                       # `perfis` abaixo. O que sobra vem da Brave (site:).
-  wimoveis: true      # mesmo grupo (Navent) do imovelweb
+  wimoveis: false     # desligado (2026-08-12): recusado pelo ZenRows nos dois
+                      # modos (rápido e com js_render) — 404 RESP002 limpo e
+                      # consistente nos dois casos. Mesmo grupo (Navent) do
+                      # imovelweb; ver comentário abaixo.
   pgfn: true          # leilões da PGFN (comprei.pgfn.gov.br) — ver nota nos perfis
   caixa: true         # imóveis retomados da Caixa (CSV público por estado)
   brave: true
@@ -92,8 +95,11 @@ fontes:
 #   * olx    — bloqueia chrome/chrome124, mas responde 200 a safari/firefox.
 #     `terreno/http.py` já tenta uma escada de navegadores (IMPERSONATE_ESCADA)
 #     em vez de um só, então isso também já está coberto.
-#   * wimoveis — nada grátis resolve; só o desbloqueador pago (ZenRows) passa.
-#     Fica na lista porque a chave já está configurada nos secrets do repo.
+#   * wimoveis — recusado por tudo. Testado depois com o desbloqueador pago
+#     (ZenRows) nos dois modos (rápido e com js_render, timeout de 100s) —
+#     404 RESP002 limpo e imediato nos dois casos, não uma questão de tempo
+#     de resposta. Desligado em `fontes.wimoveis` acima; sem lugar para
+#     rodar agora, mesmo grupo (Navent) do imovelweb.
 #   * imovelweb — recusado por tudo, incluindo o ZenRows (HTTP 422). Sem
 #     lugar nenhum para rodar agora; ver `fontes.imovelweb` acima. O que
 #     sobra vem da cobertura indireta da Brave (site:).
@@ -110,7 +116,7 @@ fontes:
 # `chavesnamao`, `caixa` e `brave` já respondiam do runner (chavesnamao e
 # Brave por natureza; caixa via curl_cffi).
 perfis:
-  ci: [brave, chavesnamao, caixa, pgfn, olx, wimoveis, mercadolivre, facebook]
+  ci: [brave, chavesnamao, caixa, pgfn, olx, mercadolivre, facebook]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a

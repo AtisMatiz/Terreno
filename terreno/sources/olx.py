@@ -40,6 +40,8 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             data = next_data(resp.text)
             if not data:
                 log.warning("olx: no __NEXT_DATA__ on %s p%d", uf, page)
+                log.debug("olx: response len=%d, snippet=%r",
+                          len(resp.text), resp.text[:300])
                 break
 
             ads = _extract_ads(data)

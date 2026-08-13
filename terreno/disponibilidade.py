@@ -337,7 +337,17 @@ class _StatusPorThread(logging.Handler):
 _status_visto = _StatusPorThread()
 _logger_http = logging.getLogger("terreno.http")
 _logger_http.addHandler(_status_visto)
-# O handler precisa ver o registro mesmo quando ninguém configurou logging;
-# sem isto um WARNING pode ser descartado antes de chegar até ele.
-if _logger_http.level > logging.WARNING or _logger_http.level == logging.NOTSET:
-    _logger_http.setLevel(logging.WARNING)
+# Deliberadamente NÃO se chama `_logger_http.setLevel(...)` aqui. Fazer isso
+# neste ponto do import (antes de `run.py:main()` chamar `logging.basicConfig`)
+# travaria o nível de `terreno.http` permanentemente em WARNING pelo resto do
+# processo -- `--verbose` (DEBUG) nunca mais conseguiria reverter isso, porque
+# um nível explícito em um logger sempre vence o nível efetivo herdado da
+# raiz. Foi exatamente isso que aconteceu (2026-08-12): toda mensagem INFO/
+# DEBUG de `http.py` -- inclusive "liberado via curl_cffi", a única evidência
+# de sucesso do transporte -- ficou invisível em toda execução, sempre, e foi
+# o que tornou o comportamento do OLX indecifrável por várias sessões. A
+# premissa do guard também não procede: sem NENHUMA configuração de logging,
+# a raiz já vem em WARNING por padrão no próprio `logging` -- não há WARNING
+# "perdido" a proteger. `_status_visto` só depende de registros WARNING/ERROR
+# de qualquer forma (`emit()` só lê status HTTP dos casos de falha), então
+# tirar este `setLevel` não muda nada do que esta classe observa.

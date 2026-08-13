@@ -295,19 +295,18 @@ def _apify_post(actor: str, token: str, payload: dict):
 
 
 # O item base do ator é o objeto GraphQL do Facebook quase cru — os nomes de
-# campo abaixo estão todos no exemplo de saída do README do ator (conferidos um
-# a um: `listingUrl`, `id`, `marketplace_listing_title`, `listing_price`,
-# `location.reverse_geocode`, `primary_listing_photo.image.uri`, `is_sold`).
+# campo abaixo estão em camelCase conforme retornado pelo ator real
+# (conferidos na resposta de teste: `itemUrl`, `id`, `listingTitle`, `listingPrice`,
+# `location`, `primaryListingPhoto`, `isSold`, `description`, `timestamp`, etc).
 #
-# O que `includeListingDetails` acrescenta NÃO é documentado — o README só
+# O que `includeListingDetails` acrescenta não está documentado — o README só
 # promete "description, location coordinates, time stamp, listing attributes".
-# Daí a lista de candidatos: o resto do payload usa nomes crus do GraphQL, onde
-# a descrição é `redacted_description: {text: ...}`, então essa é a primeira
-# tentativa, com os nomes óbvios atrás dela. Se nenhuma pegar, `_via_apify`
+# Daí a lista de candidatos: o resto do payload tenta variações de GraphQL,
+# camelCase e snake_case. Se nenhuma pegar, `_via_apify`
 # avisa em vez de devolver descrição vazia caladamente.
 CAMPOS_DESCRICAO = (
-    "redacted_description", "description", "marketplace_listing_description",
-    "listing_description", "custom_title",
+    "description", "redacted_description", "listingDescription",
+    "marketplace_listing_description", "listing_description", "custom_title",
 )
 
 
@@ -335,7 +334,7 @@ def _preco(item: dict) -> float | None:
     """Preço em BRL. `amount` primeiro: é o valor de máquina ("350000.00"),
     sem o "R$" nem a separação de milhar do `formatted_amount`, então não
     depende de o parser acertar a localidade."""
-    for campo in ("listing_price", "min_listing_price", "max_listing_price", "price"):
+    for campo in ("listingPrice", "listing_price", "min_listing_price", "max_listing_price", "price"):
         bruto = item.get(campo)
         if isinstance(bruto, dict):
             for chave in ("amount", "formatted_amount"):
@@ -359,7 +358,7 @@ def _numero(valor) -> float | None:
 def _data_publicacao(item: dict) -> str:
     """Data do anúncio como texto ISO. O GraphQL do Facebook dá `creation_time`
     em epoch de segundos, e um "1712000000" cru é o que apareceria no card."""
-    for campo in ("creation_time", "createdAt", "created_time", "posted_at"):
+    for campo in ("timestamp", "creation_time", "createdAt", "created_time", "posted_at"):
         bruto = item.get(campo)
         if isinstance(bruto, (int, float)) and bruto > 0:
             segundos = bruto / 1000 if bruto > 1e11 else bruto  # ms ou s
@@ -375,7 +374,7 @@ def _data_publicacao(item: dict) -> str:
 
 
 def _from_apify(item: dict, uf: str) -> Listing | None:
-    url = _texto(item.get("listingUrl")) or _texto(item.get("url"))
+    url = _texto(item.get("itemUrl")) or _texto(item.get("listingUrl")) or _texto(item.get("url"))
     if url.startswith("/"):
         url = "https://www.facebook.com" + url
     # Só anúncio individual serve. O ator devolve a start URL em `facebookUrl`,
@@ -385,12 +384,12 @@ def _from_apify(item: dict, uf: str) -> Listing | None:
     if "/marketplace/item/" not in url:
         log.debug("apify: item sem URL de anúncio, descartado: %r", url[:120])
         return None
-    # `is_sold`/`is_pending` vêm no item base, sem custo de detalhe. Anúncio
+    # `isSold`/`isPending` vêm no item base, sem custo de detalhe. Anúncio
     # vendido é ruído puro numa lista que quer ser curta.
-    if item.get("is_sold") or item.get("is_pending") or item.get("is_hidden"):
+    if item.get("isSold") or item.get("isPending") or item.get("isHidden"):
         return None
 
-    title = _texto(item.get("marketplace_listing_title")) or _texto(item.get("title"))
+    title = _texto(item.get("listingTitle")) or _texto(item.get("marketplace_listing_title")) or _texto(item.get("title"))
     description = _descricao(item)
 
     location = item.get("location")
@@ -411,7 +410,7 @@ def _from_apify(item: dict, uf: str) -> Listing | None:
 
     area = area_detalhada(f"{title}\n{description}", uf_item)
 
-    foto = item.get("primary_listing_photo")
+    foto = item.get("primaryListingPhoto") or item.get("primary_listing_photo")
     imagem = ""
     if isinstance(foto, dict):
         imagem = _texto(foto.get("image")) or _texto(foto.get("uri"))

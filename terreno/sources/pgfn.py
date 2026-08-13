@@ -6,12 +6,12 @@ então vale a pena estar na busca mesmo que o volume seja pequeno.
 Contrato da API, descoberto lendo o bundle da SPA (`/config.json` aponta o
 gateway, `AnuncioAPI-*.js` mostra as rotas):
 
-    GET https://comprei.pgfn.gov.br/gateway/anuncio/publico?ufs=<IBGE>&size=N
+    GET https://comprei.pgfn.gov.br/gateway/anuncio/publico?ufs=<codigo>&size=N
 
 É público — `/gateway/anuncio` (sem `publico`) responde 401, este não. O `ufs`
-é o **código IBGE numérico** do estado, não a sigla: `ufs=SP` devolve erro 500,
-`ufs=35` funciona. A resposta é uma página do Spring Data
-(`content` / `totalElements` / `pageable`).
+exige um código numérico interno do Comprei (ver `CODIGO_UF` e a nota abaixo
+-- não é IBGE nem a sigla, `ufs=SP` devolve erro 500). A resposta é uma
+página do Spring Data (`content` / `totalElements` / `pageable`).
 
 O host corta conexões sob rajada, por isso este módulo é o mais devagar de
 todos e busca um estado por vez.
@@ -21,6 +21,20 @@ O mapeamento dos campos de cada item é deliberadamente tolerante: o formato do
 a conexão antes), então cada campo é procurado entre vários nomes plausíveis e
 o que faltar é preenchido pelo extrator de texto do pipeline. Na primeira
 execução real, `--verbose` registra as chaves observadas para ajuste fino.
+
+IMPORTANTE (corrigido 2026-08-13): `ufs` **não** é o código IBGE do estado --
+é um código interno do próprio Comprei, sem relação com IBGE (ex.: SP é `80`,
+não `35`; o `35` que a versão anterior deste módulo usava é outro estado no
+sistema do Comprei -- por isso toda consulta em SP sempre voltava vazia,
+mesmo com o servidor respondendo 200 e havendo anúncios reais no ar). Os
+valores em `CODIGO_UF` abaixo foram obtidos empiricamente (uma consulta por
+código 1..99, olhando o campo `endereco` do primeiro resultado de cada
+resposta não-vazia) porque o mapeamento não está em nenhum lugar estático do
+bundle da SPA -- é resolvido em runtime. Estados que devolveram sempre vazio
+nesse levantamento (RS, RO, RR, AP) foram deixados de fora por não haver
+como confirmar o código certo sem que o estado tenha ao menos um anúncio
+ativo no momento do teste; se algum desses aparecer em `criteria.estados`,
+o código loga um aviso em vez de adivinhar.
 """
 
 from __future__ import annotations
@@ -37,12 +51,21 @@ NAME = "pgfn"
 API = "https://comprei.pgfn.gov.br/gateway/anuncio/publico"
 SITE = "https://comprei.pgfn.gov.br/anuncio/detalhe"
 
-# Códigos IBGE das unidades federativas — o parâmetro `ufs` exige o número.
-IBGE = {
-    "RO": 11, "AC": 12, "AM": 13, "RR": 14, "PA": 15, "AP": 16, "TO": 17,
-    "MA": 21, "PI": 22, "CE": 23, "RN": 24, "PB": 25, "PE": 26, "AL": 27,
-    "SE": 28, "BA": 29, "MG": 31, "ES": 32, "RJ": 33, "SP": 35, "PR": 41,
-    "SC": 42, "RS": 43, "MS": 50, "MT": 51, "GO": 52, "DF": 53,
+# Códigos internos do Comprei para cada UF -- NÃO são códigos IBGE, ver nota
+# no topo do arquivo. Confirmados empiricamente contra dados reais em
+# 2026-08-13; RS/RO/RR/AP ficaram sem anúncios ativos durante o
+# levantamento, então não há como confirmar o código certo e foram
+# deliberadamente omitidos (ver `fetch()`).
+CODIGO_UF = {
+    "DF": 10, "GO": 11, "MT": 12, "MS": 13, "TO": 14,
+    "PA": 20, "AM": 21, "AC": 22,
+    "CE": 30, "MA": 31, "PI": 32,
+    "PE": 40, "RN": 41, "PB": 42, "AL": 43,
+    "BA": 50, "SE": 51,
+    "MG": 60,
+    "RJ": 70, "ES": 72,
+    "SP": 80,
+    "PR": 90, "SC": 91,
 }
 
 PAGE_SIZE = 50
@@ -70,8 +93,9 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     schema_logged = False
 
     for uf in criteria.states:
-        codigo = IBGE.get(uf.upper())
+        codigo = CODIGO_UF.get(uf.upper())
         if not codigo:
+            log.warning("pgfn: sem código conhecido do Comprei para %s, pulando", uf)
             continue
 
         for page in range(max_pages):
