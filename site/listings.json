@@ -1,6 +1,462 @@
 {
- "generated_at": "13/08/2026 às 07:07",
+ "generated_at": "13/08/2026 às 13:17",
  "listings": [
+  {
+   "key": "241b88326ddc8bc1",
+   "source": "facebook",
+   "source_id": "1019671767493908",
+   "url": "https://www.facebook.com/marketplace/item/1019671767493908/",
+   "title": "Sitio",
+   "description": "🌿 VENDE-SE SÍTIO – 24.500 m²\n\nSeu refúgio na natureza, com água em abundância, fácil acesso e documentação 100% regular.\n\n📍 Morro do Macuco – Estrada Pindamonhangaba x Lagoinha\n\nA apenas 18 km da Rodovia Presidente Dutra, sendo aproximadamente 1,5 km de estrada de terra.\n\nDestaques da propriedade\n\n✔ Área de 24.500 m² (aproximadamente 1 alqueire paulista).\n\n✔ Terreno totalmente cercado.\n\n✔ Nascente e córrego dentro da propriedade.\n\n✔ Energia elétrica instalada.\n\n✔ Ambiente tranquilo, cercado pela natureza, ideal para lazer, moradia, criação de animais ou investimento.\n\nBenfeitorias\n\nCasa simples, precisando de reforma, com:\n\n- 3 quartos;\n- sala;\n- cozinha;\n- banheiro;\n- varanda.\n\nDocumentação\n\n✅ Escritura definitiva.\n\n✅ Matrícula registrada.\n\n✅ Documentação em ordem, pronta para transferência.\n\nValor\n\nR$ 295.000,00\n\nAceito propostas e estudo permuta.\n\nNegociação direta\n\nA negociação é feita diretamente com o proprietário, com transparência, agilidade e atendimento personalizado.\n\nAgende sua visita e venha conhecer a propriedade pessoalmente.\n\n📱 Flávio (WhatsApp): [hidden information]",
+   "price": 295000.0,
+   "price_first": 295000.0,
+   "area_ha": 2.42,
+   "price_per_ha": 121900.83,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -23.030090332031,
+   "lon": -45.565795898438,
+   "image": "",
+   "posted_at": "2026-08-02T23:18:44.000Z",
+   "score": 0.546,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "casa",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "bom acesso",
+    "1.5 km de terra",
+    "escriturado",
+    "R$/ha 121.901"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.61,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.8,
+     "peso": 15,
+     "provas": [
+      "bom acesso",
+      "1.5 km de terra"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.412,
+     "peso": 0,
+     "provas": [
+      "R$/ha 121.901"
+     ],
+     "ajuste": -0.0088
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": 1.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho\", \"benfeitorias\": \"Casa + energia + cercado\", \"acesso\": \"Bom acesso + 1.5 km de terra\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "34003c79de95732c",
+   "source": "facebook",
+   "source_id": "1319631229718435",
+   "url": "https://www.facebook.com/marketplace/item/1319631229718435/",
+   "title": "3 quartos 1 banheiro – Casa",
+   "description": "🌿 VENDE-SE SÍTIO – 24.500 m²\n\nSeu refúgio na natureza, com água em abundância, fácil acesso e documentação 100% regular.\n\n📍 Morro do Macuco – Estrada Pindamonhangaba x Lagoinha\n\nA apenas 18 km da Rodovia Presidente Dutra, sendo aproximadamente 1,5 km de estrada de terra.\n\nDestaques da propriedade\n\n✔ Área de 24.500 m² (aproximadamente 1 alqueire paulista).\n\n✔ Terreno totalmente cercado.\n\n✔ Nascente e córrego dentro da propriedade.\n\n✔ Energia elétrica instalada.\n\n✔ Ambiente tranquilo, cercado pela natureza, ideal para lazer, moradia, criação de animais ou investimento.\n\nBenfeitorias\n\nCasa simples, precisando de reforma, com:\n\n- 3 quartos;\n- sala;\n- cozinha;\n- banheiro;\n- varanda.\n\nDocumentação\n\n✅ Escritura definitiva.\n\n✅ Matrícula registrada.\n\n✅ Documentação em ordem, pronta para transferência.\n\nValor\n\nR$ 295.000,00\n\nAceito propostas e estudo permuta.\n\nNegociação direta\n\nA negociação é feita diretamente com o proprietário, com transparência, agilidade e atendimento personalizado.\n\nAgende sua visita e venha conhecer a propriedade pessoalmente.\n\n📱 Flávio (WhatsApp): [hidden information]",
+   "price": 295000.0,
+   "price_first": 295000.0,
+   "area_ha": 2.42,
+   "price_per_ha": 121900.83,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.97511,
+   "lon": -45.4346,
+   "image": "",
+   "posted_at": "",
+   "score": 0.546,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "casa",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "bom acesso",
+    "1.5 km de terra",
+    "escriturado",
+    "R$/ha 121.901"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.61,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.8,
+     "peso": 15,
+     "provas": [
+      "bom acesso",
+      "1.5 km de terra"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.412,
+     "peso": 0,
+     "provas": [
+      "R$/ha 121.901"
+     ],
+     "ajuste": -0.0088
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": 1.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho\", \"benfeitorias\": \"Casa + energia + cercado\", \"acesso\": \"Bom acesso + 1.5 km de terra\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "b6d444c1ff0f2bfe",
+   "source": "facebook",
+   "source_id": "1487716929789377",
+   "url": "https://www.facebook.com/marketplace/item/1487716929789377/",
+   "title": "Sítio com 3,6 hectares à venda em Jacutinga, MG",
+   "description": "Sítio com 1 alqueire e meio ou 36 mil m² em Jacuntiga, MG.\nTopografia com elevações, excelente localização a 4 km da cidade, apenas 2 km de estrada de terra.\nO sítio conta com 2 casas ( precisam de reforma) energia elétrica, a terra precisa de cuidados, como limpar o mato e o açude, estava fechado desde da pandemia.\nSítio com potencial para moradia, lazer e investimento.\nRico em água com nascente, área para plantio ou diversos segmentos.\n\nAgende sua visita e venha conhecer esse sítio.\n\n💥OPORTUNIDADE DE COMPRA\n\nRivaldo Pedrosa \n\nWhatsApp [hidden information] \n\nCorretor de imóveis",
+   "price": 265000.0,
+   "price_first": 265000.0,
+   "area_ha": 2.42,
+   "price_per_ha": 109504.13,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.283020019531,
+   "lon": -46.609497070312,
+   "image": "",
+   "posted_at": "2026-07-25T13:31:39.000Z",
+   "score": 0.534,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "mais de uma casa",
+    "energia",
+    "2 km de terra",
+    "4 km da cidade",
+    "R$/ha 109.504"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "mais de uma casa",
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 1.0,
+     "peso": 15,
+     "provas": [
+      "2 km de terra",
+      "4 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.462,
+     "peso": 0,
+     "provas": [
+      "R$/ha 109.504"
+     ],
+     "ajuste": -0.0038
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": 1.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Mais de uma casa + energia\", \"acesso\": \"2 km de terra + 4 km da cidade\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "afe8f18f8ff20e67",
+   "source": "facebook",
+   "source_id": "1668414720911625",
+   "url": "https://www.facebook.com/marketplace/item/1668414720911625/",
+   "title": "Estúdio 0 banheiros – Casa",
+   "description": "Sitio com 02 Alqueires, 90% formado em pasto, lago com peixe, platô com 2.000m², pequena mata de reserva, totalmente cercado, documentação Escritura, Matrícula, Georreferenciado e com CAR, a 03 km da rodovia e a 05 km do centro de Redenção da Serra.",
+   "price": 220000.0,
+   "price_first": 220000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 45454.55,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -23.266944444444,
+   "lon": -45.536944444444,
+   "image": "",
+   "posted_at": "",
+   "score": 0.476,
+   "reasons": [
+    "lago/açude",
+    "casa",
+    "cercado",
+    "5 km da cidade",
+    "mata",
+    "escriturado",
+    "CAR/GEO em dia",
+    "R$/ha 45.455"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.43,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.7,
+     "peso": 15,
+     "provas": [
+      "5 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "mata"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 45.455"
+     ],
+     "ajuste": 0.1
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": 2.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Casa + cercado\", \"acesso\": \"5 km da cidade\", \"documentacao\": \"Escriturado + CAR/GEO em dia\", \"solo\": \"Mata\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
   {
    "key": "47fa5609466c8c80",
    "source": "chavesnamao",
@@ -331,6 +787,114 @@
    "price_drop": null
   },
   {
+   "key": "1433c3e942ac4f47",
+   "source": "facebook",
+   "source_id": "1058401219919292",
+   "url": "https://www.facebook.com/marketplace/item/1058401219919292/",
+   "title": "Estúdio 0 banheiros – Casa",
+   "description": "UMA linda área rural COM TOPOGRAFIA 100% PLANA E COM VISTA MARAVILHOSA PANORÂMICA PARA A SERRA DA MANTIQUEIRA (ENTRE TREMEMBÉ E LAVRINHAS), VISTA PARA A SERRA QUEBRA CANGALHA E VISTA PARA O CENTRO DA CIDADE \n\nO Terreno está Localizado em região turística e gastronômica no Bairro Colméia, sentido Ribeirão Grande em Pindamonhangaba/SP\n\nIdeal pra CONSTRUIR A CHÁCARA DOS SEUS SONHOS e ter SEU CAVALINHO, PLANTAR, FORMAR AQUELE BELO POMAR E ATÉ FAZER UM CAMPINHO DE FUTEBOL PARA OS FILHOS E NETOS\n\nSomente 7 km do centro da cidade.",
+   "price": 190000.0,
+   "price_first": 190000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.86541,
+   "lon": -45.46033,
+   "image": "",
+   "posted_at": "",
+   "score": 0.357,
+   "reasons": [
+    "rio/riacho",
+    "casa",
+    "7 km da cidade",
+    "frutíferas",
+    "plano",
+    "100% plano"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.7,
+     "peso": 15,
+     "provas": [
+      "7 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 1.0,
+     "peso": 5,
+     "provas": [
+      "plano",
+      "100% plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\", \"acesso\": \"7 km da cidade\", \"solo\": \"Frutíferas + plano + 100% plano\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "51a5a9d4260d0705",
    "source": "brave",
    "source_id": "",
@@ -448,6 +1012,109 @@
    "is_new": false
   },
   {
+   "key": "1c5253066faf5a77",
+   "source": "facebook",
+   "source_id": "2435203896947229",
+   "url": "https://www.facebook.com/marketplace/item/2435203896947229/",
+   "title": "SÍTIO EM TAUBATÉ BAIRRO QUIRIRIM 73.000 M² DE TERRENO",
+   "description": "SÍTIO EM TAUBATÉ\nBAIRRO QUIRIRIM\n73.000 M² DE TERRENO\nSENDO 8.000 M² EM PASTO\nRESTANTE EM ÁREA DE MATA NATIVA\nRIACHO MARGEANDO A ÁREA\nLINDA VISTA PARA SERRA DA MANTIQUEIRA\nNÃO TEM CONSTRUÇÃO\nCOM ENERGIA ELÉTRICA\n\nhttps://wa.me/5512981021423\n\n===================\nR$ 350.000,00 \n===================\nCARLOS ALBERTO MOREIRA FRANCO\nWHATSAPP (12) 98102-1423\nCORRETOR DE IMÓVEIS\nCRECISP 174967",
+   "price": 350000.0,
+   "price_first": 350000.0,
+   "area_ha": 7.3,
+   "price_per_ha": 47945.21,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -23.035583496094,
+   "lon": -45.554809570312,
+   "image": "",
+   "posted_at": "2026-06-05T18:16:11.000Z",
+   "score": 0.314,
+   "reasons": [
+    "rio/riacho",
+    "energia",
+    "mata nativa",
+    "R$/ha 47.945"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.18,
+     "peso": 20,
+     "provas": [
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.65,
+     "peso": 10,
+     "provas": [
+      "mata nativa"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 47.945"
+     ],
+     "ajuste": 0.1
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Energia\", \"solo\": \"Mata nativa\"}",
+   "estrelas": "[\"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "bb619aaf8d0b91a5",
    "source": "brave",
    "source_id": "",
@@ -543,6 +1210,109 @@
    "notificavel": 1,
    "imagem_analise": null,
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "53d49982be5c48bb",
+   "source": "facebook",
+   "source_id": "1548838582914997",
+   "url": "https://www.facebook.com/marketplace/item/1548838582914997/",
+   "title": "Estúdio 0 banheiros – Casa",
+   "description": "🌿 Vende-se Chácara/Terreno Rural – 3 Alqueires 🌿\n\nExcelente oportunidade para quem procura tranquilidade, contato com a natureza ou investimento!\n\n✅ Área de 3 alqueires\n💧 Abundância de água, ideal para criação de animais, plantio ou lazer.\n🌳 Terreno com ótimo potencial para sítio, chácara ou produção rural.\n🌄 Região tranquila, com belas paisagens e excelente qualidade de vida.\n\n💰 Valor: R$ 150.000 por alqueire.\n\nEntre em contato para mais informações e agende uma visita. Aproveite essa oportunidade de adquirir uma excelente propriedade rural!",
+   "price": 150000.0,
+   "price_first": 150000.0,
+   "area_ha": 7.26,
+   "price_per_ha": 20661.16,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.554373503,
+   "lon": -45.769322234159,
+   "image": "",
+   "posted_at": "",
+   "score": 0.288,
+   "reasons": [
+    "água abundante",
+    "casa",
+    "tranquilo",
+    "R$/ha 20.661"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.3,
+     "peso": 30,
+     "provas": [
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 20.661"
+     ],
+     "ajuste": 0.1
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": 3.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Água abundante\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -1754,6 +2524,300 @@
    "price_drop": null
   },
   {
+   "key": "784347f19efe9977",
+   "source": "facebook",
+   "source_id": "1614062393636546",
+   "url": "https://www.facebook.com/marketplace/item/1614062393636546/",
+   "title": "Terreno à venda oportunidade!!!!!",
+   "description": "Terreno à venda grande oportunidade, para vc ter sua propriedade,  24 mil metros quadrados valor de terreno pequeno,  vale o investimento, grande retorno,  troco com sítio ou casa de meu gosto, estou vendendo!!!!!!!!! Passa um corrego fundo terreno,  tem uma parte alta, está 20 minutos da cidade Guaratinguetá!!!!  Se alguém por ventura tiver um sítio ou casa na cidade fazemos negócio bom.",
+   "price": 180000.0,
+   "price_first": 180000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.810363769531,
+   "lon": -45.192260742188,
+   "image": "",
+   "posted_at": "2026-07-25T17:27:47.000Z",
+   "score": 0.198,
+   "reasons": [
+    "rio/riacho",
+    "casa",
+    "20 min da cidade"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.1,
+     "peso": 15,
+     "provas": [
+      "20 min da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\", \"acesso\": \"20 min da cidade\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "d8873f5d31ea70e9",
+   "source": "facebook",
+   "source_id": "2219011195328960",
+   "url": "https://www.facebook.com/marketplace/item/2219011195328960/",
+   "title": "Vende-se sítio",
+   "description": "Vende- se sítio com casa em construção em um platô natural com pedras, rio cortando a propriedade localizada em Catuçaba - São Luis do Paraitinga telefone para contato 12 99107-8785 proprietário Ricardo",
+   "price": 270000.0,
+   "price_first": 270000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -23.244323730469,
+   "lon": -45.203247070312,
+   "image": "",
+   "posted_at": "",
+   "score": 0.182,
+   "reasons": [
+    "rio/riacho",
+    "casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "6dea940de164c131",
+   "source": "facebook",
+   "source_id": "2163925460834746",
+   "url": "https://www.facebook.com/marketplace/item/2163925460834746/",
+   "title": "Vendo área rural no Pouso Frio",
+   "description": "Vendo área rural de 35 mil metros no bairro pouso frio, topografia  baixa .Oportunidade , na beira do asfalto, ribeirão na divisa, aceita carro ou casa de menor valor como parte de pagamento.",
+   "price": 380000.0,
+   "price_first": 380000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.925720214844,
+   "lon": -45.466918945312,
+   "image": "",
+   "posted_at": "2026-07-22T22:08:27.000Z",
+   "score": 0.182,
+   "reasons": [
+    "rio/riacho",
+    "casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-13T16:17:48+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "2241687e65b0abe9",
    "source": "brave",
    "source_id": "",
@@ -2226,25 +3290,20 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 10,
  "sources": [
   "mercadolivre",
   "pgfn",
   "olx",
   "chavesnamao",
-  "wimoveis",
   "caixa",
   "brave",
   "facebook"
  ],
  "warnings": [
   "mercadolivre: 0 resultados",
-  "pgfn: 0 resultados",
   "olx: 0 resultados",
-  "wimoveis: 0 resultados",
-  "brave: 0 resultados",
-  "facebook: 0 resultados",
-  "www.wimoveis.com.br: bloqueado"
+  "brave: 0 resultados"
  ],
  "criterios": {
   "estados": [
