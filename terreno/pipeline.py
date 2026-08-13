@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import difflib
 import logging
+import re
 
 from . import geo, scoring
 from .config import Criteria, fold
@@ -50,11 +52,36 @@ def normalize(listing: Listing) -> Listing:
     return listing
 
 
-def dedup(listings: list[Listing]) -> list[Listing]:
-    """Collapse exact duplicates, then cross-source duplicates.
+#  Minimum *normalized* description length before two listings are even
+# candidates for the text-similarity pass below. Real found case (2026-08-13):
+# two distinct Facebook listing_ids, genuinely different `key`s, no shared
+# municipality (one was blank, so the price/area/municipality fuzzy match
+# above never fired either) -- but an identical, specific paragraph
+# ("Morro do Macuco... 18 km...") proving it was the same seller
+# cross-posting the same plot twice. A short generic ad ("Terreno à venda,
+# documentação regular") could coincidentally match another short generic ad
+# that is a genuinely different property -- Brazilian listings are full of
+# exactly that kind of boilerplate, which is why scoring.py's keyword system
+# exists in the first place. Below this length, two ads are left alone.
+_TEXTO_DUP_MIN_LEN = 120
+_TEXTO_DUP_LIMIAR = 0.85   # similarity ratio, not a raw word-overlap percentage
 
-    When the same plot appears on two portals, the richer record wins — more
-    description text means better scoring and a better card.
+
+def _normalizar_para_comparacao(text: str) -> str:
+    """Case/accent/emoji/whitespace-insensitive text for the similarity pass."""
+    folded = fold(text or "")
+    return re.sub(r"[^a-z0-9 ]", "", folded)
+    # (letters/digits/spaces only survive; emoji, punctuation, line breaks
+    # all disappear, so two copies of the same ad compare equal regardless
+    # of how each portal happened to render whitespace around them.)
+
+
+def dedup(listings: list[Listing]) -> list[Listing]:
+    """Collapse exact duplicates, then cross-source/cross-posting duplicates.
+
+    When the same plot appears on two portals (or the same seller reposts it
+    under a second listing id), the richer record wins — more description
+    text means better scoring and a better card.
     """
     by_key: dict[str, Listing] = {}
     for item in listings:
@@ -73,7 +100,33 @@ def dedup(listings: list[Listing]) -> list[Listing]:
         existing = by_fuzzy.get(fk)
         if existing is None or len(item.description) > len(existing.description):
             by_fuzzy[fk] = item
-    return list(by_fuzzy.values())
+
+    # Third pass: catches the case the structured fuzzy key above cannot --
+    # one side missing a municipality (or having a wildly different price
+    # bucket typo) but both sides carrying the same specific, seller-written
+    # paragraph. O(n²) over survivors only, and n is small (tens, not
+    # thousands) at this point in the pipeline.
+    kept: list[Listing] = []
+    normalizados: list[str] = []
+    for item in by_fuzzy.values():
+        norm = _normalizar_para_comparacao(item.description)
+        if len(norm) < _TEXTO_DUP_MIN_LEN:
+            kept.append(item)
+            normalizados.append(norm)
+            continue
+        indice_dup = next(
+            (i for i, (outro, outro_norm) in enumerate(zip(kept, normalizados))
+             if len(outro_norm) >= _TEXTO_DUP_MIN_LEN
+             and difflib.SequenceMatcher(None, norm, outro_norm).ratio() >= _TEXTO_DUP_LIMIAR),
+            None,
+        )
+        if indice_dup is None:
+            kept.append(item)
+            normalizados.append(norm)
+        elif len(item.description) > len(kept[indice_dup].description):
+            kept[indice_dup] = item
+            normalizados[indice_dup] = norm
+    return kept
 
 
 def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Listing]:
