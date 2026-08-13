@@ -63,3 +63,24 @@ jobs:
 
       - name: Um navegador de verdade passa do desafio JS?
         run: python scripts/diagnostico_navegador.py
+
+  medir-brave-descricao:
+    # wimoveis/imovelweb estão fora do site: do Brave em produção
+    # (`SKIP_HOSTS`) -- este job testa, isolado, se o snippet que o Brave
+    # devolve sozinho (sem visitar a página) já carrega preço/área úteis.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: O snippet do Brave sozinho é útil para wimoveis/imovelweb?
+        env:
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+        run: python scripts/diagnostico_brave_descricao.py
