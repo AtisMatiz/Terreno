@@ -40,8 +40,19 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             data = next_data(resp.text)
             if not data:
                 log.warning("olx: no __NEXT_DATA__ on %s p%d", uf, page)
-                log.debug("olx: response len=%d, snippet=%r",
-                          len(resp.text), resp.text[:300])
+                # 2026-08-13: a real, large (700KB+) page comes back with a
+                # 200 -- not a bot-block body -- so this is very likely a
+                # Next.js App Router migration (streaming RSC payload via
+                # `self.__next_f.push`, not the classic Pages Router
+                # `__NEXT_DATA__` script tag), not a wall. Checking for the
+                # markers that would confirm it, one run at a time, instead
+                # of guessing at a rewrite.
+                tem_next_f = "self.__next_f.push" in resp.text
+                tem_json_ld = 'application/ld+json' in resp.text
+                idx = resp.text.find("self.__next_f.push")
+                log.debug("olx: response len=%d, __next_f=%s, json_ld=%s, snippet=%r",
+                          len(resp.text), tem_next_f, tem_json_ld,
+                          resp.text[idx:idx + 600] if idx >= 0 else resp.text[:300])
                 break
 
             ads = _extract_ads(data)
