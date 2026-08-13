@@ -42,16 +42,21 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                 log.warning("olx: no __NEXT_DATA__ on %s p%d", uf, page)
                 # Confirmed 2026-08-13: real 200, real 700KB+ page, App
                 # Router streaming payload (self.__next_f.push) instead of
-                # __NEXT_DATA__ -- and a JSON-LD block is also present.
-                # Capturing the JSON-LD itself now (not the RSC stream,
-                # which is an internal React format not meant to be parsed
-                # externally and would break on every OLX deploy).
-                import re as _re
-                m = _re.search(
-                    r'<script type="application/ld\+json"[^>]*>(.*?)</script>',
-                    resp.text, _re.S)
-                log.debug("olx: response len=%d, json_ld=%r",
-                          len(resp.text), m.group(1)[:1500] if m else None)
+                # __NEXT_DATA__ -- investigation concluded a real browser is
+                # needed (see scripts/diagnostico_olx_navegador.py), not a
+                # regex fix here. The JSON-LD-capture snippet that answered
+                # that question is no longer actionable in production, so it
+                # is gated behind DEBUG rather than run unconditionally on
+                # every request that hits this branch (a full-text regex
+                # search over a 700KB+ body just to build a log line nobody
+                # reads at the default INFO level).
+                if log.isEnabledFor(logging.DEBUG):
+                    import re as _re
+                    m = _re.search(
+                        r'<script type="application/ld\+json"[^>]*>(.*?)</script>',
+                        resp.text, _re.S)
+                    log.debug("olx: response len=%d, json_ld=%r",
+                              len(resp.text), m.group(1)[:1500] if m else None)
                 break
 
             ads = _extract_ads(data)
