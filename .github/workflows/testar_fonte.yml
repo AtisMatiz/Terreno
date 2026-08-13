@@ -13,7 +13,7 @@ on:
         description: "Fonte a testar (mesmo nome do REGISTRY)"
         required: true
         type: choice
-        options: [pgfn, olx, wimoveis, facebook, mercadolivre, caixa, chavesnamao]
+        options: [pgfn, olx, wimoveis, imovelweb, facebook, mercadolivre, caixa, chavesnamao]
       verbose:
         description: "Log em DEBUG"
         required: false
