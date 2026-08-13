@@ -64,6 +64,29 @@ jobs:
       - name: Um navegador de verdade passa do desafio JS?
         run: python scripts/diagnostico_navegador.py
 
+  medir-olx-navegador:
+    # OLX é um caso diferente de wimoveis/imovelweb: passa limpo pelo
+    # curl_cffi (sem desafio da Cloudflare) -- só falta renderizar o
+    # payload de streaming do App Router. Job próprio pelo mesmo motivo do
+    # medir-navegador acima: só paga o custo do Chromium quando esta
+    # pergunta específica é a que importa.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Um navegador de verdade consegue ler os anúncios da OLX?
+        run: python scripts/diagnostico_olx_navegador.py
+
   medir-brave-descricao:
     # wimoveis/imovelweb estão fora do site: do Brave em produção
     # (`SKIP_HOSTS`) -- este job testa, isolado, se o snippet que o Brave

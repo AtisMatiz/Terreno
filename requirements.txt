@@ -6,6 +6,13 @@ PyYAML>=6.0
 # there. This is what actually lets tonight's Caixa/curl_cffi fix be tested
 # for real on the next scheduled run instead of only in theory.
 curl_cffi>=0.7
+# Installed for real (not commented): terreno/sources/olx.py needs a real
+# headless browser to read OLX's search page, which streams its listing data
+# client-side (Next.js App Router) instead of shipping it in the HTML a
+# plain HTTP fetch gets back. The browser binary itself is a separate CI
+# step (`python -m playwright install --with-deps chromium`, see
+# .github/workflows/search.yml and testar_fonte.yml) -- this line only gets
+# the Python package installed.
+playwright>=1.44
 # Optional extras, left commented -- opt in deliberately:
 #   anthropic>=0.40   -> LLM extraction / fit scoring (ENABLE_LLM=1)
-#   playwright>=1.44  -> local Facebook fallback (scripts/run_facebook.sh)
