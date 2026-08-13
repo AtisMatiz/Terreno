@@ -126,20 +126,30 @@ def area_detalhada(raw: str | None, uf: str | None = None) -> AreaDetalhada:
     if m:
         value = parse_number(m.group(1))
         if value is not None:
+            # An explicit ha/km² figure elsewhere in the same text is always
+            # preferred over converting the alqueire mention -- found
+            # 2026-08-13: a real listing titled "Sítio com 3,6 hectares..."
+            # also said "(aprox. 1 alqueire)" as a rough courtesy conversion,
+            # and the old code trusted *that* unconditionally, reporting
+            # 2,4 ha (1 alqueire paulista) instead of the precise 3,6 ha the
+            # page actually stated. The explicit figure is the authoritative
+            # one; the alqueire is kept only for display alongside it.
+            explicita = _por_unidade(text, apenas_grandes=True)
             factor = _ALQUEIRE_BY_UF.get((uf or "").upper())
+            if explicita is not None:
+                return AreaDetalhada(
+                    ha=explicita,
+                    alqueires=value,
+                    alqueire_tipo=_ALQUEIRE_TIPO.get(factor, "") if factor else "",
+                )
             if factor is not None:
                 return AreaDetalhada(
                     ha=round(value * factor, 4),
                     alqueires=value,
                     alqueire_tipo=_ALQUEIRE_TIPO.get(factor, ""),
                 )
-            # Ambiguous alqueire: no guess. Accept a hectare figure the page
-            # itself states, if any, and otherwise report the alqueire alone.
-            return AreaDetalhada(
-                ha=_por_unidade(text, apenas_grandes=True),
-                alqueires=value,
-                alqueire_tipo="",
-            )
+            # Ambiguous alqueire and no explicit hectare figure: no guess.
+            return AreaDetalhada(ha=None, alqueires=value, alqueire_tipo="")
 
     return AreaDetalhada(ha=_por_unidade(text))
 
@@ -186,6 +196,46 @@ def price_to_brl(raw: str | None) -> float | None:
     elif re.search(r"\bmil\b", text) and value < 1000:
         value *= 1_000
     return round(value, 2)
+
+
+_PRECO_POR_UNIDADE = re.compile(
+    r"r\$\s*" + _NUM + r"\s*(?:por|/|o)\s*(alqueire?s?|hectares?|ha)\b", re.I,
+)
+
+
+def preco_total(raw: str | None, area_ha: float | None,
+                area_alqueires: float | None) -> float | None:
+    """A price stated *per unit* ("R$ 150.000 por alqueire") read as the
+    total, not the whole-property price -- found 2026-08-13 against a real
+    listing where taking the number at face value undercounted a R$450.000
+    property (3 alqueires) as R$150.000, a 3x error on exactly the field a
+    buyer decides on. Anchored to the number itself (the unit word must
+    follow the price within the same short phrase), not "does this text
+    mention alqueire anywhere" -- a stray "vizinho vende por alqueire"
+    elsewhere in the description must not multiply an unrelated price.
+
+    Returns the corrected total, or None when the text does not show this
+    pattern (callers keep whatever `price_to_brl` already gave them) or when
+    the area needed to compute the total is not known (better to report
+    nothing than a confident, possibly-wrong number).
+    """
+    if not raw:
+        return None
+    m = _PRECO_POR_UNIDADE.search(str(raw))
+    if not m:
+        return None
+    unidade = m.group(2).lower()
+    valor = parse_number(m.group(1))
+    if valor is None or valor <= 0:
+        return None
+    if unidade.startswith("alqueire"):
+        if not area_alqueires:
+            return None
+        return round(valor * area_alqueires, 2)
+    # hectare(s)/ha
+    if not area_ha:
+        return None
+    return round(valor * area_ha, 2)
 
 
 def price_per_ha(price: float | None, area_ha: float | None) -> float | None:

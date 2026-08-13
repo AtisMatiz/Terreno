@@ -40,3 +40,49 @@ jobs:
           ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
           TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
         run: python scripts/diagnostico.py
+
+  medir-navegador:
+    # Job separado, não uma etapa do job acima: instalar o Chromium do
+    # Playwright é pesado (~150MB) e só serve para esta pergunta específica
+    # (wimoveis/imovelweb, ver docstring do script) -- não vale pagar esse
+    # custo em toda medição de transporte, só quando esta pergunta é a que
+    # importa.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Um navegador de verdade passa do desafio JS?
+        run: python scripts/diagnostico_navegador.py
+
+  medir-brave-descricao:
+    # wimoveis/imovelweb estão fora do site: do Brave em produção
+    # (`SKIP_HOSTS`) -- este job testa, isolado, se o snippet que o Brave
+    # devolve sozinho (sem visitar a página) já carrega preço/área úteis.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: O snippet do Brave/Tavily sozinho é útil para wimoveis/imovelweb?
+        env:
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          BRAVE_API_KEY_2: ${{ secrets.BRAVE_API_KEY_2 }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: python scripts/diagnostico_brave_descricao.py

@@ -20,6 +20,22 @@ localizacao:
   # é o que faz Caçapava valer mais que Cunha sem excluir nenhuma das duas.
   # null desliga tanto o filtro de raio quanto o bônus de proximidade.
   centro: "Monteiro Lobato, SP"
+
+  # Bônus de proximidade em 4 níveis (2026-08-13, traduzido a mão de 2 mapas
+  # desenhados pelo dono -- ver SESSION_NOTES, ainda não confirmados município
+  # a município, corrija livremente):
+  #   nível 4 (o melhor de todos) -- estar exatamente em `centro` (Monteiro
+  #     Lobato). Comparação por nome do município, não por distância: "estar
+  #     em Monteiro Lobato" é uma categoria, não um raio.
+  #   nível 3 (zona vermelha, "best zone") -- núcleo da serra ao redor do
+  #     centro.
+  #   nível 2 (zona laranja, "good zone") -- anel intermediário.
+  #   nível 1 (zona azul, "total search zone") -- resto da área de busca; sem
+  #     lista própria, cai na curva de distância contínua já existente
+  #     (`ajuste_centro`), que segue valendo para qualquer município fora das
+  #     duas listas abaixo.
+  zona_melhor: [São Bento do Sapucaí, Sapucaí-Mirim, Pinhalzinho, Francisco Xavier]
+  zona_boa: [Campos do Jordão, Pindamonhangaba, Taubaté, Tremembé, Ribeirão Grande]
   # Limite de sanidade, não o critério de escolha. A ordenação por proximidade
   # é feita pela nota (ver `proximidade_centro` em terreno/scoring.py), então o
   # raio existe só para cortar o que está claramente fora da região. Estava em
@@ -177,7 +193,7 @@ orcamentos:
   # runner, então o paralelismo pode ser alto sem custo real.
   brave_paralelismo: 50             # páginas candidatas buscadas ao mesmo tempo
   brave_timeout_pagina_s: 40        # tempo generoso por página até considerar "falha de acesso"
-  brave_max_falhas: 2               # falhas de acesso seguidas (entre execuções) até descartar o candidato
+  brave_max_falhas: 2               # falhas de acesso seguidas (entre execuções) até mover o candidato para o arquivo frio (brave_frios)
   brave_max_fila_pendentes: 5000    # teto de segurança contra fila sem fim, não uma cota por execução
   max_paginas_detalhe_por_fonte: 60
   max_paginas_enriquecimento: 80

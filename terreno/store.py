@@ -99,6 +99,21 @@ CREATE TABLE IF NOT EXISTS brave_pendentes (
 CREATE INDEX IF NOT EXISTS idx_brave_pendentes_descoberto
     ON brave_pendentes(descoberto_em);
 
+-- Candidatos que esgotaram `brave_max_falhas` tentativas de visita -- hoje,
+-- na prática, wimoveis/imovelweb, que servem um desafio JS da Cloudflare
+-- real, não uma instabilidade passageira (ver SESSION_NOTES, 2026-08-13).
+-- Antes disso era DELETE puro: a URL (e o crédito da Brave que a achou) se
+-- perdia de vez, mesmo sabendo que o bloqueio de hoje pode não ser o de
+-- amanhã. Aqui ela fica arquivada -- fora da fila ativa (não se tenta de
+-- novo sem decisão explícita), mas pronta para um transporte que funcione,
+-- sem precisar gastar a Brave outra vez para redescobrir a mesma URL.
+CREATE TABLE IF NOT EXISTS brave_frios (
+    url            TEXT PRIMARY KEY,
+    dica           TEXT,
+    descoberto_em  TEXT NOT NULL,
+    motivo         TEXT
+);
+
 -- Hosts que a Brave já provou mais de uma vez serem um site especializado em
 -- vender imóveis (uma extração de listing real, com preço/área, não uma
 -- página qualquer) sem estarem na lista curada à mão em `sites_alvo`. Depois
@@ -355,16 +370,19 @@ class Store:
         )
         self.db.commit()
 
-    def brave_pendentes_registrar_falha(self, urls, limiar: int = 2) -> set[str]:
+    def brave_pendentes_registrar_falha(self, urls, limiar: int = 2,
+                                        motivo: str = "") -> set[str]:
         """Um candidato que não deu para nem baixar (timeout, conexão recusada)
         ganha uma nova chance na próxima execução em vez de ser descartado na
         hora -- pode ter sido uma instabilidade passageira do site. Só depois
-        de `limiar` falhas *entre execuções* ele é descartado de vez. Isso é
-        deliberadamente separado de uma página que carregou mas não tinha
-        anúncio nenhum: essa é descartada na hora, porque visitar de novo não
+        de `limiar` falhas *entre execuções* ele sai da fila ativa -- não mais
+        por DELETE (ver `brave_frios` acima): vai para o arquivo frio, de onde
+        só volta por decisão explícita, nunca sozinho. Isso é deliberadamente
+        separado de uma página que carregou mas não tinha anúncio nenhum: essa
+        é descartada (de vez, sem arquivo) na hora, porque visitar de novo não
         vai mudar o que já foi lido com sucesso.
 
-        Retorna as URLs descartadas nesta chamada, para quem chamou logar."""
+        Retorna as URLs movidas para o frio nesta chamada, para quem chamou logar."""
         urls = list(urls)
         if not urls:
             return set()
@@ -374,16 +392,43 @@ class Store:
         )
         placeholders = ",".join("?" for _ in urls)
         linhas = self.db.execute(
-            f"SELECT url FROM brave_pendentes WHERE url IN ({placeholders}) AND falhas >= ?",
+            f"SELECT url, dica, descoberto_em FROM brave_pendentes "
+            f"WHERE url IN ({placeholders}) AND falhas >= ?",
             (*urls, limiar),
         ).fetchall()
         descartados = {r["url"] for r in linhas}
         if descartados:
             self.db.executemany(
+                "INSERT OR REPLACE INTO brave_frios (url, dica, descoberto_em, motivo) "
+                "VALUES (?, ?, ?, ?)",
+                [(r["url"], r["dica"], r["descoberto_em"], motivo) for r in linhas],
+            )
+            self.db.executemany(
                 "DELETE FROM brave_pendentes WHERE url = ?", [(u,) for u in descartados]
             )
         self.db.commit()
         return descartados
+
+    def brave_frios_adicionar(self, candidatos: dict[str, str], motivo: str = "") -> int:
+        """Registra candidatos direto no arquivo frio, sem passar pela fila
+        ativa -- para hosts já sabidos bloqueados hoje (wimoveis/imovelweb),
+        não vale gastar uma tentativa de visita real só para redescobrir o
+        que já se sabe. Retorna quantos eram genuinamente novos."""
+        if not candidatos:
+            return 0
+        agora = _now()
+        cur = self.db.executemany(
+            "INSERT OR IGNORE INTO brave_frios (url, dica, descoberto_em, motivo) "
+            "VALUES (?, ?, ?, ?)",
+            [(url, dica, agora, motivo) for url, dica in candidatos.items()],
+        )
+        self.db.commit()
+        return cur.rowcount if cur.rowcount and cur.rowcount > 0 else 0
+
+    def brave_frios_total(self) -> int:
+        return self.db.execute(
+            "SELECT COUNT(*) AS n FROM brave_frios"
+        ).fetchone()["n"]
 
     def brave_pendentes_total(self) -> int:
         return self.db.execute(
@@ -430,6 +475,28 @@ class Store:
         )
         self.db.commit()
         return promovendo_agora
+
+    def sites_alvo_semear(self, hosts) -> None:
+        """Garante que cada host curado (`criteria.sites_alvo`) participe da
+        mesma rotação semanal que os hosts auto-descobertos, em vez de ser
+        consultado sem parar a cada execução -- ver `brave_discover._site_
+        queries` (2026-08-13). `ocorrencias=0` e `promovido_em` já preenchido:
+        um site curado não precisa provar nada, só entrar na fila; ON
+        CONFLICT DO NOTHING preserva o estado de quem já estava lá (inclusive
+        `ultima_consulta`, para não resetar o relógio de quem já foi
+        consultado)."""
+        hosts = list(hosts)
+        if not hosts:
+            return
+        agora = _now()
+        self.db.executemany(
+            """INSERT INTO sites_descobertos
+                   (host, ocorrencias, primeira_vez, ultima_vez, promovido_em)
+               VALUES (?, 0, ?, ?, ?)
+               ON CONFLICT(host) DO NOTHING""",
+            [(h, agora, agora, agora) for h in hosts],
+        )
+        self.db.commit()
 
     def sites_descobertos_para_consultar(self, dias: int = 7) -> list[str]:
         """Hosts promovidos que não são consultados há `dias` dias (ou nunca

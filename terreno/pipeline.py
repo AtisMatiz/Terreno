@@ -9,7 +9,7 @@ from .config import Criteria, fold
 from .extract.rules import extract as rules_extract
 from .http import get as http_get
 from .models import Listing
-from .units import area_detalhada, price_per_ha, price_to_brl
+from .units import area_detalhada, preco_total, price_per_ha, price_to_brl
 
 log = logging.getLogger("terreno.pipeline")
 
@@ -34,6 +34,15 @@ def normalize(listing: Listing) -> Listing:
         if detalhe.alqueires is not None:
             listing.area_alqueires = detalhe.alqueires
             listing.area_alqueire_tipo = detalhe.alqueire_tipo
+
+    # "R$150.000 por alqueire" is a per-unit price, not the property's total
+    # -- checked against the raw text regardless of whether `price` came
+    # from here or from the source itself, since a source reading a
+    # structured price field can still miss a per-unit qualifier that sits
+    # in the free-text description.
+    corrigido = preco_total(text, listing.area_ha, listing.area_alqueires)
+    if corrigido is not None:
+        listing.price = corrigido
 
     listing.uf = (listing.uf or "").upper()[:2]
     listing.municipality = (listing.municipality or "").strip()
@@ -165,7 +174,12 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
     kept: list[Listing] = []
     descartados: dict[str, int] = {}
     for item in listings:
-        text = f"{item.title} {item.description}"
+        # An auto-generated category title ("Estúdio 0 banheiros – Casa")
+        # carries no real feature information -- see scoring.titulo_generico
+        # -- and scoring it alongside the description inflates
+        # "benfeitorias" with the category tag itself, not a real claim.
+        titulo = "" if scoring.titulo_generico(item.title) else item.title
+        text = f"{titulo} {item.description}"
 
         motivo = scoring.motivo_descarte(text, item.area_ha)
         if motivo:
@@ -186,6 +200,10 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
             distancia_centro_km=item.distancia_centro_km,
             preco_ha_bom=bom,
             preco_ha_limite=limite,
+            municipality=item.municipality,
+            centro=criteria.center,
+            zona_melhor=criteria.zona_melhor,
+            zona_boa=criteria.zona_boa,
         )
 
         _, aviso = scoring.tipo_ok(text)
