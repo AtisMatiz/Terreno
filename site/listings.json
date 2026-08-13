@@ -1,5 +1,5 @@
 {
- "generated_at": "12/08/2026 às 20:10",
+ "generated_at": "13/08/2026 às 07:07",
  "listings": [
   {
    "key": "47fa5609466c8c80",
@@ -2228,36 +2228,22 @@
  ],
  "new_count": 0,
  "sources": [
+  "mercadolivre",
   "pgfn",
   "olx",
   "chavesnamao",
   "wimoveis",
   "caixa",
-  "brave"
+  "brave",
+  "facebook"
  ],
  "warnings": [
+  "mercadolivre: 0 resultados",
   "pgfn: 0 resultados",
   "olx: 0 resultados",
   "wimoveis: 0 resultados",
-  "amitesp.com.br: bloqueado",
-  "casacor.abril.com.br: bloqueado",
-  "dreamcasa.com.br: bloqueado",
-  "fonsecaimoveisrurais.com.br: bloqueado",
-  "girosa.com.br: bloqueado",
-  "leismunicipais.com.br: bloqueado",
-  "taubate.sp.gov.br: bloqueado",
-  "viniciusimoveis.com.br: bloqueado",
-  "www.attria.com.br: bloqueado",
-  "www.casamineira.com.br: bloqueado",
-  "www.diariocidade.com: bloqueado",
-  "www.dreamcasa.com.br: bloqueado",
-  "www.nositedafesta.com.br: bloqueado",
-  "www.portalr3.com.br: bloqueado",
-  "www.redencaodaserra.sp.gov.br: bloqueado",
-  "www.registrorural.com.br: bloqueado",
-  "www.santoantoniodopinhal.tur.br: bloqueado",
-  "www.tripadvisor.com.br: bloqueado",
-  "www.wikiaves.com.br: bloqueado",
+  "brave: 0 resultados",
+  "facebook: 0 resultados",
   "www.wimoveis.com.br: bloqueado"
  ],
  "criterios": {
