@@ -40,3 +40,26 @@ jobs:
           ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
           TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
         run: python scripts/diagnostico.py
+
+  medir-navegador:
+    # Job separado, não uma etapa do job acima: instalar o Chromium do
+    # Playwright é pesado (~150MB) e só serve para esta pergunta específica
+    # (wimoveis/imovelweb, ver docstring do script) -- não vale pagar esse
+    # custo em toda medição de transporte, só quando esta pergunta é a que
+    # importa.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Um navegador de verdade passa do desafio JS?
+        run: python scripts/diagnostico_navegador.py
