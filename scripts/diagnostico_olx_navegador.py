@@ -39,13 +39,16 @@ def main() -> int:
         )
         page = context.new_page()
         try:
-            page.goto(URL, timeout=30_000, wait_until="networkidle")
+            # "networkidle" nunca se resolve em páginas com telemetria/ads
+            # contínuos (medido: timeout puro aos 30s) -- não é sinal de
+            # bloqueio, é a condição de espera errada para um site real.
+            page.goto(URL, timeout=30_000, wait_until="domcontentloaded")
         except Exception as exc:  # noqa: BLE001
             print(f"ERRO ao carregar: {type(exc).__name__}: {exc}")
             browser.close()
             return 1
 
-        page.wait_for_timeout(3_000)
+        page.wait_for_timeout(6_000)
         titulo = page.title()
         html = page.content()
         print(f"título: {titulo!r}")
