@@ -81,7 +81,6 @@ def make_fetcher(name: str):
     def fetch(criteria, store, budgets) -> list[Listing]:
         max_pages = int(budgets.get("max_paginas_por_fonte", 5))
         detail_cap = int(budgets.get("max_paginas_detalhe_por_fonte", DEFAULT_DETAIL_CAP))
-        already = store.seen_urls()
 
         candidates: dict[str, str] = {}   # url -> uf
         for uf in criteria.states:
@@ -110,7 +109,11 @@ def make_fetcher(name: str):
             return out
 
         # No parseable slug: fall back to fetching detail pages directly,
-        # skipping anything already stored.
+        # skipping anything already stored. Only queried here (never for the
+        # slug-based branch above, which never reads it) -- a full `SELECT url
+        # FROM listings` scan for every run is wasted work for a portal that
+        # has no use for the result.
+        already = store.seen_urls()
         fresh = [(u, uf) for u, uf in candidates.items() if u not in already]
         log.info("%s: %d links (%d new, fetching up to %d)",
                  name, len(candidates), len(fresh), detail_cap)
