@@ -15,6 +15,7 @@ makes any headless-browser measurement here meaningless):
 
 from __future__ import annotations
 
+import re
 import sys
 
 try:
@@ -54,25 +55,32 @@ def main() -> int:
         print(f"título: {titulo!r}")
         print(f"tamanho do HTML renderizado: {len(html)}")
 
-        # Depois da hidratação, cartões de anúncio reais devem existir no
-        # DOM com algum seletor estável, mesmo que o __NEXT_DATA__ nunca
-        # apareça -- olx usa data-testid ou data-ds-component em vários
-        # elementos de listagem.
-        cartoes = page.locator('a[href*="/vi/"]').count()
-        print(f"links de anúncio (a[href*='/vi/']) encontrados: {cartoes}")
-        if cartoes:
-            primeiro = page.locator('a[href*="/vi/"]').first
-            print(f"primeiro href: {primeiro.get_attribute('href')}")
-            print(f"primeiro texto: {(primeiro.inner_text() or '')[:200]!r}")
+        # "/vi/" era um palpite -- não bateu com nada. Em vez de adivinhar
+        # de novo, lista os hrefs reais (todo <a>) e mostra os que parecem
+        # anúncio (terminam em dígitos, o padrão mais estável de qualquer
+        # portal de classificados) para descobrir o padrão certo direto dos
+        # dados, não de suposição.
+        hrefs = page.eval_on_selector_all("a", "els => els.map(e => e.getAttribute('href'))")
+        hrefs = [h for h in hrefs if h]
+        print(f"total de <a href> na página: {len(hrefs)}")
+        candidatos = [h for h in hrefs if re.search(r"\d{6,}", h)]
+        print(f"hrefs com um número de 6+ dígitos (candidato a id de anúncio): {len(candidatos)}")
+        for h in candidatos[:15]:
+            print(" -", h)
+        if not candidatos:
+            print("amostra de hrefs (nenhum candidato claro encontrado):")
+            for h in hrefs[:20]:
+                print(" -", h)
 
         if "Just a moment" in titulo or "Just a moment" in html[:2000]:
             print("\nRESULTADO: bloqueado por desafio JS (inesperado para OLX).")
-        elif cartoes:
-            print(f"\nRESULTADO: OK -- {cartoes} anúncios visíveis após renderização.")
+        elif candidatos:
+            print(f"\nRESULTADO: OK -- {len(candidatos)} link(s) candidato(s) a "
+                  "anúncio visível(is) após renderização.")
         else:
-            print("\nRESULTADO: AMBÍGUO -- página carregou mas nenhum link de "
-                  "anúncio reconhecido; talvez o seletor esteja errado, não "
-                  "necessariamente um bloqueio.")
+            print("\nRESULTADO: AMBÍGUO -- página carregou (título real, HTML "
+                  "grande) mas nenhum link com padrão de id de anúncio "
+                  "encontrado; ver a amostra de hrefs acima.")
         browser.close()
     return 0
 
