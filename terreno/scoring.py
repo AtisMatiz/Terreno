@@ -59,17 +59,28 @@ def _fold(text: str) -> str:
 
 
 def _hits(text: str, pattern: str) -> int:
-    """Occurrences of `pattern`, ignoring negated mentions.
+    """Occurrences of `pattern`, ignoring negated *and* exchange mentions.
 
     "sem nascente" and "não possui água" must not read as positives — the
     single most common way a naive keyword scorer inflates a bad listing. The
     same check runs over the *negative* patterns, so "sem vizinhos próximos"
     does not fire the "vizinhos próximos" penalty.
+
+    "troco por casa" is a second, distinct failure mode found 2026-08-13 (a
+    real Facebook ad: "troco com sítio ou casa de meu gosto"): the seller is
+    naming what they *want in exchange*, not a feature of *this* property.
+    No amount of a longer negation list generalizes past this specific,
+    recognizable Brazilian-classifieds phrasing, so it gets its own lookback
+    clause rather than being folded into the negation one above (different
+    meaning, same mechanism).
     """
     count = 0
     for m in re.finditer(pattern, text):
         before = text[max(0, m.start() - 28):m.start()]
         if re.search(r"\b(sem|nao|nenhum[a]?|falta de|ausencia de|nem)\s+[\w\s]{0,18}$", before):
+            continue
+        if re.search(r"\b(troco|troca|trocar|aceito troca|em troca de|"
+                     r"quero em troca)\s*(?:por|com|de)?\s*[\w\s]{0,18}$", before):
             continue
         count += 1
     return count
@@ -262,6 +273,19 @@ CENTRO_MEDIO_KM = 40.0          # moderate bonus
 CENTRO_NEUTRO_KM = 70.0         # neutral; beyond this a growing penalty
 CENTRO_BONUS_MAX = 0.10
 CENTRO_PENALIDADE_MAX = 0.15
+
+# Named-zone tiers (2026-08-13), on top of the continuous distance curve
+# below rather than replacing it -- see `ajuste_zona`. Levels 2 and 3 are
+# fixed bonuses for being in a specific, named municipality (hand-drawn
+# zones on a map, translated to town lists -- see criteria.yaml); level 4 is
+# reserved for `centro` itself and is deliberately the highest of all four,
+# per the owner's explicit "4th overall best when in Monteiro Lobato
+# exactly." Level 1 has no fixed bonus of its own: an unnamed municipality
+# (or an unknown one) falls through to `ajuste_centro`'s distance curve,
+# which is what always governed proximity before this tiering existed.
+ZONA_BOA_BONUS = 0.06
+ZONA_MELHOR_BONUS = 0.10
+ZONA_CENTRO_BONUS = 0.13
 
 
 # ---------------------------------------------------------------- measures
@@ -480,6 +504,37 @@ def ajuste_centro(distancia_centro_km: float | None) -> tuple[float, float, str]
         "⚠ " + rotulo
 
 
+def ajuste_zona(
+    municipality: str,
+    centro: str | None,
+    zona_melhor: list[str],
+    zona_boa: list[str],
+    distancia_centro_km: float | None,
+) -> tuple[float, float, str]:
+    """4-tier proximity modifier: (nota 0..1, score delta, label).
+
+    Tiers 2-4 are a *named-municipality* match, not a distance measurement --
+    "estar em Monteiro Lobato" is a category the owner named directly (two
+    hand-drawn map zones translated to town lists, see criteria.yaml), not a
+    radius. Tier 1 has no list of its own: any municipality not named in
+    `centro`/`zona_melhor`/`zona_boa` — including an unknown one — falls
+    through to `ajuste_centro`'s continuous distance curve, exactly as
+    proximity worked before this tiering existed.
+
+    An empty `municipality` always falls through to tier 1: a listing whose
+    town could not be read gets no credit for a tier that requires naming it.
+    """
+    muni = _fold(municipality)
+    if muni:
+        if centro and muni == _fold(centro.split(",")[0]):
+            return 1.0, ZONA_CENTRO_BONUS, f"em {municipality.strip()} (centro exato)"
+        if muni in {_fold(m) for m in zona_melhor}:
+            return 0.92, ZONA_MELHOR_BONUS, f"em {municipality.strip()} (zona melhor)"
+        if muni in {_fold(m) for m in zona_boa}:
+            return 0.75, ZONA_BOA_BONUS, f"em {municipality.strip()} (zona boa)"
+    return ajuste_centro(distancia_centro_km)
+
+
 # ---------------------------------------------------------------- scoring
 # A specific label makes its generic cousin redundant *on the card* — "casa
 # sede + casa de caseiro + casa" reads badly. Scoring is untouched; only the
@@ -557,6 +612,27 @@ ESTRELAS: list[tuple[str, str]] = [
 ]
 
 
+# Facebook Marketplace (and other aggregators without a custom title) auto-
+# generate a title from the listing's own category tag alone -- "Estúdio 0
+# banheiros – Casa", "2 quartos 1 banheiro – Casa" -- where "Casa" is the
+# *property-type category*, not a claim the land has a house on it. Found
+# 2026-08-13 against a real listing (a bare rural lot, explicitly "ideal
+# para CONSTRUIR a chácara dos seus sonhos") whose auto-title's "Casa"
+# nonetheless scored a real "benfeitorias" hit. Titles matching this shape
+# carry no genuine feature information, so the caller should score the
+# description alone, not title + description, for exactly these.
+TITULO_GENERICO_RE = re.compile(
+    r"^\s*(?:est[uú]dio|\d+\s*quartos?)\s+\d+\s*banheiros?\s*[-–]?\s*"
+    r"(?:casa|apartamento|studio|kitnet|sobrado|cobertura)\s*$",
+    re.I,
+)
+
+
+def titulo_generico(title: str) -> bool:
+    """Whether `title` is an auto-generated category label, not real prose."""
+    return bool(TITULO_GENERICO_RE.match((title or "").strip()))
+
+
 def estrelas(text: str) -> list[str]:
     """Standout features worth flagging, not scored — surfaced.
 
@@ -617,6 +693,10 @@ def avaliar(
     distancia_centro_km: float | None = None,
     preco_ha_bom: float = PRECO_HA_BOM,
     preco_ha_limite: float = PRECO_HA_LIMITE,
+    municipality: str = "",
+    centro: str | None = None,
+    zona_melhor: list[str] | None = None,
+    zona_boa: list[str] | None = None,
 ) -> tuple[float, dict, list[str], list[str]]:
     """Score a listing. Never raises, never returns None — discards are separate.
 
@@ -632,6 +712,10 @@ def avaliar(
     * `preco_ha_bom` / `preco_ha_limite` — R$/ha thresholds, defaulting to
       `PRECO_HA_BOM` (100 000) and `PRECO_HA_LIMITE` (150 000); wire these to
       criteria.yaml.
+    * `municipality`/`centro`/`zona_melhor`/`zona_boa` — the 4-tier proximity
+      bonus (see `ajuste_zona`); when `municipality` is empty or matches none
+      of the three, falls through to the plain distance curve exactly as
+      before this tiering existed.
 
     Returns a **4-tuple**. The first three keep exactly their previous meaning;
     the fourth is new:
@@ -680,7 +764,9 @@ def avaliar(
         "ajuste": ajuste_p,
     }
 
-    nota_centro, ajuste_c, prova_c = ajuste_centro(distancia_centro_km)
+    nota_centro, ajuste_c, prova_c = ajuste_zona(
+        municipality, centro, zona_melhor or [], zona_boa or [], distancia_centro_km,
+    )
     detalhe["proximidade_centro"] = {
         "rotulo": "Proximidade do centro",
         "nota": round(nota_centro, 3),

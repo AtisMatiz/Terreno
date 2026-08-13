@@ -55,6 +55,14 @@ class Criteria:
         return self._loc.get("centro")
 
     @property
+    def zona_melhor(self) -> list[str]:
+        return self._loc.get("zona_melhor") or []
+
+    @property
+    def zona_boa(self) -> list[str]:
+        return self._loc.get("zona_boa") or []
+
+    @property
     def radius_km(self) -> float | None:
         return self._loc.get("raio_km")
 

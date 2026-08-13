@@ -304,8 +304,17 @@ def _apify_post(actor: str, token: str, payload: dict):
 # Daí a lista de candidatos: o resto do payload tenta variações de GraphQL,
 # camelCase e snake_case. Se nenhuma pegar, `_via_apify`
 # avisa em vez de devolver descrição vazia caladamente.
+#
+# `redacted_description` vem primeiro (2026-08-13): é o campo confirmado
+# contra uma página real do Facebook contendo o texto de verdade escrito
+# pelo vendedor (`{"text": "UMA linda área rural..."}`). Um genérico
+# `description`, se o ator o fornecer, tende a ser sintetizado/categórico e
+# perdeu contra o texto real numa comparação direta -- ver o card do
+# "Estúdio 0 banheiros" no SESSION_NOTES, onde um `description` genérico
+# (ou nenhum campo neste índice) produziu "riacho"/"casa" que a página real
+# não tem em lugar nenhum.
 CAMPOS_DESCRICAO = (
-    "description", "redacted_description", "listingDescription",
+    "redacted_description", "description", "listingDescription",
     "marketplace_listing_description", "listing_description", "custom_title",
 )
 
@@ -394,7 +403,12 @@ def _from_apify(item: dict, uf: str) -> Listing | None:
 
     location = item.get("location")
     location = location if isinstance(location, dict) else {}
-    geo = location.get("reverse_geocode")
+    # `reverse_geocode_detailed` é o nome real confirmado contra uma página
+    # do Facebook (2026-08-13) -- `reverse_geocode` (sem o `_detailed`) nunca
+    # bateu com nada, e por isso a cidade nunca era lida: toda a localização
+    # caía para a sigla de estado sozinha ("SP"), que é exatamente o bug
+    # relatado ("Localização: SP" em todo card, sem município nenhum).
+    geo = location.get("reverse_geocode_detailed") or location.get("reverse_geocode")
     geo = geo if isinstance(geo, dict) else {}
     municipality = _texto(geo.get("city")) or _texto(location.get("city"))
     if not municipality:

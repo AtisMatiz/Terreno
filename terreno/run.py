@@ -182,7 +182,14 @@ def main(argv=None) -> int:
                      len(fora))
 
     if para_avisar or alertas_saude:
-        notify.telegram(para_avisar, env("TERRENO_PAGE_URL"),
+        # Falls back to the known, fixed Pages URL when TERRENO_PAGE_URL
+        # isn't set -- found 2026-08-13: the repo variable was apparently
+        # never actually set, so "...e mais N — ver a lista completa" had
+        # no link at all, a dead end for exactly the listings being pointed
+        # at. A repo variable being forgotten should degrade, not silently
+        # drop the one thing that line promises.
+        pagina = env("TERRENO_PAGE_URL") or "https://atismatiz.github.io/Terreno/"
+        notify.telegram(para_avisar, pagina,
                         int(criteria.output("top_n_no_alerta", 8)),
                         alertas=alertas_saude)
 
