@@ -498,6 +498,33 @@ class Store:
         )
         self.db.commit()
 
+    def hosts_conhecidos(self) -> set[str]:
+        """Every host já rastreado em `sites_descobertos`, promovido ou não --
+        o que a busca genérica da Brave (`brave_discover.TEMPLATES`) deve
+        parar de tratar como candidato a *site novo*, mesmo que ainda valha a
+        pena visitar a URL em si (isso é decidido em `discover()`, não aqui)."""
+        return {r["host"] for r in self.db.execute("SELECT host FROM sites_descobertos")}
+
+    def sites_descobertos_avistar(self, hosts) -> None:
+        """Registra um host no instante em que a busca genérica da Brave o
+        acha por trás de uma URL nova -- antes de qualquer extração real --
+        para que ele conte como "já encontrado" a partir de agora e não
+        volte a consumir cota de descoberta de site todo dia. `ocorrencias`
+        continua em 0: a promoção para a rotação semanal `site:` (ver
+        `registrar_extracao_brave`) ainda depende de extrações reais, não de
+        ter aparecido numa busca."""
+        hosts = list(hosts)
+        if not hosts:
+            return
+        agora = _now()
+        self.db.executemany(
+            """INSERT INTO sites_descobertos (host, ocorrencias, primeira_vez, ultima_vez)
+               VALUES (?, 0, ?, ?)
+               ON CONFLICT(host) DO NOTHING""",
+            [(h, agora, agora) for h in hosts],
+        )
+        self.db.commit()
+
     def sites_descobertos_para_consultar(self, dias: int = 7) -> list[str]:
         """Hosts promovidos que não são consultados há `dias` dias (ou nunca
         foram) -- a cadência semanal em si, guiada pelos dados e não pela
