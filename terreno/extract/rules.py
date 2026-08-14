@@ -171,14 +171,21 @@ def _motivo_generica(url: str, title: str, body: str, haystack: str,
         return "titulo_de_agencia"
     if _CORPO_INDICE.search(titulo_e_corpo):
         return "marcadores_de_resultado"
-    # A partir daqui os sinais são indiretos, e a mesma isenção do teste de
-    # preços vale: uma página cuja estrutura declara *um* anúncio com preço
-    # está falando de um imóvel específico, mesmo que ao lado dele haja uma
-    # vitrine de "imóveis semelhantes" com outras áreas e outros preços.
-    if estruturado:
-        return ""
+    # A área NUNCA vem de dado estruturado neste módulo -- é sempre extraída
+    # de texto livre (ver extract()), então o risco de contaminação por uma
+    # vitrine de "imóveis semelhantes" na mesma página vale tenha ou não um
+    # preço estruturado ao lado. Corrigido 2026-08-14: este guard ficava
+    # atrás do `if estruturado: return ""` abaixo, e por isso nunca disparava
+    # nessas páginas -- exatamente o caso real que expôs o bug (uma casa
+    # urbana comum, "Chácara Santa Luzia" sendo o nome do bairro, relatada
+    # com 4,7 ha que na verdade pertenciam a outro imóvel na mesma página).
     if _areas_distintas(haystack) >= 3:
         return "muitas_areas"
+    # A partir daqui os sinais restantes são sobre preço/id, onde a mesma
+    # isenção realmente vale: uma página cuja estrutura declara *um* anúncio
+    # com preço está falando de um imóvel específico.
+    if estruturado:
+        return ""
     if not tem_id:
         # No id in the URL is not damning by itself (plenty of agency sites use
         # a bare slug), but combined with either of these it is.

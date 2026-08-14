@@ -34,6 +34,21 @@ TIPO_RURAL = r"fazenda|chacara|sitio|haras|rancho|area rural|zona rural|propried
 TIPO_URBANO = (r"loteamento|condominio fechado|lote urbano|terreno urbano|apartamento"
                r"|sobrado|casa geminada")
 
+# "Chácara"/"Sítio"/"Fazenda" are extremely common as decorative Brazilian
+# neighbourhood-name prefixes ("Bairro Chácara Santa Luzia", "Jardim Sítio
+# do Sol") for perfectly ordinary urban subdivisions -- the word says
+# nothing about the land itself in that role. Found 2026-08-14 against a
+# real listing: an urban house ("4 quartos, 2 banheiros, garagem para 2
+# carros", zero mention of land size anywhere) in "Chácara Santa Luzia,
+# Taubaté" passed the rural gate on that name alone. A bare TIPO_RURAL match
+# is no longer trusted by itself -- see `tipo_ok`, which now also requires
+# one of these more specific signals before believing it.
+_SINAL_RURAL_ESPECIFICO = (
+    r"hectares?|\bhas?\b|alqueires?|\bm[²2]\b|\bkm[²2]\b|"
+    r"pastage[nm]|pasto|lavoura|\bmata\b|nascente|curral|"
+    r"estrada de terra|area rural|zona rural|propriedade rural"
+)
+
 # Corroborating evidence that we are looking at rural *land*, not a house on a
 # town plot. Used to gate the benfeitorias dimension: buildings only count when
 # there is land under them.
@@ -408,6 +423,10 @@ def tipo_ok(text: str) -> tuple[bool, str]:
     rural = bool(re.search(TIPO_RURAL, folded))
     urbano = bool(re.search(TIPO_URBANO, folded))
     if rural and not urbano:
+        # A bare "chácara"/"sítio"/"fazenda" is trusted only alongside a more
+        # specific rural signal -- see _SINAL_RURAL_ESPECIFICO's docstring.
+        if not re.search(_SINAL_RURAL_ESPECIFICO, folded):
+            return False, "menção a chácara/sítio/fazenda sem outro sinal rural (pode ser nome de bairro)"
         return True, ""
     if rural and urbano:
         return True, "menção a loteamento/condomínio"
