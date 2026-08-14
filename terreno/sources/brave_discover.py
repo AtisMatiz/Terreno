@@ -15,6 +15,7 @@ from __future__ import annotations
 import logging
 from calendar import monthrange
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 import requests
 
@@ -61,6 +62,11 @@ SKIP_HOSTS = (
 # instead of the active `brave_pendentes` queue -- archived, not lost, so a
 # working transport later can use them without re-spending a search query.
 COLD_HOSTS = ("wimoveis.com.br", "imovelweb.com.br")
+
+
+def _host(url: str) -> str:
+    netloc = urlparse(url).netloc.lower()
+    return netloc[4:] if netloc.startswith("www.") else netloc
 
 
 def _daily_allowance(store, per_run: int, per_month: int) -> int:
@@ -184,23 +190,45 @@ def discover(criteria, store, budgets) -> int:
         log.info("brave: %d site(s) descoberto(s) consultados nesta rodada semanal: %s",
                  len(consultados_agora), ", ".join(sorted(consultados_agora)))
 
+    # Hosts the sites database already knows about (curated + auto-
+    # discovered, promoted or not). The generic templates' whole job is to
+    # find websites we *don't* have yet -- a site: query already covers
+    # known hosts on their own weekly clock (`_discovered_site_queries`), so
+    # a generic-query hit on a host we already track is redundant with that
+    # channel, not a new find. Site-targeted queries are exempt below: their
+    # own host is known by construction, that's the point of asking for it.
+    site_queries = set(descobertos)
+    conhecidos = set(SKIP_HOSTS) | set(COLD_HOSTS) | store.hosts_conhecidos()
+
     already = store.seen_urls()
     novos: dict[str, str] = {}
     frios: dict[str, str] = {}
+    hosts_novos: set[str] = set()
+    ja_conhecidos = 0
 
     for query in queries:
         data = _consultar(query, token, token2)
         store.budget_spend(RESOURCE, 1)
         if not data:
             continue
+        de_site_alvo = query in site_queries
         for result in (data.get("web") or {}).get("results", []):
             url = result.get("url") or ""
             if not url or url in already or url in novos or url in frios:
                 continue
             if any(host in url for host in SKIP_HOSTS):
                 continue
+            host = _host(url)
+            if not de_site_alvo and host in conhecidos:
+                # Already in the sites database -- this query slot found a
+                # site we already have, not a new one. Still worth a visit
+                # in principle, but that's exactly what the site: rotation
+                # is for; here it just means don't spend discovery budget
+                # re-confirming a host we already track.
+                ja_conhecidos += 1
+                continue
             titulo = result.get("title") or ""
-            if any(host in url for host in COLD_HOSTS):
+            if any(h in url for h in COLD_HOSTS):
                 # Known blocked today (see COLD_HOSTS) -- archive straight
                 # to cold storage rather than a live visit whose outcome is
                 # already known, and keep the description too: it is the
@@ -210,8 +238,19 @@ def discover(criteria, store, budgets) -> int:
                 frios[url] = f"{titulo} — {descricao}"[:500] if descricao else titulo
                 continue
             novos[url] = titulo
+            if not de_site_alvo:
+                # Reaching here means host wasn't in `conhecidos` (else the
+                # check above would have skipped it) -- a genuine new find.
+                hosts_novos.add(host)
 
     store.brave_pendentes_adicionar(novos)
+    if hosts_novos:
+        store.sites_descobertos_avistar(hosts_novos)
+        log.info("brave: %d site(s) novo(s) achado(s) pela busca genérica -> sites_descobertos: %s",
+                 len(hosts_novos), ", ".join(sorted(hosts_novos)))
+    if ja_conhecidos:
+        log.info("brave: %d resultado(s) de host(s) já conhecido(s) ignorados na busca genérica "
+                 "(cobertos pela rotação site:, não gastos aqui de novo)", ja_conhecidos)
     if frios:
         n = store.brave_frios_adicionar(frios, motivo="desafio JS conhecido (ver COLD_HOSTS)")
         log.info("brave: %d candidato(s) de host(s) conhecidos bloqueados -> frios (%d novos)",
