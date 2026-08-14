@@ -82,7 +82,14 @@ fontes:
   vivareal: false     # desligado a pedido do usuário (2026-08-11): o portal
                       # apresenta problemas mesmo num navegador comum, então
                       # não é um caso de bloqueio a resolver do nosso lado.
-  mercadolivre: true
+  mercadolivre: false # desligado (2026-08-14): não é bloqueio nosso nem falta
+                      # de credencial -- o OAuth funciona (token emitido com
+                      # sucesso), mas o próprio endpoint `/sites/MLB/search`
+                      # devolve 403 para qualquer app comum, medido e confirmado
+                      # como uma restrição de plataforma recente e generalizada
+                      # (múltiplos desenvolvedores relatando o mesmo, sem
+                      # solução documentada -- exige whitelist manual do
+                      # Mercado Livre). Nada a corrigir do nosso lado agora.
   chavesnamao: true
   imovelweb: false    # desligado (2026-08-12): nada medido resolve esse host,
                       # nem o desbloqueador pago (HTTP 422) — ver comentário em
@@ -119,11 +126,14 @@ fontes:
 #   * imovelweb — recusado por tudo, incluindo o ZenRows (HTTP 422). Sem
 #     lugar nenhum para rodar agora; ver `fontes.imovelweb` acima. O que
 #     sobra vem da cobertura indireta da Brave (site:).
-#   * mercadolivre — nunca foi bloqueio de IP: a API exige OAuth
-#     (client_credentials, ver terreno/sources/mercadolivre.py), por isso
-#     nunca dependeu de rodar localmente. Já entra aqui; sem
-#     ML_CLIENT_ID/ML_CLIENT_SECRET configurados ela só loga o aviso e
-#     devolve vazio, sem quebrar a execução.
+#   * mercadolivre — desligado (2026-08-14): não é bloqueio de IP nem falta
+#     de credencial. Testado com ML_CLIENT_ID/ML_CLIENT_SECRET configurados: o
+#     OAuth (client_credentials) funciona e emite token normalmente, mas o
+#     endpoint de busca (`/sites/MLB/search`) devolve 403 mesmo assim — uma
+#     restrição de plataforma recente e generalizada (vários desenvolvedores
+#     relatando o mesmo, sem solução documentada, exige whitelist manual do
+#     Mercado Livre). Sem correção possível do nosso lado agora; ver
+#     `fontes.mercadolivre` acima.
 #   * facebook — o mesmo: a chamada via Apify sai dos servidores da Apify,
 #     nunca do nosso IP, então também nunca precisou de máquina local. Só o
 #     reserva (`FB_COOKIES_FILE`, Playwright) exigia isso, e continua
@@ -132,7 +142,7 @@ fontes:
 # `chavesnamao`, `caixa` e `brave` já respondiam do runner (chavesnamao e
 # Brave por natureza; caixa via curl_cffi).
 perfis:
-  ci: [brave, chavesnamao, caixa, pgfn, olx, mercadolivre, facebook]
+  ci: [brave, chavesnamao, caixa, pgfn, olx, facebook]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a
