@@ -185,14 +185,15 @@ sites_alvo:
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
 orcamentos:
-  # O plano atual da Brave (confirmado no dashboard, 2026-08-11) não tem teto
-  # mensal — só 50 requisições/segundo, e o discover() de hoje faz uma
-  # consulta por vez, bem abaixo disso. O `brave_consultas_por_mes` antigo
-  # (2000, da cota gratuita) não existe mais nesse plano; deixamos um número
-  # alto em vez de remover o cálculo de _daily_allowance, então o teto real
-  # que sobra é `brave_consultas_por_run`, que subiu de 100 para cobrir muito
-  # mais lugares/templates por execução.
-  brave_consultas_por_run: 600
+  # O plano da Brave TEM um teto mensal real de $ (bateu HTTP 402 em
+  # 2026-08-13 -- ver Standing rules em SESSION_NOTES, a nota anterior de
+  # "sem teto mensal" estava errada). `BRAVE_API_KEY_2` (2026-08-13) já dá
+  # fallback automático quando a chave principal esgota, mas as duas
+  # dividem o mesmo calendário mensal -- reduzido de 600 para 100 consultas
+  # por execução (2026-08-16, a pedido do usuário) para esticar quantos dias
+  # o par de chaves dura antes de bater o teto de novo, já que a chave 2
+  # sozinha já tinha alcançado metade do próprio limite mensal.
+  brave_consultas_por_run: 100
   brave_consultas_por_mes: 1000000
   apify_usd_por_mes: 5.00           # crédito gratuito da Apify
   max_paginas_por_fonte: 10

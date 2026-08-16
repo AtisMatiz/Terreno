@@ -79,29 +79,51 @@ def fetch(criteria, store, budgets) -> list[Listing]:
 
 
 # ------------------------------------------------------------------- Apify
+
+def _apify_contas() -> list[tuple[str, str]]:
+    """(token, conta) pairs to try, in priority order.
+
+    `APIFY_TOKEN_2` (a second free-tier account, added 2026-08-16 after the
+    original account hit Apify's monthly credit cap) is now the primary --
+    `APIFY_TOKEN` stays wired as an automatic fallback for whenever the new
+    one runs dry too, the same pattern `BRAVE_API_KEY_2` already uses."""
+    return [(t, c) for t, c in ((env("APIFY_TOKEN_2"), "2"), (env("APIFY_TOKEN"), "1")) if t]
+
+
 def _via_apify(criteria, store, budgets) -> list[Listing]:
-    token = env("APIFY_TOKEN")
-    if not token:
-        log.info("APIFY_TOKEN not set — skipping Apify backend")
+    contas = _apify_contas()
+    if not contas:
+        log.info("APIFY_TOKEN/APIFY_TOKEN_2 not set — skipping Apify backend")
         return []
-
-    cap = float(budgets.get("apify_usd_por_mes", 5.0))
-    if store.budget_remaining(RESOURCE, cap) < EST_USD_PER_RUN:
-        log.warning("apify: monthly credit budget exhausted — skipping")
-        return []
-
-    limits = http.get_json(APIFY_LIMITS, params={"token": token}, retries=1)
-    if limits:
-        data = limits.get("data", {})
-        used = (data.get("current") or {}).get("monthlyUsageUsd", 0)
-        allowed = (data.get("limits") or {}).get("maxMonthlyUsageUsd", cap)
-        if used and allowed and used >= allowed:
-            log.warning("apify: account credit spent (%.2f/%.2f)", used, allowed)
-            return []
 
     urls = _start_urls(criteria)
     if not urls:
         log.warning("apify: nenhuma URL de busca montada — pulando")
+        return []
+
+    cap = float(budgets.get("apify_usd_por_mes", 5.0))
+    token = conta = None
+    for tok, c in contas:
+        # Each account has its own independent monthly credit, so the local
+        # ledger is tracked per account (`apify_usd_1`/`apify_usd_2`) rather
+        # than one shared counter -- a shared one would keep blocking calls
+        # to a fresh account just because the other one's credit ran out.
+        if store.budget_remaining(f"{RESOURCE}_{c}", cap) < EST_USD_PER_RUN:
+            log.warning("apify: conta %s sem cota no ledger local — tentando a próxima", c)
+            continue
+        limits = http.get_json(APIFY_LIMITS, params={"token": tok}, retries=1)
+        if limits:
+            data = limits.get("data", {})
+            used = (data.get("current") or {}).get("monthlyUsageUsd", 0)
+            allowed = (data.get("limits") or {}).get("maxMonthlyUsageUsd", cap)
+            if used and allowed and used >= allowed:
+                log.warning("apify: conta %s com crédito esgotado (%.2f/%.2f) — tentando a próxima",
+                            c, used, allowed)
+                continue
+        token, conta = tok, c
+        break
+    if not token:
+        log.warning("apify: todas as contas sem crédito disponível — pulando")
         return []
 
     # One actor call for every URL, not one per state: the actor takes the
@@ -112,13 +134,13 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         "resultsLimit": RESULTS_LIMIT,
         "includeListingDetails": INCLUDE_DETAILS,
     }
-    log.info("apify: %d URL(s) de busca, limite=%d, detalhes=%s (~US$ %.2f)",
-             len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, EST_USD_PER_RUN)
+    log.info("apify: conta %s, %d URL(s) de busca, limite=%d, detalhes=%s (~US$ %.2f)",
+             conta, len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, EST_USD_PER_RUN)
     for u in urls:
         log.debug("apify: %s", u)
 
     items = _apify_post(DEFAULT_ACTOR, token, payload)
-    store.budget_spend(RESOURCE, EST_USD_PER_RUN)
+    store.budget_spend(f"{RESOURCE}_{conta}", EST_USD_PER_RUN)
     items = [i for i in (items or []) if isinstance(i, dict)]
 
     # Cada item traz de volta a start URL que o produziu (`facebookUrl`), o que
