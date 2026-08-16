@@ -1,5 +1,5 @@
 {
- "generated_at": "14/08/2026 às 07:23",
+ "generated_at": "16/08/2026 às 06:23",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -218,7 +218,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -335,7 +335,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -578,6 +578,115 @@
    "price_drop": null
   },
   {
+   "key": "c38d6eef3d399f8e",
+   "source": "facebook",
+   "source_id": "1487138539882728",
+   "url": "https://www.facebook.com/marketplace/item/1487138539882728/",
+   "title": "VENDE –SE Terreno em Pindamonhangaba, São Paulo.",
+   "description": "VENDE –SE Terreno em Pindamonhangaba, São Paulo.   \nR$ 425.000\nGaldino Corretor de imóveis * CRECI 173927-F * Vende Terreno em Pindamonhangaba São Paulo.\nContato WhatsApp. [hidden information]\nO Terreno está localizado no bairro Pinhão do Borba, Fica a 5 km da via Dutra e a 10 km de Pindamonhangaba, 15 minuto do centro da Cidade. \nObservação: Local com água em abundância de nascente, ideal par quem quer realizar o sonho de construir sua chácara, pois existe uma boa área de platô e também ideal para fazer criação de animais, construir uma boa horta, local bem tranquilo e também contém uma vista maravilhosa da natureza.\nÁrea do terreno: 3,09 alqueires.\nDocumentação: Matricula registrada em Cartório.",
+   "price": 425000.0,
+   "price_first": 425000.0,
+   "area_ha": 7.4778,
+   "price_per_ha": 56834.9,
+   "municipality": "Pindamonhangaba",
+   "uf": "SP",
+   "lat": -22.9364,
+   "lon": -45.4622602,
+   "image": "",
+   "posted_at": "",
+   "score": 0.452,
+   "reasons": [
+    "nascente",
+    "tranquilo",
+    "15 min da cidade",
+    "escriturado",
+    "R$/ha 56.835",
+    "em Pindamonhangaba (zona boa)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "nascente"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.7,
+     "peso": 15,
+     "provas": [
+      "15 min da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.932,
+     "peso": 0,
+     "provas": [
+      "R$/ha 56.835"
+     ],
+     "ajuste": 0.0863
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.75,
+     "peso": 0,
+     "provas": [
+      "em Pindamonhangaba (zona boa)"
+     ],
+     "ajuste": 0.06
+    }
+   },
+   "first_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-15T09:21:49+00:00",
+   "area_alqueires": 3.09,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": 38.6,
+   "destaques": "{\"agua\": \"Nascente\", \"acesso\": \"15 min da cidade\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "2ad1c5d4013ae677",
    "source": "brave",
    "source_id": "",
@@ -681,7 +790,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -891,7 +1000,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-15T09:21:49+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 47.7,
@@ -1124,7 +1233,7 @@
     }
    },
    "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-13T19:45:50+00:00",
+   "last_seen": "2026-08-15T09:21:49+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1248,7 +1357,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -1460,7 +1569,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1680,7 +1789,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-13T16:17:48+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -1794,7 +1903,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -3172,7 +3281,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -3412,6 +3521,114 @@
    "is_new": false
   },
   {
+   "key": "3bbf61e1947764d5",
+   "source": "facebook",
+   "source_id": "961336683360892",
+   "url": "https://www.facebook.com/marketplace/item/961336683360892/",
+   "title": "Sítio em cunha no cedro",
+   "description": "Sítio com 2 alqueires e meio com escritura tudo certo com a documentação, só passar para o nome de quem comprar,tem poço artesiano,tem uma nascente que passa pela propriedade,fica a 2/5 km da rodovia,estrada de chão Boa,tem pousada próximo, pesqueiro, para quem quer tranquilidade na serras de cunha.\nNão faço trocas,somente venda.",
+   "price": 450000.0,
+   "price_first": 450000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 92975.21,
+   "municipality": "Cunha",
+   "uf": "SP",
+   "lat": -23.07753,
+   "lon": -44.9567436,
+   "image": "",
+   "posted_at": "",
+   "score": 0.214,
+   "reasons": [
+    "nascente",
+    "poço artesiano",
+    "tranquilo",
+    "escriturado",
+    "R$/ha 92.975",
+    "⚠ 91.3 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.525,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.57,
+     "peso": 0,
+     "provas": [
+      "R$/ha 92.975"
+     ],
+     "ajuste": 0.014
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.348,
+     "peso": 0,
+     "provas": [
+      "⚠ 91.3 km do centro de interesse"
+     ],
+     "ajuste": -0.0456
+    }
+   },
+   "first_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
+   "area_alqueires": 2.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": 91.3,
+   "destaques": "{\"agua\": \"Nascente + poço artesiano\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "4951c94b26e404c4",
    "source": "facebook",
    "source_id": "1529251441729352",
@@ -3501,7 +3718,7 @@
     }
    },
    "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
    "area_alqueires": 2.97,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -3510,7 +3727,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -3732,6 +3949,109 @@
    "price_drop": null
   },
   {
+   "key": "9fa9767b360f2110",
+   "source": "facebook",
+   "source_id": "2255223725287738",
+   "url": "https://www.facebook.com/marketplace/item/2255223725287738/",
+   "title": "Estúdio 0 banheiros – Casa",
+   "description": "🌿 TERRENO RURAL À VENDA PRÓXIMO A CAMPOS DO JORDÃO 🌄\n\nUma excelente oportunidade para quem busca um lugar especial na Serra da Mantiqueira!\n\n📍 Localizado na região próxima a Campos do Jordão, na divisa com Minas Gerais, a apenas 15 km da Minalba - Bairro dos tabacos \n\n✨ Área com aproximadamente 4 alqueires\n✨ Terreno de pastagem\n✨ Possui água corrente\n✨ Vista privilegiada e paisagem única da Mantiqueira\n✨ Ideal para investimento, plantação, lazer, formação de chácara ou construção de um refúgio em meio à natureza\n\nUm terreno com grande potencial em uma das regiões mais valorizadas e procuradas da Serra.\n\n📐 Área: 4 alqueires\n📍 Localização: área rural de Campos do Jordão, Bairro dos tabacos\n.\n \n📲 Entre em contato para mais informações e visita.",
+   "price": 450000.0,
+   "price_first": 450000.0,
+   "area_ha": 9.68,
+   "price_per_ha": 46487.6,
+   "municipality": "Campos do Jordão",
+   "uf": "SP",
+   "lat": -22.738299,
+   "lon": -45.5903769,
+   "image": "",
+   "posted_at": "",
+   "score": 0.208,
+   "reasons": [
+    "tranquilo",
+    "pasto formado",
+    "R$/ha 46.488",
+    "em Campos do Jordão (zona boa)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "pasto formado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 46.488"
+     ],
+     "ajuste": 0.1
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.75,
+     "peso": 0,
+     "provas": [
+      "em Campos do Jordão (zona boa)"
+     ],
+     "ajuste": 0.06
+    }
+   },
+   "first_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-15T09:21:49+00:00",
+   "area_alqueires": 4.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": 35.1,
+   "destaques": "{\"solo\": \"Pasto formado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "784347f19efe9977",
    "source": "facebook",
    "source_id": "1614062393636546",
@@ -3829,6 +4149,103 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "868e9c95dbc7aa69",
+   "source": "facebook",
+   "source_id": "1018423094436871",
+   "url": "https://www.facebook.com/marketplace/item/1018423094436871/",
+   "title": "vendo área rural no Pouso Frio",
+   "description": "Vendo área rural de 35 mil metros no bairro pouso frio, topografia  baixa .Oportunidade , na beira do asfalto, ribeirão na divisa, aceita carro ou casa de menor valor como parte de pagamento.",
+   "price": 380000.0,
+   "price_first": 380000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.925720214844,
+   "lon": -45.466918945312,
+   "image": "",
+   "posted_at": "2026-07-22T21:54:17.000Z",
+   "score": 0.182,
+   "reasons": [
+    "rio/riacho",
+    "casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -4016,7 +4433,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-15T09:21:49+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -4234,7 +4651,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -4608,9 +5025,8 @@
    "price_drop": null
   }
  ],
- "new_count": 6,
+ "new_count": 1,
  "sources": [
-  "mercadolivre",
   "pgfn",
   "olx",
   "chavesnamao",
@@ -4619,29 +5035,8 @@
   "facebook"
  ],
  "warnings": [
-  "mercadolivre: 0 resultados",
-  "amitesp.com.br: bloqueado",
-  "casacor.abril.com.br: bloqueado",
-  "dreamcasa.com.br: bloqueado",
-  "fonsecaimoveisrurais.com.br: bloqueado",
-  "girosa.com.br: bloqueado",
-  "imoveis.waa2.com.br: bloqueado",
-  "revistapesquisa.fapesp.br: bloqueado",
-  "taubate.sp.gov.br: bloqueado",
-  "viniciusimoveis.com.br: bloqueado",
-  "www.attria.com.br: bloqueado",
-  "www.casamineira.com.br: bloqueado",
-  "www.diariocidade.com: bloqueado",
-  "www.dreamcasa.com.br: bloqueado",
-  "www.imoveisemcamposdojordao.net: bloqueado",
-  "www.nositedafesta.com.br: bloqueado",
-  "www.portalr3.com.br: bloqueado",
-  "www.redencaodaserra.sp.gov.br: bloqueado",
-  "www.registrorural.com.br: bloqueado",
-  "www.santoantoniodopinhal.tur.br: bloqueado",
-  "www.tripadvisor.com.br: bloqueado",
-  "www.wikiaves.com.br: bloqueado",
-  "www1.sodresantoro.com.br: bloqueado"
+  "brave: 0 resultados",
+  "turismo.campoalegre.sc.gov.br: bloqueado"
  ],
  "criterios": {
   "estados": [
