@@ -88,6 +88,12 @@ def _hits(text: str, pattern: str) -> int:
     recognizable Brazilian-classifieds phrasing, so it gets its own lookback
     clause rather than being folded into the negation one above (different
     meaning, same mechanism).
+
+    "aceita carro ou casa de menor valor como parte de pagamento" is a third
+    variant of the same failure, found 2026-08-16 against a real listing:
+    "casa" there names something the *seller* would accept as partial
+    payment, not a building on this property. Same lookback mechanism,
+    "aceita"/"aceito" added to the trigger list.
     """
     count = 0
     for m in re.finditer(pattern, text):
@@ -95,7 +101,8 @@ def _hits(text: str, pattern: str) -> int:
         if re.search(r"\b(sem|nao|nenhum[a]?|falta de|ausencia de|nem)\s+[\w\s]{0,18}$", before):
             continue
         if re.search(r"\b(troco|troca|trocar|aceito troca|em troca de|"
-                     r"quero em troca)\s*(?:por|com|de)?\s*[\w\s]{0,18}$", before):
+                     r"quero em troca|aceita|aceito|aceitamos)\s*(?:por|com|de)?\s*[\w\s]{0,18}$",
+                     before):
             continue
         count += 1
     return count

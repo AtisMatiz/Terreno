@@ -100,11 +100,20 @@ def _por_unidade(text: str, *, apenas_grandes: bool = False) -> float | None:
             continue
         # Allow the plural: listings say "3 tarefas" as often as "1 tarefa".
         plural = "s?" if unit[-1].isalpha() else ""
-        pattern = _NUM + r"\s*" + re.escape(unit) + plural + r"\b"
+        # "35 mil metros" (=35.000 m²) is common Brazilian classifieds
+        # phrasing that a bare number-then-unit pattern misses entirely --
+        # found 2026-08-16 against a real listing ("vendo área rural de 35
+        # mil metros") that reported no area at all. Same "mil" multiplier
+        # `price_to_brl` already applies to prices, here applied to whatever
+        # unit precedes it (a "mil hectares" fazenda is a real, if large,
+        # property -- not worth special-casing away).
+        pattern = _NUM + r"\s*(mil\s+)?" + re.escape(unit) + plural + r"\b"
         m = re.search(pattern, text)
         if m:
             value = parse_number(m.group(1))
             if value is not None:
+                if m.group(2):
+                    value *= 1000
                 return round(value * _UNIT_HA[unit], 4)
     return None
 
