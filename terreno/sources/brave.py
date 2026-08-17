@@ -8,19 +8,24 @@ constraints that used to share one artificial deadline -- splitting them
 means a large backlog of undiscovered candidates no longer competes with a
 large backlog of unvisited ones for the same clock.
 
-Two discovery sources feed the same queue: Brave still does the generic
-new-site hunt and the `imobiliaria`-category SDB rotation; Tavily (2026-08-17)
-takes the `outro`-category SDB rotation instead, batching many hosts into one
-`include_domains` call rather than Brave's one-query-per-host `site:` trick --
-see `tavily_discover.py`'s docstring for why the split is by category, not a
-blanket swap.
+Two *jobs*, not just two phases, as of 2026-08-17: `fetch` (source name
+`brave`, part of the main daily pipeline) does the SDB scan -- Brave's
+`site:` rotation for `imobiliaria` hosts, Tavily's batched `include_domains`
+for `outro` hosts, then visits everything queued. `fetch_novos` (source name
+`brave_novos`) does only the generic new-site hunt, meant to run as its own
+separate scheduled job -- see `criteria.yaml`'s `ci_novos` profile and
+SESSION_NOTES for why these are two decoupled runs rather than one, and why
+that means time-offset, not literally concurrent (both would otherwise try
+to commit the same `data/terreno.sqlite3` at once). A candidate `fetch_novos`
+queues just waits in `brave_pendentes` for the next `fetch` run to visit it --
+the queue is what decouples the two, not a shared deadline.
 """
 
 from __future__ import annotations
 
 import logging
 
-from .brave_discover import discover
+from .brave_discover import discover_novos, discover_sdb
 from .brave_visit import visit_all
 from .brave_visit import NAME  # re-exported for anything importing it from here
 from .tavily_discover import discover as tavily_discover
@@ -29,7 +34,8 @@ log = logging.getLogger("terreno.sources.brave")
 
 
 def fetch(criteria, store, budgets) -> list:
-    novos = discover(criteria, store, budgets)
+    """SDB scan + visit -- the main daily pipeline's Brave/Tavily work."""
+    novos = discover_sdb(criteria, store, budgets)
     if novos:
         log.info("brave: %d candidatos novos na fila", novos)
 
@@ -49,3 +55,13 @@ def fetch(criteria, store, budgets) -> list:
                  podados, limite_fila)
 
     return listings
+
+
+def fetch_novos(criteria, store, budgets) -> list:
+    """Generic new-site hunt only -- no visiting, no listings returned.
+    Meant to run as its own scheduled job (source name `brave_novos`),
+    decoupled from the main pipeline; see module docstring."""
+    novos = discover_novos(criteria, store, budgets)
+    if novos:
+        log.info("brave: %d candidatos novos na fila (descoberta genérica)", novos)
+    return []

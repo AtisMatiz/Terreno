@@ -1,0 +1,65 @@
+name: terreno busca novos sites
+
+# Job separado da busca principal (2026-08-17): só a descoberta genérica de
+# sites novos para a SDB (sites_descobertos) -- ver terreno/sources/brave.py
+# (fetch_novos) e criteria.yaml (perfil ci_novos). Dispara só depois que
+# "terreno search" termina (workflow_run), nunca ao mesmo tempo: os dois
+# commitam data/terreno.sqlite3 na mesma branch, e rodar de verdade em
+# paralelo faria um dos dois pushes esbarrar num conflito binário
+# irreconciliável. workflow_run já serializa por natureza; o mesmo grupo de
+# concurrency abaixo é um segundo cinto de segurança para o mesmo problema.
+
+on:
+  workflow_run:
+    workflows: ["terreno search"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: terreno-search
+  cancel-in-progress: false
+
+jobs:
+  buscar-novos-sites:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch || github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Buscar sites novos (SDB)
+        env:
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          BRAVE_API_KEY_2: ${{ secrets.BRAVE_API_KEY_2 }}
+        run: python -m terreno.run --profile ci_novos
+
+      - name: Commit results
+        run: |
+          git config user.name  "terreno-bot"
+          git config user.email "terreno-bot@users.noreply.github.com"
+          git add data/terreno.sqlite3
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: busca de sites novos $(date -u +%Y-%m-%dT%H:%MZ)"
+            for i in 1 2 3 4; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((2 ** i))
+            done
+          fi

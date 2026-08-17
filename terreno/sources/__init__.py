@@ -16,5 +16,6 @@ REGISTRY = {
     "wimoveis": htmlportal.fetch_wimoveis,
     "caixa": caixa.fetch,                 # CSV público, roda em CI
     "brave": brave.fetch,
+    "brave_novos": brave.fetch_novos,     # descoberta genérica de sites, roda como job separado
     "facebook": facebook.fetch,
 }

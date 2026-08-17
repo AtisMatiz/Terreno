@@ -101,6 +101,10 @@ fontes:
   pgfn: true          # leilões da PGFN (comprei.pgfn.gov.br) — ver nota nos perfis
   caixa: true         # imóveis retomados da Caixa (CSV público por estado)
   brave: true
+  # Descoberta genérica de sites novos, separada de `brave` (2026-08-17) para
+  # rodar como seu próprio job diário (`ci_novos`), decorrelacionado do scan
+  # da SDB -- ver terreno/sources/brave.py e SESSION_NOTES.
+  brave_novos: true
   facebook: true
 
 # Onde cada fonte roda. Só existe um lugar agora: o runner do GitHub Actions
@@ -143,6 +147,10 @@ fontes:
 # Brave por natureza; caixa via curl_cffi).
 perfis:
   ci: [brave, chavesnamao, caixa, pgfn, olx, facebook]
+  # Job separado (2026-08-17): só a descoberta genérica de sites novos, sem
+  # visitar nada e sem os outros scrapers -- ver .github/workflows/search.yml
+  # (job busca-novos-sites) e terreno/sources/brave.py.
+  ci_novos: [brave_novos]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a
@@ -194,6 +202,10 @@ orcamentos:
   # o par de chaves dura antes de bater o teto de novo, já que a chave 2
   # sozinha já tinha alcançado metade do próprio limite mensal.
   brave_consultas_por_run: 100
+  # Job `ci_novos` (busca genérica de sites novos), separado do acima
+  # (2026-08-17) -- mesmo teto mensal em `brave_queries`, orçamento de
+  # consultas por execução próprio já que agora é uma execução própria.
+  brave_consultas_por_run_novos: 100
   brave_consultas_por_mes: 1000000
   # SDB hosts categoria "outro" (ver terreno/site_categoria.py) usam Tavily em
   # vez da Brave (2026-08-17): `include_domains` aceita até 300 hosts numa

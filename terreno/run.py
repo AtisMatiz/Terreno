@@ -24,6 +24,15 @@ log = logging.getLogger("terreno")
 # rather than just a line in the workflow log nobody reads until asked to.
 LIMIAR_ALERTA_SAUDE = 3
 
+# Discovery-only sources (2026-08-17): success here is candidates queued into
+# `brave_pendentes`, not Listings returned -- fetch_novos always returns []
+# by design (see terreno/sources/brave.py), so the usual "zero results looks
+# like a block" heuristic below would flag it as unhealthy on every single
+# run, including the many perfectly normal ones that just found no new host
+# that day. Exempted from that heuristic entirely; a real failure still
+# surfaces via `error` from run_source, same as any other source.
+_SEM_HEALTH_POR_CONTAGEM = {"brave_novos"}
+
 
 def run_source(name: str, fetch, criteria, store, budgets) -> tuple[list, str | None]:
     try:
@@ -89,7 +98,7 @@ def main(argv=None) -> int:
         if error:
             warnings.append(error)
             saude[name] = False
-        elif not found:
+        elif not found and name not in _SEM_HEALTH_POR_CONTAGEM:
             # A heuristic, not a certainty: a source with real coverage
             # returning literally zero across a whole state/region is far
             # more likely blocked than genuinely empty, which is what makes
@@ -192,10 +201,16 @@ def main(argv=None) -> int:
     # all, a dead end for exactly the listings being pointed at. A repo
     # variable being forgotten should degrade, not silently drop the one
     # thing that line promises.
-    pagina = env("TERRENO_PAGE_URL") or "https://atismatiz.github.io/Terreno/"
-    notify.telegram(para_avisar, pagina,
-                    int(criteria.output("top_n_no_alerta", 8)),
-                    alertas=alertas_saude)
+    # Skipped for a discovery-only run (e.g. --profile ci_novos): those
+    # sources never return Listings even on a normal day, so a heartbeat here
+    # would just be daily noise on top of the main pipeline's own -- the
+    # "did today's run happen" question that heartbeat answers is about the
+    # main pipeline, not this bookkeeping job.
+    if not set(wanted) <= _SEM_HEALTH_POR_CONTAGEM:
+        pagina = env("TERRENO_PAGE_URL") or "https://atismatiz.github.io/Terreno/"
+        notify.telegram(para_avisar, pagina,
+                        int(criteria.output("top_n_no_alerta", 8)),
+                        alertas=alertas_saude)
 
     store.close()
     return 0
