@@ -1,5 +1,5 @@
 {
- "generated_at": "17/08/2026 às 18:25",
+ "generated_at": "17/08/2026 às 18:33",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -218,7 +218,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -335,7 +335,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -1233,7 +1233,7 @@
     }
    },
    "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1569,7 +1569,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1699,6 +1699,118 @@
    "is_new": false
   },
   {
+   "key": "9c1c00c5ab36e090",
+   "source": "facebook",
+   "source_id": "1015718994153241",
+   "url": "https://www.facebook.com/marketplace/item/1015718994153241/",
+   "title": "Lindo Sítio em Joanópolis SP - OPORTUNIDADE",
+   "description": "ACEITO TROCA, FAÇA SUA PROPOSTA!!!\n\nÓtima oportunidade de investimento! Região em crescimento no turismo!\n\nLinda propriedade em Joanópolis-SP, no Bairro do Sertãozinho, a 15km do centro da cidade.\n\nDiferenciais:\n\n> 100% Cercado;\n> Energia elétrica instalada;\n> Água abundante e cristalina (de nascente);\n> 22,3 mil metros quadrados de área total;\n> 1100 metros de altitude;\n> Vista deslumbrante pra Serra da Mantiqueira;\n> Estrada de acesso própria (servidão);\n> Local reservado, seguro e muito tranquilo.\n\nAgende sua visita!",
+   "price": 239000.0,
+   "price_first": 239000.0,
+   "area_ha": 2.23,
+   "price_per_ha": 107174.89,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.931213378906,
+   "lon": -46.279907226562,
+   "image": "",
+   "posted_at": "2026-06-25T18:17:40.000Z",
+   "score": 0.325,
+   "reasons": [
+    "nascente",
+    "água abundante",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "reservado",
+    "15 km da cidade",
+    "R$/ha 107.175"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.675,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.26,
+     "peso": 20,
+     "provas": [
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.58,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.1,
+     "peso": 15,
+     "provas": [
+      "15 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.471,
+     "peso": 0,
+     "provas": [
+      "R$/ha 107.175"
+     ],
+     "ajuste": -0.0029
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + água abundante\", \"benfeitorias\": \"Energia + cercado\", \"acesso\": \"15 km da cidade\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "1c5253066faf5a77",
    "source": "facebook",
    "source_id": "2435203896947229",
@@ -1789,7 +1901,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -1904,6 +2016,114 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "5abd97aaabc02b45",
+   "source": "facebook",
+   "source_id": "3670028546482784",
+   "url": "https://www.facebook.com/marketplace/item/3670028546482784/",
+   "title": "Sítio à Venda em Ajapi – 1 Alqueire | Casa, Poço Caipira e Fácil Acesso",
+   "description": "🌳 SÍTIO À VENDA EM AJAPI – RIO CLARO/SP\n\nExcelente oportunidade para quem busca tranquilidade, contato com a natureza e fácil acesso!\n\n📐 1 alqueire de terra\n📍 Localizado em Ajapi, a apenas 2 km da pista\n🚗 Acesso fácil\n💧 Poço caipira\n🌿 Ampla área rural, com muito potencial para lazer, cultivo ou formação de chácara\n\nUm lugar perfeito para quem quer sossego sem ficar longe da cidade.\n\n📲 Entre em contato para mais informações e agende uma visita!",
+   "price": 280000.0,
+   "price_first": 280000.0,
+   "area_ha": 2.42,
+   "price_per_ha": 115702.48,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.392883300781,
+   "lon": -47.576293945312,
+   "image": "",
+   "posted_at": "2026-08-11T19:05:44.000Z",
+   "score": 0.307,
+   "reasons": [
+    "rio/riacho",
+    "casa",
+    "sossegado",
+    "tranquilo",
+    "bom acesso",
+    "R$/ha 115.702"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.78,
+     "peso": 10,
+     "provas": [
+      "sossegado",
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.437,
+     "peso": 0,
+     "provas": [
+      "R$/ha 115.702"
+     ],
+     "ajuste": -0.0063
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
+   "area_alqueires": 1.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\", \"acesso\": \"Bom acesso\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -2420,6 +2640,121 @@
    "notificavel": 1,
    "imagem_analise": null,
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "000b2a73eb3fbe7e",
+   "source": "facebook",
+   "source_id": "3519647824875745",
+   "url": "https://www.facebook.com/marketplace/item/3519647824875745/",
+   "title": "3 quartos 2 banheiros Casa",
+   "description": "Chácara de 1 alqueire • Taubaté\n\nCom topografia excelente, rica em água com lago e mina d'água, espaço para plantio e criação, e uma casa muito aconchegante.\n\n🔑Espaço para novas construções\n🔑Vista espetacular no topo do terreno\n🔑Uma área gourmet fantástica com forno a lenha e churrasqueira\n🔑Toda cercada\n\nDestaque para o acesso, menos de 1km do asfalto, e a documentação 100%.\n\nÀ venda em Taubaté.\n\n24200 metros | 200 metros construídos\n\n2 dormitórios | área gourmet\n\nR$ 880.000,00 | Cód 440\n\n#entendereconectar\n\nMais informações?\nEntre em contato: 📲 12 99649-0061\ncreci 211850F",
+   "price": 880000.0,
+   "price_first": 880000.0,
+   "area_ha": 2.42,
+   "price_per_ha": 363636.36,
+   "municipality": "Taubaté",
+   "uf": "SP",
+   "lat": -23.031448,
+   "lon": -45.5612792,
+   "image": "",
+   "posted_at": "",
+   "score": 0.266,
+   "reasons": [
+    "mina d'água",
+    "lago/açude",
+    "água abundante",
+    "casa",
+    "cercado",
+    "⚠ barulho",
+    "boa topografia",
+    "⚠ R$/ha 363.636",
+    "em Taubaté (zona boa)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.85,
+     "peso": 30,
+     "provas": [
+      "mina d'água",
+      "lago/açude",
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.43,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "⚠ barulho"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.3,
+     "peso": 5,
+     "provas": [
+      "boa topografia"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 363.636"
+     ],
+     "ajuste": -0.15
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.75,
+     "peso": 0,
+     "provas": [
+      "em Taubaté (zona boa)"
+     ],
+     "ajuste": 0.06
+    }
+   },
+   "first_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
+   "area_alqueires": 1.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": 29.6,
+   "destaques": "{\"agua\": \"Mina d'água + lago/açude + água abundante\", \"benfeitorias\": \"Casa + cercado\", \"solo\": \"Boa topografia\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -3616,7 +3951,7 @@
     }
    },
    "first_seen": "2026-08-15T09:21:49+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 91.3,
@@ -4446,6 +4781,116 @@
    "price_drop": null
   },
   {
+   "key": "14c6bf7aa197b502",
+   "source": "facebook",
+   "source_id": "1541656000941963",
+   "url": "https://www.facebook.com/marketplace/item/1541656000941963/",
+   "title": "2 quartos 2 banheiros – Casa",
+   "description": "Chacara Pé na água em Paraibuna SP\nBeira da represa  Capim D’Angola 2\n\nUma oportunidade única para quem busca qualidade de vida, contato com a natureza e um excelente investimento!\n\n📍 Localização: Bairro Capim D’Angola 2 – Paraibuna/SP\nEntrada no segundo pedagio sentido Caraguatatuba \n📐 Área total: 42.000 m²\nPoste de luz novo\n\nImagine acordar com uma vista deslumbrante da represa, cercado por muito verde, tranquilidade e ar puro. Com acesso direto à água, esta propriedade é perfeita para lazer, descanso ou para transformar em uma fonte de renda.\n\n✨ Ideal para:\n• Lazer com a família e amigos\n• Trilhas ecológicas\n• Passeios de quadriciclo\n• Construção de chalés para locação de temporada\n• Criação de peixes\n• Pesca esportiva\n• Turismo rural e ecoturismo\n\n💰 Transforme este paraíso em uma excelente fonte de renda mensal!\n\n🔹 Diferenciais:\n✔ Chácara à beira da represa (pé na água)\n✔ Vista privilegiada e contato direto com a natureza\n✔ Muita privacidade\n✔ O vizinho não possui acesso à estrada que contorna a propriedade\n\n📄 Documentação: Concessão de posse há mais de 40 anos (não possui escritura).\n\n🚗 Aceita permuta: Apartamento em São José dos Campos ou Carro de até R$ 210.000,00 como parte do pagamento. O restante deve ser pago em dinheiro.\n\nSe você procura um lugar para investir, descansar ou empreender em meio à natureza, esta é a oportunidade que estava esperando!",
+   "price": 338000.0,
+   "price_first": 338000.0,
+   "area_ha": 4.2,
+   "price_per_ha": 80476.19,
+   "municipality": "Paraibuna",
+   "uf": "SP",
+   "lat": -23.3864203,
+   "lon": -45.6626797,
+   "image": "",
+   "posted_at": "",
+   "score": 0.178,
+   "reasons": [
+    "menção a loteamento/condomínio",
+    "lago/açude",
+    "cercado",
+    "tranquilo",
+    "preservado",
+    "R$/ha 80.476",
+    "51.2 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.08,
+     "peso": 20,
+     "provas": [
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "preservado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.695,
+     "peso": 0,
+     "provas": [
+      "R$/ha 80.476"
+     ],
+     "ajuste": 0.039
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.563,
+     "peso": 0,
+     "provas": [
+      "51.2 km do centro de interesse"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:33:31+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 51.2,
+   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Cercado\", \"solo\": \"Preservado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "2241687e65b0abe9",
    "source": "brave",
    "source_id": "",
@@ -5025,12 +5470,17 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 4,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "brave",
+  "facebook"
  ],
  "warnings": [
-  "imobiliaria_crawl: 0 resultados"
+  "brave: 0 resultados"
  ],
  "criterios": {
   "estados": [
