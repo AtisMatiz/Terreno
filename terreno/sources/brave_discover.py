@@ -148,22 +148,30 @@ def _places(criteria) -> list[str]:
     return places
 
 
-def discover(criteria, store, budgets) -> int:
-    """Query Brave and queue every new candidate URL for phase 2 to visit.
-
-    Returns how many new candidates were queued. Never fetches a candidate
-    page itself — that is entirely `brave_visit.py`'s job.
-    """
+def _tokens():
     from ..config import env
-    token = env("BRAVE_API_KEY")
-    token2 = env("BRAVE_API_KEY_2")
+    return env("BRAVE_API_KEY"), env("BRAVE_API_KEY_2")
+
+
+def discover_novos(criteria, store, budgets) -> int:
+    """Generic new-site hunt only -- the `TEMPLATES` loop, aimed at finding
+    hosts `sites_descobertos` doesn't have yet. Split out (2026-08-17) into
+    its own standalone run (see `brave.fetch_novos`, `REGISTRY["brave_novos"]`)
+    so it can be scheduled as its own daily job, decoupled from the SDB scan
+    (`discover_sdb`) and from visiting anything found -- a candidate queued
+    here just waits in `brave_pendentes` for the next `brave_visit.py` pass,
+    same as it always has, regardless of which job queued it.
+
+    Returns how many new candidates were queued.
+    """
+    token, token2 = _tokens()
     if not token and not token2:
         log.warning("BRAVE_API_KEY not set — Brave discovery skipped")
         return 0
 
     allowance = _daily_allowance(
         store,
-        int(budgets.get("brave_consultas_por_run", 50)),
+        int(budgets.get("brave_consultas_por_run_novos", budgets.get("brave_consultas_por_run", 50))),
         int(budgets.get("brave_consultas_por_mes", 2000)),
     )
     if allowance <= 0:
@@ -174,40 +182,16 @@ def discover(criteria, store, budgets) -> int:
     # Round-robin by template, not by place: with 35 municipalities and a
     # 100-query allowance, grouping by place would cover three towns and
     # ignore the rest of the region.
-    genericas = [t.format(place=p) for t in TEMPLATES for p in places]
-
-    # Seeds sites_alvo into the same weekly rotation auto-discovered hosts
-    # use (see _site_queries's docstring) -- side effect only, no queries
-    # returned directly anymore.
-    _site_queries(criteria, store)
-
-    # Auto-discovered *and* hand-curated sites (now unified, see above) get
-    # the same "whole portal" priority, on their shared weekly clock rather
-    # than every run.
-    descobertos = _discovered_site_queries(criteria, store)
-
-    # Site-targeted queries go first and are never crowded out: each covers a
-    # whole portal, so they buy far more coverage per query than the 37th
-    # municipality of a generic template does.
-    queries = list(dict.fromkeys(list(descobertos) + genericas))[:allowance]
-    log.info("brave: %d queries (allowance %d)", len(queries), allowance)
-
-    consultados_agora = {host for q, host in descobertos.items() if q in queries}
-    if consultados_agora:
-        store.sites_descobertos_marcar_consultado(consultados_agora)
-        log.info("brave: %d site(s) descoberto(s) consultados nesta rodada semanal: %s",
-                 len(consultados_agora), ", ".join(sorted(consultados_agora)))
+    queries = [t.format(place=p) for t in TEMPLATES for p in places][:allowance]
+    log.info("brave: %d queries de descoberta genérica (allowance %d)", len(queries), allowance)
 
     # Hosts the sites database already knows about (curated + auto-
     # discovered, promoted or not). The generic templates' whole job is to
-    # find websites we *don't* have yet -- a site: query already covers
-    # known hosts on their own weekly clock (`_discovered_site_queries`), so
-    # a generic-query hit on a host we already track is redundant with that
-    # channel, not a new find. Site-targeted queries are exempt below: their
-    # own host is known by construction, that's the point of asking for it.
-    site_queries = set(descobertos)
+    # find websites we *don't* have yet -- a site: query (discover_sdb)
+    # already covers known hosts on their own weekly clock, so a generic-
+    # query hit on a host we already track is redundant with that channel,
+    # not a new find.
     conhecidos = set(SKIP_HOSTS) | set(COLD_HOSTS) | store.hosts_conhecidos()
-
     already = store.seen_urls()
     novos: dict[str, str] = {}
     frios: dict[str, str] = {}
@@ -220,7 +204,6 @@ def discover(criteria, store, budgets) -> int:
         store.budget_spend(RESOURCE, 1)
         if not data:
             continue
-        de_site_alvo = query in site_queries
         for result in (data.get("web") or {}).get("results", []):
             url = result.get("url") or ""
             if not url or url in already or url in novos or url in frios:
@@ -228,7 +211,7 @@ def discover(criteria, store, budgets) -> int:
             if any(host in url for host in SKIP_HOSTS):
                 continue
             host = _host(url)
-            if not de_site_alvo and host in conhecidos:
+            if host in conhecidos:
                 # Already in the sites database -- this query slot found a
                 # site we already have, not a new one. Still worth a visit
                 # in principle, but that's exactly what the site: rotation
@@ -247,16 +230,13 @@ def discover(criteria, store, budgets) -> int:
                 frios[url] = f"{titulo} — {descricao}"[:500] if descricao else titulo
                 continue
             novos[url] = titulo
-            if not de_site_alvo:
-                # Reaching here means host wasn't in `conhecidos` (else the
-                # check above would have skipped it) -- a genuine new find.
-                hosts_novos.add(host)
-                if host not in titulos_novos:
-                    # Title + snippet description is the only text about this
-                    # host that exists before anything is ever visited --
-                    # feeds site_categoria's first classification pass.
-                    descricao = result.get("description") or ""
-                    titulos_novos[host] = f"{titulo} {descricao}".strip()
+            hosts_novos.add(host)
+            if host not in titulos_novos:
+                # Title + snippet description is the only text about this
+                # host that exists before anything is ever visited -- feeds
+                # site_categoria's first classification pass.
+                descricao = result.get("description") or ""
+                titulos_novos[host] = f"{titulo} {descricao}".strip()
 
     store.brave_pendentes_adicionar(novos)
     if hosts_novos:
@@ -271,6 +251,78 @@ def discover(criteria, store, budgets) -> int:
         log.info("brave: %d candidato(s) de host(s) conhecidos bloqueados -> frios (%d novos)",
                  len(frios), n)
     log.info("brave: %d candidatos novos na fila de visita", len(novos))
+    return len(novos)
+
+
+def discover_sdb(criteria, store, budgets) -> int:
+    """SDB scan: the `site:` rotation over `imobiliaria`-category hosts due
+    this week (see `_discovered_site_queries`) -- both hand-curated
+    (`sites_alvo`) and auto-discovered. Runs as part of the main daily
+    pipeline (`brave.fetch`), alongside `tavily_discover.discover` (the
+    `outro`-category half of the same rotation) and `brave_visit.visit_all`.
+
+    Every query here targets a host already in `sites_descobertos` by
+    construction, so none of `discover_novos`'s "is this a new site"
+    bookkeeping applies -- a result here either becomes a queued candidate
+    or, on a known-blocked host, goes straight to cold storage.
+
+    Returns how many new candidates were queued.
+    """
+    token, token2 = _tokens()
+    if not token and not token2:
+        log.warning("BRAVE_API_KEY not set — Brave SDB scan skipped")
+        return 0
+
+    allowance = _daily_allowance(
+        store,
+        int(budgets.get("brave_consultas_por_run", 50)),
+        int(budgets.get("brave_consultas_por_mes", 2000)),
+    )
+    if allowance <= 0:
+        log.warning("brave: monthly query budget exhausted — SDB scan skipped")
+        return 0
+
+    # Seeds sites_alvo into the same weekly rotation auto-discovered hosts
+    # use (see _site_queries's docstring) -- side effect only.
+    _site_queries(criteria, store)
+    descobertos = _discovered_site_queries(criteria, store)
+    queries = list(descobertos)[:allowance]
+    log.info("brave: %d queries de rotação site: (allowance %d)", len(queries), allowance)
+
+    consultados_agora = {host for q, host in descobertos.items() if q in queries}
+    if consultados_agora:
+        store.sites_descobertos_marcar_consultado(consultados_agora)
+        log.info("brave: %d site(s) descoberto(s) consultados nesta rodada semanal: %s",
+                 len(consultados_agora), ", ".join(sorted(consultados_agora)))
+
+    already = store.seen_urls()
+    novos: dict[str, str] = {}
+    frios: dict[str, str] = {}
+
+    for query in queries:
+        data = _consultar(query, token, token2)
+        store.budget_spend(RESOURCE, 1)
+        if not data:
+            continue
+        for result in (data.get("web") or {}).get("results", []):
+            url = result.get("url") or ""
+            if not url or url in already or url in novos or url in frios:
+                continue
+            if any(host in url for host in SKIP_HOSTS):
+                continue
+            titulo = result.get("title") or ""
+            if any(h in url for h in COLD_HOSTS):
+                descricao = result.get("description") or ""
+                frios[url] = f"{titulo} — {descricao}"[:500] if descricao else titulo
+                continue
+            novos[url] = titulo
+
+    store.brave_pendentes_adicionar(novos)
+    if frios:
+        n = store.brave_frios_adicionar(frios, motivo="desafio JS conhecido (ver COLD_HOSTS)")
+        log.info("brave: %d candidato(s) de host(s) conhecidos bloqueados -> frios (%d novos)",
+                 len(frios), n)
+    log.info("brave: %d candidatos novos na fila de visita (rotação site:)", len(novos))
     return len(novos)
 
 

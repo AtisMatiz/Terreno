@@ -1,5 +1,5 @@
 {
- "generated_at": "17/08/2026 às 06:31",
+ "generated_at": "17/08/2026 às 17:28",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -5027,17 +5027,9 @@
  ],
  "new_count": 0,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "brave",
-  "facebook"
+  "brave_novos"
  ],
- "warnings": [
-  "brave: 0 resultados",
-  "facebook: 0 resultados"
- ],
+ "warnings": [],
  "criterios": {
   "estados": [
    "SP"
