@@ -57,7 +57,7 @@ def _host(url: str) -> str:
 MAX_POR_EXECUCAO = 5000
 
 
-def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, Listing | None]:
+def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, Listing | None, str]:
     """O trabalho de uma única página candidata -- roda em uma thread do pool.
 
     Uma única tentativa por execução (sem retry aqui): o retry mora agora
@@ -65,12 +65,16 @@ def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, 
     -- porque um site fora do ar agora pode estar de volta amanhã, e duas
     tentativas imediatas em sequência não ajudam nisso, só gastam o dobro do
     tempo desta execução com um site que provavelmente ainda vai falhar.
+
+    Devolve também o corpo da página (truncado): esta é a única vez que o
+    texto completo é buscado, então é a melhor chance de `site_categoria`
+    achar uma menção a CRECI que o snippet da Brave nunca mostraria.
     """
     resp = http.get(url, timeout=timeout, retries=1)
     if resp is None:
-        return "falha_acesso", None
+        return "falha_acesso", None, ""
     if "text/html" not in resp.headers.get("content-type", ""):
-        return "sem_conteudo", None
+        return "sem_conteudo", None, ""
 
     listing = rules.extract(resp.text, url, source=NAME)
     if use_llm and rules.is_thin(listing):
@@ -79,10 +83,11 @@ def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, 
         if melhor:
             listing = melhor
 
+    texto = resp.text[:20000]
     if listing:
         listing.title = listing.title or dica
-        return "ok", listing
-    return "sem_conteudo", None
+        return "ok", listing, texto
+    return "sem_conteudo", None, texto
 
 
 def visit_all(criteria, store, budgets) -> list[Listing]:
@@ -110,6 +115,7 @@ def visit_all(criteria, store, budgets) -> list[Listing]:
              "%ds por página, %d em paralelo)", len(fila), timeout_pagina, paralelismo)
 
     out: list[Listing] = []
+    textos: dict[str, str] = {}
     sucesso: set[str] = set()
     sem_conteudo: set[str] = set()
     falha_acesso: set[str] = set()
@@ -122,14 +128,15 @@ def visit_all(criteria, store, budgets) -> list[Listing]:
         for futuro in as_completed(futuros):
             url = futuros[futuro]
             try:
-                status, listing = futuro.result()
+                status, listing, texto = futuro.result()
             except Exception as exc:  # noqa: BLE001 — uma página ruim não pode derrubar a execução
                 log.debug("brave: falha ao processar %s: %s", url, exc)
-                status, listing = "falha_acesso", None
+                status, listing, texto = "falha_acesso", None, ""
 
             if status == "ok":
                 sucesso.add(url)
                 out.append(listing)
+                textos[url] = texto
             elif status == "falha_acesso":
                 falha_acesso.add(url)
             else:
@@ -145,7 +152,9 @@ def visit_all(criteria, store, budgets) -> list[Listing]:
     for listing in out:
         host = _host(listing.url)
         if host and host not in _NAO_DESCOBRIR and host not in sites_alvo:
-            promovido = store.registrar_extracao_brave(host, limiar=SITES_DESCOBERTOS_LIMIAR)
+            promovido = store.registrar_extracao_brave(
+                host, limiar=SITES_DESCOBERTOS_LIMIAR, texto=textos.get(listing.url, "")
+            )
             if promovido:
                 log.info("brave: %s promovido a site descoberto -- entra na rotação "
                          "semanal de consultas site:", host)
