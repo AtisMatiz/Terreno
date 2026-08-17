@@ -1,5 +1,5 @@
 {
- "generated_at": "17/08/2026 às 18:33",
+ "generated_at": "17/08/2026 às 18:50",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -335,7 +335,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -1000,7 +1000,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 47.7,
@@ -1233,7 +1233,7 @@
     }
    },
    "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1798,7 +1798,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -1807,7 +1807,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -2114,7 +2114,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -2123,7 +2123,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -2754,7 +2754,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -3951,7 +3951,7 @@
     }
    },
    "first_seen": "2026-08-15T09:21:49+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 91.3,
@@ -4053,7 +4053,7 @@
     }
    },
    "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 2.97,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -4384,6 +4384,112 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "7dce0e1f21ca60e8",
+   "source": "facebook",
+   "source_id": "904291382737469",
+   "url": "https://www.facebook.com/marketplace/item/904291382737469/",
+   "title": "Sítio a venda em Dom Viçoso MG",
+   "description": "SÍTIO À VENDA – OPORTUNIDADE PARA MORADIA, LAZER OU PRODUÇÃO RURAL\n\nExcelente sítio com 7 hectares, ideal para quem busca tranquilidade, contato com a natureza e uma propriedade com ótima estrutura e abundância de recursos hídricos.\n\nA propriedade conta com:\n\n2 currais\nCasinha de máquinas\nCasa em fase de acabamento\nEnergia elétrica instalada\nFartura de água durante todo o ano\n\nUm imóvel com grande potencial para pecuária, agricultura, lazer ou investimento, em uma região privilegiada e cercada pela natureza.\n\nValor: R$ 650.000,00\n\nEntre em contato para mais informações e agende sua visita. Uma excelente oportunidade para quem deseja investir no campo com segurança e qualidade de vida.\n\nRomualdo Lima Corretor\nCRECI 59687\n[hidden information]\nRodrigo Lima negócios imobiliários",
+   "price": 650000.0,
+   "price_first": 650000.0,
+   "area_ha": 7.0,
+   "price_per_ha": 92857.14,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.788391113281,
+   "lon": -45.159301757812,
+   "image": "",
+   "posted_at": "2026-08-13T14:28:13.000Z",
+   "score": 0.204,
+   "reasons": [
+    "casa",
+    "curral",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "R$/ha 92.857"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.81,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "curral",
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.571,
+     "peso": 0,
+     "provas": [
+      "R$/ha 92.857"
+     ],
+     "ajuste": 0.0143
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-17T21:50:45+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"Casa + curral + energia + cercado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -4878,7 +4984,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 51.2,
@@ -4887,7 +4993,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -5470,7 +5576,7 @@
    "price_drop": null
   }
  ],
- "new_count": 4,
+ "new_count": 1,
  "sources": [
   "pgfn",
   "olx",
