@@ -12,6 +12,7 @@ import re
 import unicodedata
 from urllib.parse import urlsplit
 
+from ..datas import encontrar_data_pt, parse_data
 from ..models import Listing
 from ..sources.base import json_ld, strip_tags
 from ..units import area_to_ha, parse_number, price_to_brl
@@ -203,6 +204,27 @@ def meta(html: str, key: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def _data_publicada(html: str, haystack: str) -> str:
+    """Whatever publication date this page states, raw (not yet parsed) --
+    `Listing.posted_at` for a Brave-found page, feeding the too-old filter in
+    `pipeline.apply_filters`. JSON-LD first (most reliable, when present),
+    then OpenGraph, then a bare "26 de fevereiro de 2018" in the visible
+    text -- exactly what a LinkedIn "pulse" post's byline looks like, the
+    kind of page that has neither of the other two but is still, visibly,
+    eight years old. "" when nothing recognizable is found; that stays
+    "unknown", never "old", same as everywhere else this field is used."""
+    for node in json_ld(html):
+        for campo in ("datePublished", "dateModified"):
+            val = node.get(campo)
+            if val and parse_data(str(val)):
+                return str(val)
+    for campo in ("article:published_time", "article:modified_time", "og:updated_time"):
+        val = meta(html, campo)
+        if val and parse_data(val):
+            return val
+    return encontrar_data_pt(haystack)
+
+
 def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     """Best-effort structured listing from a page. None when the page clearly
     is not an individual offer."""
@@ -303,6 +325,7 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
         municipality=municipality,
         uf=uf,
         image=image,
+        posted_at=_data_publicada(html, haystack),
     )
 
 
