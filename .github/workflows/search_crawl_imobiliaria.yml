@@ -12,7 +12,7 @@ name: terreno crawler imobiliária (varredura sem API)
 
 on:
   schedule:
-    - cron: "0 13 * * 1,5"   # 10:00 America/Sao_Paulo, segunda e sexta
+    - cron: "0 10 * * 1,5"   # 10:00 UTC, segunda e sexta (a pedido do usuário, 2026-08-17)
   workflow_dispatch:
 
 permissions:
