@@ -578,10 +578,9 @@ class Store:
         self.db.commit()
 
     def sites_descobertos_por_categoria(self, categoria: str, dias: int = 7) -> list[str]:
-        """Same due-this-week gate as `sites_descobertos_para_consultar`, but
-        scoped to one `categoria` -- lets the imobiliária crawler and the
-        Tavily "outro" batch each pull only the hosts their own strategy is
-        responsible for."""
+        """Promoted hosts of one `categoria` due for a query this week --
+        the weekly-due gate exists to ration a metered API's budget
+        (`tavily_discover.py`), so it applies here regardless of category."""
         limite = (datetime.now(timezone.utc) - timedelta(days=dias)).isoformat()
         linhas = self.db.execute(
             """SELECT host FROM sites_descobertos
@@ -590,6 +589,22 @@ class Store:
                  AND (ultima_consulta IS NULL OR ultima_consulta < ?)
                ORDER BY ocorrencias DESC""",
             (categoria, limite),
+        ).fetchall()
+        return [r["host"] for r in linhas]
+
+    def sites_descobertos_hosts(self, categoria: str) -> list[str]:
+        """Every promoted host of one `categoria`, no weekly-due gate at
+        all -- for a strategy with no metered cost to ration, like
+        `imobiliaria_crawl.py`'s twice-weekly full sweep. Rationing here
+        would only mean skipping hosts for no reason; the gate in
+        `sites_descobertos_por_categoria` exists purely to protect a
+        metered API's monthly budget, which a plain HTTP crawl doesn't
+        have."""
+        linhas = self.db.execute(
+            """SELECT host FROM sites_descobertos
+               WHERE promovido_em IS NOT NULL AND categoria = ?
+               ORDER BY ocorrencias DESC""",
+            (categoria,),
         ).fetchall()
         return [r["host"] for r in linhas]
 

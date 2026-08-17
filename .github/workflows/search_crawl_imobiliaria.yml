@@ -1,0 +1,77 @@
+name: terreno crawler imobiliária (varredura sem API)
+
+# Job separado (2026-08-17): varre TODA a SDB imobiliária via crawl direto
+# (sitemap/navegação, ver terreno/sources/imobiliaria_crawl.py), sem gastar
+# nenhuma cota de API. Não substitui o scan diário via Tavily
+# (tavily_discover.py) -- um benchmark real contra 30 hosts (2026-08-17,
+# scripts/diagnostico_imobiliaria_crawl.py) mostrou o Tavily melhor em média
+# (2,6x mais listings úteis, 40% mais rápido), mas a crawler ainda acha
+# anúncio real em hosts que o Tavily não acha nenhum candidato -- daí rodar
+# os dois, não escolher um. Duas vezes por semana (não diário) porque o
+# catálogo de uma imobiliária muda devagar e não há cota a poupar.
+
+on:
+  schedule:
+    - cron: "0 13 * * 1,5"   # 10:00 America/Sao_Paulo, segunda e sexta
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: terreno-search
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Varrer SDB imobiliária (sem API)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TERRENO_PAGE_URL: ${{ vars.TERRENO_PAGE_URL }}
+        run: python -m terreno.run --profile ci_crawl_imobiliaria
+
+      - name: Commit results
+        run: |
+          git config user.name  "terreno-bot"
+          git config user.email "terreno-bot@users.noreply.github.com"
+          git add data/terreno.sqlite3 site/ criteria.yaml
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: crawler imobiliária $(date -u +%Y-%m-%dT%H:%MZ)"
+            for i in 1 2 3 4; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((2 ** i))
+            done
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: crawl
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

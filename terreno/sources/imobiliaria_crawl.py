@@ -24,12 +24,14 @@ from __future__ import annotations
 
 import logging
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urljoin, urlparse
 from xml.etree import ElementTree
 
 from .. import http
 from ..extract import rules
 from ..models import Listing
+from ..site_categoria import IMOBILIARIA
 
 log = logging.getLogger("terreno.sources.imobiliaria_crawl")
 
@@ -132,12 +134,12 @@ def crawl_host(host: str, *, max_candidatos: int = 40, timeout: int = 25) -> lis
     return candidatos
 
 
-def fetch_host(host: str, *, budgets: dict | None = None) -> list[Listing]:
+def fetch_host(host: str, *, budgets: dict | None = None,
+                already: frozenset[str] = frozenset()) -> list[Listing]:
     """Crawl `host` and extract whatever the candidate pages actually are.
-    Standalone per-host call (not wired into `REGISTRY.fetch(criteria, ...)`)
-    so it can be driven directly by the SDB rotation, one host at a time,
-    with its own visited-URL bookkeeping -- see `run_sdb_imobiliarias` in
-    `run.py` once this strategy is adopted in production."""
+    `already` (URLs the results DB already has) skips a page worth nothing
+    new -- same convention every other source in this pipeline uses before
+    spending an HTTP request on a URL it has already stored."""
     budgets = budgets or {}
     max_candidatos = int(budgets.get("imobiliaria_max_candidatos", 40))
     timeout = int(budgets.get("imobiliaria_timeout_pagina_s", 25))
@@ -145,10 +147,52 @@ def fetch_host(host: str, *, budgets: dict | None = None) -> list[Listing]:
     urls = crawl_host(host, max_candidatos=max_candidatos, timeout=timeout)
     out: list[Listing] = []
     for url in urls:
+        if url in already:
+            continue
         resp = http.get(url, timeout=timeout, retries=1)
         if resp is None:
             continue
         listing = rules.extract(resp.text, url, source=NAME)
         if listing:
             out.append(listing)
+    return out
+
+
+def fetch(criteria, store, budgets) -> list[Listing]:
+    """Twice-weekly full sweep of every promoted `imobiliaria` SDB host --
+    no weekly-due gate (see `Store.sites_descobertos_hosts`), since this
+    strategy has no metered cost to ration against. Runs as its own
+    scheduled job (source name `imobiliaria_crawl`, see
+    `search_crawl_imobiliaria.yml`) alongside the daily Tavily-driven scan,
+    not instead of it: a real benchmark (2026-08-17,
+    scripts/diagnostico_imobiliaria_crawl.py) showed Tavily wins on average
+    but this crawler still finds real listings on hosts Tavily's search-based
+    approach misses entirely -- belt and suspenders.
+
+    Hosts run in parallel (network-bound, same reasoning as
+    `brave_visit.visit_all`); each host's own candidate pages are still
+    fetched one at a time internally (`fetch_host`), since a single host's
+    own candidate count is small enough not to need its own pool.
+    """
+    hosts = store.sites_descobertos_hosts(IMOBILIARIA)
+    if not hosts:
+        log.info("imobiliaria_crawl: nenhum host imobiliária promovido na SDB")
+        return []
+
+    already = frozenset(store.seen_urls())
+    paralelismo = int(budgets.get("imobiliaria_paralelismo", 20))
+    log.info("imobiliaria_crawl: varrendo %d host(s) imobiliária (paralelismo %d)",
+             len(hosts), paralelismo)
+
+    out: list[Listing] = []
+    with ThreadPoolExecutor(max_workers=min(paralelismo, len(hosts))) as pool:
+        futuros = {pool.submit(fetch_host, h, budgets=budgets, already=already): h for h in hosts}
+        for futuro in as_completed(futuros):
+            host = futuros[futuro]
+            try:
+                out.extend(futuro.result())
+            except Exception as exc:  # noqa: BLE001 — um host ruim não pode derrubar a varredura
+                log.debug("imobiliaria_crawl: falha em %s: %s", host, exc)
+
+    log.info("imobiliaria_crawl: %d listing(s) extraído(s) de %d host(s)", len(out), len(hosts))
     return out

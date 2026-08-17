@@ -9,23 +9,29 @@ means a large backlog of undiscovered candidates no longer competes with a
 large backlog of unvisited ones for the same clock.
 
 Two *jobs*, not just two phases, as of 2026-08-17: `fetch` (source name
-`brave`, part of the main daily pipeline) does the SDB scan -- Brave's
-`site:` rotation for `imobiliaria` hosts, Tavily's batched `include_domains`
-for `outro` hosts, then visits everything queued. `fetch_novos` (source name
-`brave_novos`) does only the generic new-site hunt, meant to run as its own
-separate scheduled job -- see `criteria.yaml`'s `ci_novos` profile and
-SESSION_NOTES for why these are two decoupled runs rather than one, and why
-that means time-offset, not literally concurrent (both would otherwise try
-to commit the same `data/terreno.sqlite3` at once). A candidate `fetch_novos`
-queues just waits in `brave_pendentes` for the next `fetch` run to visit it --
-the queue is what decouples the two, not a shared deadline.
+`brave`, part of the main daily pipeline) does the SDB scan -- Tavily's
+batched `include_domains`, both categories -- then visits everything queued.
+`fetch_novos` (source name `brave_novos`) does only the generic new-site
+hunt via Brave, meant to run as its own separate scheduled job -- see
+`criteria.yaml`'s `ci_novos` profile and SESSION_NOTES for why these are two
+decoupled runs rather than one, and why that means time-offset, not
+literally concurrent (both would otherwise try to commit the same
+`data/terreno.sqlite3` at once). A candidate `fetch_novos` queues just waits
+in `brave_pendentes` for the next `fetch` run to visit it -- the queue is
+what decouples the two, not a shared deadline.
+
+Brave itself no longer touches the SDB scan at all (retired 2026-08-17, see
+`tavily_discover.py`'s docstring for the benchmark behind that call) -- the
+name `brave.py` stays because this module is still where discovery and
+visiting get wired together, regardless of which provider does the
+discovering.
 """
 
 from __future__ import annotations
 
 import logging
 
-from .brave_discover import discover_novos, discover_sdb
+from .brave_discover import discover_novos
 from .brave_visit import visit_all
 from .brave_visit import NAME  # re-exported for anything importing it from here
 from .tavily_discover import discover as tavily_discover
@@ -34,11 +40,7 @@ log = logging.getLogger("terreno.sources.brave")
 
 
 def fetch(criteria, store, budgets) -> list:
-    """SDB scan + visit -- the main daily pipeline's Brave/Tavily work."""
-    novos = discover_sdb(criteria, store, budgets)
-    if novos:
-        log.info("brave: %d candidatos novos na fila", novos)
-
+    """SDB scan + visit -- the main daily pipeline's Tavily/visit work."""
     novos_tavily = tavily_discover(criteria, store, budgets)
     if novos_tavily:
         log.info("tavily: %d candidatos novos na fila", novos_tavily)

@@ -1,16 +1,22 @@
-"""SDB (`sites_descobertos`) opportunity scan for hosts classified `outro`
-(see `terreno/site_categoria.py`) -- everything that isn't a real-estate
-agency/portal (blogs, city-hall pages, forums, syndicates), so a crawler has
-no predictable "listings for sale" structure to exploit and a search API is
-still the only practical way in.
+"""SDB (`sites_descobertos`) opportunity scan -- the whole thing, both
+categories (see `terreno/site_categoria.py`), as of 2026-08-17.
 
-Uses Tavily instead of Brave for this segment specifically: Tavily's
-`include_domains` takes up to 300 domains in a single call (confirmed against
-Tavily's own API reference, 2026-08-17), while Brave only offers the `site:`
-text trick, one host per query. So instead of one query per due host -- what
-`brave_discover._discovered_site_queries` still does for `imobiliaria` hosts
--- this batches every due `outro` host into as few calls as `_LOTE` allows,
-turning what would be dozens of Brave queries into a handful of Tavily ones.
+A real benchmark that day (`scripts/diagnostico_imobiliaria_crawl.py`, 30
+real `imobiliaria` hosts) measured Tavily against the no-API crawler
+(`imobiliaria_crawl.py`): Tavily found 2.6x more usable listings and ran 40%
+faster on average. So Tavily now covers the daily rotation for *every* SDB
+host, `imobiliaria` included -- Brave's `site:` rotation for `imobiliaria`
+(what this module used to leave to `brave_discover.py`) is retired entirely,
+freeing Brave's metered budget for `brave_discover.discover_novos` (the
+generic new-site hunt) alone. `imobiliaria_crawl.py` isn't wasted, though: the
+same benchmark showed it still wins on a few hosts Tavily misses entirely, so
+it runs as its own twice-weekly safety-net job instead (see
+`search_crawl_imobiliaria.yml`) -- belt and suspenders, not either/or.
+
+Tavily's `include_domains` takes up to 300 domains in a single call
+(confirmed against Tavily's own API reference), against Brave's `site:` text
+trick, one host per query -- so this batches every due host, across both
+categories, into as few calls as `_LOTE` allows.
 
 Deliberately mirrors `brave_discover.py`'s shape (same queue table via
 `store.brave_pendentes_adicionar`, same weekly-due gate, same key-2 fallback
@@ -25,7 +31,7 @@ import logging
 import requests
 
 from .. import http
-from ..site_categoria import OUTRO
+from ..site_categoria import IMOBILIARIA, OUTRO
 
 log = logging.getLogger("terreno.sources.tavily_discover")
 
@@ -77,9 +83,9 @@ def _consultar(query: str, domains: list[str], token: str, token2: str = ""):
 
 
 def discover(criteria, store, budgets) -> int:
-    """Queries Tavily for every `outro`-category SDB host due this week,
-    batched, and queues every new candidate URL for `brave_visit.py` to open
-    -- same queue, same extraction path as a Brave-found candidate. Returns
+    """Queries Tavily for every SDB host due this week -- both categories,
+    batched -- and queues every new candidate URL for `brave_visit.py` to
+    open, same queue and extraction path as a Brave-found candidate. Returns
     how many new candidates were queued."""
     from ..config import env
     token = env("TAVILY_API_KEY")
@@ -92,9 +98,17 @@ def discover(criteria, store, budgets) -> int:
     if not alvo:
         return 0
 
-    hosts = store.sites_descobertos_por_categoria(OUTRO, dias=7)
+    # Seeds sites_alvo (curated portals) into the same weekly rotation
+    # auto-discovered hosts already use -- side effect only, moved here
+    # 2026-08-17 from brave_discover.py along with the rotation itself.
+    sites = criteria.raw.get("sites_alvo") or []
+    if sites:
+        store.sites_alvo_semear(sites)
+
+    hosts = (store.sites_descobertos_por_categoria(IMOBILIARIA, dias=7)
+             + store.sites_descobertos_por_categoria(OUTRO, dias=7))
     if not hosts:
-        log.info("tavily: nenhum host 'outro' vencido nesta semana")
+        log.info("tavily: nenhum host da SDB vencido nesta semana")
         return 0
 
     cap = float(budgets.get("tavily_consultas_por_mes", 900))
@@ -123,6 +137,6 @@ def discover(criteria, store, budgets) -> int:
     store.brave_pendentes_adicionar(novos)
     if hosts_consultados:
         store.sites_descobertos_marcar_consultado(hosts_consultados)
-    log.info("tavily: %d host(s) 'outro' consultados em %d lote(s), %d candidato(s) novo(s) na fila",
+    log.info("tavily: %d host(s) da SDB consultados em %d lote(s), %d candidato(s) novo(s) na fila",
               len(hosts_consultados), len(lotes), len(novos))
     return len(novos)
