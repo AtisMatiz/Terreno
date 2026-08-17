@@ -32,11 +32,10 @@ log = logging.getLogger("terreno.sources.tavily_discover")
 API = "https://api.tavily.com/search"
 RESOURCE = "tavily_queries"
 
-# Tavily's documented ceiling for include_domains (2026-08-17). Kept well
-# under it structurally impossible to exceed by construction, not because
-# 300 itself is risky -- a smaller batch also keeps one call's blast radius
-# (a single bad query wasting the whole batch's credit) reasonable.
-_LOTE = 200
+# Tavily's documented ceiling for include_domains (2026-08-17, per Tavily's
+# own API reference) -- used at the max since a wrong/empty result on one
+# batch costs the same 1 credit whether it covers 50 hosts or 300.
+_LOTE = 300
 MAX_RESULTS = 20
 
 QUERY = "sítio OR fazenda OR chácara à venda hectares"
