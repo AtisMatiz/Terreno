@@ -8,6 +8,7 @@ import re
 
 from . import geo, scoring
 from .config import Criteria, fold
+from .datas import muito_antigo
 from .extract.rules import extract as rules_extract
 from .http import get as http_get
 from .models import Listing
@@ -145,6 +146,12 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
 
     kept: list[Listing] = []
     for item in listings:
+        if item.posted_at and muito_antigo(item.posted_at):
+            # Found 2026-08-17: a real Brave-discovered result was a LinkedIn
+            # post from 2018 -- readable, well-written, and years stale. No
+            # posted_at at all still passes (most sources don't expose one);
+            # this only fires when we actually know the date and it's old.
+            continue
         if item.price is not None and not (criteria.price_min <= item.price <= criteria.price_max):
             continue
         if item.area_ha is not None and not (criteria.area_min <= item.area_ha <= criteria.area_max):
