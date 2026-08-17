@@ -100,10 +100,12 @@ fontes:
                       # imovelweb; ver comentário abaixo.
   pgfn: true          # leilões da PGFN (comprei.pgfn.gov.br) — ver nota nos perfis
   caixa: true         # imóveis retomados da Caixa (CSV público por estado)
-  brave: true
-  # Descoberta genérica de sites novos, separada de `brave` (2026-08-17) para
-  # rodar como seu próprio job diário (`ci_novos`), decorrelacionado do scan
-  # da SDB -- ver terreno/sources/brave.py e SESSION_NOTES.
+  # Renomeado de "brave" (2026-08-17): rotação diária da SDB, hoje toda via
+  # Tavily, não Brave -- ver terreno/sources/__init__.py.
+  sdb_scan: true
+  # Descoberta genérica de sites novos, separada do scan acima (2026-08-17)
+  # para rodar como seu próprio job diário (`ci_novos`), decorrelacionado do
+  # scan da SDB -- ver terreno/sources/brave.py e SESSION_NOTES.
   brave_novos: true
   # Varredura sem API da SDB imobiliária, 2x/semana (2026-08-17) -- ver
   # terreno/sources/imobiliaria_crawl.py e o perfil ci_crawl_imobiliaria.
@@ -149,7 +151,7 @@ fontes:
 # `chavesnamao`, `caixa` e `brave` já respondiam do runner (chavesnamao e
 # Brave por natureza; caixa via curl_cffi).
 perfis:
-  ci: [brave, chavesnamao, caixa, pgfn, olx, facebook]
+  ci: [sdb_scan, chavesnamao, caixa, pgfn, olx, facebook]
   # Job separado (2026-08-17): só a descoberta genérica de sites novos, sem
   # visitar nada e sem os outros scrapers -- ver .github/workflows/search.yml
   # (job busca-novos-sites) e terreno/sources/brave.py.
@@ -248,7 +250,6 @@ saida:
   # Anúncios vistos há mais tempo saem da página, mas continuam no banco para
   # o histórico de preço.
   manter_dias: 90
-  top_n_no_alerta: 8
   # Nota mínima (0..1) para aparecer na página. 0 mostra tudo que passou nos
   # filtros rígidos de preço, área e localização.
   nota_minima: 0.15

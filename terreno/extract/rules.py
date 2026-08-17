@@ -204,6 +204,27 @@ def meta(html: str, key: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def municipio_do_texto(texto: str) -> tuple[str, str]:
+    """Best-effort (municipality, uf) parsed from free Portuguese prose, or
+    ("", "") when nothing can be trimmed confidently.
+
+    Public and shared (not just this extractor's own use below): a source
+    with its own *structured* location data (facebook.py, from the Apify
+    actor's `location` field) still needs this whenever that field is empty
+    or missing -- found 2026-08-17 against two real listings (Joanópolis/SP,
+    Rio Claro/SP) where Facebook's own geo data was blank but the seller's
+    own description named the city in plain text, in a shape this parser
+    already reads correctly. Without this fallback, both listings kept
+    `municipality=""`, which silently disables the region whitelist and
+    radius filters in `pipeline.apply_filters` -- not a wrong answer, just no
+    answer, but the practical effect was two listings 100+ km outside the
+    configured search region reaching Telegram anyway."""
+    m = _LOCATION_RE.search(texto)
+    if not m:
+        return "", ""
+    return _clean_municipality(m.group(1)), m.group(2)
+
+
 def _data_publicada(html: str, haystack: str) -> str:
     """Whatever publication date this page states, raw (not yet parsed) --
     `Listing.posted_at` for a Brave-found page, feeding the too-old filter in
@@ -283,9 +304,10 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     # area is now (correctly) left unknown rather than guessed. Reading the
     # municipality first turns most of those unknowns back into real hectares.
     if not municipality:
-        m = _LOCATION_RE.search(f"{title} {description}") or _LOCATION_RE.search(body)
-        if m:
-            municipality, uf = _clean_municipality(m.group(1)), m.group(2)
+        municipality, uf_achado = municipio_do_texto(f"{title} {description}")
+        if not municipality:
+            municipality, uf_achado = municipio_do_texto(body)
+        uf = uf_achado or uf
 
     preco_estruturado = price is not None
     if price is None:

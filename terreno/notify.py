@@ -34,12 +34,14 @@ API = "https://api.telegram.org/bot{token}/sendMessage"
 # at all.
 LIMIT = 4096
 
-# Cards are ~6 lines each, so roughly 10-12 fit per message. Rather than
-# choosing between "one message, few cards" and "unbounded spam", cards are
-# packed into whole messages up to this cap: the owner gets a useful number of
-# full cards, the channel never gets flooded, and anything past the cap is
-# reported honestly at the end with a pointer to the full list.
-MAX_MESSAGES = 3
+# Every new listing should reach Telegram, always (found 2026-08-17: a real
+# run had 4 new listings and only 3 reached the chat, with nothing saying why
+# -- the old cap of 3 messages silently dropped whatever didn't fit, which
+# reads as "the pipeline lost one" rather than "the channel has a limit").
+# High rather than unbounded: still a real backstop against a single
+# pathological day flooding the chat with dozens of messages, but far above
+# what daily new-listing volume actually produces.
+MAX_MESSAGES = 50
 
 HEADER = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿"
 HEADER_CONT = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿 (continuação)"

@@ -442,7 +442,31 @@ def _from_apify(item: dict, uf: str) -> Listing | None:
     # a do recorte: é ela que resolve o alqueire (paulista 2,42 ha vs. mineiro
     # 4,84 ha) e um anúncio de MG caindo como SP tem a área pela metade.
     estado = _texto(geo.get("state"))
-    uf_item = estado.upper() if re.fullmatch(r"[A-Za-z]{2}", estado) else uf
+    uf_item = estado.upper() if re.fullmatch(r"[A-Za-z]{2}", estado) else ""
+
+    # Facebook's own geo field is often just missing for a given item (both
+    # real cases found 2026-08-17 -- Joanópolis/SP, Rio Claro/SP -- had none),
+    # even though the seller's own description names the city in plain text.
+    # A blank municipality silently disables the region whitelist/radius
+    # filters in pipeline.apply_filters, so this fallback is what actually
+    # keeps a Marketplace search scoped to the configured region instead of
+    # any listing Facebook happens to return regardless of where it is.
+    if not municipality or not uf_item:
+        # Import here, not at module load: rules.py imports sources.base,
+        # which imports this whole sources package (including this module)
+        # as a side effect of package init -- a top-level import here would
+        # be circular. By call time both modules are fully loaded.
+        from ..extract.rules import municipio_do_texto
+        texto_m, texto_uf = municipio_do_texto(f"{title}\n{description}")
+        municipality = municipality or texto_m
+        uf_item = uf_item or texto_uf
+
+    # Only after both structured data and the description text come up empty
+    # does this fall back to the search's own target state -- an *assumption*
+    # a blank Facebook field means "must be where we searched", which used to
+    # be the unconditional default and silently defeated the state filter for
+    # exactly the listings most likely to be out of region.
+    uf_item = uf_item or uf
 
     area = area_detalhada(f"{title}\n{description}", uf_item)
 

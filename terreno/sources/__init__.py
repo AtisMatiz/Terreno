@@ -15,7 +15,13 @@ REGISTRY = {
     "imovelweb": htmlportal.fetch_imovelweb,
     "wimoveis": htmlportal.fetch_wimoveis,
     "caixa": caixa.fetch,                 # CSV público, roda em CI
-    "brave": brave.fetch,
+    # Nome trocado de "brave" para "sdb_scan" (2026-08-17): a rotação diária
+    # da SDB agora é toda via Tavily (ver terreno/sources/tavily_discover.py),
+    # não Brave -- manter o nome antigo aqui só produzia um alerta de saúde
+    # confuso ("brave: sem resultado...") para algo que já não usa Brave.
+    # Listings individuais continuam com source="brave" (brave_visit.py) --
+    # esse é o atributo por-anúncio, sem relação com este nome de fonte.
+    "sdb_scan": brave.fetch,
     "brave_novos": brave.fetch_novos,     # descoberta genérica de sites, roda como job separado
     "imobiliaria_crawl": imobiliaria_crawl.fetch,  # varredura sem API, roda 2x/semana
     "facebook": facebook.fetch,

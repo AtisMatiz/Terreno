@@ -169,16 +169,13 @@ def main(argv=None) -> int:
     store.record_run(summary)
     log.info(summary)
 
-    # Everything scored reaches the page; the Telegram list is deliberately
-    # narrower. Two gates, both meant to keep the channel worth reading rather
-    # than to hide listings: price per hectare above the ceiling
-    # (`notificavel`, set in pipeline.score_all) and anything already sold or
-    # taken down. Both leave the listing on the site.
-    para_avisar = [item for item in fresh if item.notificavel]
-    caros = len(fresh) - len(para_avisar)
-    if caros:
-        log.info("%d anúncio(s) novo(s) acima do teto de R$/ha — no site, "
-                 "fora do Telegram", caros)
+    # Every new listing gets a Telegram card -- no exception for price/ha
+    # above the ceiling (found 2026-08-17: excluding those silently made "10
+    # matches, 4 new" in the log not match what actually arrived in
+    # Telegram, with no visible reason why). notificavel is still computed
+    # by pipeline.score_all and still shown on the card/site, it's just not
+    # a reason to withhold a genuinely new find from the alert anymore.
+    para_avisar = list(fresh)
 
     if para_avisar and criteria.output("checar_disponibilidade", True):
         fora = disponibilidade.urls_indisponiveis(x.url for x in para_avisar)
@@ -195,21 +192,25 @@ def main(argv=None) -> int:
     # that case (found 2026-08-17) instead of leaving the owner unable to
     # tell a quiet day apart from a broken run.
     #
-    # Falls back to the known, fixed Pages URL when TERRENO_PAGE_URL isn't
-    # set -- found 2026-08-13: the repo variable was apparently never
-    # actually set, so "...e mais N — ver a lista completa" had no link at
-    # all, a dead end for exactly the listings being pointed at. A repo
-    # variable being forgotten should degrade, not silently drop the one
-    # thing that line promises.
+    # Falls back to the live Vercel page when TERRENO_PAGE_URL isn't set --
+    # found 2026-08-13 the repo variable was apparently never actually set,
+    # so "...e mais N — ver a lista completa" had no link at all; the
+    # fallback itself switched 2026-08-17 from GitHub Pages to Vercel
+    # (terreno-omega.vercel.app) per the user's call, since that's the page
+    # actually used (it also hosts /api/disparar, which GitHub Pages can't).
     # Skipped for a discovery-only run (e.g. --profile ci_novos): those
     # sources never return Listings even on a normal day, so a heartbeat here
     # would just be daily noise on top of the main pipeline's own -- the
     # "did today's run happen" question that heartbeat answers is about the
     # main pipeline, not this bookkeeping job.
     if not set(wanted) <= _SEM_HEALTH_POR_CONTAGEM:
-        pagina = env("TERRENO_PAGE_URL") or "https://atismatiz.github.io/Terreno/"
-        notify.telegram(para_avisar, pagina,
-                        int(criteria.output("top_n_no_alerta", 8)),
+        pagina = env("TERRENO_PAGE_URL") or "https://terreno-omega.vercel.app/"
+        # Every new listing gets a card, however many that takes -- no top_n
+        # ceiling below the actual count (found 2026-08-17: "10 matches, 4
+        # new" in the log, only 3 cards in Telegram, no visible reason why
+        # the 4th was missing). notify.build_messages still packs whatever
+        # doesn't fit one message into as many more as it takes.
+        notify.telegram(para_avisar, pagina, len(para_avisar),
                         alertas=alertas_saude)
 
     store.close()
