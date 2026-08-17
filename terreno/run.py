@@ -181,17 +181,21 @@ def main(argv=None) -> int:
             log.info("%d anúncio(s) já vendido(s) ou fora do ar — não avisados",
                      len(fora))
 
-    if para_avisar or alertas_saude:
-        # Falls back to the known, fixed Pages URL when TERRENO_PAGE_URL
-        # isn't set -- found 2026-08-13: the repo variable was apparently
-        # never actually set, so "...e mais N — ver a lista completa" had
-        # no link at all, a dead end for exactly the listings being pointed
-        # at. A repo variable being forgotten should degrade, not silently
-        # drop the one thing that line promises.
-        pagina = env("TERRENO_PAGE_URL") or "https://atismatiz.github.io/Terreno/"
-        notify.telegram(para_avisar, pagina,
-                        int(criteria.output("top_n_no_alerta", 8)),
-                        alertas=alertas_saude)
+    # Called every real (non-dry-run) run, even with nothing to report --
+    # notify.telegram sends a one-line "nenhum resultado hoje" heartbeat in
+    # that case (found 2026-08-17) instead of leaving the owner unable to
+    # tell a quiet day apart from a broken run.
+    #
+    # Falls back to the known, fixed Pages URL when TERRENO_PAGE_URL isn't
+    # set -- found 2026-08-13: the repo variable was apparently never
+    # actually set, so "...e mais N — ver a lista completa" had no link at
+    # all, a dead end for exactly the listings being pointed at. A repo
+    # variable being forgotten should degrade, not silently drop the one
+    # thing that line promises.
+    pagina = env("TERRENO_PAGE_URL") or "https://atismatiz.github.io/Terreno/"
+    notify.telegram(para_avisar, pagina,
+                    int(criteria.output("top_n_no_alerta", 8)),
+                    alertas=alertas_saude)
 
     store.close()
     return 0

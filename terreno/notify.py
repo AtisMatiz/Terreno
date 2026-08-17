@@ -1,7 +1,12 @@
 """Telegram ping when a run turns up something new.
 
-Silent by default: no new matches means no message, so the channel stays worth
-reading. Failure to notify never fails the run.
+A run with nothing to report still gets a one-line "Nenhum resultado hoje"
+ping (see NENHUM_RESULTADO) -- found 2026-08-17: the old "silent means no
+message" design was indistinguishable, from the owner's side, from the run
+never having happened at all (workflow failure, cron not firing, secrets
+missing). One short line costs nothing and turns that silence into a
+confirmed "ran, found nothing" instead of an open question. Failure to
+notify never fails the run.
 
 Message building (``build_messages``) is deliberately separated from sending
 (``telegram``) so the exact rendered text can be inspected without touching the
@@ -38,6 +43,12 @@ MAX_MESSAGES = 3
 
 HEADER = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿"
 HEADER_CONT = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿 (continuação)"
+
+# Sent instead of nothing when a run has no new listings and no health
+# alerts -- a heartbeat, not a card, so it stays a single short line rather
+# than reusing HEADER (which would read as "new property" when there isn't
+# one).
+NENHUM_RESULTADO = "🌿 Terreno: nenhum resultado novo hoje."
 
 # Score bands -> Portuguese qualitative label. Listing.score is a 0..1 float;
 # it is shown as an integer out of 100, so the bands are stated in the same
@@ -251,9 +262,7 @@ def telegram(listings: list, page_url: str, top_n: int = 8,
         log.info("telegram not configured — no ping sent")
         return False
 
-    messages = build_messages(listings, page_url, top_n, alertas)
-    if not messages:
-        return False
+    messages = build_messages(listings, page_url, top_n, alertas) or [NENHUM_RESULTADO]
 
     ok = True
     for i, text in enumerate(messages, 1):
