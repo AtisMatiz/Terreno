@@ -109,3 +109,30 @@ jobs:
           BRAVE_API_KEY_2: ${{ secrets.BRAVE_API_KEY_2 }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python scripts/diagnostico_brave_descricao.py
+
+  medir-imobiliaria-crawl:
+    # SDB (sites_descobertos) hosts classificados "imobiliaria" (ver
+    # terreno/site_categoria.py) hoje dependem da Brave para achar anúncios
+    # novos -- mas o host já é conhecido, então crawl direto (sitemap /
+    # navegação do próprio site) não deveria precisar de nenhuma API. Este
+    # job mede isso contra os 30 hosts mais estabelecidos da SDB, lado a
+    # lado com o Tavily, para decidir com dados qual estratégia vale a pena
+    # em produção -- ver scripts/diagnostico_imobiliaria_crawl.py.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Crawler sem API vs Tavily em 30 hosts imobiliária reais
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
+          TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
+        run: python scripts/diagnostico_imobiliaria_crawl.py 30

@@ -11,6 +11,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 from .models import Listing
+from .site_categoria import IMOBILIARIA, classificar
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS listings (
@@ -127,7 +128,8 @@ CREATE TABLE IF NOT EXISTS sites_descobertos (
     primeira_vez    TEXT NOT NULL,
     ultima_vez      TEXT NOT NULL,
     promovido_em    TEXT,
-    ultima_consulta TEXT
+    ultima_consulta TEXT,
+    categoria       TEXT NOT NULL DEFAULT ''
 );
 """
 
@@ -178,6 +180,26 @@ class Store:
         for nome, tipo in novas:
             if nome not in existentes:
                 self.db.execute(f"ALTER TABLE listings ADD COLUMN {nome} {tipo}")
+
+        # 2026-08-17: SDB (sites_descobertos) split into imobiliária vs outro
+        # (see site_categoria.py) so each category can be scanned by a
+        # different strategy going forward.
+        sd_cols = {r["name"] for r in self.db.execute("PRAGMA table_info(sites_descobertos)")}
+        if "categoria" not in sd_cols:
+            self.db.execute(
+                "ALTER TABLE sites_descobertos ADD COLUMN categoria TEXT NOT NULL DEFAULT ''"
+            )
+        # Backfill hosts already in the table before this column existed --
+        # host-only signal (no page text kept around from their original
+        # discovery), same as every host's first classification would get.
+        sem_categoria = self.db.execute(
+            "SELECT host FROM sites_descobertos WHERE categoria = ''"
+        ).fetchall()
+        if sem_categoria:
+            self.db.executemany(
+                "UPDATE sites_descobertos SET categoria = ? WHERE host = ?",
+                [(classificar(r["host"]), r["host"]) for r in sem_categoria],
+            )
 
     def close(self) -> None:
         self.db.commit()
@@ -450,28 +472,41 @@ class Store:
         return excesso
 
     # ----------------------------------------------------- sites_descobertos
-    def registrar_extracao_brave(self, host: str, limiar: int = 2) -> bool:
+    def registrar_extracao_brave(self, host: str, limiar: int = 2, texto: str = "") -> bool:
         """Conta uma extração de listing bem-sucedida da Brave nesse host.
         Quando o total de ocorrências atinge `limiar`, promove o host pela
         primeira vez -- ver a nota da tabela em SCHEMA. Retorna True só na
-        chamada em que a promoção acontece, para quem chamou poder logar."""
+        chamada em que a promoção acontece, para quem chamou poder logar.
+
+        `texto` (o corpo da página, quando disponível) reclassifica o host
+        via `site_categoria.classificar` -- este é o único ponto do pipeline
+        em que o texto completo da página já foi buscado, então é a melhor
+        chance de pegar uma menção a CRECI que o snippet da busca nunca
+        mostraria."""
         agora = _now()
         row = self.db.execute(
-            "SELECT ocorrencias, promovido_em FROM sites_descobertos WHERE host = ?",
+            "SELECT ocorrencias, promovido_em, categoria FROM sites_descobertos WHERE host = ?",
             (host,),
         ).fetchone()
         ocorrencias = (row["ocorrencias"] if row else 0) + 1
         ja_promovido = bool(row and row["promovido_em"])
         promovendo_agora = not ja_promovido and ocorrencias >= limiar
+        categoria_atual = (row["categoria"] if row else "") or ""
+        # Nunca rebaixa uma classificação já forte -- só herda a nova se a
+        # atual ainda está em branco ou se o texto agora prova imobiliária.
+        categoria = categoria_atual or classificar(host, texto)
+        if categoria_atual != IMOBILIARIA and classificar(host, texto) == IMOBILIARIA:
+            categoria = IMOBILIARIA
         self.db.execute(
             """INSERT INTO sites_descobertos
-                   (host, ocorrencias, primeira_vez, ultima_vez, promovido_em)
-               VALUES (?, ?, ?, ?, ?)
+                   (host, ocorrencias, primeira_vez, ultima_vez, promovido_em, categoria)
+               VALUES (?, ?, ?, ?, ?, ?)
                ON CONFLICT(host) DO UPDATE SET
                  ocorrencias = excluded.ocorrencias,
                  ultima_vez = excluded.ultima_vez,
-                 promovido_em = COALESCE(sites_descobertos.promovido_em, excluded.promovido_em)""",
-            (host, ocorrencias, agora, agora, agora if promovendo_agora else None),
+                 promovido_em = COALESCE(sites_descobertos.promovido_em, excluded.promovido_em),
+                 categoria = excluded.categoria""",
+            (host, ocorrencias, agora, agora, agora if promovendo_agora else None, categoria),
         )
         self.db.commit()
         return promovendo_agora
@@ -484,17 +519,28 @@ class Store:
         um site curado não precisa provar nada, só entrar na fila; ON
         CONFLICT DO NOTHING preserva o estado de quem já estava lá (inclusive
         `ultima_consulta`, para não resetar o relógio de quem já foi
-        consultado)."""
+        consultado). `categoria='imobiliaria'` direto -- um site curado à
+        mão foi escolhido justamente por ser um portal/agência de anúncios,
+        não precisa passar pelo classificador genérico para provar isso."""
         hosts = list(hosts)
         if not hosts:
             return
         agora = _now()
         self.db.executemany(
             """INSERT INTO sites_descobertos
-                   (host, ocorrencias, primeira_vez, ultima_vez, promovido_em)
-               VALUES (?, 0, ?, ?, ?)
+                   (host, ocorrencias, primeira_vez, ultima_vez, promovido_em, categoria)
+               VALUES (?, 0, ?, ?, ?, ?)
                ON CONFLICT(host) DO NOTHING""",
-            [(h, agora, agora, agora) for h in hosts],
+            [(h, agora, agora, agora, IMOBILIARIA) for h in hosts],
+        )
+        # A host already present (e.g. discovered generically before it was
+        # ever added to sites_alvo) may still carry the generic classifier's
+        # "outro" guess -- the INSERT above never touches it, ON CONFLICT DO
+        # NOTHING is unconditional. Being hand-curated is stronger evidence
+        # than any text-based guess, so correct it explicitly here too.
+        self.db.executemany(
+            "UPDATE sites_descobertos SET categoria = ? WHERE host = ? AND categoria != ?",
+            [(IMOBILIARIA, h, IMOBILIARIA) for h in hosts],
         )
         self.db.commit()
 
@@ -505,37 +551,45 @@ class Store:
         pena visitar a URL em si (isso é decidido em `discover()`, não aqui)."""
         return {r["host"] for r in self.db.execute("SELECT host FROM sites_descobertos")}
 
-    def sites_descobertos_avistar(self, hosts) -> None:
+    def sites_descobertos_avistar(self, hosts, titulos: dict[str, str] | None = None) -> None:
         """Registra um host no instante em que a busca genérica da Brave o
         acha por trás de uma URL nova -- antes de qualquer extração real --
         para que ele conte como "já encontrado" a partir de agora e não
         volte a consumir cota de descoberta de site todo dia. `ocorrencias`
         continua em 0: a promoção para a rotação semanal `site:` (ver
         `registrar_extracao_brave`) ainda depende de extrações reais, não de
-        ter aparecido numa busca."""
+        ter aparecido numa busca.
+
+        `titulos` (host -> título+descrição do resultado da busca, quando
+        disponível) alimenta a primeira classificação em `categoria` -- o
+        único texto que existe sobre um host recém-visto antes de qualquer
+        visita real à página."""
         hosts = list(hosts)
         if not hosts:
             return
+        titulos = titulos or {}
         agora = _now()
         self.db.executemany(
-            """INSERT INTO sites_descobertos (host, ocorrencias, primeira_vez, ultima_vez)
-               VALUES (?, 0, ?, ?)
+            """INSERT INTO sites_descobertos (host, ocorrencias, primeira_vez, ultima_vez, categoria)
+               VALUES (?, 0, ?, ?, ?)
                ON CONFLICT(host) DO NOTHING""",
-            [(h, agora, agora) for h in hosts],
+            [(h, agora, agora, classificar(h, titulos.get(h, ""))) for h in hosts],
         )
         self.db.commit()
 
-    def sites_descobertos_para_consultar(self, dias: int = 7) -> list[str]:
-        """Hosts promovidos que não são consultados há `dias` dias (ou nunca
-        foram) -- a cadência semanal em si, guiada pelos dados e não pela
-        frequência com que o pipeline roda."""
+    def sites_descobertos_por_categoria(self, categoria: str, dias: int = 7) -> list[str]:
+        """Same due-this-week gate as `sites_descobertos_para_consultar`, but
+        scoped to one `categoria` -- lets the imobiliária crawler and the
+        Tavily "outro" batch each pull only the hosts their own strategy is
+        responsible for."""
         limite = (datetime.now(timezone.utc) - timedelta(days=dias)).isoformat()
         linhas = self.db.execute(
             """SELECT host FROM sites_descobertos
                WHERE promovido_em IS NOT NULL
+                 AND categoria = ?
                  AND (ultima_consulta IS NULL OR ultima_consulta < ?)
                ORDER BY ocorrencias DESC""",
-            (limite,),
+            (categoria, limite),
         ).fetchall()
         return [r["host"] for r in linhas]
 

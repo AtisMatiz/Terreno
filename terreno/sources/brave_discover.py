@@ -20,6 +20,7 @@ from urllib.parse import urlparse
 import requests
 
 from .. import http
+from ..site_categoria import IMOBILIARIA
 from .base import UF_NAMES
 
 log = logging.getLogger("terreno.sources.brave_discover")
@@ -99,7 +100,7 @@ def _site_queries(criteria, store) -> list[str]:
     metered API with a hard monthly cap (see Standing rules, the day Brave's
     cap was hit). Now seeded into the same `sites_descobertos` table the
     auto-discovered hosts already use, so a curated site shares their
-    weekly cadence (`sites_descobertos_para_consultar`) instead of its own
+    weekly cadence (`sites_descobertos_por_categoria`) instead of its own
     unconditional one -- one mechanism, not two.
     """
     sites = criteria.raw.get("sites_alvo") or []
@@ -109,9 +110,16 @@ def _site_queries(criteria, store) -> list[str]:
 
 
 def _discovered_site_queries(criteria, store, dias: int = 7) -> dict[str, str]:
-    """`site:` queries for hosts due this week -- both hand-curated
-    (`sites_alvo`, seeded by `_site_queries`) and auto-discovered (see
-    `Store.registrar_extracao_brave`), unified under one weekly clock.
+    """`site:` queries for `imobiliaria`-category hosts due this week --
+    both hand-curated (`sites_alvo`, seeded by `_site_queries`, always
+    `imobiliaria`) and auto-discovered (see `Store.registrar_extracao_brave`),
+    unified under one weekly clock.
+
+    Scoped to `imobiliaria` only (2026-08-17): `outro`-category hosts are
+    now `tavily_discover.py`'s job -- batched into Tavily's `include_domains`
+    instead of one Brave `site:` query per host, see that module's docstring.
+    Querying them here too would waste Brave's metered budget on the exact
+    hosts Tavily is meant to take off it.
 
     Returns {query: host} so the caller can tell, after truncating the
     combined query list to the run's allowance, exactly which discovered
@@ -121,7 +129,7 @@ def _discovered_site_queries(criteria, store, dias: int = 7) -> dict[str, str]:
     alvo = _alvo(criteria)
     if not alvo:
         return {}
-    hosts = store.sites_descobertos_para_consultar(dias=dias)
+    hosts = store.sites_descobertos_por_categoria(IMOBILIARIA, dias=dias)
     return {f"fazenda OR sítio OR chácara à venda {alvo} site:{h}": h for h in hosts}
 
 
@@ -204,6 +212,7 @@ def discover(criteria, store, budgets) -> int:
     novos: dict[str, str] = {}
     frios: dict[str, str] = {}
     hosts_novos: set[str] = set()
+    titulos_novos: dict[str, str] = {}
     ja_conhecidos = 0
 
     for query in queries:
@@ -242,10 +251,16 @@ def discover(criteria, store, budgets) -> int:
                 # Reaching here means host wasn't in `conhecidos` (else the
                 # check above would have skipped it) -- a genuine new find.
                 hosts_novos.add(host)
+                if host not in titulos_novos:
+                    # Title + snippet description is the only text about this
+                    # host that exists before anything is ever visited --
+                    # feeds site_categoria's first classification pass.
+                    descricao = result.get("description") or ""
+                    titulos_novos[host] = f"{titulo} {descricao}".strip()
 
     store.brave_pendentes_adicionar(novos)
     if hosts_novos:
-        store.sites_descobertos_avistar(hosts_novos)
+        store.sites_descobertos_avistar(hosts_novos, titulos_novos)
         log.info("brave: %d site(s) novo(s) achado(s) pela busca genérica -> sites_descobertos: %s",
                  len(hosts_novos), ", ".join(sorted(hosts_novos)))
     if ja_conhecidos:
