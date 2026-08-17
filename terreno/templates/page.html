@@ -115,8 +115,27 @@
     <select id="fonte"><option value="">Todas as fontes</option></select>
     <button id="soNovos">Só novos</button>
     <button id="verOcultos">Ver ocultos</button>
+    <button id="abrirFiltro">🔍 Filtrar resultados</button>
     <button id="abrirConfig">⚙ Configurar busca</button>
   </div>
+
+  <form id="filtro" hidden>
+    <div class="linha">
+      <label>Estados<input id="fEstados" placeholder="SP, MG"></label>
+      <label>Municípios<input id="fMunicipios" placeholder="vazio = todos"></label>
+    </div>
+    <div class="linha">
+      <label>Área mín. (ha)<input id="fAreaMin" type="number" step="0.5" min="0"></label>
+      <label>Área máx. (ha)<input id="fAreaMax" type="number" step="0.5" min="0"></label>
+      <label>Preço mín. (R$)<input id="fPrecoMin" type="number" step="10000" min="0"></label>
+      <label>Preço máx. (R$)<input id="fPrecoMax" type="number" step="10000" min="0"></label>
+    </div>
+    <div class="linha">
+      <button type="button" id="fLimpar">Limpar filtro</button>
+    </div>
+    <div class="dica">Filtra só o que já está na página — não roda uma busca nova.
+      Estados/municípios aceitam mais de um, separados por vírgula.</div>
+  </form>
 
   <form id="config" hidden>
     <div class="linha">
@@ -156,6 +175,8 @@
   let ocultos = new Set(JSON.parse(localStorage.getItem(CHAVE_OCULTOS) || '[]'));
   let verOcultos = false, soNovos = false;
   const abertos = new Set();
+  const $ = id => document.getElementById(id);
+  const num = v => v === '' ? undefined : Number(v);
 
   // Every field below comes from scraped external listings -- untrusted text,
   // including public posts pulled in via site:facebook.com. It reaches the DOM
@@ -270,18 +291,39 @@
     return el;
   }
 
+  // "Filtrar resultados": os mesmos campos de "Configurar busca" (menos
+  // Região, que não existe por listing -- só estados/municípios reais têm
+  // como filtrar item a item), mas só filtra o que já está na página, sem
+  // senha e sem chamar /api/disparar.
+  const foldAcento = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const listaFold = v => v.split(',').map(s => foldAcento(s.trim())).filter(Boolean);
+
   function desenhar(){
     const q = document.getElementById('q').value.toLowerCase().trim();
     const uf = document.getElementById('uf').value;
     const mun = document.getElementById('municipio').value;
     const fonte = document.getElementById('fonte').value;
+
+    const fEstados = listaFold($('fEstados').value);
+    const fMunicipios = listaFold($('fMunicipios').value);
+    const fAreaMin = num($('fAreaMin').value);
+    const fAreaMax = num($('fAreaMax').value);
+    const fPrecoMin = num($('fPrecoMin').value);
+    const fPrecoMax = num($('fPrecoMax').value);
+
     let linhas = itens.filter(i =>
       (verOcultos || !ocultos.has(i.key)) &&
       (!soNovos || i.is_new) &&
       (!uf || i.uf === uf) &&
       (!mun || i.municipality === mun) &&
       (!fonte || i.source === fonte) &&
-      (!q || `${i.title} ${i.municipality} ${i.description}`.toLowerCase().includes(q))
+      (!q || `${i.title} ${i.municipality} ${i.description}`.toLowerCase().includes(q)) &&
+      (!fEstados.length || fEstados.includes(foldAcento(i.uf))) &&
+      (!fMunicipios.length || fMunicipios.includes(foldAcento(i.municipality))) &&
+      (fAreaMin == null || (i.area_ha != null && i.area_ha >= fAreaMin)) &&
+      (fAreaMax == null || (i.area_ha != null && i.area_ha <= fAreaMax)) &&
+      (fPrecoMin == null || (i.price != null && i.price >= fPrecoMin)) &&
+      (fPrecoMax == null || (i.price != null && i.price <= fPrecoMax))
     );
     linhas.sort(ordenadores[document.getElementById('ordem').value]);
     grade.replaceChildren(...(linhas.length
@@ -292,11 +334,24 @@
 
   ['q','ordem','uf','municipio','fonte'].forEach(id =>
     document.getElementById(id).addEventListener('input', desenhar));
+  ['fEstados','fMunicipios','fAreaMin','fAreaMax','fPrecoMin','fPrecoMax'].forEach(id =>
+    document.getElementById(id).addEventListener('input', desenhar));
   document.getElementById('soNovos').onclick = e => {
     soNovos = !soNovos; e.target.classList.toggle('on', soNovos); desenhar();
   };
   document.getElementById('verOcultos').onclick = e => {
     verOcultos = !verOcultos; e.target.classList.toggle('on', verOcultos); desenhar();
+  };
+
+  const formFiltro = document.getElementById('filtro');
+  document.getElementById('abrirFiltro').onclick = e => {
+    formFiltro.hidden = !formFiltro.hidden;
+    e.target.classList.toggle('on', !formFiltro.hidden);
+  };
+  document.getElementById('fLimpar').onclick = () => {
+    ['fEstados','fMunicipios','fAreaMin','fAreaMax','fPrecoMin','fPrecoMax']
+      .forEach(id => document.getElementById(id).value = '');
+    desenhar();
   };
   desenhar();
 
@@ -305,7 +360,6 @@
   // (/api/disparar) que chame o GitHub Actions — o token do GitHub fica lá,
   // nunca no navegador. Sem a função publicada, o painel avisa e não quebra.
   const cfg = dados.criterios || {};
-  const $ = id => document.getElementById(id);
   const form = $('config');
 
   $('cEstados').value    = (cfg.estados || []).join(', ');
@@ -322,7 +376,6 @@
   };
 
   const lista = v => v.split(',').map(s => s.trim()).filter(Boolean);
-  const num = v => v === '' ? undefined : Number(v);
 
   form.onsubmit = async ev => {
     ev.preventDefault();
