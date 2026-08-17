@@ -2,17 +2,18 @@ name: terreno busca novos sites
 
 # Job separado da busca principal (2026-08-17): só a descoberta genérica de
 # sites novos para a SDB (sites_descobertos) -- ver terreno/sources/brave.py
-# (fetch_novos) e criteria.yaml (perfil ci_novos). Dispara só depois que
-# "terreno search" termina (workflow_run), nunca ao mesmo tempo: os dois
-# commitam data/terreno.sqlite3 na mesma branch, e rodar de verdade em
-# paralelo faria um dos dois pushes esbarrar num conflito binário
-# irreconciliável. workflow_run já serializa por natureza; o mesmo grupo de
-# concurrency abaixo é um segundo cinto de segurança para o mesmo problema.
+# (fetch_novos) e criteria.yaml (perfil ci_novos). Roda no próprio horário
+# (08:15 UTC, 45min antes do "terreno search" às 09:00 UTC -- a pedido do
+# usuário, 2026-08-17), não encadeado por workflow_run: os dois ainda
+# commitam data/terreno.sqlite3 na mesma branch, então o grupo de
+# concurrency abaixo continua sendo o que garante que um espera o outro
+# terminar em vez de os dois pushes colidirem num conflito binário
+# irreconciliável -- mesmo se um dia um dos dois atrasar e os dois horários
+# se aproximarem.
 
 on:
-  workflow_run:
-    workflows: ["terreno search"]
-    types: [completed]
+  schedule:
+    - cron: "15 8 * * *"
   workflow_dispatch:
 
 permissions:
@@ -25,14 +26,9 @@ concurrency:
 jobs:
   buscar-novos-sites:
     runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_branch || github.ref }}
 
       - uses: actions/setup-python@v5
         with:
