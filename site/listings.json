@@ -1,5 +1,5 @@
 {
- "generated_at": "16/08/2026 às 06:23",
+ "generated_at": "17/08/2026 às 06:31",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -4245,7 +4245,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -5025,7 +5025,7 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
   "pgfn",
   "olx",
@@ -5036,7 +5036,7 @@
  ],
  "warnings": [
   "brave: 0 resultados",
-  "turismo.campoalegre.sc.gov.br: bloqueado"
+  "facebook: 0 resultados"
  ],
  "criterios": {
   "estados": [
