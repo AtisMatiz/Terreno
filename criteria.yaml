@@ -105,6 +105,9 @@ fontes:
   # rodar como seu próprio job diário (`ci_novos`), decorrelacionado do scan
   # da SDB -- ver terreno/sources/brave.py e SESSION_NOTES.
   brave_novos: true
+  # Varredura sem API da SDB imobiliária, 2x/semana (2026-08-17) -- ver
+  # terreno/sources/imobiliaria_crawl.py e o perfil ci_crawl_imobiliaria.
+  imobiliaria_crawl: true
   facebook: true
 
 # Onde cada fonte roda. Só existe um lugar agora: o runner do GitHub Actions
@@ -151,6 +154,10 @@ perfis:
   # visitar nada e sem os outros scrapers -- ver .github/workflows/search.yml
   # (job busca-novos-sites) e terreno/sources/brave.py.
   ci_novos: [brave_novos]
+  # Job separado (2026-08-17), 2x/semana: varre toda a SDB imobiliária via
+  # crawl direto (sem API) -- ver .github/workflows/search_crawl_imobiliaria.yml
+  # e terreno/sources/imobiliaria_crawl.py.
+  ci_crawl_imobiliaria: [imobiliaria_crawl]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a
@@ -207,14 +214,22 @@ orcamentos:
   # consultas por execução próprio já que agora é uma execução própria.
   brave_consultas_por_run_novos: 100
   brave_consultas_por_mes: 1000000
-  # SDB hosts categoria "outro" (ver terreno/site_categoria.py) usam Tavily em
-  # vez da Brave (2026-08-17): `include_domains` aceita até 300 hosts numa
-  # única consulta, contra o truque `site:` da Brave que gasta uma consulta
-  # por host -- então mesmo consultando toda a rotação semanal de uma vez, o
-  # custo real fica em poucos créditos por execução. Tavily free tier é ~1000
-  # créditos/mês; 900 deixa margem de segurança.
+  # Toda a rotação da SDB (as duas categorias, ver terreno/site_categoria.py)
+  # usa Tavily em vez da Brave (2026-08-17, depois de um benchmark real contra
+  # a varredura sem API mostrar Tavily 2,6x melhor em listings úteis e 40%
+  # mais rápida -- ver SESSION_NOTES): `include_domains` aceita até 300 hosts
+  # numa única consulta, contra o truque `site:` da Brave que gasta uma
+  # consulta por host -- então mesmo consultando toda a rotação semanal de uma
+  # vez, o custo real fica em poucos créditos por execução. Tavily free tier é
+  # ~1000 créditos/mês; 900 deixa margem de segurança.
   tavily_consultas_por_mes: 900
   apify_usd_por_mes: 5.00           # crédito gratuito da Apify
+  # Varredura sem API da SDB imobiliária (terreno/sources/imobiliaria_crawl.py,
+  # job ci_crawl_imobiliaria, 2x/semana) -- sem custo de API, só tempo/rede, daí
+  # sem teto mensal como os orçamentos acima.
+  imobiliaria_max_candidatos: 40    # páginas candidatas por host (sitemap ou navegação)
+  imobiliaria_timeout_pagina_s: 25
+  imobiliaria_paralelismo: 20       # hosts varridos ao mesmo tempo
   max_paginas_por_fonte: 10
   # Sem teto de tempo ou de contagem para visitar candidatos do Brave: cada
   # execução visita a fila pendente inteira (terreno/sources/brave_visit.py),
