@@ -1,5 +1,5 @@
 {
- "generated_at": "17/08/2026 às 18:50",
+ "generated_at": "17/08/2026 às 19:06",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -1233,7 +1233,7 @@
     }
    },
    "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
+   "last_seen": "2026-08-17T22:06:58+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1569,7 +1569,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T22:06:58+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1901,7 +1901,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T22:06:58+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -2745,7 +2745,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T22:06:58+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 29.6,
@@ -3951,7 +3951,7 @@
     }
    },
    "first_seen": "2026-08-15T09:21:49+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
+   "last_seen": "2026-08-17T22:06:58+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 91.3,
@@ -4489,7 +4489,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -5576,17 +5576,18 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
   "pgfn",
   "olx",
   "chavesnamao",
   "caixa",
-  "brave",
+  "sdb_scan",
   "facebook"
  ],
  "warnings": [
-  "brave: 0 resultados"
+  "sdb_scan: 0 resultados",
+  "sp.olx.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
