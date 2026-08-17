@@ -54,6 +54,7 @@ jobs:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           BRAVE_API_KEY_2: ${{ secrets.BRAVE_API_KEY_2 }}
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          APIFY_TOKEN_2: ${{ secrets.APIFY_TOKEN_2 }}
           ML_CLIENT_ID: ${{ secrets.ML_CLIENT_ID }}
           ML_CLIENT_SECRET: ${{ secrets.ML_CLIENT_SECRET }}
           ML_ACCESS_TOKEN: ${{ secrets.ML_ACCESS_TOKEN }}
