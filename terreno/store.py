@@ -265,6 +265,23 @@ class Store:
             )
         return listing
 
+    def dismiss_many(self, keys: list[str]) -> int:
+        """Mark listings as permanently dismissed (e.g. sold -- see
+        VENDIDOS_PATH). Idempotent: already-dismissed keys are a no-op, so
+        this is safe to call with the same list every run."""
+        keys = [k for k in (keys or []) if k]
+        if not keys:
+            return 0
+        antes = self.db.execute(
+            "SELECT COUNT(*) FROM listings WHERE dismissed = 0 AND key IN "
+            f"({','.join('?' * len(keys))})", keys,
+        ).fetchone()[0]
+        self.db.executemany(
+            "UPDATE listings SET dismissed = 1 WHERE key = ?", [(k,) for k in keys]
+        )
+        self.db.commit()
+        return antes
+
     def recent(self, keep_days: int) -> list[sqlite3.Row]:
         cutoff = (datetime.now(timezone.utc) - timedelta(days=keep_days)).isoformat()
         return self.db.execute(

@@ -13,6 +13,12 @@ ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = Path(os.getenv("TERRENO_DB", ROOT / "data" / "terreno.sqlite3"))
 SITE_DIR = Path(os.getenv("TERRENO_SITE", ROOT / "site"))
 REGIOES_PATH = Path(os.getenv("TERRENO_REGIOES", ROOT / "data" / "regioes.yaml"))
+# Written by the Vercel "Marcar como vendido" button (api/vendido.js), via a
+# GitHub Contents API commit -- the site has no server of its own, so this
+# file is the only channel from a click on the live page back into the next
+# run. Read once per run (run.py) and turned into `dismissed=1` rows, which
+# is what actually keeps a sold listing out of every future site build.
+VENDIDOS_PATH = Path(os.getenv("TERRENO_VENDIDOS", ROOT / "data" / "vendidos.json"))
 
 
 def fold(text: str) -> str:

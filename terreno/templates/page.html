@@ -72,8 +72,9 @@
     margin-top:auto;padding-top:8px;border-top:1px solid var(--border);
     font-size:12px;color:var(--muted)}
   .rodape a{color:var(--accent);font-weight:600;text-decoration:none}
-  .btn-detalhe,.x{background:none;border:none;color:var(--muted);cursor:pointer;
+  .btn-detalhe,.x,.vendido{background:none;border:none;color:var(--muted);cursor:pointer;
     padding:2px 5px;font-size:12px}
+  .acoes{display:flex;gap:2px;align-items:center}
   .vazio{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 20px}
   footer{padding:20px;text-align:center;color:var(--muted);font-size:12px}
   .aviso{margin:12px auto 0;padding:9px 12px;border-radius:8px;font-size:13px;
@@ -173,6 +174,13 @@
   const grade = document.getElementById('grade');
   const CHAVE_OCULTOS = 'terreno:ocultos';
   let ocultos = new Set(JSON.parse(localStorage.getItem(CHAVE_OCULTOS) || '[]'));
+  // "Vendido" é diferente de "ocultar" (botão ✕ acima): ocultar é só uma
+  // preferência deste navegador, vendido é gravado no repositório (ver
+  // api/vendido.js) e some do site para todo mundo na próxima execução.
+  // Este Set aqui é só o efeito imediato -- sem ele, o card marcado ficaria
+  // visível até a próxima execução regenerar a página.
+  const CHAVE_VENDIDOS = 'terreno:vendidos-marcados';
+  let vendidosLocal = new Set(JSON.parse(localStorage.getItem(CHAVE_VENDIDOS) || '[]'));
   let verOcultos = false, soNovos = false;
   const abertos = new Set();
   const $ = id => document.getElementById(id);
@@ -275,7 +283,10 @@
         <div class="provas" ${aberto ? '' : 'hidden'}>${provas}</div>
         <div class="rodape">
           <a href="${link}" target="_blank" rel="noopener">${escHtml(it.source)} ↗</a>
-          <button class="x" title="ocultar esta oferta">✕</button>
+          <span class="acoes">
+            <button class="vendido" title="marcar como vendido (some do site)">🏷 Vendido</button>
+            <button class="x" title="ocultar esta oferta">✕</button>
+          </span>
         </div>
       </div>`;
 
@@ -288,6 +299,7 @@
       localStorage.setItem(CHAVE_OCULTOS, JSON.stringify([...ocultos]));
       desenhar();
     };
+    el.querySelector('.vendido').onclick = () => marcarVendido(it.key, el);
     return el;
   }
 
@@ -312,6 +324,7 @@
     const fPrecoMax = num($('fPrecoMax').value);
 
     let linhas = itens.filter(i =>
+      !vendidosLocal.has(i.key) &&
       (verOcultos || !ocultos.has(i.key)) &&
       (!soNovos || i.is_new) &&
       (!uf || i.uf === uf) &&
@@ -354,6 +367,47 @@
     desenhar();
   };
   desenhar();
+
+  // "Vendido" fala com a mesma função serverless de configurar/rodar busca
+  // (Vercel), só que grava em data/vendidos.json via GitHub Contents API em
+  // vez de disparar um workflow -- ver api/vendido.js. A senha é a mesma
+  // TERRENO_SENHA; perguntada uma vez por aba e reusada depois, para não
+  // pedir de novo a cada clique.
+  const CHAVE_SENHA = 'terreno:senha-sessao';
+  async function marcarVendido(key, el){
+    let senha = sessionStorage.getItem(CHAVE_SENHA);
+    if (senha == null) {
+      senha = window.prompt('Senha para marcar como vendido:');
+      if (senha == null) return;
+      sessionStorage.setItem(CHAVE_SENHA, senha);
+    }
+    const botao = el.querySelector('.vendido');
+    botao.disabled = true;
+    botao.textContent = '…';
+    try {
+      const r = await fetch('/api/vendido', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({senha, key}),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        if (r.status === 401) sessionStorage.removeItem(CHAVE_SENHA);
+        alert('✕ ' + (d.erro || `Falhou (HTTP ${r.status})`));
+        botao.disabled = false;
+        botao.textContent = '🏷 Vendido';
+        return;
+      }
+      vendidosLocal.add(key);
+      localStorage.setItem(CHAVE_VENDIDOS, JSON.stringify([...vendidosLocal]));
+      desenhar();
+    } catch (err) {
+      alert('✕ Não foi possível falar com /api/vendido. ' +
+            'Isso é esperado fora da Vercel (disco, GitHub Pages) -- a função só existe lá.');
+      botao.disabled = false;
+      botao.textContent = '🏷 Vendido';
+    }
+  }
 
   // ---------------------------------------------------------- painel
   // A página é estática. Rodar uma busca significa pedir à função serverless
