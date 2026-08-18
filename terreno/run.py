@@ -9,12 +9,13 @@ source's listings and nothing else.
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 
 from . import disponibilidade, http, notify, pipeline, render
-from .config import (DB_PATH, SITE_DIR, env, llm_enabled, load_criteria,
-                     salvar_criterios)
+from .config import (DB_PATH, SITE_DIR, VENDIDOS_PATH, env, llm_enabled,
+                     load_criteria, salvar_criterios)
 from .sources import REGISTRY
 from .store import Store
 
@@ -32,6 +33,21 @@ LIMIAR_ALERTA_SAUDE = 3
 # that day. Exempted from that heuristic entirely; a real failure still
 # surfaces via `error` from run_source, same as any other source.
 _SEM_HEALTH_POR_CONTAGEM = {"brave_novos"}
+
+
+def aplicar_vendidos(store: Store) -> int:
+    """Consume data/vendidos.json (written by the Vercel "Marcar como
+    vendido" button -- see api/vendido.js) and dismiss those listings for
+    good. The file is the only channel from a click on the live page back
+    into the pipeline, since the site itself has no server."""
+    if not VENDIDOS_PATH.exists():
+        return 0
+    try:
+        keys = json.loads(VENDIDOS_PATH.read_text(encoding="utf-8")).get("keys") or []
+    except (ValueError, OSError):
+        log.warning("vendidos.json ilegível — ignorado nesta execução")
+        return 0
+    return store.dismiss_many(keys)
 
 
 def run_source(name: str, fetch, criteria, store, budgets) -> tuple[list, str | None]:
@@ -66,6 +82,10 @@ def main(argv=None) -> int:
         salvar_criterios(criteria)
         log.info("critérios efetivos gravados em criteria.yaml")
     store = Store(DB_PATH)
+    if not args.dry_run:
+        marcados = aplicar_vendidos(store)
+        if marcados:
+            log.info("%d anúncio(s) marcados como vendidos removidos do site", marcados)
     budgets = criteria.budgets()
     warnings: list[str] = []
 
