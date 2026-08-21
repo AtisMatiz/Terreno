@@ -36,6 +36,7 @@ _ALQUEIRE_TIPO = {
 _UNIT_HA = {
     "ha": 1.0, "hectare": 1.0, "hectares": 1.0, "hec": 1.0, "há": 1.0,
     "m2": 1e-4, "m²": 1e-4, "metros": 1e-4, "metro": 1e-4, "m": 1e-4,
+    "mts": 1e-4,  # abreviação comum em anúncios ("34.000 mts" = 34.000 m²)
     "km2": 100.0, "km²": 100.0,
     "tarefa": 0.3025,      # Bahia/Nordeste
 }
