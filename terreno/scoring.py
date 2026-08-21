@@ -59,7 +59,9 @@ CONTEXTO_RURAL = (
 )
 
 # Below this, a plot is a lot rather than rural land, whatever the ad calls it.
-AREA_MIN_RURAL_HA = 0.5
+# Raised from 0.5 to 2.0 ha (2026-08-21, owner's explicit call): a plot this
+# small is a lote even when the ad calls it a chácara.
+AREA_MIN_RURAL_HA = 2.0
 
 # Beyond this much dirt road the listing is out, not merely penalised.
 KM_TERRA_DESCARTE = 8.0
@@ -284,17 +286,39 @@ DIMENSOES: dict[str, dict] = {
 PESO_TOTAL = sum(d["peso"] for d in DIMENSOES.values())  # 100 by construction
 
 # ---------------------------------------------------------------- modifiers
-# Defaults, overridable per call so criteria.yaml can drive them.
-PRECO_HA_BOM = 100_000.0        # below this: meaningful bonus
-PRECO_HA_LIMITE = 150_000.0     # above this: clear penalty (never a discard)
-PRECO_HA_BONUS_MAX = 0.10
-PRECO_HA_PENALIDADE_MAX = 0.15
+# Stepped tiers (owner's explicit call, 2026-08-21), replacing the old
+# continuous curves -- both `ajuste_preco_ha` and `ajuste_centro` used to
+# taper smoothly and, for distance, had a flat 40-70 km band worth exactly
+# zero either way. These are deliberately discrete: each band means what its
+# ++ / + / 0 / - / -- / --- label says, nothing interpolated between them.
+AJUSTE_MAX = 0.15               # the ++/--- ends of every tier table below
 
-CENTRO_PERTO_KM = 15.0          # strong bonus
-CENTRO_MEDIO_KM = 40.0          # moderate bonus
-CENTRO_NEUTRO_KM = 70.0         # neutral; beyond this a growing penalty
-CENTRO_BONUS_MAX = 0.10
-CENTRO_PENALIDADE_MAX = 0.15
+# R$/ha tiers.
+PRECO_HA_BOM = 100_000.0        # kept for callers still passing it through
+PRECO_HA_LIMITE = 150_000.0     # (criteria.yaml's preco_por_ha thresholds)
+PRECO_HA_TIERS = (
+    # (limite_superior_exclusive, ajuste, rótulo)
+    (80_000.0, 0.15, "++"),
+    (100_000.0, 0.08, "+"),
+    (150_000.0, 0.0, "0"),
+    (200_000.0, -0.08, "-"),
+    (None, -0.15, "--"),
+)
+
+# Absolute price (not per hectare) -- a separate, smaller modifier: a listing
+# over R$ 1 milhão is a minus on its own, whatever it costs per hectare.
+PRECO_ABSOLUTO_LIMITE = 1_000_000.0
+PRECO_ABSOLUTO_AJUSTE = -0.05
+
+# Distance-to-centro tiers, km.
+CENTRO_TIERS = (
+    (10.0, 0.15, "++"),
+    (20.0, 0.08, "+"),
+    (30.0, 0.0, "0"),
+    (50.0, -0.05, "-"),
+    (70.0, -0.10, "--"),
+    (None, -0.15, "---"),
+)
 
 # Named-zone tiers (2026-08-13), on top of the continuous distance curve
 # below rather than replacing it -- see `ajuste_zona`. Levels 2 and 3 are
@@ -334,19 +358,20 @@ def km_estrada_terra(text: str) -> float | None:
 
 
 def _dist_terra(text: str) -> tuple[float | None, str]:
-    """Dirt road, in dimension points. ≤2 km is the target, >5 km hurts.
+    """Dirt road, in dimension points: <2 km is a plus, 2-4 km neutral,
+    >4 km a minus (owner's explicit tiers, 2026-08-21).
 
     Beyond `KM_TERRA_DESCARTE` the listing is discarded upstream by
-    `motivo_descarte`; the steep penalty here is only the fallback for a caller
+    `motivo_descarte`; the penalty here is only the fallback for a caller
     that chooses not to discard.
     """
     km = km_estrada_terra(text)
     if km is None:
         return None, ""
-    if km <= 2:
+    if km < 2:
         return 45, f"{km:g} km de terra"
-    if km <= 5:
-        return 15, f"{km:g} km de terra"
+    if km <= 4:
+        return 0, f"{km:g} km de terra"
     if km <= KM_TERRA_DESCARTE:
         return -60, f"{km:g} km de terra"
     return -100, f"{km:g} km de terra"
@@ -440,7 +465,24 @@ def tipo_ok(text: str) -> tuple[bool, str]:
     return False, "não parece imóvel rural"
 
 
-def motivo_descarte(text: str, area_ha: float | None = None) -> str | None:
+# Price per hectare above which raw land (no benfeitoria at all) is discarded
+# outright rather than merely penalised (owner's explicit call, 2026-08-21):
+# unimproved land at that price is not the deal being looked for.
+PRECO_HA_DESCARTE_SEM_BENFEITORIA = 80_000.0
+
+
+def _sem_benfeitoria(folded: str) -> bool:
+    """Whether none of the benfeitorias dimension's positive patterns hit —
+    i.e. the listing reads as bare land, no house/curral/energia/cerca/etc."""
+    return not any(_hits(folded, pattern)
+                   for pattern, _, _ in DIMENSOES["benfeitorias"]["positivos"])
+
+
+def motivo_descarte(
+    text: str,
+    area_ha: float | None = None,
+    price_per_ha: float | None = None,
+) -> str | None:
     """Short Portuguese reason to drop the listing outright, else None.
 
     A discard is structurally different from a penalty: the listing does not
@@ -449,9 +491,14 @@ def motivo_descarte(text: str, area_ha: float | None = None) -> str | None:
     * fails the `tipo_ok` rural gate (urban lot, town house, flat);
     * more than `KM_TERRA_DESCARTE` km of dirt road;
     * `contrato de gaveta` — unregisterable title;
-    * `area_ha` below `AREA_MIN_RURAL_HA`, when known: a lot, not rural land.
+    * `area_ha` below `AREA_MIN_RURAL_HA`, when known: a lot, not rural land;
+    * no benfeitoria at all *and* `price_per_ha` above
+      `PRECO_HA_DESCARTE_SEM_BENFEITORIA` (owner's explicit call, 2026-08-21):
+      unimproved land at that price is out, not merely penalised.
 
-    A too-high price per hectare is *not* here on purpose — it is a penalty.
+    A too-high price per hectare *alone* is not here on purpose — that stays
+    a penalty (`ajuste_preco_ha`); it only becomes a discard combined with a
+    total absence of benfeitorias, above.
     """
     folded = _fold(text)
 
@@ -469,10 +516,22 @@ def motivo_descarte(text: str, area_ha: float | None = None) -> str | None:
     if area_ha is not None and area_ha < AREA_MIN_RURAL_HA:
         return f"área de {area_ha:g} ha — lote, não imóvel rural"
 
+    if (price_per_ha is not None
+            and price_per_ha > PRECO_HA_DESCARTE_SEM_BENFEITORIA
+            and _sem_benfeitoria(folded)):
+        return (f"sem benfeitorias e R$/ha {price_per_ha:,.0f} "
+                f"(limite {PRECO_HA_DESCARTE_SEM_BENFEITORIA:,.0f})").replace(",", ".")
+
     return None
 
 
 # ---------------------------------------------------------------- modifiers
+def _nota_de_ajuste(ajuste: float) -> float:
+    """Maps a ±AJUSTE_MAX delta to a 0..1 "nota" for display purposes only —
+    the delta itself is what actually moves the score."""
+    return round(max(0.0, min(1.0, (ajuste + AJUSTE_MAX) / (2 * AJUSTE_MAX))), 4)
+
+
 def ajuste_preco_ha(
     price_per_ha: float | None,
     bom: float = PRECO_HA_BOM,
@@ -480,54 +539,53 @@ def ajuste_preco_ha(
 ) -> tuple[float, float, str]:
     """Price-per-hectare modifier: (nota 0..1 for display, score delta, label).
 
-    Below `bom` a meaningful bonus, between `bom` and `limite` neutral to
-    slightly negative, above `limite` a clear penalty — never a discard.
-    Unknown price is neutral.
+    Stepped tiers (owner's explicit call, 2026-08-21): <80k ++, <100k +,
+    100-149k neutral, 150-200k -, >200k --. `bom`/`limite` are accepted for
+    call-site compatibility (criteria.yaml's `preco_por_ha`) but no longer
+    reshape the tiers themselves. Unknown price is neutral.
     """
     if not price_per_ha or price_per_ha <= 0:
         return 0.5, 0.0, ""
 
     rotulo = f"R$/ha {price_per_ha:,.0f}".replace(",", ".")
-    if price_per_ha < bom:
-        # Full bonus at half the "good" threshold, tapering to zero at it.
-        fracao = min(1.0, (bom - price_per_ha) / (bom * 0.5))
-        return 0.5 + 0.5 * fracao, round(PRECO_HA_BONUS_MAX * fracao, 4), rotulo
-    if price_per_ha <= limite:
-        fracao = (price_per_ha - bom) / max(1.0, limite - bom)
-        return 0.5 - 0.2 * fracao, round(-0.02 * fracao, 4), rotulo
-    # Full penalty by the time it is half again over the limit.
-    fracao = min(1.0, (price_per_ha - limite) / (limite * 0.5))
-    return max(0.0, 0.3 - 0.3 * fracao), round(-PRECO_HA_PENALIDADE_MAX * fracao, 4), \
-        "⚠ " + rotulo
+    for teto, ajuste, simbolo in PRECO_HA_TIERS:
+        if teto is None or price_per_ha < teto:
+            prefixo = "⚠ " if ajuste < 0 else ""
+            return _nota_de_ajuste(ajuste), ajuste, f"{prefixo}{rotulo} ({simbolo})"
+    return 0.5, 0.0, rotulo  # unreachable — last tier's teto is always None
+
+
+def ajuste_preco_absoluto(price: float | None) -> tuple[float, float, str]:
+    """Absolute-price modifier, independent of R$/ha: a listing over
+    `PRECO_ABSOLUTO_LIMITE` (R$ 1 milhão) is a minus on its own (owner's
+    explicit call, 2026-08-21), whatever it costs per hectare."""
+    if not price or price <= PRECO_ABSOLUTO_LIMITE:
+        return 0.5, 0.0, ""
+    rotulo = f"⚠ preço R$ {price:,.0f} (> R$ 1 milhão)".replace(",", ".")
+    return _nota_de_ajuste(PRECO_ABSOLUTO_AJUSTE), PRECO_ABSOLUTO_AJUSTE, rotulo
 
 
 def ajuste_centro(distancia_centro_km: float | None) -> tuple[float, float, str]:
     """Proximity-to-centre modifier: (nota 0..1, score delta, label).
 
-    Monteiro Lobato, SP is the primary target area; closer is strictly better.
-    The distance is supplied by the caller (pipeline computes it with
-    `geo.haversine_km` against `criteria.centro`) — nothing is geocoded here.
-    `None` is neutral: an unknown location is silence, not evidence.
+    Stepped tiers (owner's explicit call, 2026-08-21): 0-10 km ++, 10-20 +,
+    20-30 neutral, 30-50 -, 50-70 --, beyond 70 ---. Monteiro Lobato, SP is
+    the primary target area; the distance is supplied by the caller
+    (pipeline computes it with `geo.haversine_km` against `criteria.centro`)
+    — nothing is geocoded here. `None` is neutral: an unknown location is
+    silence, not evidence.
     """
     km = distancia_centro_km
     if km is None:
         return 0.5, 0.0, ""
 
     km = max(0.0, float(km))
-    rotulo = f"{km:g} km do centro de interesse"
-    if km <= CENTRO_PERTO_KM:
-        fracao = 1.0 - km / CENTRO_PERTO_KM * 0.3      # 1.0 at 0 km, 0.7 at 15 km
-        return 0.85 + 0.15 * fracao, round(CENTRO_BONUS_MAX * fracao, 4), rotulo
-    if km <= CENTRO_MEDIO_KM:
-        fracao = (CENTRO_MEDIO_KM - km) / (CENTRO_MEDIO_KM - CENTRO_PERTO_KM)
-        return 0.6 + 0.25 * fracao, round(CENTRO_BONUS_MAX * 0.5 * fracao, 4), rotulo
-    if km <= CENTRO_NEUTRO_KM:
-        fracao = (CENTRO_NEUTRO_KM - km) / (CENTRO_NEUTRO_KM - CENTRO_MEDIO_KM)
-        return 0.5 + 0.1 * fracao, 0.0, rotulo
-    # Growing penalty, full by 70 km beyond the neutral band.
-    fracao = min(1.0, (km - CENTRO_NEUTRO_KM) / CENTRO_NEUTRO_KM)
-    return max(0.0, 0.5 - 0.5 * fracao), round(-CENTRO_PENALIDADE_MAX * fracao, 4), \
-        "⚠ " + rotulo
+    for teto, ajuste, simbolo in CENTRO_TIERS:
+        if teto is None or km < teto:
+            prefixo = "⚠ " if ajuste < 0 else ""
+            rotulo = f"{prefixo}{km:g} km do centro de interesse ({simbolo})"
+            return _nota_de_ajuste(ajuste), ajuste, rotulo
+    return 0.5, 0.0, f"{km:g} km do centro de interesse"  # unreachable
 
 
 def ajuste_zona(
@@ -723,6 +781,7 @@ def avaliar(
     centro: str | None = None,
     zona_melhor: list[str] | None = None,
     zona_boa: list[str] | None = None,
+    price: float | None = None,
 ) -> tuple[float, dict, list[str], list[str]]:
     """Score a listing. Never raises, never returns None — discards are separate.
 
@@ -740,22 +799,25 @@ def avaliar(
       criteria.yaml.
     * `municipality`/`centro`/`zona_melhor`/`zona_boa` — the 4-tier proximity
       bonus (see `ajuste_zona`); when `municipality` is empty or matches none
-      of the three, falls through to the plain distance curve exactly as
+      of the three, falls through to the stepped distance tiers exactly as
       before this tiering existed.
+    * `price` — absolute R$ price, or None. Feeds only `ajuste_preco_absoluto`
+      (a listing over R$ 1 milhão is a minus on its own); unrelated to
+      `price_per_ha`, which still drives its own modifier.
 
     Returns a **4-tuple**. The first three keep exactly their previous meaning;
     the fourth is new:
 
     0. `nota: float` — overall 0..1, rounded to 3 places, clamped. It is the
        weighted mean of the seven dimensions (weights summing to `PESO_TOTAL`
-       == 100) plus the two modifiers' deltas.
+       == 100) plus the three modifiers' deltas.
     1. `dimensoes: dict[str, dict]` — one entry per dimension, each
        `{"rotulo", "nota" (0..1), "peso" (int), "provas": list[str]}`.
-       Two extra rows are appended for the modifiers, `"preco_ha"` and
-       `"proximidade_centro"`; they carry the same four keys — with `"peso": 0`,
-       since they are not part of the 100-point base — plus `"ajuste"`, the
-       signed delta they applied to `nota`. A display layer that just walks the
-       dict and draws `nota` needs no change.
+       Three extra rows are appended for the modifiers, `"preco_ha"`,
+       `"preco_absoluto"` and `"proximidade_centro"`; they carry the same four
+       keys — with `"peso": 0`, since they are not part of the 100-point base
+       — plus `"ajuste"`, the signed delta they applied to `nota`. A display
+       layer that just walks the dict and draws `nota` needs no change.
     2. `evidencias: list[str]` — flat list of every evidence label, warnings
        prefixed "⚠", in dimension order, modifiers last.
     3. `estrelas: list[str]` — standout features to highlight (cachoeira first).
@@ -790,6 +852,15 @@ def avaliar(
         "ajuste": ajuste_p,
     }
 
+    nota_abs, ajuste_abs, prova_abs = ajuste_preco_absoluto(price)
+    detalhe["preco_absoluto"] = {
+        "rotulo": "Preço total",
+        "nota": round(nota_abs, 3),
+        "peso": 0,
+        "provas": [prova_abs] if prova_abs else [],
+        "ajuste": ajuste_abs,
+    }
+
     nota_centro, ajuste_c, prova_c = ajuste_zona(
         municipality, centro, zona_melhor or [], zona_boa or [], distancia_centro_km,
     )
@@ -801,9 +872,9 @@ def avaliar(
         "ajuste": ajuste_c,
     }
 
-    for prova in (prova_p, prova_c):
+    for prova in (prova_p, prova_abs, prova_c):
         if prova:
             evidencias.append(prova)
 
-    nota = max(0.0, min(1.0, nota + ajuste_p + ajuste_c))
+    nota = max(0.0, min(1.0, nota + ajuste_p + ajuste_abs + ajuste_c))
     return round(nota, 3), detalhe, evidencias, estrelas(text)
