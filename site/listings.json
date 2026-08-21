@@ -1,5 +1,5 @@
 {
- "generated_at": "17/08/2026 às 18:33",
+ "generated_at": "20/08/2026 às 06:26",
  "listings": [
   {
    "key": "34003c79de95732c",
@@ -335,7 +335,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -456,6 +456,233 @@
    "distancia_centro_km": 26.2,
    "destaques": "{\"agua\": \"Nascente\", \"benfeitorias\": \"Casa sede + casa de caseiro + piscina\", \"acesso\": \"Perto da cidade + 15 min da cidade\", \"solo\": \"Frutíferas\"}",
    "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "98303deb7837dcb9",
+   "source": "facebook",
+   "source_id": "3367450830229121",
+   "url": "https://www.facebook.com/marketplace/item/3367450830229121/",
+   "title": "VENDO CHÁCARA LAGOS DA SERRA BRAZOPOLIS MG",
+   "description": "*🎯VENDO CHÁCARA NOS LAGOS DA SERRA*\nTerreno com uma bela vista para os lagos de peixe e com uma Casa simples de alvenaria  e  Rancho Rústicos com fogão a  lenha, salão aconchegante, com balcão para atendimentos a beira da estrada, sendo um ótimo empreendimento, contendo no espaço grande para outras edificações e para ser preparada para um espaço de laser e descanso aos finais de semana e ao entardecer dos dias.\n*✅Área Total  Terreno é de  4,000MIL Metros*\n*✅Bairro Lagos da Serra, Terreno inscrito em área Rural, Brasópolis MG.*\n*✅Cerca de 2,5km do centro da cidade sendo parte estrada de chão e demais calçadas e com iluminação publica*\n*✅Edificações existentes: Casa mais Rancho.\n*✅Três Lagos para Peixe.*\n*✅Água Copaza*\n*✅Energia Elétrica*\n*✅Escritura Registrada*\n*✅Aceita Permuta em um terreno de 3 a  4 Alqueires que tenha Água que seja de mina e que seja de gosto do cliente.*\n*✅Valor avista R$335,000,00*\n🏠🏠 Ótima Localização, Lugar Tranquilo  Excelente Investimento                                      ☎️Roger Torres 35 998259335\n✅Corretor de Imóveis *CRECI: 43564*\n*❇️Watzap:* https://wa.me/message/KSOVD7QZPXOFP1                                                                                                   *❇️E-Mail:* [hidden information]                                                                     *❇️Facebook*https://www.facebook.com/Mr-Empreendimentos-Imobili%C3%A1rio-e-Corretora-de-Seguros-622998438163437",
+   "price": 300000.0,
+   "price_first": 300000.0,
+   "area_ha": 9.68,
+   "price_per_ha": 30991.74,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.716979980469,
+   "lon": -45.565795898438,
+   "image": "",
+   "posted_at": "2026-08-05T01:02:05.000Z",
+   "score": 0.49,
+   "reasons": [
+    "lago/açude",
+    "casa",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "2.5 km da cidade",
+    "escriturado",
+    "R$/ha 30.992"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.61,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.7,
+     "peso": 15,
+     "provas": [
+      "2.5 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 30.992"
+     ],
+     "ajuste": 0.1
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-20T02:12:37+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
+   "area_alqueires": 4.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Casa + energia + cercado\", \"acesso\": \"2.5 km da cidade\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "fa5e8b5ddf83e491",
+   "source": "olx",
+   "source_id": "1527886910",
+   "url": "https://sp.olx.com.br/sao-paulo-e-regiao/terrenos/sitio-a-venda-com-7-quartos-em-ouro-fino-santa-isabel-1527886910",
+   "title": "Sítio à venda com 7 quartos em Ouro Fino, Santa Isabel",
+   "description": "Código do anúncio: 16974<br><br>Sítio em Santa Isabel para venda com 7.200m2, 3 quartos, 1 suíte, 2 salas, cozinha, 6 banheiros, área de serviço e 10 vagas de garagem cobertas. <br><br><br> O imóvel possui: <br><br>Área útil: 500m2 <br><br>Área terreno: 7.200m2 <br><br>Distribuição espacial do imóvel<br><br>Andar superior: Casa avarandada com 3 dormitórios, sendo 1 suíte com closet, sala 2 ambientes, cozinha, banheiro, lavanderia, depósito, área gourmet, 2 fogões a lenha e quintal.<br><br>Andar inferior: Casa também avarandada com 3 quartos, sala, cozinha, banheiro, lavanderia e salão de festas com banheiro. <br><br>Também, há casa de caseiro com 1 dormitório, sala, cozinha, banheiro e um espaço em alvenaria para criação de animais. <br><br>Diferenciais: <br><br>Imóvel em bom estado de conservação e localização, com 2 casas, espaço gourmet, vários banheiros, quintal com bastante espaço para ser construção de piscina e de pomar, 10 ou mais vagas de garagem. A propriedade ainda possui um lago para criação de peixes e uma bela visão da área verde. Este imóvel possui toda a documentação em ordem que lhe permitirá comprá-la através de financiamento bancário.  Este sítio em Santa Isabel fica próximo da Pedreira Sargon - 6km de Arujá, sendo 3 Alqueires num total de 72 mil metros quadrados<br><br>Pontos de interesse: <br><br>Há na região, vários condomínios com mata nativa que permite ao morador se sentir em um ambiente interiorano. Nas imediações, também, há cachoeiras e trilhas que lhe permitirá realizar caminhadas e desfrutar de bons momentos de diversão, dentre outros e por ficar próximo à BR 116, lhe permitirá ter acesso rápido as principais vias e rodovias. <br><br>Observação: <br><br>1 - O proprietário estuda permuta<br><br>2 - A documentação do imóvel está \"OK\" para financiamento.<br> <br>3 - Imóvel familiar há mais de 30 anos com escritura<br><br>Agende uma visita e venha conhecer",
+   "price": 1501000.0,
+   "price_first": 1501000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://img.olx.com.br/images/22/229611679963635.jpg",
+   "posted_at": "",
+   "score": 0.48,
+   "reasons": [
+    "lago/açude",
+    "cachoeira",
+    "casa de caseiro",
+    "mais de uma casa",
+    "piscina",
+    "⚠ vizinhança próxima",
+    "mata nativa",
+    "frutíferas",
+    "escriturado"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.45,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "cachoeira"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa de caseiro",
+      "mais de uma casa",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "⚠ vizinhança próxima"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.85,
+     "peso": 10,
+     "provas": [
+      "mata nativa",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-20T02:12:37+00:00",
+   "last_seen": "2026-08-20T02:12:37+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude + cachoeira\", \"benfeitorias\": \"Casa de caseiro + mais de uma casa + piscina\", \"documentacao\": \"Escriturado\", \"solo\": \"Mata nativa + frutíferas\"}",
+   "estrelas": "[\"Cachoeira\", \"Mata nativa preservada\"]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
@@ -674,7 +901,7 @@
     }
    },
    "first_seen": "2026-08-15T09:21:49+00:00",
-   "last_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
    "area_alqueires": 3.09,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 38.6,
@@ -1000,7 +1227,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-15T09:21:49+00:00",
+   "last_seen": "2026-08-18T14:40:55+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 47.7,
@@ -1233,7 +1460,7 @@
     }
    },
    "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1569,7 +1796,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 38.6,
@@ -1699,6 +1926,121 @@
    "is_new": false
   },
   {
+   "key": "9e7eb1c586082704",
+   "source": "facebook",
+   "source_id": "2935362616828561",
+   "url": "https://www.facebook.com/marketplace/item/2935362616828561/",
+   "title": "4 quartos 5 banheiros Casa",
+   "description": "🌿 SÍTIO À VENDA EM MONTEIRO LOBATO/SP 🏡\n\nUm verdadeiro refúgio em meio à natureza, na Serra da Mantiqueira.\n\n✨ Destaques da propriedade:\n 2 alqueires de Terra ou 48 mil metros\n💧 Nascente própria\n💦 2 poços e água em abundância\n🌊 2 lagos\n🍊 Pomar com diversas frutas\n🐄 Amplas áreas de pastagem\n🏡 Casa principal com 3 dormitórios\n🔥 Cozinha com fogão a lenha\n🌿 Casa para caseiro\n⛰️ Vista para as montanhas\n📍Próximo à SP-50\n📶 Energia elétrica, internet e sinal de celular disponíveis\n\n💰 Valor: R$ 1.200.000,00\n\n📲 Agende sua visita e venha conhecer!\nWhatsApp: [hidden information]\n\n🌱 MR Negócios Rurais\n      Creci F - 145759\n#MRNegociosRurais #SitioAVenda #MonteiroLobato #MonteiroLobatoSP #SerraDaMantiqueira #ImovelRural #Sitio #Chacara #Fazenda #InvestimentoRural #VidaNoCampo #PropriedadeRural #ImoveisRurais",
+   "price": 1200000.0,
+   "price_first": 1200000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 247933.88,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "",
+   "posted_at": "",
+   "score": 0.333,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "casa sede",
+    "energia",
+    "tranquilo",
+    "pasto formado",
+    "frutíferas",
+    "⚠ R$/ha 247.934",
+    "26.2 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.4,
+     "peso": 10,
+     "provas": [
+      "pasto formado",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 247.934"
+     ],
+     "ajuste": -0.15
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.738,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse"
+     ],
+     "ajuste": 0.0276
+    }
+   },
+   "first_seen": "2026-08-20T02:12:37+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
+   "area_alqueires": 2.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Casa sede + energia\", \"solo\": \"Pasto formado + frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "9c1c00c5ab36e090",
    "source": "facebook",
    "source_id": "1015718994153241",
@@ -1798,7 +2140,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -1807,7 +2149,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -1901,7 +2243,7 @@
     }
    },
    "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
@@ -2114,7 +2456,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -2123,7 +2465,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -2745,7 +3087,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T22:06:58+00:00",
    "area_alqueires": 1.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 29.6,
@@ -2754,7 +3096,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -3951,7 +4293,7 @@
     }
    },
    "first_seen": "2026-08-15T09:21:49+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-20T09:26:45+00:00",
    "area_alqueires": 2.0,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 91.3,
@@ -4053,7 +4395,7 @@
     }
    },
    "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": 2.97,
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": null,
@@ -4379,6 +4721,112 @@
    "area_alqueire_tipo": "paulista",
    "distancia_centro_km": 35.1,
    "destaques": "{\"solo\": \"Pasto formado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "7dce0e1f21ca60e8",
+   "source": "facebook",
+   "source_id": "904291382737469",
+   "url": "https://www.facebook.com/marketplace/item/904291382737469/",
+   "title": "Sítio a venda em Dom Viçoso MG",
+   "description": "SÍTIO À VENDA – OPORTUNIDADE PARA MORADIA, LAZER OU PRODUÇÃO RURAL\n\nExcelente sítio com 7 hectares, ideal para quem busca tranquilidade, contato com a natureza e uma propriedade com ótima estrutura e abundância de recursos hídricos.\n\nA propriedade conta com:\n\n2 currais\nCasinha de máquinas\nCasa em fase de acabamento\nEnergia elétrica instalada\nFartura de água durante todo o ano\n\nUm imóvel com grande potencial para pecuária, agricultura, lazer ou investimento, em uma região privilegiada e cercada pela natureza.\n\nValor: R$ 650.000,00\n\nEntre em contato para mais informações e agende sua visita. Uma excelente oportunidade para quem deseja investir no campo com segurança e qualidade de vida.\n\nRomualdo Lima Corretor\nCRECI 59687\n[hidden information]\nRodrigo Lima negócios imobiliários",
+   "price": 650000.0,
+   "price_first": 650000.0,
+   "area_ha": 7.0,
+   "price_per_ha": 92857.14,
+   "municipality": "",
+   "uf": "SP",
+   "lat": -22.788391113281,
+   "lon": -45.159301757812,
+   "image": "",
+   "posted_at": "2026-08-13T14:28:13.000Z",
+   "score": 0.204,
+   "reasons": [
+    "casa",
+    "curral",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "R$/ha 92.857"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.81,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "curral",
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.571,
+     "peso": 0,
+     "provas": [
+      "R$/ha 92.857"
+     ],
+     "ajuste": 0.0143
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-17T21:50:45+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"Casa + curral + energia + cercado\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -4781,6 +5229,114 @@
    "price_drop": null
   },
   {
+   "key": "08bba583b2020dd1",
+   "source": "facebook",
+   "source_id": "2372585856485043",
+   "url": "https://www.facebook.com/marketplace/item/2372585856485043/",
+   "title": "4 quartos 3 banheiros – Casa",
+   "description": "Linda chácara a um km da Rodovia dosTamoios, no Bairro da Grama. Possui energia solar, poço artesiano, internet, piscina. Uma casa recém reformada, com telhado novo em madeira tratada. Varanda grande, nova, com telhado e madeira tratada. Possui  3 suites a terminar.  Pomar com vinte pés de frutas,  horta e linda vista. Somente para venda.  Preço abaixo da avaliação.troco por ap. 2 dorm.região central são josé.Avaliada em 400mil.Troco por casa ou apartamento em São José ou Caraguatatuba. Vendendo bem abaixo do avaliado.NÃO ABAIXO O PREÇO  PARA TROCA VALOR É 400MIL",
+   "price": 350000.0,
+   "price_first": 350000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "Paraibuna",
+   "uf": "SP",
+   "lat": -23.3864203,
+   "lon": -45.6626797,
+   "image": "",
+   "posted_at": "",
+   "score": 0.181,
+   "reasons": [
+    "menção a loteamento/condomínio",
+    "poço artesiano",
+    "casa",
+    "energia",
+    "piscina",
+    "frutíferas",
+    "51.2 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.15,
+     "peso": 30,
+     "provas": [
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.58,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.563,
+     "peso": 0,
+     "provas": [
+      "51.2 km do centro de interesse"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-20T02:12:37+00:00",
+   "last_seen": "2026-08-20T02:12:37+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 51.2,
+   "destaques": "{\"agua\": \"Poço artesiano\", \"benfeitorias\": \"Casa + energia + piscina\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "14c6bf7aa197b502",
    "source": "facebook",
    "source_id": "1541656000941963",
@@ -4878,7 +5434,7 @@
     }
    },
    "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 51.2,
@@ -4887,7 +5443,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -5470,17 +6026,17 @@
    "price_drop": null
   }
  ],
- "new_count": 4,
+ "new_count": 0,
  "sources": [
   "pgfn",
   "olx",
   "chavesnamao",
   "caixa",
-  "brave",
+  "sdb_scan",
   "facebook"
  ],
  "warnings": [
-  "brave: 0 resultados"
+  "sdb_scan: 0 resultados"
  ],
  "criterios": {
   "estados": [
