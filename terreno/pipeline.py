@@ -241,7 +241,7 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         titulo = "" if scoring.titulo_generico(item.title) else item.title
         text = f"{titulo} {item.description}"
 
-        motivo = scoring.motivo_descarte(text, item.area_ha)
+        motivo = scoring.motivo_descarte(text, item.area_ha, item.price_per_ha)
         if motivo:
             descartados[motivo] = descartados.get(motivo, 0) + 1
             continue
@@ -264,6 +264,7 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
             centro=criteria.center,
             zona_melhor=criteria.zona_melhor,
             zona_boa=criteria.zona_boa,
+            price=item.price,
         )
 
         _, aviso = scoring.tipo_ok(text)
