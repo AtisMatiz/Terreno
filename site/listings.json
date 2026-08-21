@@ -1,6 +1,268 @@
 {
- "generated_at": "21/08/2026 às 06:28",
+ "generated_at": "21/08/2026 às 07:39",
  "listings": [
+  {
+   "key": "be338e41669221e6",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=159",
+   "title": "Padrão em , São Luiz do Paraitinga",
+   "description": "SÍTIO EM CATUÇABA – SÃO LUIZ DO PARAITINGA/SP\r\nProcurando o refúgio perfeito na serra ou a oportunidade ideal para investir no turismo rural? Conheça este verdadeiro paraíso no topo da Serra do Mar!\r\n LOCALIZAÇÃO PRIVILEGIADA Uma região encantadora, cercada pela Mata Atlântica e com alto potencial turístico: • 5 km do centro de Catuçaba (apenas 2,5 km de terra com ótimo acesso) • 15 km do Parque Estadual da Serra do Mar • 40 km de Ubatuba | 60 km de Taubaté | 90 km de SJC | 190 km de SP\r\nINFRAESTRUTURA &amp;amp; ESTRUTURA LOCAL • Área Total: 3 alqueires (72.600 m²) • Topografia: Plana ao redor da casa, com um platô natural incrível de ~2.000 m² no topo do terreno • Recursos Hídricos: Privilegiado com 04 nascentes próprias • Conectividade: Sinal Claro/Vivo, TV a cabo e Wi-Fi • Comércio: Vila completa com padaria, mercado, restaurantes e serviços\r\nBENFEITORIAS (115 m² de área construída) • Rancho recém-construído com vista panorâmica 360° espetacular • Casa em fase de construção • Sistema agroflorestal com árvores frutíferas e área para horta • Saneamento ecológico, energia elétrica e água de nascente • Terreno todo cercado e com mais de 50% de mata nativa preservada\r\n POTENCIAL DE USO (APTIDÃO) Ideal para casa de campo, pousada, chalés para AIRBNB ou centro de retiro espiritual.\r\n DOCUMENTAÇÃO: Registrada em cartório, georreferenciada e em fase de escrituração.\r\nVALOR: R$ 780.000,00 (Estuda propostas)\r\n CONDIÇÕES DE PAGAMENTO: A combinar\r\nEntre em contato para agendar uma visita e se apaixonar por este lugar mágico!\r\n(12) 99608.5510",
+   "price": 780000.0,
+   "price_first": 780000.0,
+   "area_ha": 7.26,
+   "price_per_ha": 107438.02,
+   "municipality": "São Luiz do Paraitinga",
+   "uf": "SP",
+   "lat": -23.2220531,
+   "lon": -45.3108444,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_8fdd6195277af8581935f14722f1813a.jpg",
+   "posted_at": "",
+   "score": 0.697,
+   "reasons": [
+    "água de qualidade",
+    "4 nascentes",
+    "casa",
+    "energia",
+    "cercado",
+    "tranquilo",
+    "reservado",
+    "⚠ barulho",
+    "bom acesso",
+    "2.5 km de terra",
+    "5 km da cidade",
+    "mata nativa",
+    "bioma preservado",
+    "manejo regenerativo",
+    "frutíferas",
+    "escriturado",
+    "CAR/GEO em dia",
+    "plano",
+    "R$/ha 107.438",
+    "61.6 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.65,
+     "peso": 30,
+     "provas": [
+      "água de qualidade",
+      "4 nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.61,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.18,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "reservado",
+      "⚠ barulho"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 1.0,
+     "peso": 15,
+     "provas": [
+      "bom acesso",
+      "2.5 km de terra",
+      "5 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 1.0,
+     "peso": 10,
+     "provas": [
+      "mata nativa",
+      "bioma preservado",
+      "manejo regenerativo",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.5,
+     "peso": 5,
+     "provas": [
+      "plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.47,
+     "peso": 0,
+     "provas": [
+      "R$/ha 107.438"
+     ],
+     "ajuste": -0.003
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.528,
+     "peso": 0,
+     "provas": [
+      "61.6 km do centro de interesse"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-21T10:39:58+00:00",
+   "last_seen": "2026-08-21T10:39:58+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 61.6,
+   "destaques": "{\"agua\": \"Água de qualidade + 4 nascentes\", \"benfeitorias\": \"Casa + energia + cercado\", \"acesso\": \"Bom acesso + 2.5 km de terra + 5 km da cidade\", \"documentacao\": \"Escriturado + CAR/GEO em dia\", \"solo\": \"Mata nativa + bioma preservado + manejo regenerativo + frutíferas\"}",
+   "estrelas": "[\"Múltiplas nascentes\", \"Agrofloresta/SAF já implantada\", \"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
+   "key": "9d4ea2e5b6ea54a7",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=145",
+   "title": "Padrão em , São José dos Campos",
+   "description": "SÍTIO SÃO JOSÉ DOS CAMPOS - SP\r\nAPTIDÃO:  Lazer e Moradia\r\nÁREA TOTAL: 34.000 mts\r\nTOPOGRAFIA: Média\r\nPOTENCIAL HÍDRICO: Com nascente, rio e lago\r\nESTRUTURA:  Piscina, pasto formado, galinheiro, canil, pomar, horta, mata nativa, internet e poço artesiano.\r\nLOGÍSTICA: Distante 20 km do centro da cidade e 1 km de terra, estrada boa.\r\nDOCUMENTAÇÃO: Escritura\r\nPREÇO: R$ 1.050.000,00 (Estuda proposta).\r\nCONDIÇÕES DE PAGAMENTO: À combinar.\r\nIMPORTANTE:\r\nCaso haja interesse em visitar este imóvel, entre em contato pelo WhatsApp ou se preferir utilize os canais convencionais.\r\nOs valores, descrições, disponibilidades e condições de pagamentos dos imóveis cadastrados nesta imobiliária, podem sofrer alterações a qualquer tempo sem nenhum aviso prévio.\r\n Nas permutas, os honorários serão devidos pelos respectivos proprietários a quem estes contrataram, calculado sob o valor de venda de cada imóvel. (Resolução CRECI/SP).\r\nEndereço específico, real e completo, somente sob consulta e agendamento de visita.\r\nAgradecemos a compreensão",
+   "price": 1050000.0,
+   "price_first": 1050000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_48b606ff1d9b99cd5389e7565fbe5810.jpg",
+   "posted_at": "",
+   "score": 0.66,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "lago/açude",
+    "poço artesiano",
+    "casa",
+    "piscina",
+    "estrada conservada",
+    "1 km de terra",
+    "20 km da cidade",
+    "mata nativa",
+    "pasto formado",
+    "frutíferas",
+    "escriturado"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho",
+      "lago/açude",
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.4,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.8,
+     "peso": 15,
+     "provas": [
+      "estrada conservada",
+      "1 km de terra",
+      "20 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 1.0,
+     "peso": 10,
+     "provas": [
+      "mata nativa",
+      "pasto formado",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-21T10:39:58+00:00",
+   "last_seen": "2026-08-21T10:39:58+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho + lago/açude + poço artesiano\", \"benfeitorias\": \"Casa + piscina\", \"acesso\": \"Estrada conservada + 1 km de terra + 20 km da cidade\", \"documentacao\": \"Escriturado\", \"solo\": \"Mata nativa + pasto formado + frutíferas\"}",
+   "estrelas": "[\"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
   {
    "key": "34003c79de95732c",
    "source": "facebook",
@@ -1132,8 +1394,115 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
+  },
+  {
+   "key": "26230d29666c6f0c",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.campobrasilimoveis.com.br/comprar/sp/sao-jose-dos-campos/estrada-principal/area/74462173",
+   "title": "ÁREA RURAL 4 ALQUEIRES ESCRITURADA , COM NASCENTE E DE FÁCIL ACESSO EM SÃO JOSÉ DOS CAMPOS !",
+   "description": "área rural 4 alqueires escriturada , com nascente e de fácil acesso em são josé dos campos !   - mata nativa  - nascente  - riacho  - escriturada   ideal para construir seu sítio com segurança, fácil acesso e rico em água !    visite nosso site: www.campobrasilimoveis.com.br acesse nossa página no instagram: @campobrasil_imoveis",
+   "price": null,
+   "price_first": null,
+   "area_ha": 9.68,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://cdnuso.com/35548/2024/06/70e7129b29758c7d6bb5481ac9e47a03.jpg",
+   "posted_at": "",
+   "score": 0.43,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "bom acesso",
+    "mata nativa",
+    "escriturado",
+    "26.2 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.65,
+     "peso": 10,
+     "provas": [
+      "mata nativa"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.738,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse"
+     ],
+     "ajuste": 0.0276
+    }
+   },
+   "first_seen": "2026-08-21T10:39:58+00:00",
+   "last_seen": "2026-08-21T10:39:58+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho\", \"acesso\": \"Bom acesso\", \"documentacao\": \"Escriturado\", \"solo\": \"Mata nativa\"}",
+   "estrelas": "[\"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true
   },
   {
    "key": "e60f7e1b88e3c6e7",
@@ -3324,6 +3693,107 @@
    "imagem_analise": "{}",
    "is_new": false,
    "price_drop": null
+  },
+  {
+   "key": "b109e798de6c48da",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.campobrasilimoveis.com.br/comprar/sp/jambeiro/estrada-principal/area/73203498",
+   "title": "ÁREA RURAL 30.000M² COM TOPOGRAFIA MISTA E NASCENTE EM JAMBEIRO !",
+   "description": "área rural 30.000m² com  topografia mista e nascente em jambeiro !  - nascente  - lago - rede elétrica - topografia média  visite nosso site:  www.campobrasilimoveis.com.br acesse nossa  página no instagram: @campobrasil_imoveis",
+   "price": null,
+   "price_first": null,
+   "area_ha": 3.0,
+   "price_per_ha": null,
+   "municipality": "Jambeiro",
+   "uf": "SP",
+   "lat": -23.2556416,
+   "lon": -45.6919926,
+   "image": "https://cdnuso.com/35548/2023/06/91eaf83723f6422f5ef4783b2828e4b3.jpg",
+   "posted_at": "",
+   "score": 0.23,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "energia",
+    "36.6 km do centro de interesse"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.18,
+     "peso": 20,
+     "provas": [
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.634,
+     "peso": 0,
+     "provas": [
+      "36.6 km do centro de interesse"
+     ],
+     "ajuste": 0.0068
+    }
+   },
+   "first_seen": "2026-08-21T10:39:58+00:00",
+   "last_seen": "2026-08-21T10:39:58+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 36.6,
+   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Energia\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true
   },
   {
    "key": "8ecbf4fa6b1d6fb0",
@@ -6141,17 +6611,15 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 4,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "sdb_scan",
-  "facebook"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "sdb_scan: 0 resultados"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
