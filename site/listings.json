@@ -1,5 +1,5 @@
 {
- "generated_at": "21/08/2026 às 07:39",
+ "generated_at": "22/08/2026 às 06:20",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -138,7 +138,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -260,7 +260,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -1502,7 +1502,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "e60f7e1b88e3c6e7",
@@ -3793,7 +3793,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "8ecbf4fa6b1d6fb0",
@@ -6611,15 +6611,17 @@
    "price_drop": null
   }
  ],
- "new_count": 4,
+ "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "sdb_scan",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "facebook: 0 resultados"
  ],
  "criterios": {
   "estados": [
