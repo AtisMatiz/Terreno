@@ -51,10 +51,10 @@ jobs:
 
       - name: Run search
         env:
-          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
-          BRAVE_API_KEY_2: ${{ secrets.BRAVE_API_KEY_2 }}
-          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
-          TAVILY_API_KEY_2: ${{ secrets.TAVILY_API_KEY_2 }}
+          # TAVILY_API_KEY(_2) removed 2026-08-24: sdb_scan moved out of
+          # perfis.ci into its own job (search_sdb.yml, seg-sex), so nothing
+          # left in `ci` calls Tavily. BRAVE_API_KEY(_2) was already unused
+          # here (brave_novos lives in search_novos.yml, not `ci`).
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
           APIFY_TOKEN_2: ${{ secrets.APIFY_TOKEN_2 }}
           ML_CLIENT_ID: ${{ secrets.ML_CLIENT_ID }}
