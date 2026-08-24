@@ -9,20 +9,20 @@ name: terreno busca novos sites
 # binário irreconciliável -- mesmo se um dia um dos dois atrasar e os dois
 # horários se aproximarem.
 #
-# Mensal, não diário (2026-08-24): o catálogo de sites relevantes para a
+# Semanal, não diário (2026-08-24): o catálogo de sites relevantes para a
 # região cresce devagar (uma nova imobiliária/portal por mês seria muito),
 # então gastar cota da Brave nisso todo dia era a definição de orçamento
 # metrificado gasto num alvo que quase nunca muda de um dia pro outro. Um
-# segundo caminho de descoberta foi somado (2026-08-24, não substituiu
-# este): uma Routine semanal via Claude Code + Haiku que busca na web e
-# acrescenta hosts novos direto em `criteria.yaml`'s `sites_alvo` -- sem
-# custo de API nenhum. Este job mensal fica como um segundo método, não
-# redundante por completo (métodos de busca diferentes acham coisas
-# diferentes), a um custo agora 30x menor.
+# segundo caminho de descoberta foi somado (2026-08-24): uma Routine via
+# Claude Code + Haiku que busca na web e acrescenta hosts novos direto em
+# `criteria.yaml`'s `sites_alvo` -- sem custo de API nenhum. Este job semanal
+# fica como um segundo método, não redundante por completo (métodos de busca
+# diferentes acham coisas diferentes), a um custo agora ~4x menor que o
+# diário original.
 
 on:
   schedule:
-    - cron: "15 8 1 * *"   # dia 1 de cada mês, 08:15 UTC
+    - cron: "15 8 * * 1"   # toda segunda, 08:15 UTC
   workflow_dispatch:
 
 permissions:
