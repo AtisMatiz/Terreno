@@ -198,6 +198,30 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
 
 CONSULTA = os.getenv("APIFY_FB_CONSULTA", "sitio chacara fazenda terreno rural")
 
+# Marketplace's own "For sale by owner: Property for sale" category, the same
+# one `_via_playwright` below already scopes to (`/marketplace/category/
+# propertyforsale`). The Apify path never adopted it and searched the whole
+# Marketplace by keyword alone -- every item Facebook returns costs the same
+# ~$0.0124 (see `USD_POR_ITEM` above) whether or not it turns out to be
+# actual real estate, so a category that Facebook itself filters by *before*
+# the keyword search raises how many of the paid-for items are even
+# candidates, for no extra spend. `APIFY_FB_CATEGORIA=""` reverts to the old
+# keyword-only URL if this combined city+category+search shape turns out not
+# to behave the way the plain `/search/?query=` one does -- unverified
+# against a real run as of 2026-08-24 (the month's Apify credit is already
+# spent; confirm via the per-URL "N item(ns) de <url>" log line next time
+# `facebook` actually runs).
+CATEGORIA_MARKETPLACE = os.getenv("APIFY_FB_CATEGORIA", "propertyforsale")
+
+# Mesma lógica de "não pagar duas vezes pelo mesmo anúncio": a execução é
+# diária e o dedup do pipeline joga fora o que já foi visto, então ordenar por
+# mais recente e limitar a janela é o que faz a cota ser gasta em estoque novo.
+# 7 dias (não 1) por folga: uma execução que falhe ou um dia sem cota não abre
+# um buraco permanente na cobertura. Valores aceitos pela UI do Marketplace:
+# 1, 7, 30. `APIFY_FB_ORDEM=""`/`APIFY_FB_DIAS=""` desligam cada um.
+ORDEM_MARKETPLACE = os.getenv("APIFY_FB_ORDEM", "creation_time_descend")
+DIAS_DESDE_ANUNCIO = os.getenv("APIFY_FB_DIAS", "7")
+
 # Marketplace só existe por localidade, e a localidade é uma *página de cidade*
 # do Facebook: ou o slug dela ou o id numérico. Não é derivável do nome do
 # município. Duas coisas foram medidas antes de escrever esta tabela:
@@ -294,10 +318,25 @@ def _start_urls(criteria) -> list[str]:
         params["minPrice"] = str(int(criteria.price_min))
     if 0 < criteria.price_max < 1e9:
         params["maxPrice"] = str(int(criteria.price_max))
+
+    # Cada item devolvido é cobrado (~US$ 0,0124), inclusive os que o pipeline
+    # já viu ontem e vai descartar no dedup -- então, numa execução diária,
+    # pagar de novo pelo estoque antigo é o desperdício mais previsível que
+    # existe aqui. `sortBy` (mais novos primeiro) + `daysSinceListed` são os
+    # mesmos parâmetros que a UI do Marketplace põe na URL, e gastam a mesma
+    # cota em anúncios que têm chance de ser novos.
+    if ORDEM_MARKETPLACE:
+        params["sortBy"] = ORDEM_MARKETPLACE
+    if DIAS_DESDE_ANUNCIO:
+        params["daysSinceListed"] = DIAS_DESDE_ANUNCIO
     consulta = urlencode(params)
 
+    # `/marketplace/<cidade>/<categoria>?query=...` é a forma documentada no
+    # README do ator para categoria; sem `CATEGORIA_MARKETPLACE` volta à
+    # `/marketplace/<cidade>/search/?query=...` de antes.
+    caminho = CATEGORIA_MARKETPLACE.strip("/") if CATEGORIA_MARKETPLACE else "search"
     urls = [
-        f"https://www.facebook.com/marketplace/{token}/search/?{consulta}"
+        f"https://www.facebook.com/marketplace/{token}/{caminho}/?{consulta}"
         for token in _locais(criteria)
     ]
     if len(urls) > MAX_START_URLS:
