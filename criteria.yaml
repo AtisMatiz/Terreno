@@ -226,13 +226,14 @@ orcamentos:
   # vez, o custo real fica em poucos créditos por execução. Tavily free tier é
   # ~1000 créditos/mês; 900 deixa margem de segurança.
   tavily_consultas_por_mes: 900
-  # 5.00 era o crédito "de folheto" da Apify -- na prática a conta 2 parou de
-  # responder (`facebook: 0 resultados` em todo run desde 2026-08-22) já em
-  # ~US$ 1,65 no ledger local (11 execuções desde que se tornou primária em
-  # 08-16), então o teto real dela é bem menor que US$ 5. Baixado para bater
-  # com o que se observou, com uma margem pequena por baixo -- ver
-  # SESSION_NOTES 2026-08-24.
-  apify_usd_por_mes: 1.50
+  # US$ 5,00 é de fato o teto real por conta (confirmado no painel de billing
+  # da própria Apify, 2026-08-24: "Usage $5.00 / $5.00", inteiro gasto em ~5
+  # dias no Facebook Marketplace Scraper) -- a estimativa de 2026-08-24 de que
+  # o teto real seria ~US$ 1,50 estava errada; o que estava errado era o
+  # `USD_POR_ITEM` do ledger local (`facebook.py`), que só contava a taxa por
+  # item do README e ignorava compute units/proxy, então parecia haver muito
+  # mais margem do que existia de fato. Ver SESSION_NOTES 2026-08-24 (correção).
+  apify_usd_por_mes: 5.00
   # Varredura sem API da SDB imobiliária (terreno/sources/imobiliaria_crawl.py,
   # job ci_crawl_imobiliaria, 2x/semana) -- sem custo de API, só tempo/rede, daí
   # sem teto mensal como os orçamentos acima.
