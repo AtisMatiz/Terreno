@@ -71,9 +71,26 @@ MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
 # below is now just a secondary, soft cap in the same direction.
 USD_POR_ITEM = 0.0124
 MAX_CHARGE_USD_POR_RUN = float(os.getenv("APIFY_FB_MAX_CHARGE_USD", "0.15"))
-RESULTS_LIMIT = max(1, int(os.getenv(
-    "APIFY_FB_RESULTS", str(max(1, round(MAX_CHARGE_USD_POR_RUN / USD_POR_ITEM))))))
 EST_USD_PER_RUN = MAX_CHARGE_USD_POR_RUN
+
+# `resultsLimit` is **per start URL**, not per run -- derived from the same
+# Run history: at resultsLimit=30 with 2 start URLs, real runs returned 44-54
+# items, impossible under a per-run reading (<=30) and consistent with a
+# per-URL one (<=60). So the run's total item budget has to be divided by the
+# number of URLs, or the charge cap and the item cap disagree by exactly that
+# factor -- `maxTotalChargeUsd` would then hard-truncate the run partway
+# through, and since the actor works the URLs in order, the later cities
+# would be the ones silently starved. `_results_limit()` does that division;
+# `APIFY_FB_RESULTS` still overrides it outright (and is then taken as the
+# literal per-URL value the actor receives).
+_RESULTS_OVERRIDE = os.getenv("APIFY_FB_RESULTS", "").strip()
+
+
+def _results_limit(n_urls: int) -> int:
+    if _RESULTS_OVERRIDE:
+        return max(1, int(_RESULTS_OVERRIDE))
+    itens_por_run = MAX_CHARGE_USD_POR_RUN / USD_POR_ITEM
+    return max(1, round(itens_por_run / max(1, n_urls)))
 
 # Descriptions are not a nice-to-have here: scoring reads water, area and
 # building evidence out of the listing text (terreno/scoring.py), and a
@@ -141,13 +158,16 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
     # One actor call for every URL, not one per state: the actor takes the
     # whole list itself, so splitting it would multiply the per-run cost for
     # no extra coverage.
+    limite = _results_limit(len(urls))
     payload = {
         "startUrls": [{"url": u} for u in urls],
-        "resultsLimit": RESULTS_LIMIT,
+        "resultsLimit": limite,
         "includeListingDetails": INCLUDE_DETAILS,
     }
-    log.info("apify: conta %s, %d URL(s) de busca, limite=%d, detalhes=%s, teto=US$ %.2f",
-             conta, len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, MAX_CHARGE_USD_POR_RUN)
+    log.info("apify: conta %s, %d URL(s) de busca, limite=%d/URL (~%d itens), "
+             "detalhes=%s, teto=US$ %.2f",
+             conta, len(urls), limite, limite * len(urls), INCLUDE_DETAILS,
+             MAX_CHARGE_USD_POR_RUN)
     for u in urls:
         log.debug("apify: %s", u)
 
