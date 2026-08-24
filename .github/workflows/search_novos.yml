@@ -2,18 +2,27 @@ name: terreno busca novos sites
 
 # Job separado da busca principal (2026-08-17): só a descoberta genérica de
 # sites novos para a SDB (sites_descobertos) -- ver terreno/sources/brave.py
-# (fetch_novos) e criteria.yaml (perfil ci_novos). Roda no próprio horário
-# (08:15 UTC, 45min antes do "terreno search" às 09:00 UTC -- a pedido do
-# usuário, 2026-08-17), não encadeado por workflow_run: os dois ainda
-# commitam data/terreno.sqlite3 na mesma branch, então o grupo de
-# concurrency abaixo continua sendo o que garante que um espera o outro
-# terminar em vez de os dois pushes colidirem num conflito binário
-# irreconciliável -- mesmo se um dia um dos dois atrasar e os dois horários
-# se aproximarem.
+# (fetch_novos) e criteria.yaml (perfil ci_novos). Não encadeado por
+# workflow_run: os dois ainda commitam data/terreno.sqlite3 na mesma branch,
+# então o grupo de concurrency abaixo continua sendo o que garante que um
+# espera o outro terminar em vez de os dois pushes colidirem num conflito
+# binário irreconciliável -- mesmo se um dia um dos dois atrasar e os dois
+# horários se aproximarem.
+#
+# Mensal, não diário (2026-08-24): o catálogo de sites relevantes para a
+# região cresce devagar (uma nova imobiliária/portal por mês seria muito),
+# então gastar cota da Brave nisso todo dia era a definição de orçamento
+# metrificado gasto num alvo que quase nunca muda de um dia pro outro. Um
+# segundo caminho de descoberta foi somado (2026-08-24, não substituiu
+# este): uma Routine semanal via Claude Code + Haiku que busca na web e
+# acrescenta hosts novos direto em `criteria.yaml`'s `sites_alvo` -- sem
+# custo de API nenhum. Este job mensal fica como um segundo método, não
+# redundante por completo (métodos de busca diferentes acham coisas
+# diferentes), a um custo agora 30x menor.
 
 on:
   schedule:
-    - cron: "15 8 * * *"
+    - cron: "15 8 1 * *"   # dia 1 de cada mês, 08:15 UTC
   workflow_dispatch:
 
 permissions:

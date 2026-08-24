@@ -105,8 +105,15 @@ def discover(criteria, store, budgets) -> int:
     if sites:
         store.sites_alvo_semear(sites)
 
-    hosts = (store.sites_descobertos_por_categoria(IMOBILIARIA, dias=7)
-             + store.sites_descobertos_por_categoria(OUTRO, dias=7))
+    # `TAVILY_SDB_VARREDURA_COMPLETA=1` ignora o cooldown de 7 dias e consulta
+    # TODO host promovido nesta execução -- usado para a varredura pontual de
+    # comparação Tavily x crawler sem API (ver SESSION_NOTES 2026-08-24), não
+    # para uso semanal normal. `dias=0` faz `ultima_consulta < agora` valer
+    # pra qualquer timestamp passado, então todo host promovido conta como
+    # vencido.
+    dias = 0 if env("TAVILY_SDB_VARREDURA_COMPLETA") else 7
+    hosts = (store.sites_descobertos_por_categoria(IMOBILIARIA, dias=dias)
+             + store.sites_descobertos_por_categoria(OUTRO, dias=dias))
     if not hosts:
         log.info("tavily: nenhum host da SDB vencido nesta semana")
         return 0

@@ -151,14 +151,22 @@ fontes:
 # `chavesnamao`, `caixa` e `brave` já respondiam do runner (chavesnamao e
 # Brave por natureza; caixa via curl_cffi).
 perfis:
-  ci: [sdb_scan, chavesnamao, caixa, pgfn, olx, facebook]
+  ci: [chavesnamao, caixa, pgfn, olx, facebook]
+  # Job separado (2026-08-24): sdb_scan (Tavily) tirado do `ci` diário e posto
+  # em seu próprio job, seg-sex -- não por custo (o cooldown semanal de cada
+  # host já mantém o gasto real em ~3-5 consultas/mês de um teto de 900, ver
+  # SESSION_NOTES), mas porque não há razão para rodar aos fins de semana algo
+  # cujo próprio design é semanal por host. Ver .github/workflows/search_sdb.yml.
+  ci_sdb: [sdb_scan]
   # Job separado (2026-08-17): só a descoberta genérica de sites novos, sem
   # visitar nada e sem os outros scrapers -- ver .github/workflows/search.yml
   # (job busca-novos-sites) e terreno/sources/brave.py.
   ci_novos: [brave_novos]
-  # Job separado (2026-08-17), 2x/semana: varre toda a SDB imobiliária via
-  # crawl direto (sem API) -- ver .github/workflows/search_crawl_imobiliaria.yml
-  # e terreno/sources/imobiliaria_crawl.py.
+  # Job separado (2026-08-17), agora diário (2026-08-24 -- sem custo de API,
+  # só tempo/rede, então não há razão pra ser 2x/semana): varre toda a SDB
+  # imobiliária via crawl direto -- ver
+  # .github/workflows/search_crawl_imobiliaria.yml e
+  # terreno/sources/imobiliaria_crawl.py.
   ci_crawl_imobiliaria: [imobiliaria_crawl]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
