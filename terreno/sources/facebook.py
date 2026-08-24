@@ -71,9 +71,26 @@ MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
 # below is now just a secondary, soft cap in the same direction.
 USD_POR_ITEM = 0.0124
 MAX_CHARGE_USD_POR_RUN = float(os.getenv("APIFY_FB_MAX_CHARGE_USD", "0.15"))
-RESULTS_LIMIT = max(1, int(os.getenv(
-    "APIFY_FB_RESULTS", str(max(1, round(MAX_CHARGE_USD_POR_RUN / USD_POR_ITEM))))))
 EST_USD_PER_RUN = MAX_CHARGE_USD_POR_RUN
+
+# `resultsLimit` is **per start URL**, not per run -- derived from the same
+# Run history: at resultsLimit=30 with 2 start URLs, real runs returned 44-54
+# items, impossible under a per-run reading (<=30) and consistent with a
+# per-URL one (<=60). So the run's total item budget has to be divided by the
+# number of URLs, or the charge cap and the item cap disagree by exactly that
+# factor -- `maxTotalChargeUsd` would then hard-truncate the run partway
+# through, and since the actor works the URLs in order, the later cities
+# would be the ones silently starved. `_results_limit()` does that division;
+# `APIFY_FB_RESULTS` still overrides it outright (and is then taken as the
+# literal per-URL value the actor receives).
+_RESULTS_OVERRIDE = os.getenv("APIFY_FB_RESULTS", "").strip()
+
+
+def _results_limit(n_urls: int) -> int:
+    if _RESULTS_OVERRIDE:
+        return max(1, int(_RESULTS_OVERRIDE))
+    itens_por_run = MAX_CHARGE_USD_POR_RUN / USD_POR_ITEM
+    return max(1, round(itens_por_run / max(1, n_urls)))
 
 # Descriptions are not a nice-to-have here: scoring reads water, area and
 # building evidence out of the listing text (terreno/scoring.py), and a
@@ -141,13 +158,16 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
     # One actor call for every URL, not one per state: the actor takes the
     # whole list itself, so splitting it would multiply the per-run cost for
     # no extra coverage.
+    limite = _results_limit(len(urls))
     payload = {
         "startUrls": [{"url": u} for u in urls],
-        "resultsLimit": RESULTS_LIMIT,
+        "resultsLimit": limite,
         "includeListingDetails": INCLUDE_DETAILS,
     }
-    log.info("apify: conta %s, %d URL(s) de busca, limite=%d, detalhes=%s, teto=US$ %.2f",
-             conta, len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, MAX_CHARGE_USD_POR_RUN)
+    log.info("apify: conta %s, %d URL(s) de busca, limite=%d/URL (~%d itens), "
+             "detalhes=%s, teto=US$ %.2f",
+             conta, len(urls), limite, limite * len(urls), INCLUDE_DETAILS,
+             MAX_CHARGE_USD_POR_RUN)
     for u in urls:
         log.debug("apify: %s", u)
 
@@ -197,6 +217,30 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
 
 
 CONSULTA = os.getenv("APIFY_FB_CONSULTA", "sitio chacara fazenda terreno rural")
+
+# Marketplace's own "For sale by owner: Property for sale" category, the same
+# one `_via_playwright` below already scopes to (`/marketplace/category/
+# propertyforsale`). The Apify path never adopted it and searched the whole
+# Marketplace by keyword alone -- every item Facebook returns costs the same
+# ~$0.0124 (see `USD_POR_ITEM` above) whether or not it turns out to be
+# actual real estate, so a category that Facebook itself filters by *before*
+# the keyword search raises how many of the paid-for items are even
+# candidates, for no extra spend. `APIFY_FB_CATEGORIA=""` reverts to the old
+# keyword-only URL if this combined city+category+search shape turns out not
+# to behave the way the plain `/search/?query=` one does -- unverified
+# against a real run as of 2026-08-24 (the month's Apify credit is already
+# spent; confirm via the per-URL "N item(ns) de <url>" log line next time
+# `facebook` actually runs).
+CATEGORIA_MARKETPLACE = os.getenv("APIFY_FB_CATEGORIA", "propertyforsale")
+
+# Mesma lógica de "não pagar duas vezes pelo mesmo anúncio": a execução é
+# diária e o dedup do pipeline joga fora o que já foi visto, então ordenar por
+# mais recente e limitar a janela é o que faz a cota ser gasta em estoque novo.
+# 7 dias (não 1) por folga: uma execução que falhe ou um dia sem cota não abre
+# um buraco permanente na cobertura. Valores aceitos pela UI do Marketplace:
+# 1, 7, 30. `APIFY_FB_ORDEM=""`/`APIFY_FB_DIAS=""` desligam cada um.
+ORDEM_MARKETPLACE = os.getenv("APIFY_FB_ORDEM", "creation_time_descend")
+DIAS_DESDE_ANUNCIO = os.getenv("APIFY_FB_DIAS", "7")
 
 # Marketplace só existe por localidade, e a localidade é uma *página de cidade*
 # do Facebook: ou o slug dela ou o id numérico. Não é derivável do nome do
@@ -294,10 +338,25 @@ def _start_urls(criteria) -> list[str]:
         params["minPrice"] = str(int(criteria.price_min))
     if 0 < criteria.price_max < 1e9:
         params["maxPrice"] = str(int(criteria.price_max))
+
+    # Cada item devolvido é cobrado (~US$ 0,0124), inclusive os que o pipeline
+    # já viu ontem e vai descartar no dedup -- então, numa execução diária,
+    # pagar de novo pelo estoque antigo é o desperdício mais previsível que
+    # existe aqui. `sortBy` (mais novos primeiro) + `daysSinceListed` são os
+    # mesmos parâmetros que a UI do Marketplace põe na URL, e gastam a mesma
+    # cota em anúncios que têm chance de ser novos.
+    if ORDEM_MARKETPLACE:
+        params["sortBy"] = ORDEM_MARKETPLACE
+    if DIAS_DESDE_ANUNCIO:
+        params["daysSinceListed"] = DIAS_DESDE_ANUNCIO
     consulta = urlencode(params)
 
+    # `/marketplace/<cidade>/<categoria>?query=...` é a forma documentada no
+    # README do ator para categoria; sem `CATEGORIA_MARKETPLACE` volta à
+    # `/marketplace/<cidade>/search/?query=...` de antes.
+    caminho = CATEGORIA_MARKETPLACE.strip("/") if CATEGORIA_MARKETPLACE else "search"
     urls = [
-        f"https://www.facebook.com/marketplace/{token}/search/?{consulta}"
+        f"https://www.facebook.com/marketplace/{token}/{caminho}/?{consulta}"
         for token in _locais(criteria)
     ]
     if len(urls) > MAX_START_URLS:
