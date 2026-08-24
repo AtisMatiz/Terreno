@@ -131,7 +131,22 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         return []
 
     cap = float(budgets.get("apify_usd_por_mes", 5.0))
-    token = conta = None
+    limite = _results_limit(len(urls))
+    payload = {
+        "startUrls": [{"url": u} for u in urls],
+        "resultsLimit": limite,
+        "includeListingDetails": INCLUDE_DETAILS,
+    }
+
+    # Tenta cada conta até uma de fato aceitar a chamada paga -- os dois
+    # pré-checks abaixo (ledger local, `/limits` geral da conta) são só para
+    # não gastar uma chamada HTTP num caso já óbvio; nenhum dos dois prova
+    # que a conta tem crédito para *este ator pago*, e confirmadamente (ver
+    # `SemCreditoApify`) uma conta pode passar os dois e ainda receber um 402
+    # na chamada real. Sem este loop, essa conta sozinha decidia "0 listings"
+    # pro run inteiro mesmo com uma segunda conta de fato disponível.
+    items = None
+    conta = None
     for tok, c in contas:
         # Each account has its own independent monthly credit, so the local
         # ledger is tracked per account (`apify_usd_1`/`apify_usd_2`) rather
@@ -149,30 +164,23 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
                 log.warning("apify: conta %s com crédito esgotado (%.2f/%.2f) — tentando a próxima",
                             c, used, allowed)
                 continue
-        token, conta = tok, c
+        log.info("apify: conta %s, %d URL(s) de busca, limite=%d/URL (~%d itens), "
+                 "detalhes=%s, teto=US$ %.2f",
+                 c, len(urls), limite, limite * len(urls), INCLUDE_DETAILS,
+                 MAX_CHARGE_USD_POR_RUN)
+        for u in urls:
+            log.debug("apify: %s", u)
+        try:
+            items = _apify_post(DEFAULT_ACTOR, tok, payload, MAX_CHARGE_USD_POR_RUN)
+        except SemCreditoApify:
+            log.warning("apify: conta %s recusada na chamada real (402) — tentando a próxima", c)
+            continue
+        store.budget_spend(f"{RESOURCE}_{c}", EST_USD_PER_RUN)
+        conta = c
         break
-    if not token:
+    if conta is None:
         log.warning("apify: todas as contas sem crédito disponível — pulando")
         return []
-
-    # One actor call for every URL, not one per state: the actor takes the
-    # whole list itself, so splitting it would multiply the per-run cost for
-    # no extra coverage.
-    limite = _results_limit(len(urls))
-    payload = {
-        "startUrls": [{"url": u} for u in urls],
-        "resultsLimit": limite,
-        "includeListingDetails": INCLUDE_DETAILS,
-    }
-    log.info("apify: conta %s, %d URL(s) de busca, limite=%d/URL (~%d itens), "
-             "detalhes=%s, teto=US$ %.2f",
-             conta, len(urls), limite, limite * len(urls), INCLUDE_DETAILS,
-             MAX_CHARGE_USD_POR_RUN)
-    for u in urls:
-        log.debug("apify: %s", u)
-
-    items = _apify_post(DEFAULT_ACTOR, token, payload, MAX_CHARGE_USD_POR_RUN)
-    store.budget_spend(f"{RESOURCE}_{conta}", EST_USD_PER_RUN)
     items = [i for i in (items or []) if isinstance(i, dict)]
 
     # Cada item traz de volta a start URL que o produziu (`facebookUrl`), o que
@@ -366,6 +374,19 @@ def _start_urls(criteria) -> list[str]:
     return urls[:MAX_START_URLS]
 
 
+class SemCreditoApify(Exception):
+    """A conta não tem crédito suficiente para este run específico -- sinal
+    real (HTTP 402 `not-enough-usage-to-run-paid-actor`) e não uma suposição
+    a partir de `/v2/users/me/limits`.
+
+    Confirmado 2026-08-24 (`testar_fonte.yml`, conta 2): tanto o ledger local
+    quanto o `/limits` geral da conta passaram como "ok" -- este último
+    reporta o teto/uso da conta como um todo, não o crédito restante para
+    *este ator pago especificamente*, que é o que a chamada real checa. Sem
+    esta exceção, `_via_apify` aceitava a lista vazia e nunca tentava a conta
+    seguinte."""
+
+
 def _apify_post(actor: str, token: str, payload: dict, max_charge_usd: float):
     """run-sync-get-dataset-items needs POST; terreno.http is GET-only by
     design, so this is the one place that reaches for requests directly.
@@ -385,6 +406,9 @@ def _apify_post(actor: str, token: str, payload: dict, max_charge_usd: float):
             json=payload,
             timeout=320,
         )
+        if r.status_code == 402:
+            log.warning("apify: HTTP 402 (sem crédito para este ator) — %s", r.text[:200])
+            raise SemCreditoApify(r.text[:200])
         if r.status_code >= 400:
             log.warning("apify: HTTP %s — %s", r.status_code, r.text[:200])
             return []
