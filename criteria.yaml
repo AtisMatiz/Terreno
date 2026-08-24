@@ -226,7 +226,13 @@ orcamentos:
   # vez, o custo real fica em poucos créditos por execução. Tavily free tier é
   # ~1000 créditos/mês; 900 deixa margem de segurança.
   tavily_consultas_por_mes: 900
-  apify_usd_por_mes: 5.00           # crédito gratuito da Apify
+  # 5.00 era o crédito "de folheto" da Apify -- na prática a conta 2 parou de
+  # responder (`facebook: 0 resultados` em todo run desde 2026-08-22) já em
+  # ~US$ 1,65 no ledger local (11 execuções desde que se tornou primária em
+  # 08-16), então o teto real dela é bem menor que US$ 5. Baixado para bater
+  # com o que se observou, com uma margem pequena por baixo -- ver
+  # SESSION_NOTES 2026-08-24.
+  apify_usd_por_mes: 1.50
   # Varredura sem API da SDB imobiliária (terreno/sources/imobiliaria_crawl.py,
   # job ci_crawl_imobiliaria, 2x/semana) -- sem custo de API, só tempo/rede, daí
   # sem teto mensal como os orçamentos acima.

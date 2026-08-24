@@ -60,7 +60,12 @@ MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
 # from it -- a fixed 0.15 under-counted a 40-item run by a third, which is how
 # a $5/month credit gets overspent while the guard still reports headroom.
 USD_POR_ITEM = 0.005
-RESULTS_LIMIT = max(1, int(os.getenv("APIFY_FB_RESULTS", "30")))
+# 30 (the old default) burned through the account's real credit in 11 daily
+# runs -- ~US$ 1.65 by our own estimate, nowhere near the assumed US$ 5/month
+# cap (see `apify_usd_por_mes` in criteria.yaml). Lowered to spread the same
+# real budget across a full month of daily runs instead of the first third
+# of it (2026-08-24).
+RESULTS_LIMIT = max(1, int(os.getenv("APIFY_FB_RESULTS", "8")))
 EST_USD_PER_RUN = max(0.02, round(RESULTS_LIMIT * USD_POR_ITEM, 4))
 
 # Descriptions are not a nice-to-have here: scoring reads water, area and
