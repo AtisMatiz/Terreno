@@ -55,18 +55,25 @@ DEFAULT_ACTOR = os.getenv("APIFY_FB_ACTOR", "apify~facebook-marketplace-scraper"
 MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
 
 # Pay-per-result: the actor's README states $5 per 1000 items, i.e. $0.005 an
-# item, and it is billed on items returned rather than on runs. So the cost of
-# a run is bounded by `resultsLimit` and the ledger estimate has to be derived
-# from it -- a fixed 0.15 under-counted a 40-item run by a third, which is how
-# a $5/month credit gets overspent while the guard still reports headroom.
-USD_POR_ITEM = 0.005
-# 30 (the old default) burned through the account's real credit in 11 daily
-# runs -- ~US$ 1.65 by our own estimate, nowhere near the assumed US$ 5/month
-# cap (see `apify_usd_por_mes` in criteria.yaml). Lowered to spread the same
-# real budget across a full month of daily runs instead of the first third
-# of it (2026-08-24).
-RESULTS_LIMIT = max(1, int(os.getenv("APIFY_FB_RESULTS", "8")))
-EST_USD_PER_RUN = max(0.02, round(RESULTS_LIMIT * USD_POR_ITEM, 4))
+# item -- but that's only the flat per-result line item, and the account's
+# own Run history (console.apify.com, checked 2026-08-24, resultsLimit=30)
+# shows the real rate is higher once compute units and proxy usage are
+# included: 8 real runs totaled 404 billed items for $5.00, i.e. ~$0.0124 an
+# item -- 2.5x the README's headline rate. That real ratio is where
+# `USD_POR_ITEM` below comes from now, not the README.
+#
+# Rather than keep re-deriving "how many items is safe" from that ratio,
+# `maxTotalChargeUsd` (a run-level API parameter, not an actor input --
+# https://docs.apify.com/api/v2/act-run-sync-get-dataset-items-post) caps the
+# run's real dollar cost directly, enforced by Apify itself regardless of
+# which of its billing components (proxy, compute, per-result) end up
+# driving the total. That's the actual fix for "ran out early"; resultsLimit
+# below is now just a secondary, soft cap in the same direction.
+USD_POR_ITEM = 0.0124
+MAX_CHARGE_USD_POR_RUN = float(os.getenv("APIFY_FB_MAX_CHARGE_USD", "0.15"))
+RESULTS_LIMIT = max(1, int(os.getenv(
+    "APIFY_FB_RESULTS", str(max(1, round(MAX_CHARGE_USD_POR_RUN / USD_POR_ITEM))))))
+EST_USD_PER_RUN = MAX_CHARGE_USD_POR_RUN
 
 # Descriptions are not a nice-to-have here: scoring reads water, area and
 # building evidence out of the listing text (terreno/scoring.py), and a
@@ -139,12 +146,12 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         "resultsLimit": RESULTS_LIMIT,
         "includeListingDetails": INCLUDE_DETAILS,
     }
-    log.info("apify: conta %s, %d URL(s) de busca, limite=%d, detalhes=%s (~US$ %.2f)",
-             conta, len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, EST_USD_PER_RUN)
+    log.info("apify: conta %s, %d URL(s) de busca, limite=%d, detalhes=%s, teto=US$ %.2f",
+             conta, len(urls), RESULTS_LIMIT, INCLUDE_DETAILS, MAX_CHARGE_USD_POR_RUN)
     for u in urls:
         log.debug("apify: %s", u)
 
-    items = _apify_post(DEFAULT_ACTOR, token, payload)
+    items = _apify_post(DEFAULT_ACTOR, token, payload, MAX_CHARGE_USD_POR_RUN)
     store.budget_spend(f"{RESOURCE}_{conta}", EST_USD_PER_RUN)
     items = [i for i in (items or []) if isinstance(i, dict)]
 
@@ -300,15 +307,22 @@ def _start_urls(criteria) -> list[str]:
     return urls[:MAX_START_URLS]
 
 
-def _apify_post(actor: str, token: str, payload: dict):
+def _apify_post(actor: str, token: str, payload: dict, max_charge_usd: float):
     """run-sync-get-dataset-items needs POST; terreno.http is GET-only by
-    design, so this is the one place that reaches for requests directly."""
+    design, so this is the one place that reaches for requests directly.
+
+    `maxTotalChargeUsd` is a run-level API param (not part of the actor's own
+    input schema above) that Apify itself enforces as a hard dollar ceiling
+    on the run, regardless of which billing component (proxy, compute,
+    per-result) drives the cost -- see the module-level comment on
+    `USD_POR_ITEM` for why that beats trying to cap spend via `resultsLimit`
+    alone."""
     import requests
 
     try:
         r = requests.post(
             APIFY_RUN.format(actor=actor),
-            params={"token": token, "timeout": 300},
+            params={"token": token, "timeout": 300, "maxTotalChargeUsd": max_charge_usd},
             json=payload,
             timeout=320,
         )
