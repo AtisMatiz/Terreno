@@ -28,6 +28,28 @@ _LOCATION_RE = re.compile(
     r"\s*[-/,]\s*(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)\b"
 )
 
+# Fallback for the punctuation-less, lowercase/unaccented shape Facebook's own
+# `listingTitle` field sometimes returns (confirmed 2026-08-25 against a real
+# listing: "chacara ... em condominio fechado em ribeirao preto sp" -- no
+# accents, no comma/slash before the state). `_LOCATION_RE` above requires a
+# capitalized city and an explicit "-", "/" or "," before the UF, so it never
+# matched this shape at all -- silently leaving `municipality`/`uf` blank and,
+# through that, disabling the radius filter in `pipeline.apply_filters` for
+# exactly the out-of-region listings that filter exists to catch (a real
+# Ribeirão Preto/SP listing -- 280+ km outside the configured region -- still
+# reached Telegram because of this gap). Anchored to end-of-string (optionally
+# before a trailing "." or "!"): a bare state abbreviation loose in the middle
+# of prose is not trustworthy, but one immediately before the ad text ends is
+# the ordinary "...cidade, UF" shape with just the punctuation missing.
+# `_clean_municipality` below still trims the captured group down to the
+# municipality itself.
+_LOCATION_RE_SOLTO = re.compile(
+    r"\b((?:[a-záéíóúâêôãõç]+\s+){1,4}?[a-záéíóúâêôãõç]+)\s+"
+    r"(ac|al|ap|am|ba|ce|df|es|go|ma|mt|ms|mg|pa|pb|pr|pe|pi|rj|rn|rs|ro|rr|sc|sp|se|to)"
+    r"\s*[.!]?\s*$",
+    re.IGNORECASE,
+)
+
 
 # --------------------------------------------------------- páginas genéricas
 #
@@ -221,8 +243,10 @@ def municipio_do_texto(texto: str) -> tuple[str, str]:
     configured search region reaching Telegram anyway."""
     m = _LOCATION_RE.search(texto)
     if not m:
+        m = _LOCATION_RE_SOLTO.search(texto.strip())
+    if not m:
         return "", ""
-    return _clean_municipality(m.group(1)), m.group(2)
+    return _clean_municipality(m.group(1)), m.group(2).upper()
 
 
 def _data_publicada(html: str, haystack: str) -> str:

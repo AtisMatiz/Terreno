@@ -69,6 +69,14 @@ KM_TERRA_DESCARTE = 8.0
 # Sale by unregistered private contract: unfinanceable and unregisterable.
 GAVETA = r"contrato de gaveta|contratos? de gaveta"
 
+# A property inside a closed condominium is out, whatever else the ad calls it
+# (owner's explicit call, 2026-08-25, against a real listing: "chácara
+# residencial ... em condomínio fechado" in Ribeirão Preto/SP still passed
+# `tipo_ok` — chácara + condomínio used to be let through with only a warning
+# label, see the "rural and urbano" branch below). Shared land-use rules,
+# an HOA, and gated-community density are the opposite of what is wanted.
+CONDOMINIO_FECHADO = r"condominio fechado|loteamento fechado"
+
 
 def _fold(text: str) -> str:
     text = unicodedata.normalize("NFKD", (text or "").lower())
@@ -505,6 +513,9 @@ def motivo_descarte(
     ok, _ = tipo_ok(text)
     if not ok:
         return "não parece imóvel rural"
+
+    if _hits(folded, CONDOMINIO_FECHADO):
+        return "em condomínio/loteamento fechado"
 
     km = km_estrada_terra(folded)
     if km is not None and km > KM_TERRA_DESCARTE:
