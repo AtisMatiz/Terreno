@@ -1,5 +1,5 @@
 {
- "generated_at": "27/08/2026 às 16:23",
+ "generated_at": "27/08/2026 às 16:41",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -6720,15 +6720,11 @@
  ],
  "new_count": 0,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "sdb_scan"
  ],
  "warnings": [
-  "pgfn: 0 resultados",
-  "facebook: 0 resultados"
+  "sdb_scan: 0 resultados",
+  "www.imovelweb.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
