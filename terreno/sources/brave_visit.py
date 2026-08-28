@@ -57,7 +57,8 @@ def _host(url: str) -> str:
 MAX_POR_EXECUCAO = 5000
 
 
-def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, Listing | None, str]:
+def _visitar_um(url: str, dica: str, origem: str, use_llm: bool,
+                 timeout: int) -> tuple[str, Listing | None, str]:
     """O trabalho de uma única página candidata -- roda em uma thread do pool.
 
     Uma única tentativa por execução (sem retry aqui): o retry mora agora
@@ -69,6 +70,14 @@ def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, 
     Devolve também o corpo da página (truncado): esta é a única vez que o
     texto completo é buscado, então é a melhor chance de `site_categoria`
     achar uma menção a CRECI que o snippet da Brave nunca mostraria.
+
+    `source=origem` (2026-08-28): the queue is shared between Brave's `site:`
+    discovery and Tavily's SDB scan (see `tavily_discover.py`), and both used
+    to tag every resulting listing `source='brave'` regardless of which one
+    actually found the URL -- making a direct Tavily-vs-Brave comparison
+    impossible from the `listings` table. `origem` (carried on the queue row
+    itself, see `Store.brave_pendentes_carregar`) is the ground truth of who
+    discovered *this* candidate.
     """
     resp = http.get(url, timeout=timeout, retries=1)
     if resp is None:
@@ -76,10 +85,10 @@ def _visitar_um(url: str, dica: str, use_llm: bool, timeout: int) -> tuple[str, 
     if "text/html" not in resp.headers.get("content-type", ""):
         return "sem_conteudo", None, ""
 
-    listing = rules.extract(resp.text, url, source=NAME)
+    listing = rules.extract(resp.text, url, source=origem)
     if use_llm and rules.is_thin(listing):
         from ..extract import llm
-        melhor = llm.extract(resp.text, url, source=NAME)
+        melhor = llm.extract(resp.text, url, source=origem)
         if melhor:
             listing = melhor
 
@@ -122,8 +131,8 @@ def visit_all(criteria, store, budgets) -> list[Listing]:
 
     with ThreadPoolExecutor(max_workers=paralelismo) as pool:
         futuros = {
-            pool.submit(_visitar_um, url, dica, use_llm, timeout_pagina): url
-            for url, dica in fila
+            pool.submit(_visitar_um, url, dica, origem, use_llm, timeout_pagina): url
+            for url, dica, origem in fila
         }
         for futuro in as_completed(futuros):
             url = futuros[futuro]

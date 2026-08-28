@@ -95,7 +95,8 @@ CREATE TABLE IF NOT EXISTS brave_pendentes (
     url            TEXT PRIMARY KEY,
     dica           TEXT,
     descoberto_em  TEXT NOT NULL,
-    falhas         INTEGER NOT NULL DEFAULT 0
+    falhas         INTEGER NOT NULL DEFAULT 0,
+    origem         TEXT NOT NULL DEFAULT 'brave'
 );
 CREATE INDEX IF NOT EXISTS idx_brave_pendentes_descoberto
     ON brave_pendentes(descoberto_em);
@@ -161,6 +162,18 @@ class Store:
         if "falhas" not in cols:
             self.db.execute(
                 "ALTER TABLE brave_pendentes ADD COLUMN falhas INTEGER NOT NULL DEFAULT 0"
+            )
+        if "origem" not in cols:
+            # Distinguishes a Tavily-discovered candidate from a Brave one so
+            # the resulting listing's `source` field can say which (2026-08-28,
+            # owner's request -- previously both shared one queue/extraction
+            # path and every resulting listing was tagged source='brave'
+            # regardless of who actually found the URL, making a direct
+            # Tavily-vs-Brave comparison impossible from the listings table).
+            # Existing rows predate the distinction; 'brave' is the honest
+            # default since Tavily's SDB scan only started 2026-08-17.
+            self.db.execute(
+                "ALTER TABLE brave_pendentes ADD COLUMN origem TEXT NOT NULL DEFAULT 'brave'"
             )
 
         # Same reason, for the scoring/notification fields added later. Declared
@@ -375,26 +388,31 @@ class Store:
         return novo
 
     # ------------------------------------------------------ brave_pendentes
-    def brave_pendentes_carregar(self, limite: int) -> list[tuple[str, str]]:
+    def brave_pendentes_carregar(self, limite: int) -> list[tuple[str, str, str]]:
         """Candidatos ainda não visitados, mais antigos primeiro -- é isso que
         garante que o backlog eventualmente seja coberto em vez de crescer
-        para sempre atrás dos candidatos recém-descobertos."""
+        para sempre atrás dos candidatos recém-descobertos. `origem` viaja
+        junto ('brave' ou 'tavily') para que `brave_visit.py` marque o
+        listing resultante com quem de fato o descobriu."""
         linhas = self.db.execute(
-            "SELECT url, dica FROM brave_pendentes ORDER BY descoberto_em ASC LIMIT ?",
+            "SELECT url, dica, origem FROM brave_pendentes ORDER BY descoberto_em ASC LIMIT ?",
             (limite,),
         ).fetchall()
-        return [(r["url"], r["dica"] or "") for r in linhas]
+        return [(r["url"], r["dica"] or "", r["origem"] or "brave") for r in linhas]
 
-    def brave_pendentes_adicionar(self, candidatos: dict[str, str]) -> None:
+    def brave_pendentes_adicionar(self, candidatos: dict[str, str], origem: str = "brave") -> None:
         """Registra candidatos ainda não visitados. INSERT OR IGNORE preserva
         o descoberto_em original de quem já estava na fila -- se sobrescrevesse
-        a data, perderia a ordem FIFO a cada execução."""
+        a data, perderia a ordem FIFO a cada execução. `origem` é gravada só
+        na primeira inserção pelo mesmo motivo (OR IGNORE não a atualiza se a
+        URL já estava na fila vinda de outra fonte)."""
         if not candidatos:
             return
         agora = _now()
         self.db.executemany(
-            "INSERT OR IGNORE INTO brave_pendentes (url, dica, descoberto_em) VALUES (?, ?, ?)",
-            [(url, dica, agora) for url, dica in candidatos.items()],
+            "INSERT OR IGNORE INTO brave_pendentes (url, dica, descoberto_em, origem) "
+            "VALUES (?, ?, ?, ?)",
+            [(url, dica, agora, origem) for url, dica in candidatos.items()],
         )
         self.db.commit()
 

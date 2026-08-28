@@ -141,7 +141,13 @@ def discover(criteria, store, budgets) -> int:
             if url and url not in already and url not in novos:
                 novos[url] = result.get("title") or ""
 
-    store.brave_pendentes_adicionar(novos)
+    # origem="tavily" (2026-08-28): lets the resulting listings' `source`
+    # field say "tavily" instead of the shared queue's old blanket "brave",
+    # so a Tavily-vs-Brave comparison can be run directly off the listings
+    # table instead of needing a one-off diagnostic script -- see the
+    # 2026-08-28 Friday SDB sweep analysis in SESSION_NOTES.md for why this
+    # was missing until now.
+    store.brave_pendentes_adicionar(novos, origem="tavily")
     if hosts_consultados:
         store.sites_descobertos_marcar_consultado(hosts_consultados)
     log.info("tavily: %d host(s) da SDB consultados em %d lote(s), %d candidato(s) novo(s) na fila",
