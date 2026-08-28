@@ -159,7 +159,7 @@ def fetch_host(host: str, *, budgets: dict | None = None,
 
 
 def fetch(criteria, store, budgets) -> list[Listing]:
-    """Twice-weekly full sweep of every promoted `imobiliaria` SDB host --
+    """Daily full sweep of every promoted `imobiliaria` SDB host --
     no weekly-due gate (see `Store.sites_descobertos_hosts`), since this
     strategy has no metered cost to ration against. Runs as its own
     scheduled job (source name `imobiliaria_crawl`, see
@@ -174,6 +174,18 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     fetched one at a time internally (`fetch_host`), since a single host's
     own candidate count is small enough not to need its own pool.
     """
+    # Seeds sites_alvo (curated portals) into sites_descobertos directly
+    # (2026-08-28), same call tavily_discover.discover() already makes --
+    # without this, a curated host only became visible to this crawler once
+    # the *Tavily* SDB job (Mon-Fri, search_sdb.yml) happened to run and seed
+    # it first, so a site added to criteria.yaml right after a Friday's
+    # Tavily run sat un-crawled until the following Monday despite this job
+    # running daily. Idempotent (ON CONFLICT DO NOTHING, see
+    # `Store.sites_alvo_semear`), so calling it here too is free.
+    sites = criteria.raw.get("sites_alvo") or []
+    if sites:
+        store.sites_alvo_semear(sites)
+
     hosts = store.sites_descobertos_hosts(IMOBILIARIA)
     if not hosts:
         log.info("imobiliaria_crawl: nenhum host imobiliária promovido na SDB")
