@@ -1,5 +1,5 @@
 {
- "generated_at": "29/08/2026 às 11:51",
+ "generated_at": "30/08/2026 às 11:08",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -1620,6 +1620,133 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false
+  },
+  {
+   "key": "19ac3a82b0e26b17",
+   "source": "olx",
+   "source_id": "1530747235",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/chacara-a-venda-20558-m-por-r-800-000-00-buquirinha-sao-jose-dos-campos-sp-1530747235",
+   "title": "Chácara à venda, 20558 m² por R$ 800.000,00 - Buquirinha - São José dos Campos/SP",
+   "description": "Código do anúncio: CH0471<br><br>E SE VOCÊ PUDESSE SAIR DA CIDADE SEM PRECISAR IR LONGE?<br><br>Imagine acordar cercado pela natureza.<br><br>Sem trânsito.<br><br>Sem barulho.<br><br>Com espaço para sua família, privacidade e liberdade para construir uma propriedade exatamente do seu jeito.<br><br>Agora imagine que esse lugar está a aproximadamente 20 minutos de São José dos Campos.<br><br>Estamos falando da Fazenda Bela Vista da Mantiqueira.<br><br>São glebas de 20.000 m² ou mais, em uma região com:<br><br>Lagos<br>Nascentes<br>Cachoeiras<br>Mata nativa preservada<br>Segurança 24 horas<br>Portaria blindada<br>Ruas calçadas<br>Infraestrutura premium<br><br>E existe um detalhe importante para quem pensa em patrimônio:<br><br>cada propriedade possui escritura e matrícula individualizada.<br><br>Além disso, o projeto foi pensado para propriedades de alto padrão, com construções mínimas de 500 m².<br><br>Mas talvez o mais interessante não seja o tamanho da propriedade.<br><br>É o que você pode fazer com ela.<br><br>Uma casa para reunir a família.<br><br>Um refúgio para os finais de semana.<br><br>Um projeto arquitetônico único.<br><br>Um patrimônio para as próximas gerações.<br><br>Porque algumas pessoas compram uma casa.<br><br>Outras escolhem o lugar onde querem construir sua história.<br><br>Se você procura uma propriedade diferenciada, próxima de São José dos Campos e cercada pela natureza, me chame no privado.<br><br>Eu posso apresentar a Fazenda Bela Vista da Mantiqueira e mostrar todos os detalhes dessa oportunidade. -",
+   "price": 800000.0,
+   "price_first": 800000.0,
+   "area_ha": 2.0558,
+   "price_per_ha": 389142.91,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://img.olx.com.br/images/65/659681794350766.jpg",
+   "posted_at": "",
+   "score": 0.424,
+   "reasons": [
+    "lago/açude",
+    "cachoeira",
+    "várias nascentes",
+    "casa",
+    "cercado",
+    "tranquilo",
+    "reservado",
+    "mata nativa",
+    "escriturado",
+    "⚠ R$/ha 389.143 (--)",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.95,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "cachoeira",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.43,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.58,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.85,
+     "peso": 10,
+     "provas": [
+      "mata nativa"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 389.143 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-30T14:08:20+00:00",
+   "last_seen": "2026-08-30T14:08:20+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Lago/açude + cachoeira + várias nascentes\", \"benfeitorias\": \"Casa + cercado\", \"documentacao\": \"Escriturado\", \"solo\": \"Mata nativa\"}",
+   "estrelas": "[\"Cachoeira\", \"Múltiplas nascentes\", \"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
   },
   {
    "key": "e60f7e1b88e3c6e7",
@@ -3939,6 +4066,121 @@
    "notificavel": 1,
    "imagem_analise": null,
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "cde4f66066b22792",
+   "source": "olx",
+   "source_id": "1301560044",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/pe-na-agua-na-represa-paraibuna-redencao-barato-1301560044",
+   "title": "Pé na Água na Represa Paraibuna-Redencao-Barato ",
+   "description": "Abaixou o Preço - Barato-não tem igual na represa de frente com esse preço.<br>Sítio na frente da represa de Paraibuna-SP<br>Gleba 5 <br>Com luz na porta e água.<br>Frente da estrada perto do asfalto.<br>Com escritura e registro.<br> ?Sobre o imóvel:<br>?Localizado em Redencao da Serra;<br>?Área total dos lotes: 20.000 m2<br> ?Água:Poço semi-Artesiano;<br>?Energia elétrica:Não possui energia elétrica necessário fazer pedido de ligação de forma gratuita;<br>?Acesso: 7,5 km do asfalto Sp 121 no km 22,5 Pesqueiro Trairão a direita + 7,5 km<br>?Relevo:Aclive;<br> ?Frente e vista 180 graus represa de Paraibuna;<br>?Entre em contato para maiores informações! Mande seu Watsap .",
+   "price": 149000.0,
+   "price_first": 149000.0,
+   "area_ha": 2.0,
+   "price_per_ha": 74500.0,
+   "municipality": "Paraibuna",
+   "uf": "SP",
+   "lat": -23.3864203,
+   "lon": -45.6626797,
+   "image": "https://img.olx.com.br/images/26/260638413418187.jpg",
+   "posted_at": "",
+   "score": 0.266,
+   "reasons": [
+    "lago/açude",
+    "poço artesiano",
+    "energia",
+    "escriturado",
+    "R$/ha 74.500 (++)",
+    "⚠ 51.2 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.4,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.18,
+     "peso": 20,
+     "provas": [
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 74.500 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 51.2 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-08-30T14:08:20+00:00",
+   "last_seen": "2026-08-30T14:08:20+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 51.2,
+   "destaques": "{\"agua\": \"Lago/açude + poço artesiano\", \"benfeitorias\": \"Energia\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -7411,15 +7653,16 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 2,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "facebook: 0 resultados"
  ],
  "criterios": {
   "estados": [
