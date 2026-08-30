@@ -1,5 +1,5 @@
 {
- "generated_at": "30/08/2026 às 11:08",
+ "generated_at": "30/08/2026 às 11:39",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -1745,7 +1745,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -4180,7 +4180,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -7653,16 +7653,15 @@
    "price_drop": null
   }
  ],
- "new_count": 2,
+ "new_count": 0,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "facebook: 0 resultados"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
