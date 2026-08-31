@@ -101,6 +101,11 @@ jobs:
 
   deploy:
     needs: search
+    # Só a branch default publica no Pages -- sem isso, um workflow_dispatch
+    # manual numa branch de teste "falha" aqui porque a política de proteção
+    # do ambiente github-pages recusa o deploy (2026-08-31, run 33192921890),
+    # mesmo com o job anterior tendo funcionado.
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
     environment:
       name: github-pages
