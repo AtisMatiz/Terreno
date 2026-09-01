@@ -235,6 +235,10 @@ sites_alvo:
   - rosemarybritoimoveis.com.br
   - silvarilloimoveis.com.br
   - portal.kenlo.com.br
+  # achados em 2026-09-01 (busca semanal), verificados com anúncios reais:
+  - guiapinhalimoveis.com.br
+  - redesaojose.com.br
+  - alpesimobiliaria.com.br
   # leilões e bancos
   - venda-imoveis.caixa.gov.br
   - comprei.pgfn.gov.br
