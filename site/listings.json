@@ -1,5 +1,5 @@
 {
- "generated_at": "02/09/2026 às 10:06",
+ "generated_at": "02/09/2026 às 10:26",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -1736,7 +1736,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -7771,16 +7771,12 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "sdb_scan"
  ],
  "warnings": [
-  "facebook: 0 resultados"
+  "sdb_scan: 0 resultados"
  ],
  "criterios": {
   "estados": [
