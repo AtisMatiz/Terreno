@@ -1,5 +1,5 @@
 {
- "generated_at": "01/09/2026 às 11:32",
+ "generated_at": "02/09/2026 às 10:06",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -1620,6 +1620,124 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false
+  },
+  {
+   "key": "a779f946f547fb10",
+   "source": "olx",
+   "source_id": "1531722507",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/bairro-pinhal-velho-area-rural-de-lorena-20-km-asfalto-e-8-estrada-de-terra-1531722507",
+   "title": "Bairro Pinhal velho Área rural de Lorena 20 km asfalto e 8 estrada  de terra ",
+   "description": "Sitio escriturado, excelente localização, várias nascentes, frutíferas, Represa, galinheiro, mangueiro, chiqueiro, horta, campo de futebol. Casa com comodos grandes piso frio e forrada. 5 comodos, banheiro garagem coberta 3 carros. Área gourmet.",
+   "price": 500000.0,
+   "price_first": 500000.0,
+   "area_ha": 7.2,
+   "price_per_ha": 69444.44,
+   "municipality": "Guaratinguetá",
+   "uf": "SP",
+   "lat": -22.8057839,
+   "lon": -45.1908926,
+   "image": "https://img.olx.com.br/images/22/220689448273791.jpg",
+   "posted_at": "",
+   "score": 0.425,
+   "reasons": [
+    "lago/açude",
+    "várias nascentes",
+    "casa",
+    "frutíferas",
+    "escriturado",
+    "R$/ha 69.444 (++)",
+    "⚠ 68.4 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 69.444 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 68.4 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-09-02T13:06:39+00:00",
+   "last_seen": "2026-09-02T13:06:39+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 68.4,
+   "destaques": "{\"agua\": \"Lago/açude + várias nascentes\", \"benfeitorias\": \"Casa\", \"documentacao\": \"Escriturado\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
   },
   {
    "key": "19ac3a82b0e26b17",
@@ -7653,15 +7771,16 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "facebook: 0 resultados"
  ],
  "criterios": {
   "estados": [
