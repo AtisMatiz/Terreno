@@ -1,5 +1,5 @@
 {
- "generated_at": "03/09/2026 às 10:24",
+ "generated_at": "03/09/2026 às 11:06",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -6454,6 +6454,109 @@
    "is_new": false
   },
   {
+   "key": "c52a438f4f95f77a",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.palermodecastro.com.br/1906/imoveis/venda-chacara-area-rural-de-paraibuna-paraibuna-sp",
+   "title": "Sítio 7,26 ha em Paraibuna | Vista para o Rio e Perto do Asfalto",
+   "description": "Procurando o lugar ideal para construir sua chácara, casa de campo ou investir em uma área com alto potencial de valorização?​Este terreno de 72...",
+   "price": null,
+   "price_first": null,
+   "area_ha": 7.26,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.palermodecastro.com.br/admin/imovel/mini/20260827T1313150300-470328489.jpg",
+   "posted_at": "",
+   "score": 0.182,
+   "reasons": [
+    "rio/riacho",
+    "casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-03T14:06:50+00:00",
+   "last_seen": "2026-09-03T14:06:50+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true
+  },
+  {
    "key": "7bf67b98d4ee1a11",
    "source": "olx",
    "source_id": "1529214380",
@@ -7652,11 +7755,16 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "sdb_scan"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "criterios": {
   "estados": [
    "SP"
