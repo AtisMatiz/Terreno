@@ -104,6 +104,12 @@ def _hits(text: str, pattern: str) -> int:
     "casa" there names something the *seller* would accept as partial
     payment, not a building on this property. Same lookback mechanism,
     "aceita"/"aceito" added to the trigger list.
+
+    "ideal para construir sua chácara, casa de campo" is a fourth variant,
+    found 2026-09-03 against a real listing (7.3 ha in Paraibuna, zero
+    buildings): "casa" there names what the *buyer* would build, not
+    something already standing. Same lookback mechanism, "constru*" (covers
+    construir/construção/construída/...) added to the trigger list.
     """
     count = 0
     for m in re.finditer(pattern, text):
@@ -113,6 +119,8 @@ def _hits(text: str, pattern: str) -> int:
         if re.search(r"\b(troco|troca|trocar|aceito troca|em troca de|"
                      r"quero em troca|aceita|aceito|aceitamos)\s*(?:por|com|de)?\s*[\w\s]{0,18}$",
                      before):
+            continue
+        if re.search(r"\bconstru\w*\s+[\w\s,]{0,25}$", before):
             continue
         count += 1
     return count
