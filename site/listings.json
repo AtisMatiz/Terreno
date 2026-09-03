@@ -1,5 +1,5 @@
 {
- "generated_at": "02/09/2026 às 11:04",
+ "generated_at": "03/09/2026 às 10:08",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -5615,125 +5615,6 @@
    "is_new": false
   },
   {
-   "key": "18b7ffea86145aaa",
-   "source": "brave",
-   "source_id": "",
-   "url": "https://www.exclusivavale.com.br/imoveis/a-venda/fazenda",
-   "title": "Fazenda de 72.600 m² Bairro Alto - Natividade da Serra, à venda por R$ 700.000",
-   "description": "Fazenda de 72.600 m² Bairro Alto - Natividade da Serra, à ve... Habilite o javascript de seu navegador. Cadastre seu imóvel Encomende seu imóvel Institucional Política de privacidade Quem Somos Imóveis Cadastre seu imóvel Cadastro de proposta Financiamento e bancos Links úteis Prefeitura Municipal de SJC IPTU SJC - 2ª via EDP Energia - 2ª via EDP Energia - Consulta de débitos SABESP - 2ª via SABESP - Consulta de débitos COMGÁS - 2ª via e extrato Contato Fale conosco Exclusiva Vale Imóveis Whatsapp (12) 98890-2798 Facilitado por Mais filtros 1 Mais Filtros &times; À venda Para alugar Novos Temporada Digite condomínio, região, bairro ou cidade Preço de venda R$ 0 - 255.000.000 De: Até: Tipo do imóvel Casa Apartamento Terreno Chácara Sala Cobertura Área Galpão Ponto Prédio Sítio Loja Apartamento duplex Flat Sobrado Andar corporativo Fazenda Apartamento garden Mais tipos Em condomínio fechado Sim Não Indiferente Quartos 1+ 2+ 3+ 4+ 5+ Banheiros 1+ 2+ 3+ 4+ Mobiliado? Sim Não Indiferente Suítes 1+ 2+ 3+ 4+ 5+ Vagas 1+ 2+ 3+ 4+ Aceita pet? Sim Não Indiferente Área 0 - 10.000 m² De: Até: Características Aceita financiamento Aceita permuta Adega Aquecimento solar Ar condicionado Armário closet Beira mar Churrasqueira Elevador Hidromassagem Lareira Litorâneo Mezanino Pé na Areia Piscina Portão eletrônico Sacada Sauna Solarium Varanda Varanda gourmet Vista para o mar Açude Alarme Área de serviço Baia de cavalo Banheiro de empregada Barracão Campo de futebol Cana de açúcar Carpete Carpete de madeira Casa de colono Caseiro Cerca Citrus Contrapiso Copa Curral Despensa Dormitório de empregada Equinocultura Estábulo Estrada Interna Fruticultura Garagem para maquinário Granja Grãos Lago Lavabo Lavanderia Mangueiro Minha Casa Minha Vida Ovinocultura Pastagem Pecuária Piscicultura Piso cerâmico Piso de ardósia Piso de cimento queimado Piso de granito Piso de mármore Piso de tábua Piso laminado Pivô de irrigação Poço artesiano Pomar Porcelanato Quadra poliesportiva Quintal Reserva loc",
-   "price": null,
-   "price_first": null,
-   "area_ha": 7.26,
-   "price_per_ha": null,
-   "municipality": "Natividade da Serra",
-   "uf": "SP",
-   "lat": null,
-   "lon": null,
-   "image": "https://imgs.kenlo.io/VWRCUkQ2Tnp3d1BJRDBJVe1s0xgxSbBGOsBT9+RO1zjks-ynciLnlXpdKzsuCVZKPvMZhGt-GI0v+QFtypVh7xY3icsFUfjn5XXaj8KoyvKw6mCx17Tqnov84vjeYOqZmN81i-GrT1XxvvA9TYB+Ykl0OrcjHhDkD9zdZHYJqjPJ+EydEuMeEjQLhVw7yRxdyFW3V8D3pg9qhnD8Aa2Do37JaKfpBhEGTcsCU4d0rwYXoQW3Www18U9G85m383CQJPXkMt-jgmwWF1VkpMX6Rw==.png",
-   "posted_at": "",
-   "score": 0.22,
-   "reasons": [
-    "menção a loteamento/condomínio",
-    "lago/represa",
-    "poço artesiano",
-    "casa de caseiro",
-    "casa",
-    "curral",
-    "galpão",
-    "energia",
-    "cercado",
-    "piscina",
-    "⚠ vizinhança próxima",
-    "pastagem",
-    "frutíferas",
-    "⚠ monocultura"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.45,
-     "peso": 30,
-     "provas": [
-      "lago/represa",
-      "poço artesiano"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 1.0,
-     "peso": 15,
-     "provas": [
-      "casa de caseiro",
-      "casa",
-      "curral",
-      "galpão",
-      "energia",
-      "cercado",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": [
-      "⚠ vizinhança próxima"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "distancia": {
-     "rotulo": "Distância",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "fertilidade": {
-     "rotulo": "Solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": [
-      "pastagem",
-      "frutíferas",
-      "⚠ monocultura"
-     ]
-    },
-    "mata": {
-     "rotulo": "Mata nativa",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    }
-   },
-   "first_seen": "2026-08-11T17:43:20+00:00",
-   "last_seen": "2026-08-11T17:43:20+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": null,
-   "distancia_centro_km": null,
-   "destaques": null,
-   "estrelas": null,
-   "disponibilidade": null,
-   "notificavel": 1,
-   "imagem_analise": null,
-   "is_new": false
-  },
-  {
    "key": "3bbf61e1947764d5",
    "source": "facebook",
    "source_id": "961336683360892",
@@ -7773,13 +7654,15 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "pgfn: 0 resultados",
+  "facebook: 0 resultados"
  ],
  "criterios": {
   "estados": [
