@@ -1,5 +1,5 @@
 {
- "generated_at": "04/09/2026 às 10:19",
+ "generated_at": "04/09/2026 às 10:57",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -7757,12 +7757,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "sdb_scan"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "sdb_scan: 0 resultados",
-  "www.imovelweb.com.br: bloqueado",
-  "www.wimoveis.com.br: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
