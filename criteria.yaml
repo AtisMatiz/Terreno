@@ -254,6 +254,10 @@ sites_alvo:
   - camposdojordaoimoveis.com.br
   - imoveisemcamposdojordao.net
   - senaimoveis.com.br
+  # achados em 2026-09-04 (busca web), verificados com anúncios reais:
+  - imoveiscaminhosdaserra.com.br
+  - imobsalim.com.br
+  - assafimoveis.com.br
   # leilões e bancos
   - venda-imoveis.caixa.gov.br
   - comprei.pgfn.gov.br
