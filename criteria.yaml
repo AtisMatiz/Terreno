@@ -258,6 +258,8 @@ sites_alvo:
   - imoveiscaminhosdaserra.com.br
   - imobsalim.com.br
   - assafimoveis.com.br
+  # achado em 2026-09-06 (busca programada), verificado com acesso real:
+  - valedoparaibaimoveis.com.br
   # leilões e bancos
   - venda-imoveis.caixa.gov.br
   - comprei.pgfn.gov.br
