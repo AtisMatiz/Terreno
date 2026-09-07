@@ -1,5 +1,5 @@
 {
- "generated_at": "07/09/2026 às 11:34",
+ "generated_at": "07/09/2026 às 11:58",
  "listings": [
   {
    "key": "be338e41669221e6",
@@ -6352,6 +6352,118 @@
    "price_drop": null
   },
   {
+   "key": "3006fa47a787bfed",
+   "source": "brave",
+   "source_id": "",
+   "url": "https://reland.com.br/pt-br/imovel/sitio-a-venda-de-4-ha-em-sao-jose-dos-campos-sp-brasil-883450053609d122ced8",
+   "title": "Sítio à venda de 4 ha em São José dos Campos, SP, Brasil | RELAND",
+   "description": "Venha conhecer lindo sítio de 2 alqueires, (4,84 hectares) com 1 casa, 1 lago lindíssimo, próximo a São José dos Campos/SP localizado a apenas 3 km do asfalto e 20 km do centro. Propriedade toda documentada...\nEsse ambiente tranquilo e acalhedor é ideal para quem procura descanso e lazer.\n \n\n\nChave do anúncio: G41vH9j3OJMAgh1q",
+   "price": null,
+   "price_first": null,
+   "area_ha": 4.84,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://media.reland.com.br/insecure/rs:fit:1200:630/q:85/plain/https://assets.reland.com.br/listings/883450053609d122ced8/22fd0809-7afb-46f1-8104-6395ba655390",
+   "posted_at": "",
+   "score": 0.188,
+   "reasons": [
+    "lago/açude",
+    "casa",
+    "tranquilo",
+    "20 km da cidade",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.1,
+     "peso": 15,
+     "provas": [
+      "20 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-07T14:58:51+00:00",
+   "last_seen": "2026-09-07T14:58:51+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Casa\", \"acesso\": \"20 km da cidade\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true
+  },
+  {
    "key": "8fd58011c14a91e0",
    "source": "olx",
    "source_id": "1530202063",
@@ -7755,16 +7867,16 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "sdb_scan"
  ],
  "warnings": [
-  "facebook: 0 resultados"
+  "www.attria.com.br: bloqueado",
+  "www.casamineira.com.br: bloqueado",
+  "www.imovelweb.com.br: bloqueado",
+  "www.tripadvisor.com.br: bloqueado",
+  "www.wimoveis.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
