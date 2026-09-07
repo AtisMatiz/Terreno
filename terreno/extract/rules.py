@@ -89,6 +89,18 @@ _URL_SEGMENTO_ANUNCIO = re.compile(
 )
 _URL_ID_PARAM = re.compile(r"[?&](?:id|codigo|cod|ref|imovel|imovel_id)=[\w-]+", re.I)
 
+# React/Next.js sites (reland.com.br confirmed 2026-09-07) render the price
+# client-side from a server-streamed flight-data payload embedded in a
+# <script> tag as a bare JS object literal ("...,price:1100000,currency..."),
+# never as visible "R$ ..." text and never as JSON-LD -- `strip_tags()` drops
+# script contents before `haystack` is built, so neither the JSON-LD nor the
+# free-text price path in `extract()` below ever sees it, and a real,
+# correctly-priced listing (R$ 1.100.000 -- clearly shown on the live page)
+# came through as "preço não informado". `\bprice\b` (not `price_per_...`)
+# right before a bare, unquoted number is specific enough to this exact
+# unquoted-object-literal shape to run over raw `html` rather than `haystack`.
+_JS_PRICE_RE = re.compile(r'\bprice"?\s*:\s*(\d{4,9})\b')
+
 # "2 Melhores Sítios à Venda em ...", "Os 10 melhores sítios ..."
 _TITULO_LISTICLE = re.compile(
     r"^\W*(?:os|as)?\s*\d{1,3}\s+(?:melhor|melhores|maiores|mais|op[çc][õo]es|"
@@ -332,6 +344,14 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
         if not municipality:
             municipality, uf_achado = municipio_do_texto(body)
         uf = uf_achado or uf
+
+    if price is None:
+        matches = _JS_PRICE_RE.findall(html)
+        # Only trust this when the whole page names exactly one price this
+        # way -- a "similar listings" carousel embedded in the same payload
+        # would otherwise make it impossible to tell which one is this URL's.
+        if len(matches) == 1:
+            price = price_to_brl(matches[0])
 
     preco_estruturado = price is not None
     if price is None:
