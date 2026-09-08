@@ -1,5 +1,5 @@
 {
- "generated_at": "08/09/2026 às 10:28",
+ "generated_at": "08/09/2026 às 11:06",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -8369,11 +8369,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "sdb_scan"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "www.attria.com.br: bloqueado",
-  "www.tripadvisor.com.br: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
