@@ -263,6 +263,13 @@ sites_alvo:
   - paraisoimoveis.com.br
   - verdeoriginal.com.br
   - brasilproperty.com.br
+  # achados em 2026-09-08 (busca web), verificados com anúncios reais:
+  - casanafloresta.com.br
+  - vendasdefazendas.com.br
+  - lcfazendas.com.br
+  - conektavaleimoveis.com.br
+  - valtergoncalvesimobiliaria.com.br
+  - real-estate-brazil.com
   # leilões e bancos
   - venda-imoveis.caixa.gov.br
   - comprei.pgfn.gov.br
