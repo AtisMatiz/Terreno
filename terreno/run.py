@@ -207,10 +207,10 @@ def main(argv=None) -> int:
             log.info("%d anúncio(s) já vendido(s) ou fora do ar — não avisados",
                      len(fora))
 
-    # Called every real (non-dry-run) run, even with nothing to report --
-    # notify.telegram sends a one-line "nenhum resultado hoje" heartbeat in
-    # that case (found 2026-08-17) instead of leaving the owner unable to
-    # tell a quiet day apart from a broken run.
+    # Called every real (non-dry-run) run; notify.telegram itself stays
+    # silent when there's nothing new and no health alert (changed
+    # 2026-09-09 -- dropped the old "nenhum resultado hoje" heartbeat since
+    # it fired every single run and was pure noise most mornings).
     #
     # Falls back to the live Vercel page when TERRENO_PAGE_URL isn't set --
     # found 2026-08-13 the repo variable was apparently never actually set,
