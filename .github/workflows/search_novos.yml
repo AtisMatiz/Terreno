@@ -22,7 +22,13 @@ name: terreno busca novos sites
 
 on:
   schedule:
-    - cron: "15 8 * * 1"   # toda segunda, 08:15 UTC
+    # 08:00 UTC = 05:00 America/Sao_Paulo. First stage of the nightly chain
+    # (2026-09-09): it seeds `sites_descobertos` that crawl/sdb below read
+    # from, so it goes first, staggered 10min ahead of each next job --
+    # `concurrency.group` below queues them in trigger order even if this
+    # one overruns its own budget, so the 10min gap only has to survive
+    # GitHub's own schedule jitter, not this job's full runtime.
+    - cron: "0 8 * * 1"   # toda segunda, 08:00 UTC
   workflow_dispatch:
 
 permissions:

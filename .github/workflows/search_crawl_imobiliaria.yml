@@ -13,7 +13,12 @@ name: terreno crawler imobiliária (varredura sem API)
 
 on:
   schedule:
-    - cron: "0 10 * * *"   # 10:00 UTC, diário (2026-08-24, era seg/sex)
+    # 08:10 UTC = 05:10 America/Sao_Paulo. Second stage of the nightly chain
+    # (2026-09-09, era 10:00 UTC): moved right after search_novos so it reads
+    # whatever novos just seeded into sites_descobertos on Mondays, and early
+    # enough that the whole chain (novos -> crawl -> sdb -> search) clears
+    # before the user's morning instead of trickling in until 10-11am.
+    - cron: "10 8 * * *"
   workflow_dispatch:
 
 permissions:

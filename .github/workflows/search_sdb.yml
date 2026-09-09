@@ -14,7 +14,11 @@ name: terreno sdb (Tavily)
 
 on:
   schedule:
-    - cron: "0 9 * * 1-5"   # 09:00 UTC, seg-sex
+    # 08:20 UTC = 05:20 America/Sao_Paulo. Third stage of the nightly chain
+    # (2026-09-09, era 09:00 UTC): after search_crawl_imobiliaria, before the
+    # main search.yml run -- see that file's cron comment for the full
+    # ordering rationale.
+    - cron: "20 8 * * 1-5"
   workflow_dispatch:
     inputs:
       varredura_completa:
