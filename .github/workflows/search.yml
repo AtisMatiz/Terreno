@@ -2,8 +2,17 @@ name: terreno search
 
 on:
   schedule:
-    # 09:00 UTC = 06:00 America/Sao_Paulo. Once daily, per the agreed cadence.
-    - cron: "0 9 * * *"
+    # 08:30 UTC = 05:30 America/Sao_Paulo. Last stage of the nightly chain
+    # (2026-09-09, era 09:00 UTC/06:00 BRT): runs after search_novos ->
+    # search_crawl_imobiliaria -> search_sdb, all sharing the same
+    # `concurrency.group` below, so it always builds/publishes the site from
+    # the freshest data of the day and sends its Telegram digest last. Moved
+    # the whole chain earlier because results were only landing at 10-11am;
+    # staggering start times 10min apart (rather than firing all four at
+    # once) fixes the *queue order* -- concurrency already serializes
+    # same-time schedule dispatches, but not deterministically -- without
+    # having to reserve each stage's full worst-case timeout as a gap.
+    - cron: "30 8 * * *"
   workflow_dispatch:
     inputs:
       overrides:
