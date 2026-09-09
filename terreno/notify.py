@@ -1,11 +1,9 @@
 """Telegram ping when a run turns up something new.
 
-A run with nothing to report still gets a one-line "Nenhum resultado hoje"
-ping (see NENHUM_RESULTADO) -- found 2026-08-17: the old "silent means no
-message" design was indistinguishable, from the owner's side, from the run
-never having happened at all (workflow failure, cron not firing, secrets
-missing). One short line costs nothing and turns that silence into a
-confirmed "ran, found nothing" instead of an open question. Failure to
+A run with nothing new and no health alerts sends nothing at all (changed
+2026-09-09 -- the earlier "nenhum resultado hoje" heartbeat, sent every
+single run, turned out to just be daily noise once results started arriving
+before breakfast: most mornings genuinely have nothing new). Failure to
 notify never fails the run.
 
 Message building (``build_messages``) is deliberately separated from sending
@@ -45,12 +43,6 @@ MAX_MESSAGES = 50
 
 HEADER = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿"
 HEADER_CONT = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿 (continuação)"
-
-# Sent instead of nothing when a run has no new listings and no health
-# alerts -- a heartbeat, not a card, so it stays a single short line rather
-# than reusing HEADER (which would read as "new property" when there isn't
-# one).
-NENHUM_RESULTADO = "🌿 Terreno: nenhum resultado novo hoje."
 
 # Score bands -> Portuguese qualitative label. Listing.score is a 0..1 float;
 # it is shown as an integer out of 100, so the bands are stated in the same
@@ -258,13 +250,17 @@ def build_messages(listings: list, page_url: str = "", top_n: int = 8,
 
 def telegram(listings: list, page_url: str, top_n: int = 8,
              alertas: list[str] | None = None) -> bool:
-    """Send the ping. True only if every message went out."""
+    """Send the ping. True only if every message went out (also True when
+    there's nothing new to say — nothing to send is not a failure to send)."""
     token, chat_id = env("TELEGRAM_BOT_TOKEN"), env("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
         log.info("telegram not configured — no ping sent")
         return False
 
-    messages = build_messages(listings, page_url, top_n, alertas) or [NENHUM_RESULTADO]
+    messages = build_messages(listings, page_url, top_n, alertas)
+    if not messages:
+        log.info("telegram: nothing new to report — no ping sent")
+        return True
 
     ok = True
     for i, text in enumerate(messages, 1):
