@@ -263,6 +263,11 @@ sites_alvo:
   - paraisoimoveis.com.br
   - verdeoriginal.com.br
   - brasilproperty.com.br
+  # achados em 2026-09-11 (busca web), verificados com anúncios reais:
+  - realizavale.com.br
+  - godoyimob.com.br
+  - peninhaimobiliaria.com.br
+  - stillosimoveis.com.br
   # leilões e bancos
   - venda-imoveis.caixa.gov.br
   - comprei.pgfn.gov.br
