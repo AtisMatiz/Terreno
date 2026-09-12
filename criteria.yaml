@@ -279,6 +279,11 @@ sites_alvo:
   - century21.com.br
   - remax.com.br
   - lopes.com.br
+  # achados em 2026-09-12 (busca web), verificados com anúncios reais:
+  - lcfazendas.com.br
+  - gintervale.com.br
+  - realizavale.com.br
+  - teteimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
