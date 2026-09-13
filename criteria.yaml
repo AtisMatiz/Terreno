@@ -284,6 +284,21 @@ sites_alvo:
   - gintervale.com.br
   - realizavale.com.br
   - teteimoveis.com.br
+  # achados em 2026-09-13 (busca web), verificados com anúncios reais:
+  - vivaruralimoveis.com.br
+  - calebi.com.br
+  - abimoveis.com.br
+  - grothelimaimoveis.com.br
+  - imoveissaoluizdoparaitinga.com.br
+  - marciosantosimoveis.com.br
+  - danielaleiteimoveis.com.br
+  - alvimimoveissjc.com.br
+  - motaconsultoriaimobiliaria.com.br
+  - lucianomigoto.com.br
+  - sebastiaoimoveis.com.br
+  - personalimob.com.br
+  - ruralnegocioimobiliario.com.br
+  - avipimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
