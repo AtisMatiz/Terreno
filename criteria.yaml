@@ -299,6 +299,10 @@ sites_alvo:
   - personalimob.com.br
   - ruralnegocioimobiliario.com.br
   - avipimoveis.com.br
+  # achados em 2026-09-14 (busca web), verificados com anúncios reais:
+  - mcimoveisvale.com.br
+  - simaoconsult.com.br
+  - imoveiscunhasp.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
