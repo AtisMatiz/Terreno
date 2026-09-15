@@ -303,6 +303,8 @@ sites_alvo:
   - mcimoveisvale.com.br
   - simaoconsult.com.br
   - imoveiscunhasp.com.br
+  # achados em 2026-09-15 (busca web), verificados com anúncios reais:
+  - robertomoliveiraimoveis.com
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
