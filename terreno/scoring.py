@@ -102,6 +102,21 @@ def _hits(text: str, pattern: str) -> int:
     buildings): "casa" there names what the *buyer* would build, not
     something already standing. Same lookback mechanism, "constru*" (covers
     construir/construção/construída/...) added to the trigger list.
+
+    A fifth variant, found 2026-09-16 against a real OLX listing (an AI-
+    written ad for a bare 3ha terreno): "liberdade para projetar a casa de
+    campo dos seus sonhos, criar um pomar, horta orgânica, espaço de lazer
+    com piscina e muito mais" scored a house and pool that don't exist.
+    "projetar" governs a whole comma-separated wish list rather than
+    sitting right next to the one noun it modifies -- "piscina" alone is
+    ~90 chars past it. So this clause uses a wider, clause-scoped window
+    (back to the nearest sentence boundary, capped at 160 chars) and looks
+    for the trigger anywhere in it, not just adjacent. "criar" itself is
+    deliberately left out of the trigger list despite appearing in this
+    same ad ("criar um pomar") -- it is also how a legitimate listing says
+    "área para criar gado" (raising cattle), and clause-scoping that verb
+    would wrongly suppress a real "casa sede" or "curral" mentioned later
+    in the same sentence.
     """
     count = 0
     for m in re.finditer(pattern, text):
@@ -113,6 +128,12 @@ def _hits(text: str, pattern: str) -> int:
                      before):
             continue
         if re.search(r"\bconstru\w*\s+[\w\s,]{0,25}$", before):
+            continue
+        clause = text[max(0, m.start() - 160):m.start()]
+        boundary = max(clause.rfind("."), clause.rfind("!"), clause.rfind("?"))
+        if boundary != -1:
+            clause = clause[boundary + 1:]
+        if re.search(r"\b(projetar|planejar|idealizar|imaginar|sonhar)\b", clause):
             continue
         count += 1
     return count
@@ -164,7 +185,11 @@ DIMENSOES: dict[str, dict] = {
             (r"currais?|estabulo|mangueira", 20, "curral"),
             (r"galpoes?|galpao|barracao|paiol", 20, "galpão"),
             (r"energia|luz eletrica|rede eletrica|trifasic|monofasic", 18, "energia"),
-            (r"cercad[oa]|cercas?\b", 8, "cercado"),
+            # (?!\s+por) excludes "cercado por vegetação/natureza/mata" --
+            # found 2026-09-16 on the same OLX listing as the aspirational
+            # fix above ("Natureza Exuberante: Cercado por ..."): there
+            # "cercado" means "surrounded by", not "has a fence".
+            (r"cercad[oa](?!\s+por)|cercas?\b", 8, "cercado"),
             (r"piscinas?", 5, "piscina"),
         ],
         "negativos": [
