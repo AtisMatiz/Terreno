@@ -1,5 +1,5 @@
 {
- "generated_at": "16/09/2026 às 10:38",
+ "generated_at": "16/09/2026 às 10:45",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -5718,6 +5718,132 @@
    "price_drop": null
   },
   {
+   "key": "23546aa472c98565",
+   "source": "olx",
+   "source_id": "1535990776",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/oportunidade-unica-sitio-terreno-de-30-000-m-em-arapei-sp-1535990776",
+   "title": "Oportunidade Única: Sítio/Terreno de 30.000 m² em Arapeí/SP!",
+   "description": "Já imaginou ter um pedaço do paraíso só seu, com espaço de sobra para realizar qualquer projeto? Apresentamos uma excelente propriedade com **30 mil metros quadrados** em Arapeí, ideal para quem busca liberdade, privacidade e contato direto com a natureza.<br><br>### **Destaques do Terreno (30.000 m²)**<br><br>* **Espaço de Sobra:** Com uma área ampla de 30 mil m², você tem total liberdade para projetar a casa de campo dos seus sonhos, criar um pomar, horta orgânica, espaço de lazer com piscina e muito mais.<br>* **Localização Privilegiada:** Situado em Arapeí, um dos municípios mais charmosos e tranquilos do Vale do Paraíba, na região da Serra da Bocaina.<br>* **Natureza Exuberante:** Cercado por muito verde, paisagens montanhosas deslumbrantes e aquele clima serrano revigorante.<br>* **Privacidade e Qualidade de Vida:** Um convite para desacelerar, fugir do estresse dos grandes centros e viver com total segurança, paz e espaço para a família.<br><br>&gt; *?Um verdadeiro refúgio particular, com espaço amplo para criar memórias inesquecíveis e viver em harmonia com o meio ambiente.?*<br><br>### **Por que investir em Arapeí?**<br><br>Arapeí é conhecida por sua hospitalidade, rica história e belezas naturais intocadas. É o destino perfeito para quem busca sossego, turismo ecológico e uma comunidade acolhedora, com a vantagem de disser de uma grande área de terra com alto potencial de valorização.<br><br>---<br><br>? **Não perca essa oportunidade!** Entre em contato agora mesmo para saber mais detalhes sobre valores, condições e agendar uma visita. O seu novo estilo de vida começa aqui!",
+   "price": 200000.0,
+   "price_first": 200000.0,
+   "area_ha": 3.0,
+   "price_per_ha": 66666.67,
+   "municipality": "Arapeí",
+   "uf": "SP",
+   "lat": -22.6738889,
+   "lon": -44.4477778,
+   "image": "https://img.olx.com.br/images/67/674661322354950.jpg",
+   "posted_at": "",
+   "score": 0.259,
+   "reasons": [
+    "casa",
+    "cercado",
+    "piscina",
+    "sossegado",
+    "tranquilo",
+    "preservado",
+    "manejo regenerativo",
+    "frutíferas",
+    "⚠ acidentado",
+    "R$/ha 66.667 (++)",
+    "⚠ 146 km do centro de interesse (---)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.48,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "cercado",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.78,
+     "peso": 10,
+     "provas": [
+      "sossegado",
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.85,
+     "peso": 10,
+     "provas": [
+      "preservado",
+      "manejo regenerativo",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": [
+      "⚠ acidentado"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 66.667 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ 146 km do centro de interesse (---)"
+     ],
+     "ajuste": -0.15
+    }
+   },
+   "first_seen": "2026-09-16T13:45:20+00:00",
+   "last_seen": "2026-09-16T13:45:20+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 146.0,
+   "destaques": "{\"benfeitorias\": \"Casa + cercado + piscina\", \"solo\": \"Preservado + manejo regenerativo + frutíferas + ⚠ acidentado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "9e7eb1c586082704",
    "source": "facebook",
    "source_id": "2935362616828561",
@@ -8367,16 +8493,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "criterios": {
   "estados": [
    "SP"
