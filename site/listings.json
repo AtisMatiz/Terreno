@@ -1,5 +1,5 @@
 {
- "generated_at": "16/09/2026 às 10:45",
+ "generated_at": "16/09/2026 às 13:11",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4333,123 +4333,6 @@
    "price_drop": null
   },
   {
-   "key": "00a17cbd5f97e935",
-   "source": "imobiliaria_crawl",
-   "source_id": "",
-   "url": "https://viverrural.com.br/imoveis/sitio-em-sao-luiz-do-paraitinga-sp/",
-   "title": "Sítio em São Luiz do Paraitinga - 42.768 m2",
-   "description": "Sítio em São Luiz do Paraitinga - 42.768 m2 - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0110 Finalidade: Venda Sítio em São Luiz do Paraitinga &#8211; 42.768 m2 Sítio em São Luiz do Paraitinga, localizado no interior do Estado de São Paulo, Serra do Mar &#8211; Litoral Norte (Ubatuba). Área rural com 4,2 hectares, um quadro em branco para planejar o seu sonho de ter uma casa no campo e ainda ter a opção de desfrutar de belíssimas praias do litoral do Estado, ótima localização. &#8211; Excelente topografia para construções; &#8211; Lago, com um espelho d&#8217;água lindo; &#8211; Local bastante tranquilo e reservado; &#8211; Documentação ok (Escritura com Matrícula, ITR, CCIR, Georreferenciamento e CAR) Valor R$ 470 mil Entre em contato para mais informações WhatsApp 012 99712-6075 CRECI 239129 Área: 42768m² Valor do Imóvel: R$ 470.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que entrassem em contato comigo o mais rápido possível. Obrigado! Enviar formulário Contato Estamos localizados em São Luiz do Paraitinga – SP alessandra@viverrural.com.br Telefone/ WhatsApp Fale conosco (12) 99712-6075 Instagram Facebook Youtube SOLUÇÕES IMOBILIÁRIAS Compra e Venda Locação de Imóveis Permuta de Imóveis Avaliação de Imóveis Consultoria Imobiliária BOLETIM INFORMATIVO Se inscreva e receba novidades sobre Imóveis em geral! Digite seu e-mail Inscrever-se Política de Privacidade Política de Cookies Copyright © 2026 Viver Rural Imobiliária. Todos os direitos reservados. Gostou deste site? Crie o seu com a WhatsApp Call Now Button",
-   "price": 470000.0,
-   "price_first": 470000.0,
-   "area_ha": 4.2,
-   "price_per_ha": 111904.76,
-   "municipality": "",
-   "uf": "",
-   "lat": null,
-   "lon": null,
-   "image": "https://viverrural.com.br/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-23-at-10.16.26-1.jpeg",
-   "posted_at": "2024-08-24T11:55:09+00:00",
-   "score": 0.293,
-   "reasons": [
-    "lago/açude",
-    "casa",
-    "tranquilo",
-    "reservado",
-    "escriturado",
-    "CAR/GEO em dia",
-    "R$/ha 111.905 (0)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.25,
-     "peso": 30,
-     "provas": [
-      "lago/açude"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.35,
-     "peso": 20,
-     "provas": [
-      "casa"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.58,
-     "peso": 10,
-     "provas": [
-      "tranquilo",
-      "reservado"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.9,
-     "peso": 10,
-     "provas": [
-      "escriturado",
-      "CAR/GEO em dia"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [
-      "R$/ha 111.905 (0)"
-     ],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-28T21:09:08+00:00",
-   "last_seen": "2026-08-28T21:09:08+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Casa\", \"documentacao\": \"Escriturado + CAR/GEO em dia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "8ecbf4fa6b1d6fb0",
    "source": "brave",
    "source_id": "",
@@ -5718,132 +5601,6 @@
    "price_drop": null
   },
   {
-   "key": "23546aa472c98565",
-   "source": "olx",
-   "source_id": "1535990776",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/oportunidade-unica-sitio-terreno-de-30-000-m-em-arapei-sp-1535990776",
-   "title": "Oportunidade Única: Sítio/Terreno de 30.000 m² em Arapeí/SP!",
-   "description": "Já imaginou ter um pedaço do paraíso só seu, com espaço de sobra para realizar qualquer projeto? Apresentamos uma excelente propriedade com **30 mil metros quadrados** em Arapeí, ideal para quem busca liberdade, privacidade e contato direto com a natureza.<br><br>### **Destaques do Terreno (30.000 m²)**<br><br>* **Espaço de Sobra:** Com uma área ampla de 30 mil m², você tem total liberdade para projetar a casa de campo dos seus sonhos, criar um pomar, horta orgânica, espaço de lazer com piscina e muito mais.<br>* **Localização Privilegiada:** Situado em Arapeí, um dos municípios mais charmosos e tranquilos do Vale do Paraíba, na região da Serra da Bocaina.<br>* **Natureza Exuberante:** Cercado por muito verde, paisagens montanhosas deslumbrantes e aquele clima serrano revigorante.<br>* **Privacidade e Qualidade de Vida:** Um convite para desacelerar, fugir do estresse dos grandes centros e viver com total segurança, paz e espaço para a família.<br><br>&gt; *?Um verdadeiro refúgio particular, com espaço amplo para criar memórias inesquecíveis e viver em harmonia com o meio ambiente.?*<br><br>### **Por que investir em Arapeí?**<br><br>Arapeí é conhecida por sua hospitalidade, rica história e belezas naturais intocadas. É o destino perfeito para quem busca sossego, turismo ecológico e uma comunidade acolhedora, com a vantagem de disser de uma grande área de terra com alto potencial de valorização.<br><br>---<br><br>? **Não perca essa oportunidade!** Entre em contato agora mesmo para saber mais detalhes sobre valores, condições e agendar uma visita. O seu novo estilo de vida começa aqui!",
-   "price": 200000.0,
-   "price_first": 200000.0,
-   "area_ha": 3.0,
-   "price_per_ha": 66666.67,
-   "municipality": "Arapeí",
-   "uf": "SP",
-   "lat": -22.6738889,
-   "lon": -44.4477778,
-   "image": "https://img.olx.com.br/images/67/674661322354950.jpg",
-   "posted_at": "",
-   "score": 0.259,
-   "reasons": [
-    "casa",
-    "cercado",
-    "piscina",
-    "sossegado",
-    "tranquilo",
-    "preservado",
-    "manejo regenerativo",
-    "frutíferas",
-    "⚠ acidentado",
-    "R$/ha 66.667 (++)",
-    "⚠ 146 km do centro de interesse (---)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.48,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "cercado",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.78,
-     "peso": 10,
-     "provas": [
-      "sossegado",
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.85,
-     "peso": 10,
-     "provas": [
-      "preservado",
-      "manejo regenerativo",
-      "frutíferas"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": [
-      "⚠ acidentado"
-     ]
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 66.667 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ 146 km do centro de interesse (---)"
-     ],
-     "ajuste": -0.15
-    }
-   },
-   "first_seen": "2026-09-16T13:45:20+00:00",
-   "last_seen": "2026-09-16T13:45:20+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 146.0,
-   "destaques": "{\"benfeitorias\": \"Casa + cercado + piscina\", \"solo\": \"Preservado + manejo regenerativo + frutíferas + ⚠ acidentado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": true,
-   "price_drop": null
-  },
-  {
    "key": "9e7eb1c586082704",
    "source": "facebook",
    "source_id": "2935362616828561",
@@ -6306,6 +6063,120 @@
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "00a17cbd5f97e935",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://viverrural.com.br/imoveis/sitio-em-sao-luiz-do-paraitinga-sp/",
+   "title": "Sítio em São Luiz do Paraitinga - 42.768 m2",
+   "description": "Sítio em São Luiz do Paraitinga - 42.768 m2 - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0110 Finalidade: Venda Sítio em São Luiz do Paraitinga &#8211; 42.768 m2 Sítio em São Luiz do Paraitinga, localizado no interior do Estado de São Paulo, Serra do Mar &#8211; Litoral Norte (Ubatuba). Área rural com 4,2 hectares, um quadro em branco para planejar o seu sonho de ter uma casa no campo e ainda ter a opção de desfrutar de belíssimas praias do litoral do Estado, ótima localização. &#8211; Excelente topografia para construções; &#8211; Lago, com um espelho d&#8217;água lindo; &#8211; Local bastante tranquilo e reservado; &#8211; Documentação ok (Escritura com Matrícula, ITR, CCIR, Georreferenciamento e CAR) Valor R$ 470 mil Entre em contato para mais informações WhatsApp 012 99712-6075 CRECI 239129 Área: 42768m² Valor do Imóvel: R$ 470.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que entrassem em contato comigo o mais rápido possível. Obrigado! Enviar formulário Contato Estamos localizados em São Luiz do Paraitinga – SP alessandra@viverrural.com.br Telefone/ WhatsApp Fale conosco (12) 99712-6075 Instagram Facebook Youtube SOLUÇÕES IMOBILIÁRIAS Compra e Venda Locação de Imóveis Permuta de Imóveis Avaliação de Imóveis Consultoria Imobiliária BOLETIM INFORMATIVO Se inscreva e receba novidades sobre Imóveis em geral! Digite seu e-mail Inscrever-se Política de Privacidade Política de Cookies Copyright © 2026 Viver Rural Imobiliária. Todos os direitos reservados. Gostou deste site? Crie o seu com a WhatsApp Call Now Button",
+   "price": 470000.0,
+   "price_first": 470000.0,
+   "area_ha": 4.2,
+   "price_per_ha": 111904.76,
+   "municipality": "",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://viverrural.com.br/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-23-at-10.16.26-1.jpeg",
+   "posted_at": "2024-08-24T11:55:09+00:00",
+   "score": 0.223,
+   "reasons": [
+    "lago/açude",
+    "tranquilo",
+    "reservado",
+    "escriturado",
+    "CAR/GEO em dia",
+    "R$/ha 111.905 (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.58,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "R$/ha 111.905 (0)"
+     ],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-08-28T21:09:08+00:00",
+   "last_seen": "2026-08-28T21:09:08+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude\", \"documentacao\": \"Escriturado + CAR/GEO em dia\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
    "price_drop": null
@@ -7287,123 +7158,6 @@
    "price_drop": null
   },
   {
-   "key": "14c6bf7aa197b502",
-   "source": "facebook",
-   "source_id": "1541656000941963",
-   "url": "https://www.facebook.com/marketplace/item/1541656000941963/",
-   "title": "2 quartos 2 banheiros – Casa",
-   "description": "Chacara Pé na água em Paraibuna SP\nBeira da represa  Capim D’Angola 2\n\nUma oportunidade única para quem busca qualidade de vida, contato com a natureza e um excelente investimento!\n\n📍 Localização: Bairro Capim D’Angola 2 – Paraibuna/SP\nEntrada no segundo pedagio sentido Caraguatatuba \n📐 Área total: 42.000 m²\nPoste de luz novo\n\nImagine acordar com uma vista deslumbrante da represa, cercado por muito verde, tranquilidade e ar puro. Com acesso direto à água, esta propriedade é perfeita para lazer, descanso ou para transformar em uma fonte de renda.\n\n✨ Ideal para:\n• Lazer com a família e amigos\n• Trilhas ecológicas\n• Passeios de quadriciclo\n• Construção de chalés para locação de temporada\n• Criação de peixes\n• Pesca esportiva\n• Turismo rural e ecoturismo\n\n💰 Transforme este paraíso em uma excelente fonte de renda mensal!\n\n🔹 Diferenciais:\n✔ Chácara à beira da represa (pé na água)\n✔ Vista privilegiada e contato direto com a natureza\n✔ Muita privacidade\n✔ O vizinho não possui acesso à estrada que contorna a propriedade\n\n📄 Documentação: Concessão de posse há mais de 40 anos (não possui escritura).\n\n🚗 Aceita permuta: Apartamento em São José dos Campos ou Carro de até R$ 210.000,00 como parte do pagamento. O restante deve ser pago em dinheiro.\n\nSe você procura um lugar para investir, descansar ou empreender em meio à natureza, esta é a oportunidade que estava esperando!",
-   "price": 338000.0,
-   "price_first": 338000.0,
-   "area_ha": 4.2,
-   "price_per_ha": 80476.19,
-   "municipality": "Paraibuna",
-   "uf": "SP",
-   "lat": -23.3864203,
-   "lon": -45.6626797,
-   "image": "",
-   "posted_at": "",
-   "score": 0.119,
-   "reasons": [
-    "menção a loteamento/condomínio",
-    "lago/açude",
-    "cercado",
-    "tranquilo",
-    "preservado",
-    "R$/ha 80.476 (+)",
-    "⚠ 51.2 km do centro de interesse (--)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.25,
-     "peso": 30,
-     "provas": [
-      "lago/açude"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.08,
-     "peso": 20,
-     "provas": [
-      "cercado"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.2,
-     "peso": 10,
-     "provas": [
-      "preservado"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.767,
-     "peso": 0,
-     "provas": [
-      "R$/ha 80.476 (+)"
-     ],
-     "ajuste": 0.08
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.167,
-     "peso": 0,
-     "provas": [
-      "⚠ 51.2 km do centro de interesse (--)"
-     ],
-     "ajuste": -0.1
-    }
-   },
-   "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 51.2,
-   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Cercado\", \"solo\": \"Preservado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "c52a438f4f95f77a",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -7698,6 +7452,235 @@
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
    "destaques": "{\"agua\": \"Rio/riacho\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "14c6bf7aa197b502",
+   "source": "facebook",
+   "source_id": "1541656000941963",
+   "url": "https://www.facebook.com/marketplace/item/1541656000941963/",
+   "title": "2 quartos 2 banheiros – Casa",
+   "description": "Chacara Pé na água em Paraibuna SP\nBeira da represa  Capim D’Angola 2\n\nUma oportunidade única para quem busca qualidade de vida, contato com a natureza e um excelente investimento!\n\n📍 Localização: Bairro Capim D’Angola 2 – Paraibuna/SP\nEntrada no segundo pedagio sentido Caraguatatuba \n📐 Área total: 42.000 m²\nPoste de luz novo\n\nImagine acordar com uma vista deslumbrante da represa, cercado por muito verde, tranquilidade e ar puro. Com acesso direto à água, esta propriedade é perfeita para lazer, descanso ou para transformar em uma fonte de renda.\n\n✨ Ideal para:\n• Lazer com a família e amigos\n• Trilhas ecológicas\n• Passeios de quadriciclo\n• Construção de chalés para locação de temporada\n• Criação de peixes\n• Pesca esportiva\n• Turismo rural e ecoturismo\n\n💰 Transforme este paraíso em uma excelente fonte de renda mensal!\n\n🔹 Diferenciais:\n✔ Chácara à beira da represa (pé na água)\n✔ Vista privilegiada e contato direto com a natureza\n✔ Muita privacidade\n✔ O vizinho não possui acesso à estrada que contorna a propriedade\n\n📄 Documentação: Concessão de posse há mais de 40 anos (não possui escritura).\n\n🚗 Aceita permuta: Apartamento em São José dos Campos ou Carro de até R$ 210.000,00 como parte do pagamento. O restante deve ser pago em dinheiro.\n\nSe você procura um lugar para investir, descansar ou empreender em meio à natureza, esta é a oportunidade que estava esperando!",
+   "price": 338000.0,
+   "price_first": 338000.0,
+   "area_ha": 4.2,
+   "price_per_ha": 80476.19,
+   "municipality": "Paraibuna",
+   "uf": "SP",
+   "lat": -23.3864203,
+   "lon": -45.6626797,
+   "image": "",
+   "posted_at": "",
+   "score": 0.103,
+   "reasons": [
+    "menção a loteamento/condomínio",
+    "lago/açude",
+    "tranquilo",
+    "preservado",
+    "R$/ha 80.476 (+)",
+    "⚠ 51.2 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "preservado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.767,
+     "peso": 0,
+     "provas": [
+      "R$/ha 80.476 (+)"
+     ],
+     "ajuste": 0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 51.2 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-08-17T21:33:31+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 51.2,
+   "destaques": "{\"agua\": \"Lago/açude\", \"solo\": \"Preservado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "23546aa472c98565",
+   "source": "olx",
+   "source_id": "1535990776",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/oportunidade-unica-sitio-terreno-de-30-000-m-em-arapei-sp-1535990776",
+   "title": "Oportunidade Única: Sítio/Terreno de 30.000 m² em Arapeí/SP!",
+   "description": "Já imaginou ter um pedaço do paraíso só seu, com espaço de sobra para realizar qualquer projeto? Apresentamos uma excelente propriedade com **30 mil metros quadrados** em Arapeí, ideal para quem busca liberdade, privacidade e contato direto com a natureza.<br><br>### **Destaques do Terreno (30.000 m²)**<br><br>* **Espaço de Sobra:** Com uma área ampla de 30 mil m², você tem total liberdade para projetar a casa de campo dos seus sonhos, criar um pomar, horta orgânica, espaço de lazer com piscina e muito mais.<br>* **Localização Privilegiada:** Situado em Arapeí, um dos municípios mais charmosos e tranquilos do Vale do Paraíba, na região da Serra da Bocaina.<br>* **Natureza Exuberante:** Cercado por muito verde, paisagens montanhosas deslumbrantes e aquele clima serrano revigorante.<br>* **Privacidade e Qualidade de Vida:** Um convite para desacelerar, fugir do estresse dos grandes centros e viver com total segurança, paz e espaço para a família.<br><br>&gt; *?Um verdadeiro refúgio particular, com espaço amplo para criar memórias inesquecíveis e viver em harmonia com o meio ambiente.?*<br><br>### **Por que investir em Arapeí?**<br><br>Arapeí é conhecida por sua hospitalidade, rica história e belezas naturais intocadas. É o destino perfeito para quem busca sossego, turismo ecológico e uma comunidade acolhedora, com a vantagem de disser de uma grande área de terra com alto potencial de valorização.<br><br>---<br><br>? **Não perca essa oportunidade!** Entre em contato agora mesmo para saber mais detalhes sobre valores, condições e agendar uma visita. O seu novo estilo de vida começa aqui!",
+   "price": 200000.0,
+   "price_first": 200000.0,
+   "area_ha": 3.0,
+   "price_per_ha": 66666.67,
+   "municipality": "Arapeí",
+   "uf": "SP",
+   "lat": -22.6738889,
+   "lon": -44.4477778,
+   "image": "https://img.olx.com.br/images/67/674661322354950.jpg",
+   "posted_at": "",
+   "score": 0.098,
+   "reasons": [
+    "sossegado",
+    "tranquilo",
+    "preservado",
+    "⚠ acidentado",
+    "R$/ha 66.667 (++)",
+    "⚠ 146 km do centro de interesse (---)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.78,
+     "peso": 10,
+     "provas": [
+      "sossegado",
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "preservado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": [
+      "⚠ acidentado"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 66.667 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ 146 km do centro de interesse (---)"
+     ],
+     "ajuste": -0.15
+    }
+   },
+   "first_seen": "2026-09-16T13:45:20+00:00",
+   "last_seen": "2026-09-16T13:45:20+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 146.0,
+   "destaques": "{\"solo\": \"Preservado + ⚠ acidentado\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -8493,7 +8476,7 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
   "pgfn",
   "olx",
