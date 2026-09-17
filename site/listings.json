@@ -1,5 +1,5 @@
 {
- "generated_at": "17/09/2026 às 10:36",
+ "generated_at": "17/09/2026 às 10:48",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -3631,7 +3631,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -4446,6 +4446,119 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "3a8ac1f2d6a4f0b6",
+   "source": "olx",
+   "source_id": "1536342162",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/terreno-a-venda-55189-m-por-r-320-000-00-belem-taubate-sp-1536342162",
+   "title": "Terreno à venda, 55189 m² por R$ 320.000,00 - Belém - Taubaté/SP",
+   "description": "Código do anúncio: TAU953850<br><br>Terreno à Venda na Zona Rural  Fácil Acesso e Excelente Localização!<br><br><br><br>Apresentamos uma excelente oportunidade para quem procura um terreno amplo, com ótima localização e fácil acesso. Situado na área rural, este terreno possui 55.189 m² (5,5 hectares), ideal para empreendimentos agrícolas, construções rurais, lazer ou investimento a longo prazo.<br><br><br><br> Localização Estratégica:<br><br>A apenas 18 km da saída da Rodovia Dutra, com acesso facilitado e estrada em boas condições, garantindo comodidade tanto para transporte de mercadorias quanto para deslocamento diário.<br><br><br><br> Características do Imóvel:<br><br><br><br>Área total: 55.189 m²<br><br><br><br>Topografia favorável<br><br><br><br>Região tranquila e em expansão<br><br><br><br>Potencial para diversas finalidades (agricultura, criação, turismo rural, etc.)<br><br><br><br>Não perca esta oportunidade única de adquirir um terreno espaçoso, com excelente acesso e em uma região com grande potencial de valorização.<br><br><br><br> Entre em contato para mais informações ou agendar uma visita!<br><br><br><br>Mais Informações  CRECI;223452<br>TE2049",
+   "price": 320000.0,
+   "price_first": 320000.0,
+   "area_ha": 5.5189,
+   "price_per_ha": 57982.57,
+   "municipality": "Taubaté",
+   "uf": "SP",
+   "lat": -23.031448,
+   "lon": -45.5612792,
+   "image": "https://img.olx.com.br/images/84/845680689727055.jpg",
+   "posted_at": "",
+   "score": 0.305,
+   "reasons": [
+    "tranquilo",
+    "bom acesso",
+    "boa topografia",
+    "R$/ha 57.983 (++)",
+    "em Taubaté (zona boa)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.3,
+     "peso": 5,
+     "provas": [
+      "boa topografia"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 57.983 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.75,
+     "peso": 0,
+     "provas": [
+      "em Taubaté (zona boa)"
+     ],
+     "ajuste": 0.06
+    }
+   },
+   "first_seen": "2026-09-17T13:48:39+00:00",
+   "last_seen": "2026-09-17T13:48:39+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 29.6,
+   "destaques": "{\"acesso\": \"Bom acesso\", \"solo\": \"Boa topografia\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -6410,7 +6523,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -6753,7 +6866,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -7409,7 +7522,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -8938,16 +9051,15 @@
    "price_drop": null
   }
  ],
- "new_count": 4,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "criterios": {
   "estados": [
    "SP"
