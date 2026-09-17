@@ -310,6 +310,12 @@ sites_alvo:
   - mfrural.com.br
   - chaozao.com.br
   - terrasdamantiqueiraimoveis.com.br
+  # achados em 2026-09-17 (busca web), verificados com anúncios reais:
+  - canarioimoveisrurais.com.br
+  - agro.remax.com.br
+  - faccinbrasil.com
+  - sbsterradourada.com.br
+  - remaxterravale.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
