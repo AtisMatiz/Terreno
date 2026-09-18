@@ -146,6 +146,16 @@ def _hits(text: str, pattern: str) -> int:
             clause = clause[boundary + 1:]
         if re.search(r"\b(constru\w*|projetar|planejar|idealizar|imaginar|sonhar)\b", clause):
             continue
+        # "oferecendo ... possibilidades para moradia, lazer ou investimento"
+        # (real Monteiro Lobato listing, 2026-09-18): "moradia" here is a
+        # zoning/purpose word ("suitable for housing"), not a claim that a
+        # house already stands -- unlike "possui uma moradia", "para
+        # moradia" is specifically the intended-use phrasing, so it gets its
+        # own narrow, adjacent-only check rather than the wider clause scope
+        # above (too many unrelated words can legitimately precede "para" in
+        # a long sentence).
+        if m.group(0).lower() == "moradia" and re.search(r"\bpara\s*$", before):
+            continue
         count += 1
     return count
 
@@ -199,8 +209,11 @@ DIMENSOES: dict[str, dict] = {
             # (?!\s+por) excludes "cercado por vegetação/natureza/mata" --
             # found 2026-09-16 on the same OLX listing as the aspirational
             # fix above ("Natureza Exuberante: Cercado por ..."): there
-            # "cercado" means "surrounded by", not "has a fence".
-            (r"cercad[oa](?!\s+por)|cercas?\b", 8, "cercado"),
+            # "cercado" means "surrounded by", not "has a fence". (?!\s+de\b)
+            # excludes "cerca de 4 km/2 hectares/..." -- found 2026-09-18 on
+            # a real Monteiro Lobato listing: "cerca de" is the extremely
+            # common Portuguese "approximately", not the noun "cerca" (fence).
+            (r"cercad[oa](?!\s+por)|cercas?\b(?!\s+de\b)", 8, "cercado"),
             (r"piscinas?", 5, "piscina"),
         ],
         "negativos": [
