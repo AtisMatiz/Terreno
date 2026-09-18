@@ -1,5 +1,5 @@
 {
- "generated_at": "17/09/2026 às 10:48",
+ "generated_at": "18/09/2026 às 10:09",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4558,7 +4558,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -6752,6 +6752,124 @@
    "price_drop": null
   },
   {
+   "key": "eefb10b0706fa3b1",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://sebastiaoimoveis.com.br/3501/imoveis/venda-sitio-area-rural-de-monteiro-lobato-monteiro-lobato-sp",
+   "title": "Sítio Plano em Monteiro Lobato com água, Natureza e Excelente Localização",
+   "description": "Imagine um lugar onde a tranquilidade da natureza se encontra com o espaço ideal para realizar seus sonhos. Este belíssimo sítio em Monteiro Lobato/SP possui aproximadamente 2 hectares de área totalmente aproveitável, com terreno predominantemente plano, oferecendo inúmeras possibilidades para moradia, lazer ou investimento.Localizado em uma região segura e valorizada, o acesso é fácil, com cerca de 4 km de estrada de terra bem conservada, proporcionando privacidade sem abrir mão da comodidade.…",
+   "price": 370000.0,
+   "price_first": 370000.0,
+   "area_ha": 2.0,
+   "price_per_ha": 185000.0,
+   "municipality": "Monteiro Lobato",
+   "uf": "SP",
+   "lat": -22.9553542,
+   "lon": -45.8387146,
+   "image": "https://www.grupo07brasil.com.br/admin/imovel/mini/20260624T1832410300-77353070.jpg",
+   "posted_at": "",
+   "score": 0.189,
+   "reasons": [
+    "casa",
+    "cercado",
+    "tranquilo",
+    "4 km de terra",
+    "plano",
+    "⚠ R$/ha 185.000 (-)",
+    "em Monteiro Lobato (centro exato)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.43,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": [
+      "4 km de terra"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.5,
+     "peso": 5,
+     "provas": [
+      "plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.233,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 185.000 (-)"
+     ],
+     "ajuste": -0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "em Monteiro Lobato (centro exato)"
+     ],
+     "ajuste": 0.13
+    }
+   },
+   "first_seen": "2026-09-18T13:09:45+00:00",
+   "last_seen": "2026-09-18T13:09:45+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 0.0,
+   "destaques": "{\"benfeitorias\": \"Casa + cercado\", \"acesso\": \"4 km de terra\", \"solo\": \"Plano\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "1f8b070d4d5ed38f",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -7412,6 +7530,118 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false
+  },
+  {
+   "key": "e2faa65518c04cdd",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://sebastiaoimoveis.com.br/3503/imoveis/venda-sitio-area-rural-de-monteiro-lobato-monteiro-lobato-sp",
+   "title": "Sítio com Vista linda em Monteiro Lobato com escritura",
+   "description": "Sítio de 2 Hectares com Vista Panorâmica na Serra da MantiqueiraOportunidade de Investimento e Qualidade de Vida em Monteiro Lobato/SPSe você procura uma propriedade diferenciada, cercada pela natureza, com documentação regularizada e grande potencial de valorização, esta é uma excelente oportunidade.Localizado em Monteiro Lobato/SP, em uma das regiões mais bonitas da Serra da Mantiqueira, este sítio possui 20.000 m² de área total (equivalente a 2 hectares) e oferece uma vista ampla e permanente…",
+   "price": 387000.0,
+   "price_first": 387000.0,
+   "area_ha": 2.0,
+   "price_per_ha": 193500.0,
+   "municipality": "Monteiro Lobato",
+   "uf": "SP",
+   "lat": -22.9553542,
+   "lon": -45.8387146,
+   "image": "https://www.grupo07brasil.com.br/admin/imovel/mini/20260624T1919410300-402337493.jpg",
+   "posted_at": "",
+   "score": 0.161,
+   "reasons": [
+    "cercado",
+    "escriturado",
+    "documentação em dia",
+    "⚠ R$/ha 193.500 (-)",
+    "em Monteiro Lobato (centro exato)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.08,
+     "peso": 20,
+     "provas": [
+      "cercado"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.95,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "documentação em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.233,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 193.500 (-)"
+     ],
+     "ajuste": -0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "em Monteiro Lobato (centro exato)"
+     ],
+     "ajuste": 0.13
+    }
+   },
+   "first_seen": "2026-09-18T13:09:45+00:00",
+   "last_seen": "2026-09-18T13:09:45+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 0.0,
+   "destaques": "{\"benfeitorias\": \"Cercado\", \"documentacao\": \"Escriturado + documentação em dia\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
   },
   {
    "key": "7d904646439e8d1c",
@@ -9051,15 +9281,16 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 2,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "criterios": {
   "estados": [
    "SP"
