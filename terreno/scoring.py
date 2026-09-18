@@ -109,14 +109,19 @@ def _hits(text: str, pattern: str) -> int:
     com piscina e muito mais" scored a house and pool that don't exist.
     "projetar" governs a whole comma-separated wish list rather than
     sitting right next to the one noun it modifies -- "piscina" alone is
-    ~90 chars past it. So this clause uses a wider, clause-scoped window
-    (back to the nearest sentence boundary, capped at 160 chars) and looks
-    for the trigger anywhere in it, not just adjacent. "criar" itself is
-    deliberately left out of the trigger list despite appearing in this
-    same ad ("criar um pomar") -- it is also how a legitimate listing says
-    "área para criar gado" (raising cattle), and clause-scoping that verb
-    would wrongly suppress a real "casa sede" or "curral" mentioned later
-    in the same sentence.
+    ~90 chars past it. So this and the "constru*" clause above (merged in
+    here 2026-09-18 for the same reason -- a real Monteiro Lobato listing
+    had "o terreno plano permite a construção de uma bela casa de campo,
+    área gourmet, piscina, quadra de futebol, playground, pomar, horta"
+    scoring Casa from ~45 chars past "construção", past the old ",25}$"
+    window) use a wider, clause-scoped window (back to the nearest
+    sentence boundary, capped at 160 chars) and look for the trigger
+    anywhere in it, not just adjacent. "criar" itself is deliberately left
+    out of the trigger list despite appearing in the first ad above
+    ("criar um pomar") -- it is also how a legitimate listing says "área
+    para criar gado" (raising cattle), and clause-scoping that verb would
+    wrongly suppress a real "casa sede" or "curral" mentioned later in the
+    same sentence.
     """
     count = 0
     for m in re.finditer(pattern, text):
@@ -127,13 +132,11 @@ def _hits(text: str, pattern: str) -> int:
                      r"quero em troca|aceita|aceito|aceitamos)\s*(?:por|com|de)?\s*[\w\s]{0,18}$",
                      before):
             continue
-        if re.search(r"\bconstru\w*\s+[\w\s,]{0,25}$", before):
-            continue
         clause = text[max(0, m.start() - 160):m.start()]
         boundary = max(clause.rfind("."), clause.rfind("!"), clause.rfind("?"))
         if boundary != -1:
             clause = clause[boundary + 1:]
-        if re.search(r"\b(projetar|planejar|idealizar|imaginar|sonhar)\b", clause):
+        if re.search(r"\b(constru\w*|projetar|planejar|idealizar|imaginar|sonhar)\b", clause):
             continue
         count += 1
     return count
