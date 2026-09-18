@@ -206,14 +206,15 @@ DIMENSOES: dict[str, dict] = {
             (r"currais?|estabulo|mangueira", 20, "curral"),
             (r"galpoes?|galpao|barracao|paiol", 20, "galpão"),
             (r"energia|luz eletrica|rede eletrica|trifasic|monofasic", 18, "energia"),
-            # (?!\s+por) excludes "cercado por vegetação/natureza/mata" --
-            # found 2026-09-16 on the same OLX listing as the aspirational
-            # fix above ("Natureza Exuberante: Cercado por ..."): there
-            # "cercado" means "surrounded by", not "has a fence". (?!\s+de\b)
-            # excludes "cerca de 4 km/2 hectares/..." -- found 2026-09-18 on
-            # a real Monteiro Lobato listing: "cerca de" is the extremely
-            # common Portuguese "approximately", not the noun "cerca" (fence).
-            (r"cercad[oa](?!\s+por)|cercas?\b(?!\s+de\b)", 8, "cercado"),
+            # (?!\s+(?:por|pel[oa]s?)\b) excludes "cercado por"/"cercada
+            # pela" natureza/vegetação/mata -- found 2026-09-16 (por) and
+            # 2026-09-18 (pela, a different Monteiro Lobato listing than the
+            # one below) on real listings: there "cercado" means "surrounded
+            # by", not "has a fence". (?!\s+de\b) excludes "cerca de 4
+            # km/2 hectares/..." -- found 2026-09-18 on a real Monteiro
+            # Lobato listing: "cerca de" is the extremely common Portuguese
+            # "approximately", not the noun "cerca" (fence).
+            (r"cercad[oa](?!\s+pel[oa]s?\b)(?!\s+por\b)|cercas?\b(?!\s+de\b)", 8, "cercado"),
             (r"piscinas?", 5, "piscina"),
         ],
         "negativos": [
