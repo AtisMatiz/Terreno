@@ -310,6 +310,13 @@ sites_alvo:
   - mfrural.com.br
   - chaozao.com.br
   - terrasdamantiqueiraimoveis.com.br
+  # achados em 2026-09-21 (busca web), verificados com anúncios reais:
+  - refugiorural.com.br
+  - francaimobiliaria.com.br
+  - campobrasilimoveis.com.br
+  - muratoriimoveis.com.br
+  - alexandreimoveis.com.br
+  - valtergoncalvesimobiliaria.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
