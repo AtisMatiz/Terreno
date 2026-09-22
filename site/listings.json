@@ -1,5 +1,5 @@
 {
- "generated_at": "22/09/2026 às 10:35",
+ "generated_at": "22/09/2026 às 10:45",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -6260,6 +6260,124 @@
    "price_drop": null
   },
   {
+   "key": "3fecde8f96d8a0ee",
+   "source": "olx",
+   "source_id": "1447972331",
+   "url": "https://sp.olx.com.br/sao-paulo-e-regiao/terrenos/lote-terreno-para-venda-tem-21132-metros-quadrados-1447972331",
+   "title": "Lote/Terreno para venda tem 21132 metros quadrados",
+   "description": "Código do anúncio: 255EF18D<br><br>Terrenos para Sítio ou Chácara - A 1,5km da Rodovia Mogi-Bertioga - Região com Cachoeira<br><br>Terrenos Grandes (Glebas) à Venda em Mogi das Cruzes  Próximo à Rodovia Mogi-Bertioga<br><br>Está procurando terreno em Mogi das Cruzes para sítio, chácara, investimento ou lazer?<br>Temos 3 glebas exclusivas, localizadas a apenas 1,5 km da Rodovia Mogi-Bertioga, em uma região com excelente infraestrutura, natureza exuberante e fácil acesso.<br><br> Detalhes das áreas disponíveis:<br><br>Gleba 1: 2,1817 hectares ( 21.817 m²)   R$ 327.255,00<br><br>Gleba 2: 2,1817 hectares ( 21.817 m²)   R$ 327.255,00<br><br>Gleba 3: 2,1132 hectares ( 21.132 m²)   R$ 316.980,00<br><br>Valor por m²: R$ 15,00<br>Negociação direta com o proprietário!<br>Sem intermediários, sem burocracia e com toda a documentação em dia.<br><br>Destaques da localização:<br>Apenas 1,5 km da Rodovia Mogi-Bertioga<br>Região com represa próxima, mirantes, cachoeiras e trilhas ecológicas<br>Área com energia elétrica, estrada de fácil acesso e infraestrutura próxima<br>Ideal para quem busca tranquilidade, contato com a natureza e valorização imobiliária<br><br>Perfeito para:<br><br>Construir sítio ou chácara de lazer<br><br>Criar empreendimento turístico ou ecológico<br><br>Fazer investimento em área rural com excelente potencial de valorização<br><br> Entre em contato e agende sua visita!<br>Cézar Augusto  CRECISP: 293435-F<br> 11915082617<br><br><br>terreno em mogi das cruzes, gleba à venda mogi das cruzes, terreno barato mogi das cruzes, terreno rural mogi das cruzes, sítio em mogi das cruzes, área para investimento mogi das cruzes, terreno próximo à rodovia mogi bertioga, terreno direto com proprietário, gleba barata sp.",
+   "price": 316980.0,
+   "price_first": 316980.0,
+   "area_ha": 2.1132,
+   "price_per_ha": 150000.0,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "https://img.olx.com.br/images/84/843672084839060.jpg",
+   "posted_at": "",
+   "score": 0.207,
+   "reasons": [
+    "lago/açude",
+    "cachoeira",
+    "energia",
+    "tranquilo",
+    "bom acesso",
+    "documentação em dia",
+    "⚠ R$/ha 150.000 (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.45,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "cachoeira"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.18,
+     "peso": 20,
+     "provas": [
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.35,
+     "peso": 10,
+     "provas": [
+      "documentação em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.233,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 150.000 (-)"
+     ],
+     "ajuste": -0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-22T13:45:08+00:00",
+   "last_seen": "2026-09-22T13:45:08+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude + cachoeira\", \"benfeitorias\": \"Energia\", \"acesso\": \"Bom acesso\", \"documentacao\": \"Documentação em dia\"}",
+   "estrelas": "[\"Cachoeira\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "8367960414ca38c4",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -9218,16 +9336,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "criterios": {
   "estados": [
    "SP"
