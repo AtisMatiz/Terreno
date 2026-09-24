@@ -1,5 +1,5 @@
 {
- "generated_at": "23/09/2026 às 10:49",
+ "generated_at": "24/09/2026 às 10:42",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -633,6 +633,147 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "d4ddd132f18f48d9",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=49",
+   "title": "Padrão em , Jacareí",
+   "description": "Sítio Exclusivo de 6 Hectares em Jacareí/SP com 8 Nascentes – Ideal para Haras ou Casa de Campo!\r\nSe você busca tranquilidade, contato direto com a natureza e localização privilegiada, este sítio em Jacareí é a oportunidade perfeita! Com topografia 100% plana e um recurso hídrico invejável, esta propriedade é altamente vocacionada para a implantação de um haras de alto padrão, uma belíssima casa de campo ou empreendimento de lazer.\r\nCARACTERÍSTICAS E BENFEITORIAS DA PROPRIEDADE\r\n\r\nCasa Sede Aconchegante: Ampla e arejada, composta por 4 dormitórios (sendo 3 suítes confortáveis), sala de estar espaçosa, cozinha, banheiro social e uma varanda deslumbrante, perfeita para relaxar e apreciar a vista.\r\nLazer Completo para Toda a Família:\r\n\r\nPiscina privativa para os dias de sol.\r\nLago para pesca recreativa.\r\nCampo de futebol para momentos inesquecíveis com amigos e família.\r\n\r\nInfraestrutura de Apoio: Casa de caseiro independente e infraestrutura pronta para manejo.\r\n\r\nRECURSOS NURAIS E TOPOGRAFIA DISSOCIADA\r\n\r\nÁrea Total: 6 hectares ($60.000 \\, m^2$) de pura natureza.\r\nTopografia Plano: Terreno excelente, facilitando construções, piquetes para cavalos ou cultivos.\r\nPotencial Hídrico Privilegiado: Impressionantes 8 nascentes naturais, córregos cristalinos e lagos próprios dentro da propriedade.\r\n\r\nLOCALIZAÇÃO E LOGÍSTICA ESTRATÉGICA\r\nLocalizado no município de Jacareí/SP, próximo à Rodovia Carvalho Pinto, oferecendo fácil acesso à capital paulista e ao Vale do Paraíba:\r\n\r\nApenas 8 km do Centro de Jacareí.\r\nSomente 2 km de estrada de terra bem conservada.\r\n\r\nDOCUMENTAÇÃO E CONDIÇÕES DE NEGOCIAÇÃO\r\n\r\nDocumentação 100% Ok: Possui Escritura.\r\nValor de Investimento: R$ 1.350.000,00\r\nCondições Facilitadas: Estuda propostas e permuta por imóveis de menor valor. Condições de pagamento a combinar.\r\n\r\nEntre em contato agora mesmo e agende sua visita! Não perca esta oportunidade única de ter seu refúgio particular com abundância de água e infraestrutura completa.",
+   "price": 1350000.0,
+   "price_first": 1350000.0,
+   "area_ha": 6.0,
+   "price_per_ha": 225000.0,
+   "municipality": "Jacareí",
+   "uf": "SP",
+   "lat": -23.3050682,
+   "lon": -45.9723075,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_b6f1fd7238251dc0e85d33e8e12d16ea.jpg",
+   "posted_at": "",
+   "score": 0.538,
+   "reasons": [
+    "rio/riacho",
+    "lago/açude",
+    "água abundante",
+    "8 nascentes",
+    "casa sede",
+    "casa de caseiro",
+    "piscina",
+    "tranquilo",
+    "bom acesso",
+    "2 km de terra",
+    "8 km da cidade",
+    "escriturado",
+    "plano",
+    "100% plano",
+    "⚠ R$/ha 225.000 (--)",
+    "⚠ preço R$ 1.350.000 (> R$ 1 milhão)",
+    "⚠ 41.2 km do centro de interesse (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "rio/riacho",
+      "lago/açude",
+      "água abundante",
+      "8 nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "casa de caseiro",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 1.0,
+     "peso": 15,
+     "provas": [
+      "bom acesso",
+      "2 km de terra",
+      "8 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 1.0,
+     "peso": 5,
+     "provas": [
+      "plano",
+      "100% plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 225.000 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.350.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ 41.2 km do centro de interesse (-)"
+     ],
+     "ajuste": -0.05
+    }
+   },
+   "first_seen": "2026-09-24T13:42:50+00:00",
+   "last_seen": "2026-09-24T13:42:50+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 41.2,
+   "destaques": "{\"agua\": \"Rio/riacho + lago/açude + água abundante + 8 nascentes\", \"benfeitorias\": \"Casa sede + casa de caseiro + piscina\", \"acesso\": \"Bom acesso + 2 km de terra + 8 km da cidade\", \"documentacao\": \"Escriturado\", \"solo\": \"Plano + 100% plano\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -9336,7 +9477,7 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
   "imobiliaria_crawl"
  ],
@@ -9344,7 +9485,6 @@
   "arboimoveis.com.br: bloqueado",
   "imovelweb.com.br: bloqueado",
   "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
   "zukerman.com.br: bloqueado"
  ],
  "criterios": {
