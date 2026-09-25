@@ -1,5 +1,5 @@
 {
- "generated_at": "24/09/2026 às 10:51",
+ "generated_at": "25/09/2026 às 10:53",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -374,6 +374,131 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "794c988d677d636e",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=48",
+   "title": "Padrão em , Natividade da Serra",
+   "description": "Excelente Sítio à Venda em Natividade da Serra/SP | 2 Alqueires com Lagos e Mina d’Água\r\nSe você procura um refúgio com tranquilidade, água abundante e excelente acesso no Vale do Paraíba, este sítio em Natividade da Serra é a oportunidade ideal. Com uma área total de 48.400 m² (2 alqueires) e topografia média/baixa muito aproveitável, a propriedade reúne todas as qualidades para moradia, lazer de final de semana ou pequena criação de animais.\r\nDestaques e Recursos do Imóvel\r\n\r\nRecursos Hídricos Excepcionais: Água pura de mina de altíssima qualidade abastecendo a propriedade e 2 lindos lagos, perfeitos para contemplação, pesca ou projeto de aquicultura.\r\nÁrea Externa e Natureza: Amplo gramado formado, pasto pronto e pomar diversificado com diversas árvores frutíferas já produzindo.\r\nCasa Sede Aconchegante: Residência espaçosa e funcional composta por:\r\n\r\n02 dormitórios amplos\r\n02 salas aconchegantes\r\nCozinha bem distribuída\r\nBanheiro social\r\nAmpla varanda coberta (ideal para momentos de descanso em família)\r\nÁrea de serviço separada\r\n\r\n\r\nLocalização e Logística Privilegiada\r\nLocalizado em Natividade da Serra/SP, o sítio fica a apenas 15 km da Rodovia dos Tamoios, garantindo um acesso rápido, prático e seguro tanto para quem vem de São José dos Campos e São Paulo quanto para quem deseja esticar o passeio até o Litoral Norte.\r\nInformações Financeiras e Documentação\r\n\r\nValor de Investimento: R$ 440.000,00 (Estuda propostas)\r\nCondições de Pagamento: A combinar\r\nDocumentação: Escritura Ok!\r\n\r\nAgende sua visita e venha conhecer de perto esse refúgio no Vale do Paraíba!\r\nEntre em contato para mais detalhes ou para enviar sua proposta.",
+   "price": 440000.0,
+   "price_first": 440000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 90909.09,
+   "municipality": "Natividade da Serra",
+   "uf": "SP",
+   "lat": -23.3783786,
+   "lon": -45.4438173,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_85c44f76de4f7b3d0391d35e9f1619b3.jpg",
+   "posted_at": "",
+   "score": 0.558,
+   "reasons": [
+    "mina d'água",
+    "lago/açude",
+    "água abundante",
+    "água de qualidade",
+    "casa sede",
+    "tranquilo",
+    "frutíferas",
+    "escriturado",
+    "R$/ha 90.909 (+)",
+    "⚠ 62 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "mina d'água",
+      "lago/açude",
+      "água abundante",
+      "água de qualidade"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.85,
+     "peso": 20,
+     "provas": [
+      "casa sede"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.767,
+     "peso": 0,
+     "provas": [
+      "R$/ha 90.909 (+)"
+     ],
+     "ajuste": 0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 62 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-09-25T13:53:59+00:00",
+   "last_seen": "2026-09-25T13:53:59+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 62.0,
+   "destaques": "{\"agua\": \"Mina d'água + lago/açude + água abundante + água de qualidade\", \"benfeitorias\": \"Casa sede\", \"documentacao\": \"Escriturado\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -1015,6 +1140,144 @@
    "notificavel": 1,
    "imagem_analise": null,
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "6efae2b96d93ab9d",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=147",
+   "title": "Padrão em , Santa Branca",
+   "description": "Chácara à Venda em Santa Branca - SP com 21.389 m², Topografia Plana e Fundo para o Rio Paraíba\r\nPropriedade rural com 3 suítes, pomar formado e excelente potencial para moradia, lazer ou empreendimento gastronômico.\r\nDescrição do Imóvel\r\nSe você procura um refúgio rural completo no Vale do Paraíba, com água abundante, excelente acesso e estrutura pronta, esta chácara em Santa Branca - SP é a escolha ideal.\r\nCom uma área total de 21.389,72 m² e topografia 100% plana, o imóvel combina o sossego da natureza com a praticidade de estar a apenas 3 km do centro da cidade, com acesso totalmente asfaltado.\r\nEstrutura Residencial e Benfeitorias\r\n\r\nCasa Sede: Toda equipada com piso frio e forro, oferecendo aconchego e fácil manutenção. Conta com 03 suítes amplas, sala de estar integrativa, copa, cozinha espaçosa e uma charmosa varanda perimetral perfeita para momentos de descanso.\r\nCasa de Caseiro: Estrutura independente, ideal para suporte, gestão da propriedade ou acomodação de funcionários.\r\nPomar Formado: Diversidade de árvores frutíferas em produção, trazendo o verdadeiro clima de vida no campo.\r\n\r\nRecursos Hídricos e Potencial de Uso\r\nA propriedade destaca-se pelo seu elevado potencial hídrico, contando com cacimba e divisa nos fundos com o Rio Paraíba do Sul. Essa característica torna a chácara extremamente versátil, com aptidão testada para:\r\n\r\nMoradia: Qualidade de vida e privacidade com acesso rápido ao comércio local.\r\nLazer Familiar: Espaço de sobra para construção de área gourmet, piscina ou quadras.\r\nEmpreendimento Comercial / Restaurante Rural: Excelente localização próxima ao asfalto, topografia plana e apelo natural à beira-rio, perfeitos para atrair o turismo regional.\r\n\r\nInformações Técnicas e Comerciais\r\n\r\nÁrea Total: 21.389,72 m²\r\nLogística: 3 km do centro e do asfalto\r\nDocumentação: Escritura registrada\r\nValor de Investimento: R$ 1.680.000,00\r\nCondições de Pagamento: A combinar",
+   "price": 1680000.0,
+   "price_first": 1680000.0,
+   "area_ha": 2.1389,
+   "price_per_ha": 785450.47,
+   "municipality": "Santa Branca",
+   "uf": "SP",
+   "lat": -23.3974353,
+   "lon": -45.8842294,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_8887a264f3bedd836d21bbe6bd471d11.jpg",
+   "posted_at": "",
+   "score": 0.51,
+   "reasons": [
+    "rio/riacho",
+    "água abundante",
+    "casa sede",
+    "casa de caseiro",
+    "sossegado",
+    "tranquilo",
+    "asfalto",
+    "3 km da cidade",
+    "frutíferas",
+    "escriturado",
+    "plano",
+    "100% plano",
+    "⚠ R$/ha 785.450 (--)",
+    "⚠ preço R$ 1.680.000 (> R$ 1 milhão)",
+    "⚠ 49.4 km do centro de interesse (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.675,
+     "peso": 30,
+     "provas": [
+      "rio/riacho",
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "casa de caseiro"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.78,
+     "peso": 10,
+     "provas": [
+      "sossegado",
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 1.0,
+     "peso": 15,
+     "provas": [
+      "asfalto",
+      "3 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 1.0,
+     "peso": 5,
+     "provas": [
+      "plano",
+      "100% plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 785.450 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.680.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ 49.4 km do centro de interesse (-)"
+     ],
+     "ajuste": -0.05
+    }
+   },
+   "first_seen": "2026-09-25T13:53:59+00:00",
+   "last_seen": "2026-09-25T13:53:59+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 49.4,
+   "destaques": "{\"agua\": \"Rio/riacho + água abundante\", \"benfeitorias\": \"Casa sede + casa de caseiro\", \"acesso\": \"Asfalto + 3 km da cidade\", \"documentacao\": \"Escriturado\", \"solo\": \"Frutíferas + plano + 100% plano\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -2312,7 +2575,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -2671,6 +2934,148 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "11d2864ff0902699",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=50",
+   "title": "Padrão em , São José dos Campos",
+   "description": "Sítio à Venda em São José dos Campos/SP – 2 Alqueires com Nascente e 3 Casas\r\nProcurando o equilíbrio perfeito entre a tranquilidade da vida no campo e a conveniência da cidade? Este lindo sítio de 2 alqueires paulistas (48.400 m²) no município de São José dos Campos/SP é a oportunidade ideal para quem busca lazer, moradia multifamiliar ou produção rural de alta rentabilidade.\r\nCom localização privilegiada, excelente infraestrutura e recursos naturais abundantes, a propriedade já está pronta para uso imediato!\r\nLocalização &amp;amp; Acesso Estratégico\r\n\r\nMunicípio: São José dos Campos – SP (Vale do Paraíba).\r\nAcesso: Apenas 5 km do asfalto e a 20 minutos do centro da cidade.\r\nCombinação rara de privacidade e acesso rápido a todos os serviços urbanos, hospitais, comércios e escolas.\r\n\r\nAptidão &amp;amp; Potencial de Uso\r\nA propriedade possui topografia Semi-plana, o que facilita muito o manejo, construções adicionais e o cultivo. É um imóvel extremamente versátil, com aptidão testada para:\r\n\r\nSítio de Lazer / Refúgio Familiar: Espaço de sobra para reunir toda a família com conforto e privacidade.\r\nPecuária / Criação: Excelente estrutura para criação de vacas leiteiras ou pequenos animais.\r\nAgricultura / Hortifrúti: Solo fértil e topografia favorável para produção de hortaliças, orgânicos ou cultivo variado.\r\n\r\nRecursos Hídricos &amp;amp; Infraestrutura Completa\r\n\r\nPotencial Hídrico: Água de nascente na propriedade (água pura e abundante o ano todo).\r\nCasas: 03 boas casas estruturadas, ideais para residência principal, hóspedes ou caseiro.\r\nEstrutura Rural: Estábulo pronto para manejo de animais.\r\nLazer &amp;amp; Paisagismo: Pomar formado com variadas árvores frutíferas e ambiente muito bem cuidado.\r\n\r\nDocumentação &amp;amp; Condições Comerciais\r\n\r\nÁrea Total: 2 Alqueires Paulistas (~4,84 hectares).\r\nDocumentação: Escritura registrada (atualmente em fase final de inventário).\r\nValor de Investimento: R$ 1.060.000,00 (Estuda propostas!).\r\nCondições de Pagamento: A combi",
+   "price": 1060000.0,
+   "price_first": 1060000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 219008.26,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_ca98f082476e6a8c72ef8b11d8fb9f83.jpg",
+   "posted_at": "",
+   "score": 0.395,
+   "reasons": [
+    "nascente",
+    "água de qualidade",
+    "mais de uma casa",
+    "curral",
+    "tranquilo",
+    "perto da cidade",
+    "20 min da cidade",
+    "terra boa/fértil",
+    "manejo regenerativo",
+    "frutíferas",
+    "escriturado",
+    "⚠ pendência judicial",
+    "plano",
+    "boa topografia",
+    "⚠ R$/ha 219.008 (--)",
+    "⚠ preço R$ 1.060.000 (> R$ 1 milhão)",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.525,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "água de qualidade"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "mais de uma casa",
+      "curral"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.4,
+     "peso": 15,
+     "provas": [
+      "perto da cidade",
+      "20 min da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 1.0,
+     "peso": 10,
+     "provas": [
+      "terra boa/fértil",
+      "manejo regenerativo",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.1,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "⚠ pendência judicial"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.8,
+     "peso": 5,
+     "provas": [
+      "plano",
+      "boa topografia"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 219.008 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.060.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-25T13:53:59+00:00",
+   "last_seen": "2026-09-25T13:53:59+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + água de qualidade\", \"benfeitorias\": \"Mais de uma casa + curral\", \"acesso\": \"Perto da cidade + 20 min da cidade\", \"documentacao\": \"Escriturado + ⚠ pendência judicial\", \"solo\": \"Terra boa/fértil + manejo regenerativo + frutíferas + plano\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -4654,7 +5059,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -9705,15 +10110,17 @@
    "price_drop": null
   }
  ],
- "new_count": 2,
+ "new_count": 3,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "criterios": {
   "estados": [
    "SP"
