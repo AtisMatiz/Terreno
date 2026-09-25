@@ -2,8 +2,14 @@
 
 Two interchangeable backends, in this order:
 
-  1. Apify actor, while the free monthly credit lasts. Guarded twice: against
-     Apify's own reported limits and against our local ledger.
+  1. Apify actor (curious_coder/facebook-marketplace since 2026-09-25 --
+     switched from apify/facebook-marketplace-scraper after a cost/quality
+     comparison of every Facebook Marketplace actor on the Apify store: same
+     underlying Facebook data, ~8x cheaper per item with details
+     ($0.0015 vs $0.0124), better rating (4.92★ vs 3.93★) and a lower recent
+     failure rate despite far higher run volume. See git history for the
+     full comparison), while the free monthly credit lasts. Guarded twice:
+     against Apify's own reported limits and against our local ledger.
   2. Local Playwright with a burner account's cookies, for anything the actor
      cannot reach (member-only groups) and for when the credit runs out.
 
@@ -37,60 +43,40 @@ NAME = "facebook"
 RESOURCE = "apify_usd"
 APIFY_RUN = "https://api.apify.com/v2/acts/{actor}/run-sync-get-dataset-items"
 APIFY_LIMITS = "https://api.apify.com/v2/users/me/limits"
-DEFAULT_ACTOR = os.getenv("APIFY_FB_ACTOR", "apify~facebook-marketplace-scraper")
+DEFAULT_ACTOR = os.getenv("APIFY_FB_ACTOR", "curious_coder~facebook-marketplace")
 
 # The actor's real input schema, read from
-# https://api.apify.com/v2/acts/apify~facebook-marketplace-scraper/builds/default
+# https://api.apify.com/v2/acts/curious_coder~facebook-marketplace/builds/default
 # (public, no token needed — re-read it before ever changing this payload):
 #
-#     required:  startUrls  (array of {"url": ...}), each matching
-#                ^https?://www\.facebook\.com/marketplace/.*
-#     optional:  resultsLimit (int, min 1), includeListingDetails (bool)
+#     optional:  urls (array of URL strings -- search or item pages),
+#                getListingDetails (bool, default true), getAllListingPhotos
+#                (bool, default true), maxPagesPerUrl (int, min 1)
 #
-# The payload sent until 2026-08-11 (`search`/`maxItems`/`country`) matched none
-# of those, which is why every call came back
-# `400 Input is not valid: Field input.startUrls is required`. The error message
-# names the offending field, so it is a cheap thing to re-derive rather than
-# guess at.
+# No `resultsLimit`/item cap of any kind: this actor is paged by *search
+# pages*, not a flat item count, unlike the previous apify/facebook-
+# marketplace-scraper. `maxPagesPerUrl` below is a coarse, page-based soft
+# cap for that reason; `maxTotalChargeUsd` (see below) is what actually
+# bounds real spend regardless of how many items one page turns out to hold.
 MAX_START_URLS = int(os.getenv("APIFY_FB_MAX_URLS", "6"))
 
-# Pay-per-result: the actor's README states $5 per 1000 items, i.e. $0.005 an
-# item -- but that's only the flat per-result line item, and the account's
-# own Run history (console.apify.com, checked 2026-08-24, resultsLimit=30)
-# shows the real rate is higher once compute units and proxy usage are
-# included: 8 real runs totaled 404 billed items for $5.00, i.e. ~$0.0124 an
-# item -- 2.5x the README's headline rate. That real ratio is where
-# `USD_POR_ITEM` below comes from now, not the README.
-#
-# Rather than keep re-deriving "how many items is safe" from that ratio,
-# `maxTotalChargeUsd` (a run-level API parameter, not an actor input --
-# https://docs.apify.com/api/v2/act-run-sync-get-dataset-items-post) caps the
-# run's real dollar cost directly, enforced by Apify itself regardless of
-# which of its billing components (proxy, compute, per-result) end up
-# driving the total. That's the actual fix for "ran out early"; resultsLimit
-# below is now just a secondary, soft cap in the same direction.
-USD_POR_ITEM = 0.0124
+# Pay-per-event pricing (read from the same builds/default endpoint above,
+# 2026-09-25): $0.0005/listing (search-result event) + $0.001/listing (detail
+# event, needed for the description text scoring depends on) = $0.0015/item
+# with details -- ~8.3x cheaper than the previous actor's real $0.0124/item
+# (see git history for the full actor comparison this switch came out of).
+# Kept as a named constant rather than inlined so a future price change is a
+# one-line diff, same as before.
+USD_POR_ITEM = 0.0015
 MAX_CHARGE_USD_POR_RUN = float(os.getenv("APIFY_FB_MAX_CHARGE_USD", "0.15"))
 EST_USD_PER_RUN = MAX_CHARGE_USD_POR_RUN
 
-# `resultsLimit` is **per start URL**, not per run -- derived from the same
-# Run history: at resultsLimit=30 with 2 start URLs, real runs returned 44-54
-# items, impossible under a per-run reading (<=30) and consistent with a
-# per-URL one (<=60). So the run's total item budget has to be divided by the
-# number of URLs, or the charge cap and the item cap disagree by exactly that
-# factor -- `maxTotalChargeUsd` would then hard-truncate the run partway
-# through, and since the actor works the URLs in order, the later cities
-# would be the ones silently starved. `_results_limit()` does that division;
-# `APIFY_FB_RESULTS` still overrides it outright (and is then taken as the
-# literal per-URL value the actor receives).
-_RESULTS_OVERRIDE = os.getenv("APIFY_FB_RESULTS", "").strip()
-
-
-def _results_limit(n_urls: int) -> int:
-    if _RESULTS_OVERRIDE:
-        return max(1, int(_RESULTS_OVERRIDE))
-    itens_por_run = MAX_CHARGE_USD_POR_RUN / USD_POR_ITEM
-    return max(1, round(itens_por_run / max(1, n_urls)))
+# Pages, not items -- see the input-schema comment above. One page per URL
+# keeps a run's item count (and therefore its real cost) roughly
+# proportional to the number of start URLs regardless of how full Facebook's
+# own search pages are; `maxTotalChargeUsd` is still the actual hard stop.
+# `APIFY_FB_PAGINAS` overrides it outright.
+MAX_PAGINAS_POR_URL = int(os.getenv("APIFY_FB_PAGINAS", "1"))
 
 # Descriptions are not a nice-to-have here: scoring reads water, area and
 # building evidence out of the listing text (terreno/scoring.py), and a
@@ -98,6 +84,18 @@ def _results_limit(n_urls: int) -> int:
 # without details most results would be filtered out as unparseable and the
 # credit spent on them wasted. Costs more per item, hence the override.
 INCLUDE_DETAILS = os.getenv("APIFY_FB_DETALHES", "1") not in ("0", "false", "False")
+
+# Listing has exactly one `image` field, so fetching every photo (this
+# actor's own default) buys nothing here -- only the first is ever read (see
+# `_from_apify` below). Off by default; `getListingDetails` already covers
+# the field this pipeline actually needs (description).
+GET_ALL_PHOTOS = os.getenv("APIFY_FB_TODAS_FOTOS", "0") not in ("0", "false", "False")
+
+# The `cookies` input is never set: it exists only to populate the seller's
+# name (Listing has no such field, so there is nothing to gain), and it is
+# the one field this particular actor gates behind a Facebook login session
+# -- unlike the Playwright backend below, which has no cookie-free path at
+# all and exists specifically to carry a burner account's cookies.
 
 
 def fetch(criteria, store, budgets) -> list[Listing]:
@@ -131,11 +129,11 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         return []
 
     cap = float(budgets.get("apify_usd_por_mes", 5.0))
-    limite = _results_limit(len(urls))
     payload = {
-        "startUrls": [{"url": u} for u in urls],
-        "resultsLimit": limite,
-        "includeListingDetails": INCLUDE_DETAILS,
+        "urls": urls,
+        "getListingDetails": INCLUDE_DETAILS,
+        "getAllListingPhotos": GET_ALL_PHOTOS,
+        "maxPagesPerUrl": MAX_PAGINAS_POR_URL,
     }
 
     # Tenta cada conta até uma de fato aceitar a chamada paga -- os dois
@@ -164,9 +162,9 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
                 log.warning("apify: conta %s com crédito esgotado (%.2f/%.2f) — tentando a próxima",
                             c, used, allowed)
                 continue
-        log.info("apify: conta %s, %d URL(s) de busca, limite=%d/URL (~%d itens), "
+        log.info("apify: conta %s, %d URL(s) de busca, %d página(s)/URL, "
                  "detalhes=%s, teto=US$ %.2f",
-                 c, len(urls), limite, limite * len(urls), INCLUDE_DETAILS,
+                 c, len(urls), MAX_PAGINAS_POR_URL, INCLUDE_DETAILS,
                  MAX_CHARGE_USD_POR_RUN)
         for u in urls:
             log.debug("apify: %s", u)
@@ -183,12 +181,22 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         return []
     items = [i for i in (items or []) if isinstance(i, dict)]
 
-    # Cada item traz de volta a start URL que o produziu (`facebookUrl`), o que
-    # é a única forma de saber qual localidade rendeu zero. Uma localidade
-    # inexistente devolve página vazia, não erro, então sem esta contagem ela
-    # ficaria para sempre na lista consumindo uma vaga de `MAX_START_URLS` sem
-    # que nada dissesse isso.
-    por_url = Counter(str(i.get("facebookUrl") or "?") for i in items)
+    # Cada item traz de volta a start URL que o produziu, o que é a única
+    # forma de saber qual localidade rendeu zero -- uma localidade inexistente
+    # devolve página vazia, não erro, então sem esta contagem ela ficaria para
+    # sempre na lista consumindo uma vaga de `MAX_START_URLS` sem que nada
+    # dissesse isso. `facebookUrl` era o campo do ator anterior
+    # (apify/facebook-marketplace-scraper); o novo (curious_coder, desde
+    # 2026-09-25) não teve seu formato de saída confirmado contra um run
+    # pago real ainda, daí a lista de candidatos em vez de um único nome --
+    # se nenhum bater, a contagem cai inteira em "?", que é só diagnóstico e
+    # não afeta os listings publicados, mas vale conferir as chaves do 1º
+    # item (ver aviso "nenhum virou listing" abaixo) e ajustar aqui.
+    _CAMPOS_URL_ORIGEM = ("facebookUrl", "searchUrl", "startUrl", "input_url")
+    por_url = Counter(
+        str(next((i.get(c) for c in _CAMPOS_URL_ORIGEM if i.get(c)), "?"))
+        for i in items
+    )
     for u in urls:
         log.info("apify: %d item(ns) de %s", por_url.get(u, 0), u)
 
@@ -339,8 +347,8 @@ def _start_urls(criteria) -> list[str]:
 
     # `exact=false` é o padrão do próprio Marketplace para uma busca de várias
     # palavras; min/maxPrice são os mesmos parâmetros que a UI dele põe na URL.
-    # Filtrar preço na origem é o que faz o `resultsLimit` ser gasto em terra e
-    # não em sofá usado -- os limites só entram quando são de fato limites.
+    # Filtrar preço na origem é o que faz o orçamento (agora por página, ver
+    # `MAX_PAGINAS_POR_URL`) ser gasto em terra e não em sofá usado.
     params: dict[str, str] = {"query": CONSULTA, "exact": "false"}
     if criteria.price_min > 0:
         params["minPrice"] = str(int(criteria.price_min))
@@ -393,10 +401,9 @@ def _apify_post(actor: str, token: str, payload: dict, max_charge_usd: float):
 
     `maxTotalChargeUsd` is a run-level API param (not part of the actor's own
     input schema above) that Apify itself enforces as a hard dollar ceiling
-    on the run, regardless of which billing component (proxy, compute,
-    per-result) drives the cost -- see the module-level comment on
-    `USD_POR_ITEM` for why that beats trying to cap spend via `resultsLimit`
-    alone."""
+    on the run, regardless of which billing component drives the cost -- see
+    the module-level comment on `MAX_PAGINAS_POR_URL` for why that beats
+    trying to cap spend via the page count alone."""
     import requests
 
     try:
@@ -418,16 +425,16 @@ def _apify_post(actor: str, token: str, payload: dict, max_charge_usd: float):
         return []
 
 
-# O item base do ator é o objeto GraphQL do Facebook quase cru — os nomes de
-# campo abaixo estão em camelCase conforme retornado pelo ator real
-# (conferidos na resposta de teste: `itemUrl`, `id`, `listingTitle`, `listingPrice`,
-# `location`, `primaryListingPhoto`, `isSold`, `description`, `timestamp`, etc).
-#
-# O que `includeListingDetails` acrescenta não está documentado — o README só
-# promete "description, location coordinates, time stamp, listing attributes".
-# Daí a lista de candidatos: o resto do payload tenta variações de GraphQL,
-# camelCase e snake_case. Se nenhuma pegar, `_via_apify`
-# avisa em vez de devolver descrição vazia caladamente.
+# O item base do ator é o objeto GraphQL do Facebook quase cru. O ator
+# anterior (apify/facebook-marketplace-scraper) devolvia isso em camelCase
+# (`itemUrl`, `listingTitle`, `listingPrice`, `primaryListingPhoto`, `isSold`,
+# etc); o atual (curious_coder/facebook-marketplace, desde 2026-09-25) mostra
+# no seu próprio README o GraphQL cru em snake_case/aninhado
+# (`story.url`, `listing_price.amount`, `listing_photos[].image.uri`,
+# `creation_time`), mas isso nunca foi confirmado contra um run pago real --
+# só contra o exemplo do README. Daí a lista de candidatos em cada campo
+# abaixo: tenta as duas formas, camelCase e snake_case/aninhado. Se nenhuma
+# pegar, `_via_apify` avisa em vez de devolver descrição vazia caladamente.
 #
 # `redacted_description` vem primeiro (2026-08-13): é o campo confirmado
 # contra uma página real do Facebook contendo o texto de verdade escrito
@@ -507,19 +514,30 @@ def _data_publicacao(item: dict) -> str:
 
 
 def _from_apify(item: dict, uf: str) -> Listing | None:
-    url = _texto(item.get("itemUrl")) or _texto(item.get("listingUrl")) or _texto(item.get("url"))
+    # `story.url` (curious_coder's own README example, 2026-09-25) is the raw
+    # Facebook GraphQL shape; `itemUrl`/`listingUrl`/`url` are kept as
+    # fallbacks from the previous actor in case this one flattens them the
+    # same way -- unconfirmed against a real paid run either way.
+    story = item.get("story")
+    url = (_texto((story or {}).get("url")) if isinstance(story, dict) else "") \
+        or _texto(item.get("itemUrl")) or _texto(item.get("listingUrl")) or _texto(item.get("url"))
     if url.startswith("/"):
         url = "https://www.facebook.com" + url
-    # Só anúncio individual serve. O ator devolve a start URL em `facebookUrl`,
-    # e uma página de busca entrando aqui como se fosse anúncio seria um item
-    # inútil publicado no site — a checagem positiva é o que garante que o que
-    # sai daqui é `/marketplace/item/<id>`.
+    # Só anúncio individual serve. O ator devolve a start URL em campo
+    # próprio (ver `_CAMPOS_URL_ORIGEM` acima), e uma página de busca entrando
+    # aqui como se fosse anúncio seria um item inútil publicado no site — a
+    # checagem positiva é o que garante que o que sai daqui é
+    # `/marketplace/item/<id>`.
     if "/marketplace/item/" not in url:
         log.debug("apify: item sem URL de anúncio, descartado: %r", url[:120])
         return None
-    # `isSold`/`isPending` vêm no item base, sem custo de detalhe. Anúncio
-    # vendido é ruído puro numa lista que quer ser curta.
-    if item.get("isSold") or item.get("isPending") or item.get("isHidden"):
+    # `isSold`/`isPending` são os nomes do ator anterior; `is_sold`/`is_pending`
+    # os do GraphQL cru, mantidos como fallback pela mesma razão do URL acima.
+    # Vêm no item base, sem custo de detalhe -- anúncio vendido é ruído puro
+    # numa lista que quer ser curta.
+    if (item.get("isSold") or item.get("is_sold")
+            or item.get("isPending") or item.get("is_pending")
+            or item.get("isHidden") or item.get("is_hidden")):
         return None
 
     title = _texto(item.get("listingTitle")) or _texto(item.get("marketplace_listing_title")) or _texto(item.get("title"))
@@ -578,6 +596,16 @@ def _from_apify(item: dict, uf: str) -> Listing | None:
         imagem = _texto(foto.get("image")) or _texto(foto.get("uri"))
     if not imagem:
         imagem = _texto(item.get("image"))
+    if not imagem:
+        # `listing_photos` (curious_coder's own README example): a list of
+        # `{"image": {"uri": ...}}`, first photo only -- Listing has one
+        # `image` field, so there is nothing to gain from the rest of the
+        # array even when `getAllListingPhotos` fetched all of them.
+        fotos = item.get("listing_photos")
+        if isinstance(fotos, list) and fotos:
+            primeira = fotos[0]
+            if isinstance(primeira, dict):
+                imagem = _texto(primeira.get("image")) or _texto(primeira.get("uri"))
 
     return Listing(
         source=NAME,
