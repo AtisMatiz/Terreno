@@ -149,8 +149,13 @@ def _hits(text: str, pattern: str) -> int:
         before = text[max(0, m.start() - 28):m.start()]
         if re.search(r"\b(sem|nao|nenhum[a]?|falta de|ausencia de|nem)\s+[\w\s]{0,18}$", before):
             continue
-        if re.search(r"\b(troco|troca|trocar|aceito troca|em troca de|"
-                     r"quero em troca|aceita|aceito|aceitamos)\s*(?:por|com|de)?\s*[\w\s]{0,18}$",
+        if re.search(r"\b(troco|troca|trocar|troque|trocaria|trocamos|aceito troca|"
+                     r"em troca de|quero em troca|aceita|aceito|aceitamos|aceitaria)"
+                     # [\s\S], not [\w\s]: real ads separate the trigger from
+                     # the item with bullets/emoji/punctuation ("🔄 aceito
+                     # permuta\n• apartamento"), not just spaces -- found
+                     # 2026-09-25 still slipping past the word-only gap.
+                     r"\s*(?:por|com|de)?[\s\S]{0,20}$",
                      before):
             continue
         clause = text[max(0, m.start() - 160):m.start()]
@@ -526,8 +531,14 @@ def tipo_ok(text: str) -> tuple[bool, str]:
     # Checked first, unconditionally: an apartment/rowhouse/studio is never
     # rural land no matter what other, possibly unrelated, rural-sounding
     # text the scraped page also happens to carry (see TIPO_URBANO_DEFINITIVO
-    # above for the real listing that motivated this).
-    if re.search(TIPO_URBANO_DEFINITIVO, folded):
+    # above for the real listing that motivated this). `_hits`, not a bare
+    # re.search: found 2026-09-25 against three real Facebook listings ("troco
+    # por casa ou apartamento em SJC", "aceita permuta ... apartamento",
+    # "troque o apartamento pela qualidade de vida") that a raw search
+    # wrongly discarded -- an apartment named as what the *seller* would
+    # accept in trade is not a claim about the property being sold, same
+    # negation/exchange lookback every other dimension already gets.
+    if _hits(folded, TIPO_URBANO_DEFINITIVO):
         return False, "apartamento/sobrado/studio — não é imóvel rural com terreno"
     rural = bool(re.search(TIPO_RURAL, folded))
     urbano = bool(re.search(TIPO_URBANO_AMBIGUO, folded))
