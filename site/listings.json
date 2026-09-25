@@ -1,5 +1,5 @@
 {
- "generated_at": "25/09/2026 às 10:53",
+ "generated_at": "25/09/2026 às 11:07",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -498,7 +498,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -1277,7 +1277,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -3075,7 +3075,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -8037,6 +8037,119 @@
    "is_new": false
   },
   {
+   "key": "81fe1e2d261d8755",
+   "source": "facebook",
+   "source_id": "1069010436051605",
+   "url": "https://www.facebook.com/marketplace/item/1069010436051605/",
+   "title": "2 quartos 1 banheiro Apartamento",
+   "description": "Apartamento à Venda no Monte Castelo - São José dos Campos\n\nDescrição do Imóvel:\n- Sala;\n- Cozinha com armários;\n- 2 dormitórios, sendo 1 com armário planejado;\n- 1 banheiro com box e gabinete;\n- Área de serviço;\n- 1 vaga coberta de garagem;\n- Vaga localizada no térreo;\n\nDescrição do Condomínio:\n- Portaria 24 horas;\n- Condomínio fechado;\n\nInformações Adicionais:\n- Água incluída no rateio das despesas do condomínio;\n- Gás e energia elétrica individualizados, conforme consumo;\n- Excelente opção para moradia ou investimento;\n\nLocalização:\n- Localizado no Residencial das Chácaras, no bairro Monte Castelo, próximo ao Estádio Martins Pereira e ao Jardim Paulista. A região possui fácil acesso à Rodovia Presidente Dutra, Hospital Municipal Dr. José de Carvalho Florence, centro da cidade e diversos comércios e serviços.\n\nAgende Já sua Visita!\n\nSamuel Raid\nCRECI: 315643-F\n\n[REF [hidden information]]",
+   "price": 245000.0,
+   "price_first": 245000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "",
+   "posted_at": "",
+   "score": 0.159,
+   "reasons": [
+    "menção a loteamento/condomínio",
+    "casa",
+    "energia",
+    "⚠ vizinhança próxima",
+    "bom acesso",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.53,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": [
+      "⚠ vizinhança próxima"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-25T14:07:33+00:00",
+   "last_seen": "2026-09-25T14:07:33+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"benfeitorias\": \"Casa + energia\", \"acesso\": \"Bom acesso\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "d57d522f3f07300b",
    "source": "brave",
    "source_id": "",
@@ -10110,16 +10223,16 @@
    "price_drop": null
   }
  ],
- "new_count": 3,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "olx: 0 resultados"
  ],
  "criterios": {
   "estados": [
