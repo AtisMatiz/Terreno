@@ -310,6 +310,12 @@ sites_alvo:
   - mfrural.com.br
   - chaozao.com.br
   - terrasdamantiqueiraimoveis.com.br
+  # achados em 2026-09-25 (busca semanal), verificados com anúncios reais:
+  - douradoterras.com.br
+  - fazendaaberta.com.br
+  - mercadodeterras.com.br
+  - refugiorural.com.br
+  - sorural.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
