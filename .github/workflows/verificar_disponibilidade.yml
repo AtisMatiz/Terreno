@@ -1,0 +1,85 @@
+name: terreno verificar disponibilidade
+
+# Segunda passada de disponibilidade (2026-09-25): `disponibilidade.
+# urls_indisponiveis` já roda a cada run normal, mas só sobre os candidatos
+# prestes a virar notificação nova -- um anúncio que já está publicado há
+# semanas nunca mais é revisitado, então "vendido há um mês" só aparecia
+# quando alguém clicava no link e levava um 404 (dois casos reais do OLX
+# nesta mesma data). Este job roda scripts/verificar_disponibilidade.py, que
+# reverifica TODO anúncio ainda ativo no site e remove os que provarem estar
+# fora do ar. Mensal, não diário/semanal: cada anúncio já leva meses até
+# sumir do estoque de qualquer jeito (ver `manter_dias` em criteria.yaml), e
+# isto é uma varredura sobre o estoque inteiro (potencialmente centenas de
+# requisições), não sobre uma dúzia de candidatos novos.
+
+on:
+  schedule:
+    # 08:40 UTC = 05:40 America/Sao_Paulo, dia 1 de cada mês. Depois do
+    # último estágio da cadeia diária (search.yml, 08:30 UTC) -- mesmo grupo
+    # de concurrency abaixo, então fica na fila atrás dele em vez de disputar
+    # o mesmo push.
+    - cron: "40 8 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: terreno-search
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    # Centenas de URLs, uma requisição cada, em paralelismo 20 -- mais
+    # generoso que o timeout de um run normal, mas ainda um backstop real
+    # contra um host travando a fila inteira.
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verificar disponibilidade de todo o estoque ativo
+        run: python scripts/verificar_disponibilidade.py
+
+      - name: Commit results
+        run: |
+          git config user.name  "terreno-bot"
+          git config user.email "terreno-bot@users.noreply.github.com"
+          git add data/terreno.sqlite3 site/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: verificação mensal de disponibilidade $(date -u +%Y-%m-%dT%H:%MZ)"
+            for i in 1 2 3 4; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((2 ** i))
+            done
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: verificar
+    # Só a branch default publica no Pages -- ver o mesmo guard nos outros
+    # workflows (search.yml etc.) para o motivo completo.
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

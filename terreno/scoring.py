@@ -31,8 +31,21 @@ import unicodedata
 # The property must read as rural land with a homestead. A bare urban lot, a
 # house in town, or a plot in a gated development is not what is wanted.
 TIPO_RURAL = r"fazenda|chacara|sitio|haras|rancho|area rural|zona rural|propriedade rural|gleba"
-TIPO_URBANO = (r"loteamento|condominio fechado|lote urbano|terreno urbano|apartamento"
-               r"|sobrado|casa geminada")
+
+# Two different kinds of "not rural", found 2026-09-25 to need different
+# treatment: a real São José dos Campos listing, "2 quartos 1 banheiro
+# Apartamento", got through because its scraped text also carried some
+# unrelated rural-sounding phrase elsewhere (agency boilerplate/footer,
+# category breadcrumbs, etc.), tripping `rural=True` alongside the obvious
+# `urbano=True` -- and the old single TIPO_URBANO bucket's "rural and
+# urbano" branch (below) was written for "chácara em loteamento fechado"
+# (still land, just gated), not for "this listing is an apartment". An
+# apartment/rowhouse/studio is never rural regardless of what else the text
+# says, so it gets its own bucket that short-circuits before the
+# rural/urbano comparison even runs; loteamento/condomínio/terreno urbano
+# keep the old ambiguous, still-land-plot handling.
+TIPO_URBANO_DEFINITIVO = r"apartamento|sobrado|casa geminada|kitnet|studio|est[uú]dio|cobertura"
+TIPO_URBANO_AMBIGUO = r"loteamento|condominio fechado|lote urbano|terreno urbano"
 
 # "Chácara"/"Sítio"/"Fazenda" are extremely common as decorative Brazilian
 # neighbourhood-name prefixes ("Bairro Chácara Santa Luzia", "Jardim Sítio
@@ -502,8 +515,14 @@ def n_nascentes(text: str) -> int | None:
 def tipo_ok(text: str) -> tuple[bool, str]:
     """Gate: is this rural land with a homestead, rather than an urban lot?"""
     folded = _fold(text)
+    # Checked first, unconditionally: an apartment/rowhouse/studio is never
+    # rural land no matter what other, possibly unrelated, rural-sounding
+    # text the scraped page also happens to carry (see TIPO_URBANO_DEFINITIVO
+    # above for the real listing that motivated this).
+    if re.search(TIPO_URBANO_DEFINITIVO, folded):
+        return False, "apartamento/sobrado/studio — não é imóvel rural com terreno"
     rural = bool(re.search(TIPO_RURAL, folded))
-    urbano = bool(re.search(TIPO_URBANO, folded))
+    urbano = bool(re.search(TIPO_URBANO_AMBIGUO, folded))
     if rural and not urbano:
         # A bare "chácara"/"sítio"/"fazenda" is trusted only alongside a more
         # specific rural signal -- see _SINAL_RURAL_ESPECIFICO's docstring.
