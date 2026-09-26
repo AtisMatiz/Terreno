@@ -310,6 +310,8 @@ sites_alvo:
   - mfrural.com.br
   - chaozao.com.br
   - terrasdamantiqueiraimoveis.com.br
+  # achados em 2026-09-26 (busca web), verificados com anúncios reais:
+  - nilnegociosimobiliarios.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
