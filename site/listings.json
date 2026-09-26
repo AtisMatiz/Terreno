@@ -1,5 +1,5 @@
 {
- "generated_at": "25/09/2026 às 14:34",
+ "generated_at": "26/09/2026 às 10:14",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -626,6 +626,137 @@
    "price_drop": null
   },
   {
+   "key": "b4c0ef78d6675382",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=120",
+   "title": "Padrão em , São José dos Campos",
+   "description": "Sítio à Venda em São José dos Campos/SP – 2 Alqueires com Casa, Piscina e Nascente Própria\r\nPreço: R$ 480.000,00 (Estuda proposta | Condições de pagamento a combinar)\r\nÁrea Total: 2 Alqueires\r\nLocalização: São José dos Campos – SP (Apenas 20 km do centro, 2 km de terra)\r\nDocumentação: Escritura Ok\r\nApenas 20 km do Centro: O Refúgio Rural Que Você Procura em São José dos Campos!\r\nSe você busca qualidade de vida, ar puro e contato direto com a natureza, sem abrir mão da praticidade e proximidade da cidade, este sítio de 2 alqueires em São José dos Campos é a oportunidade perfeita!\r\nCom aptidão versátil — ideal para moradia, lazer nos finais de semana ou pequena pecuária/criação —, a propriedade une infraestrutura completa de lazer, recursos hídricos abundantes e excelente logística.\r\nDestaques da Propriedade e Benfeitorias:\r\n\r\nCasa Sede Aconchegante:\r\n\r\n03 dormitórios amplos (sendo 01 suíte confortável)\r\nSala espaçosa para reunir a família\r\nCozinha prática e funcional\r\nBanheiro social\r\nAgradável varanda para relaxar apreciando a vista verde\r\n\r\nLazer e Convivência:\r\n\r\nPiscina para os dias ensolarados\r\nEspaço Gourmet ideal para churrascos e momentos inesquecíveis com amigos e familiares\r\n\r\nEstrutura Rural e Recursos Naturais:\r\n\r\nRiqueza de água: Equipado com poço artesiano e nascente própria na propriedade\r\nPasto formado: Pronto para criação de animais ou pequenos projetos agrícolas\r\nTopografia acidentada com belas paisagens panorâmicas da região\r\n\r\n\r\nLogística e Localização Privilegiada:\r\n\r\nDistância: Apenas 20 km do centro urbano de São José dos Campos\r\nAcesso: Apenas 2 km de estrada de terra em ótimas condições, garantindo tráfego tranquilo o ano todo\r\nDocumentação: Escritura 100% regularizada, garantindo total segurança na sua aquisição\r\n\r\nCondições de Negociação:\r\n\r\nValor de Investimento: R$ 480.000,00\r\nProprietário estuda propostas e negocia condições de pagamento.\r\n\r\nEntre em contato para agendar uma visita e conhecer de perto este paraíso em São José dos Campos!",
+   "price": 480000.0,
+   "price_first": 480000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 99173.55,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_f3c9a4e607207d50cca7e73588edf62f.jpg",
+   "posted_at": "",
+   "score": 0.54,
+   "reasons": [
+    "nascente",
+    "poço artesiano",
+    "casa sede",
+    "piscina",
+    "tranquilo",
+    "2 km de terra",
+    "20 km da cidade",
+    "pasto formado",
+    "escriturado",
+    "⚠ acidentado",
+    "R$/ha 99.174 (+)",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.525,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.9,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.1,
+     "peso": 15,
+     "provas": [
+      "2 km de terra",
+      "20 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "pasto formado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": [
+      "⚠ acidentado"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.767,
+     "peso": 0,
+     "provas": [
+      "R$/ha 99.174 (+)"
+     ],
+     "ajuste": 0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-26T13:14:38+00:00",
+   "last_seen": "2026-09-26T13:14:38+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + poço artesiano\", \"benfeitorias\": \"Casa sede + piscina\", \"acesso\": \"2 km de terra + 20 km da cidade\", \"documentacao\": \"Escriturado\", \"solo\": \"Pasto formado + ⚠ acidentado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "d4ddd132f18f48d9",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -764,6 +895,143 @@
    "notificavel": 0,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "25ddb3989c3e45d8",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=89",
+   "title": "Padrão em , São José dos Campos",
+   "description": "Sítio à Venda em São José dos Campos/SP – 4 Alqueires com Muita Água e Excelente Estrutura\r\nProcura o refúgio perfeito que une a tranquilidade do meio rural à proximidade da cidade? Este incrível sítio de 4 alqueires em São José dos Campos oferece a infraestrutura e o potencial hídrico ideais para moradia, lazer em família ou projetos do agronegócio, como horta orgânica e cultivo sustentável.\r\nDestaques e Características do Imóvel\r\n\r\nÁrea Total: 4 Alqueires paulistas de terra produtiva.\r\nRecursos Hídricos Privilegiados: Propriedade rica em água, contando com nascente própria, riacho e lago — item indispensável e altamente valorizado na região.\r\nTopografia: Média, excelente para variados aproveitamentos e cultivos.\r\nCasa Sede Confortável: Residência bem estruturada composta por 4 dormitórios amplos, 2 salas aconchegantes, cozinha espaçosa, banheiro e uma charmosa varanda com fogão a lenha, perfeita para os dias frios do Vale do Paraíba.\r\nEstrutura de Apoio: Barracão multiuso de 100 m², ideal para armazenamento de equipamentos, insumos ou área de trabalho.\r\n\r\nLogística e Localização Estratégica\r\nApenas 25 km do centro urbano mais próximo, garantindo acesso rápido a serviços, comércios e hospitais. O percurso conta com apenas 5 km de estrada de terra em ótimas condições de tráfego durante todo o ano.\r\nAptidão e Potencial\r\n\r\nMoradia e Lazer: Ambiente seguro e reservado para desfrutar o melhor do clima de montanha.\r\nProdução: Solo e disponibilidade de água perfeitos para implantação de horta orgânica, fruticultura ou pequenas criações.\r\n\r\nInformações Comerciais e Documentação\r\n\r\nDocumentação: 100% regularizada com Escritura.\r\nInvestimento: R$ 1.650.000,00 (Estuda propostas).\r\nCondições de Pagamento: A combinar.\r\n\r\nAgende sua visita e venha conhecer de perto este paraíso rural no Vale do Paraíba!\r\nEntre em contato para mais detalhes e condições de negociação.",
+   "price": 1650000.0,
+   "price_first": 1650000.0,
+   "area_ha": 9.68,
+   "price_per_ha": 170454.55,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_a39da82ed289eeaddb79dfa9905e4375.jpg",
+   "posted_at": "",
+   "score": 0.533,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "lago/açude",
+    "água abundante",
+    "casa sede",
+    "galpão",
+    "tranquilo",
+    "reservado",
+    "5 km de terra",
+    "25 km da cidade",
+    "manejo regenerativo",
+    "escriturado",
+    "⚠ R$/ha 170.455 (-)",
+    "⚠ preço R$ 1.650.000 (> R$ 1 milhão)",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho",
+      "lago/açude",
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "galpão"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.58,
+     "peso": 10,
+     "provas": [
+      "tranquilo",
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": [
+      "5 km de terra",
+      "25 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.45,
+     "peso": 10,
+     "provas": [
+      "manejo regenerativo"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.233,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 170.455 (-)"
+     ],
+     "ajuste": -0.08
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.650.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-26T13:14:38+00:00",
+   "last_seen": "2026-09-26T13:14:38+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho + lago/açude + água abundante\", \"benfeitorias\": \"Casa sede + galpão\", \"acesso\": \"5 km de terra + 25 km da cidade\", \"documentacao\": \"Escriturado\", \"solo\": \"Manejo regenerativo\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -3407,6 +3675,128 @@
    "price_drop": null
   },
   {
+   "key": "8518ebb5ece67e39",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=164",
+   "title": "Padrão em , Natividade da Serra",
+   "description": "Sítio Pé na Água em Natividade da Serra/SP – 30.000 m² | Ideal para Lazer, Moradia ou Pousada/Airbnb\r\nSítio à venda em Natividade da Serra, propriedade pé na água na represa, sítio para Airbnb no Vale do Paraíba, imóvel rural com nascente e área gourmet.\r\nO Refúgio Perfeito Pé na Água: Lazer, Natureza e Oportunidade Única de Investimento!\r\nSe você procura tranquilidade, contato direto com a natureza e o privilégio exclusivo de ter acesso privativo à represa, este sítio em Natividade da Serra/SP é a escolha ideal. Com 30.000 m² de área total, a propriedade une a paz do interior paulista a uma infraestrutura pronta para morar, veranear ou faturar com turismo rural e locações por temporada (Airbnb / Chalés).\r\nDestaques &amp;amp; Qualidades da Propriedade\r\n\r\nAcesso Direto à Represa (Pé na Água): Vista panorâmica deslumbrante e acesso facilitado para esportes náuticos, pesca, passeios de barco ou simplesmente relaxar à beira da água.\r\nRecurso Hídrico Abundante: Conta com uma linda queda d’água natural dentro do próprio sítio, trazendo o som relaxante da natureza e água pura para a propriedade.\r\nExcelente Topografia: Ponto alto com platô e área pronta para novas construções (ideal para expansão de chalés, bangalôs ou área de lazer ampliada).\r\nLocalização Privilegiada: Apenas 5 km do centro urbano de Natividade da Serra, garantindo acesso rápido a comércios, serviços e mantendo total privacidade.\r\n\r\nInfraestrutura Completa (Sede &amp;amp; Lazer)\r\n\r\nCasa Sede Aconchegante:\r\n\r\n03 dormitórios amplos (sendo 1 suíte confortável);\r\nSala espaçosa para reunir a família;\r\nCopa e cozinha integradas e funcionais.\r\n\r\nEspaço Gourmet &amp;amp; Convivência:\r\n\r\nGrande área coberta para festas e recepções;\r\nChurrasqueira tradicional;\r\nFogão e forno a lenha para o autêntico sabor da roça.\r\n\r\n\r\nPotencial de Investimento\r\nAlém de ser uma propriedade pronta para moradia ou refúgio de final de semana, a área possui aptidão vocacionada para pousada boutique ou chalés para Airbnb. O turismo de na",
+   "price": 850000.0,
+   "price_first": 850000.0,
+   "area_ha": 3.0,
+   "price_per_ha": 283333.33,
+   "municipality": "Natividade da Serra",
+   "uf": "SP",
+   "lat": -23.3783786,
+   "lon": -45.4438173,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_309e14cdad91f2f135d46bff6eb04c1b.jpg",
+   "posted_at": "",
+   "score": 0.331,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "água de qualidade",
+    "casa sede",
+    "tranquilo",
+    "bom acesso",
+    "5 km da cidade",
+    "⚠ R$/ha 283.333 (--)",
+    "⚠ 62 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.775,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude",
+      "água de qualidade"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.85,
+     "peso": 20,
+     "provas": [
+      "casa sede"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 1.0,
+     "peso": 15,
+     "provas": [
+      "bom acesso",
+      "5 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 283.333 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 62 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-09-26T13:14:38+00:00",
+   "last_seen": "2026-09-26T13:14:38+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 62.0,
+   "destaques": "{\"agua\": \"Nascente + lago/açude + água de qualidade\", \"benfeitorias\": \"Casa sede\", \"acesso\": \"Bom acesso + 5 km da cidade\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "b6b4d3b13a17f732",
    "source": "facebook",
    "source_id": "888293344337392",
@@ -4325,6 +4715,126 @@
    "notificavel": 0,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "3108cb0afda71551",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.palermodecastro.com.br/1960/imoveis/venda-sitio-5-quartos-conjunto-residencial-vinte-e-dois-de-abril-jacarei-sp",
+   "title": "Sítio em jacarei sp",
+   "description": "Sitio em Jacareí divisa com igarata 800 mts do asfalto estrada sem saída duas casa 3 nascentes piscina salão de festa tanque peixe 2,8 hectare com 160 pés de pitada 2.500 pés de banana produzindo e muita outra frutiferas documento escritura registrada com incra car ITR td em dia.Casa principal 5 dorm, área de serviço mais banheiro piso frio, a outra são 2 cômodo grande e pode transformar em 4 mais banheiro , o tamanho 2 8 hectares que dá 28.000.00 mts",
+   "price": 1100000.0,
+   "price_first": 1100000.0,
+   "area_ha": 8.0,
+   "price_per_ha": 137500.0,
+   "municipality": "",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.palermodecastro.com.br/admin/imovel/mini/20260925T2137300300-970332729.jpg",
+   "posted_at": "",
+   "score": 0.278,
+   "reasons": [
+    "3 nascentes",
+    "casa sede",
+    "piscina",
+    "frutíferas",
+    "escriturado",
+    "CAR/GEO em dia",
+    "R$/ha 137.500 (0)",
+    "⚠ preço R$ 1.100.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.125,
+     "peso": 30,
+     "provas": [
+      "3 nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.9,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "R$/ha 137.500 (0)"
+     ],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.100.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-09-26T13:14:38+00:00",
+   "last_seen": "2026-09-26T13:14:38+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"3 nascentes\", \"benfeitorias\": \"Casa sede + piscina\", \"documentacao\": \"Escriturado + CAR/GEO em dia\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -7758,16 +8268,17 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 4,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "olx: 0 resultados"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
