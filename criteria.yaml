@@ -312,6 +312,11 @@ sites_alvo:
   - terrasdamantiqueiraimoveis.com.br
   # achados em 2026-09-26 (busca web), verificados com anúncios reais:
   - nilnegociosimobiliarios.com.br
+  # achados em 2026-09-27 (busca web), verificados com anúncios reais:
+  - edilenegorges.com.br
+  - portalconsultoria.com
+  - valerural.com
+  - rtzimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
