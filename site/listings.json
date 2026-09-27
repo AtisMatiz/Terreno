@@ -1,5 +1,5 @@
 {
- "generated_at": "27/09/2026 às 11:07",
+ "generated_at": "27/09/2026 às 11:19",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -2851,6 +2851,126 @@
    "notificavel": 0,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "425650bcafaa2d1f",
+   "source": "facebook",
+   "source_id": "28946106781693176",
+   "url": "https://www.facebook.com/marketplace/item/28946106781693176",
+   "title": "Vendo Chácara em São Luís do Paraitinga S.P.",
+   "description": "Vendo Chácara em São Luís do Paraitinga S.P.\nR$ 330.000.\nGaldino corretor de imóveis * CRECI 173927-F *vende Chácara em São Luís do Paraitinga. \nContato WhatsApp. [hidden information].\nLocalização =Chácara localizada no Bairro dos Lobos, fica a 6 km da cidade, e 4,8 km de estrada de Chão, Passou a ponte do rio Catuçaba na Oswaldo cruz, entra a direita, \nCasa = Com 2 dormitórios sendo 1 suíte, 1 banheiro social,1 cozinha,1 sala grande.1 varanda frontal de 10 metros, a água é de mina ,2 lagos de peixe, diversos pés de frutas, e uma linda vista panorâmica, Local com sinal de celular e TV. \nÁrea do Terreno = 48.400 m² (2 alqueires).\nÁrea construída = 70 m².\nDocumentação: Escritura de Posse.",
+   "price": 330000.0,
+   "price_first": 330000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 68181.82,
+   "municipality": "São Luiz do Paraitinga",
+   "uf": "SP",
+   "lat": -23.2220531,
+   "lon": -45.3108444,
+   "image": "https://scontent.fpmc5-1.fna.fbcdn.net/v/t39.84726-6/818424378_2343643383101304_7465027492247895025_n.jpg?stp=c0.204.526.526a_dst-jpg_p526x395_tt6&_nc_cat=101&ccb=1-7&_nc_sid=92e707&_nc_ohc=FGQ04UvmxR0Q7kNvwGKVRLT&_nc_oc=AdoLJbXVioHAyyxUWeLHpp5TPcaFHpH061y1RTwo0m_W36OZAoAeT7IpTC64LGHoDnE&_nc_zt=14&_nc_ht=scontent.fpmc5-1.fna&_nc_gid=Hn8LxQ39uYKXKuE78c6ThQ&_nc_ss=7f289&oh=00_AQKKMp9UNRTLa0THHggkGqoUhRNsaNclySNebqGnMzMbTg&oe=6ABF025C",
+   "posted_at": "2026-09-23T22:40:33+00:00",
+   "score": 0.383,
+   "reasons": [
+    "rio/riacho",
+    "lago/açude",
+    "casa",
+    "4.8 km de terra",
+    "6 km da cidade",
+    "escriturado",
+    "R$/ha 68.182 (++)",
+    "⚠ 61.6 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "rio/riacho",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.1,
+     "peso": 15,
+     "provas": [
+      "4.8 km de terra",
+      "6 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 68.182 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 61.6 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-09-27T14:19:03+00:00",
+   "last_seen": "2026-09-27T14:19:03+00:00",
+   "area_alqueires": 2.0,
+   "area_alqueire_tipo": "paulista",
+   "distancia_centro_km": 61.6,
+   "destaques": "{\"agua\": \"Rio/riacho + lago/açude\", \"benfeitorias\": \"Casa\", \"acesso\": \"4.8 km de terra + 6 km da cidade\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -8268,21 +8388,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "betoimoveisfazendas.com.br: bloqueado",
-  "fazendas.betoimoveismacae.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "senaimoveis.com.br: bloqueado",
-  "superbid.net: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "criterios": {
   "estados": [
    "SP"
