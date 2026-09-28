@@ -312,6 +312,18 @@ sites_alvo:
   - terrasdamantiqueiraimoveis.com.br
   # achados em 2026-09-26 (busca web), verificados com anúncios reais:
   - nilnegociosimobiliarios.com.br
+  # achados em 2026-09-28 (busca web), verificados com anúncios reais:
+  - terrasimoveis.com.br
+  - jordaoimoveis.com.br
+  - ruralconsultoria.com.br
+  - brasimoveissp.com.br
+  - arboimoveis.com.br
+  - casasnamantiqueira.com.br
+  - imobiliariavaledasaguas.com.br
+  - labanca.com.br
+  - novafreitas.com.br
+  - realleaoimoveis.com
+  - rpsimobiliaria.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
