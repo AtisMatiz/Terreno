@@ -324,6 +324,13 @@ sites_alvo:
   - novafreitas.com.br
   - realleaoimoveis.com
   - rpsimobiliaria.com.br
+  # achados em 2026-10-01 (busca web), verificados com anúncios reais:
+  - grupopaulovieira.com.br
+  - solucaoimoveissp.com.br
+  - cmcorretoraimoveis.com.br
+  - redeimobiliariabrasil.com
+  - imobiliariadiniz.com
+  - lidercacapava.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
