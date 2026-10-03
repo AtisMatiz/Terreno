@@ -1,5 +1,5 @@
 {
- "generated_at": "03/10/2026 às 10:34",
+ "generated_at": "03/10/2026 às 10:39",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -8510,15 +8510,14 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "superbid.net: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "olx: 0 resultados"
  ],
  "criterios": {
   "estados": [
