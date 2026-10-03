@@ -324,6 +324,9 @@ sites_alvo:
   - novafreitas.com.br
   - realleaoimoveis.com
   - rpsimobiliaria.com.br
+  # achados em 2026-10-03 (busca web), verificados com anúncios reais:
+  - cocampo.com
+  - leilaoimovel.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
