@@ -327,6 +327,11 @@ sites_alvo:
   # achados em 2026-10-03 (busca web), verificados com anúncios reais:
   - cocampo.com
   - leilaoimovel.com.br
+  # achados em 2026-10-04 (busca web), verificados com anúncios reais:
+  - sbsterradourada.com.br
+  - spazzioimobiliaria.com.br
+  - barbetacorretordeimoveis.com.br
+  - cunhaassessoria.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
