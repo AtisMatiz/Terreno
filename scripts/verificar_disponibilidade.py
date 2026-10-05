@@ -16,10 +16,19 @@ from __future__ import annotations
 
 import json
 import logging
+import sys
+from pathlib import Path
 
-from terreno import disponibilidade, render
-from terreno.config import DB_PATH, SITE_DIR, load_criteria
-from terreno.store import Store
+# Needed when run as `python scripts/verificar_disponibilidade.py` (exactly
+# how the workflow invokes it): a script run directly puts its own directory
+# first on sys.path, not the repo root, so `terreno` isn't importable without
+# this -- found 2026-10-01 (the workflow's first scheduled run), same fix
+# every other script here already has (see e.g. scripts/diagnostico.py).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from terreno import disponibilidade, render  # noqa: E402
+from terreno.config import DB_PATH, SITE_DIR, load_criteria  # noqa: E402
+from terreno.store import Store  # noqa: E402
 
 log = logging.getLogger("terreno.verificar_disponibilidade")
 
