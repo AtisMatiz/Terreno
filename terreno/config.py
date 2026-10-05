@@ -19,6 +19,12 @@ REGIOES_PATH = Path(os.getenv("TERRENO_REGIOES", ROOT / "data" / "regioes.yaml")
 # run. Read once per run (run.py) and turned into `dismissed=1` rows, which
 # is what actually keeps a sold listing out of every future site build.
 VENDIDOS_PATH = Path(os.getenv("TERRENO_VENDIDOS", ROOT / "data" / "vendidos.json"))
+# Same channel, same reason, for the "Editar" button (api/editar.js): several
+# scraped fields (price, area, município/UF, title) are sometimes simply
+# wrong, and there is no way to fix the source page, only our copy of it.
+# Keyed by listing `key`, each value a partial {campo: valor} of only the
+# fields that were actually edited -- see `run.aplicar_correcoes`.
+CORRECOES_PATH = Path(os.getenv("TERRENO_CORRECOES", ROOT / "data" / "correcoes.json"))
 
 
 def fold(text: str) -> str:
