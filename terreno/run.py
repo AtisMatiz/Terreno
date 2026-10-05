@@ -13,11 +13,12 @@ import json
 import logging
 import sys
 
-from . import disponibilidade, http, notify, pipeline, render
-from .config import (DB_PATH, SITE_DIR, VENDIDOS_PATH, env, llm_enabled,
-                     load_criteria, salvar_criterios)
+from . import disponibilidade, http, notify, pipeline, render, scoring
+from .config import (CORRECOES_PATH, DB_PATH, SITE_DIR, VENDIDOS_PATH, env,
+                     llm_enabled, load_criteria, salvar_criterios)
 from .sources import REGISTRY
 from .store import Store
+from .units import price_per_ha
 
 log = logging.getLogger("terreno")
 
@@ -48,6 +49,93 @@ def aplicar_vendidos(store: Store) -> int:
         log.warning("vendidos.json ilegível — ignorado nesta execução")
         return 0
     return store.dismiss_many(keys)
+
+
+# Whitelisted on purpose: these are exactly the fields the Vercel "Editar"
+# page/button exposes (see api/editar.js) -- columns outside this set (score,
+# dimensoes, key, first_seen, ...) are either derived or structural and must
+# never come from a hand-typed form value.
+CAMPOS_EDITAVEIS = ("title", "price", "area_ha", "municipality", "uf", "description")
+
+
+def aplicar_correcoes(store: Store, criteria) -> int:
+    """Consume data/correcoes.json (written by the Vercel "Editar" button --
+    see api/editar.js) and apply each listing's manual field corrections.
+
+    Called every real run, same channel/shape as `aplicar_vendidos` above,
+    but never cleared after being read -- same reason `vendidos.json` isn't
+    either: a source that gets re-scraped later would otherwise silently
+    overwrite the correction with the same wrong data again. Re-applying an
+    already-applied correction is harmless (idempotent, same values written
+    again), so leaving the file in place is simpler than tracking what's new.
+
+    Score/destaques/reasons are recomputed from the corrected text/price/
+    area afterward -- a wrong title or price is often exactly why a listing's
+    evidence (água, benfeitorias, etc.) read wrong in the first place, and a
+    raw field fix with stale scoring left on top would still look broken.
+    """
+    if not CORRECOES_PATH.exists():
+        return 0
+    try:
+        correcoes = json.loads(CORRECOES_PATH.read_text(encoding="utf-8")) or {}
+    except (ValueError, OSError):
+        log.warning("correcoes.json ilegível — ignorado nesta execução")
+        return 0
+    if not isinstance(correcoes, dict) or not correcoes:
+        return 0
+
+    pph = criteria.raw.get("preco_por_ha") or {}
+    bom = float(pph.get("ideal", scoring.PRECO_HA_BOM))
+    limite = float(pph.get("teto_alerta", scoring.PRECO_HA_LIMITE))
+
+    aplicadas = 0
+    for key, campos in correcoes.items():
+        campos = {k: v for k, v in (campos or {}).items() if k in CAMPOS_EDITAVEIS}
+        if not campos:
+            continue
+        row = store.db.execute("SELECT * FROM listings WHERE key = ?", (key,)).fetchone()
+        if row is None:
+            continue
+        d = dict(row)
+        d.update(campos)
+
+        # A corrected price is not a market price drop -- the old number was
+        # simply wrong. Resetting price_first too is what keeps render.py's
+        # price_drop badge from showing a "discount" that never happened.
+        if "price" in campos:
+            d["price_first"] = d["price"]
+        d["price_per_ha"] = price_per_ha(d.get("price"), d.get("area_ha"))
+
+        titulo = "" if scoring.titulo_generico(d.get("title")) else (d.get("title") or "")
+        text = f"{titulo} {d.get('description') or ''}"
+        nota, detalhe, evidencias, estrelas = scoring.avaliar(
+            text,
+            price_per_ha=d.get("price_per_ha"),
+            distancia_centro_km=d.get("distancia_centro_km"),
+            preco_ha_bom=bom,
+            preco_ha_limite=limite,
+            municipality=d.get("municipality") or "",
+            centro=criteria.center,
+            zona_melhor=criteria.zona_melhor,
+            zona_boa=criteria.zona_boa,
+            price=d.get("price"),
+        )
+        _, aviso = scoring.tipo_ok(text)
+        store.db.execute(
+            "UPDATE listings SET title = ?, description = ?, price = ?, price_first = ?, "
+            "area_ha = ?, price_per_ha = ?, municipality = ?, uf = ?, score = ?, "
+            "dimensoes = ?, reasons = ?, estrelas = ?, destaques = ? WHERE key = ?",
+            (d.get("title"), d.get("description"), d.get("price"), d.get("price_first"),
+             d.get("area_ha"), d.get("price_per_ha"), d.get("municipality"), d.get("uf"),
+             round(nota, 3), json.dumps(detalhe, ensure_ascii=False),
+             "\n".join(([aviso] if aviso else []) + evidencias),
+             json.dumps(estrelas, ensure_ascii=False),
+             json.dumps(scoring.destaques(detalhe), ensure_ascii=False),
+             key),
+        )
+        aplicadas += 1
+    store.db.commit()
+    return aplicadas
 
 
 def run_source(name: str, fetch, criteria, store, budgets) -> tuple[list, str | None]:
@@ -173,6 +261,13 @@ def main(argv=None) -> int:
         if stored.is_new:
             fresh.append(stored)
     store.db.commit()
+
+    # After the upsert loop, not before: a listing re-scraped this same run
+    # would otherwise overwrite the correction with the same wrong data it
+    # was fixing in the first place.
+    corrigidas = aplicar_correcoes(store, criteria)
+    if corrigidas:
+        log.info("%d anúncio(s) com correção manual aplicada", corrigidas)
 
     rows = store.recent(int(criteria.output("manter_dias", 90)))
     render.render(
