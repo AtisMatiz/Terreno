@@ -1,5 +1,5 @@
 {
- "generated_at": "05/10/2026 às 15:47",
+ "generated_at": "06/10/2026 às 12:20",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -2228,242 +2228,6 @@
    "price_drop": null
   },
   {
-   "key": "70a3ff78f52820e5",
-   "source": "olx",
-   "source_id": "1538409565",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/terreno-a-venda-66000-m-sao-goncalo-taubate-sp-1538409565",
-   "title": "Terreno à venda, 66000 m² - São Gonçalo - Taubaté/SP",
-   "description": "Código do anúncio: TAU244891<br><br>Terreno à venda, 66000 m² - São Gonçalo - Taubaté/SP<br><br><br><br> Oportunidade Única: Linda Área para Formação de Sítio ou Chácara em Taubaté! <br><br><br><br>Você sonha em ter seu espaço de descanso e lazer? Aproveite esta excelente oportunidade de adquirir uma área de 66.000 m² no bairro Barreiro, em Taubaté!<br><br><br><br>Destaques do imóvel:<br><br><br><br>Área total de 66.000 m², ideal para formação de sítio ou chácara<br><br>80% de mata nativa preservada, garantindo contato com a natureza<br><br>Água em abundância, perfeita para uso e lazer<br><br>Localização privilegiada, a apenas 8 km da Rodovia Presidente Dutra<br><br>Situada no final do bairro Barreiro, logo após a Igrejinha, em um local tranquilo e de fácil acesso<br><br><br><br>Estuda carro ou imóveis como parte do pagamento<br><br><br><br>Não perca essa oportunidade de ter seu refúgio no meio da natureza! Entre em contato e agende uma visita.<br><br><br><br>Para mais informações;<br><br>Clayton Santos<br><br>Grothe e Lima Imóveis<br><br><br><br>Anúncio sujeito a alteração sem aviso prévio do seu proprietário no que diz respeito ao preço e disponibilidade, na data da consulta pelo interessado ou interessada.<br>TE3311",
-   "price": 385000.0,
-   "price_first": 385000.0,
-   "area_ha": 6.6,
-   "price_per_ha": 58333.33,
-   "municipality": "Taubaté",
-   "uf": "SP",
-   "lat": -23.031448,
-   "lon": -45.5612792,
-   "image": "https://img.olx.com.br/images/88/889640442741532.jpg",
-   "posted_at": "",
-   "score": 0.406,
-   "reasons": [
-    "tranquilo",
-    "reservado",
-    "bom acesso",
-    "mata nativa",
-    "R$/ha 58.333 (++)",
-    "em Taubaté (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.58,
-     "peso": 10,
-     "provas": [
-      "tranquilo",
-      "reservado"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.85,
-     "peso": 10,
-     "provas": [
-      "mata nativa"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 58.333 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Taubaté (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-09-24T13:51:15+00:00",
-   "last_seen": "2026-09-24T13:51:15+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 29.6,
-   "destaques": "{\"acesso\": \"Bom acesso\", \"solo\": \"Mata nativa\"}",
-   "estrelas": "[\"Mata nativa preservada\"]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "afe8f18f8ff20e67",
-   "source": "facebook",
-   "source_id": "1668414720911625",
-   "url": "https://www.facebook.com/marketplace/item/1668414720911625/",
-   "title": "Estúdio 0 banheiros – Casa",
-   "description": "Sitio com 02 Alqueires, 90% formado em pasto, lago com peixe, platô com 2.000m², pequena mata de reserva, totalmente cercado, documentação Escritura, Matrícula, Georreferenciado e com CAR, a 03 km da rodovia e a 05 km do centro de Redenção da Serra.",
-   "price": 220000.0,
-   "price_first": 220000.0,
-   "area_ha": 4.84,
-   "price_per_ha": 45454.55,
-   "municipality": "Redenção da Serra",
-   "uf": "SP",
-   "lat": -23.2803652,
-   "lon": -45.5345747,
-   "image": "",
-   "posted_at": "",
-   "score": 0.406,
-   "reasons": [
-    "lago/açude",
-    "cercado",
-    "5 km da cidade",
-    "mata",
-    "escriturado",
-    "CAR/GEO em dia",
-    "R$/ha 45.455 (++)",
-    "⚠ 47.7 km do centro de interesse (-)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.25,
-     "peso": 30,
-     "provas": [
-      "lago/açude"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.08,
-     "peso": 20,
-     "provas": [
-      "cercado"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.7,
-     "peso": 15,
-     "provas": [
-      "5 km da cidade"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.2,
-     "peso": 10,
-     "provas": [
-      "mata"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.9,
-     "peso": 10,
-     "provas": [
-      "escriturado",
-      "CAR/GEO em dia"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 45.455 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.333,
-     "peso": 0,
-     "provas": [
-      "⚠ 47.7 km do centro de interesse (-)"
-     ],
-     "ajuste": -0.05
-    }
-   },
-   "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-18T14:40:55+00:00",
-   "area_alqueires": 2.0,
-   "area_alqueire_tipo": "paulista",
-   "distancia_centro_km": 47.7,
-   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Cercado\", \"acesso\": \"5 km da cidade\", \"documentacao\": \"Escriturado + CAR/GEO em dia\", \"solo\": \"Mata\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "62475fdaf82d1bd9",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -2726,6 +2490,117 @@
    "notificavel": 0,
    "imagem_analise": "{}",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "4a10deac40eb51f1",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.palermodecastro.com.br/1975/imoveis/venda-sitio-3-quartos-rio-abaixo-jacarei-sp",
+   "title": "Sítio pertinho da cidade,aceita permuta!!!",
+   "description": "Sítio próximo da cidade,situado em estrada final de linha,casa sede 3dorm,piscina,pomar,cozinha caipira,nascente,lago com peixes,pomar,doc em dia!!,aceita permuta por imóveis de menor valor…",
+   "price": 950000.0,
+   "price_first": 950000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.palermodecastro.com.br/admin/imovel/mini/20261004T1859250300-854976757.jpg",
+   "posted_at": "",
+   "score": 0.388,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "casa sede",
+    "piscina",
+    "frutíferas"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.9,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-06T15:20:14+00:00",
+   "last_seen": "2026-10-06T15:20:14+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Casa sede + piscina\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -3337,119 +3212,6 @@
    "price_drop": null
   },
   {
-   "key": "6e7051cca633ecca",
-   "source": "brave",
-   "source_id": "",
-   "url": "https://sp.mgfimoveis.com.br/venda-sp-tremembe-chacara-1700m-no-kanegae-tremembe-82665075",
-   "title": "Chácara 1700M² no Kanegae - Tremembé",
-   "description": "O imóvel \"Chácara 1700m² no kanegae - tremembé\" possui Venda por R$165.000 e está localizado em Estrada em Frente Ao Crozariol, Tremembé, SP.<br><p><p class=\"mb-2\">Chácara 1.700 m² no Kanegae</p><p class=\"mb-2\">17x100</p><p class=\"mb-2\">R$165.000 ( Aceitamos propostas )</p><p class=\"mb-2\">Terreno plano</p><p class=\"mb-2\">Dentro de condominio de chácaras com portaria</p><p class=\"mb-2\">Boa vizinhança</p><p class=\"mb-2\">Rio passa em frente</p><p class=\"mb-2\">2km do asfalto</p><p>Estrada em frente ao crozariol</p></p>",
-   "price": 165000.0,
-   "price_first": 165000.0,
-   "area_ha": 9.4373,
-   "price_per_ha": 17483.81,
-   "municipality": "Tremembé",
-   "uf": "SP",
-   "lat": -22.9641763,
-   "lon": -45.5489548,
-   "image": "https://i.mgfserv.com/640x314/aHR0cHM6Ly9wcm94eS5kZXp0b3AuY29tL2ltYWdlLzEyMDB4NjMwL2FIUjBjSE02THk5cGJXY3ViMng0TG1OdmJTNWljaTlwYldGblpYTXZOVEl2TlRJMk5qRTNNVEV6TURjeE9USTFMbXB3WncuanBn.jpg",
-   "posted_at": "",
-   "score": 0.347,
-   "reasons": [
-    "rio/riacho",
-    "⚠ vizinhança próxima",
-    "plano",
-    "R$/ha 17.484 (++)",
-    "em Tremembé (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": [
-      "⚠ vizinhança próxima"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.5,
-     "peso": 5,
-     "provas": [
-      "plano"
-     ]
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 17.484 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Tremembé (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-13T19:45:50+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 29.7,
-   "destaques": "{\"agua\": \"Rio/riacho\", \"solo\": \"Plano\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "88aa6e6cb335133f",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -4037,240 +3799,6 @@
    "price_drop": null
   },
   {
-   "key": "b6b4d3b13a17f732",
-   "source": "facebook",
-   "source_id": "888293344337392",
-   "url": "https://www.facebook.com/marketplace/item/888293344337392/",
-   "title": "Terreno Rural Escriturado – 24.200 m2 – Guaratinguetá/SP",
-   "description": "📍 Localização: Colônia do Piaguí – Guaratinguetá/SP\nExcelente oportunidade para quem busca investir ou construir sua chácara em uma região tranquila, cercada pela natureza.\n✅ Área de 1 alqueire paulista (aprox. 24.200 m²);\n✅ Gleba desmembrada e escriturada;\n✅ Energia elétrica disponível na frente da propriedade;\n✅ Ribeirão fazendo divisa nos fundos do terreno;\n✅ Fácil acesso;\n✅ Ideal para lazer, moradia, sítio ou investimento.\n💰 Valor: R$ 280.000,00\n📲 Agende sua visita!\nEntre em contato para mais informações e venha conhecer esta excelente oportunidade em Guaratinguetá.",
-   "price": 280000.0,
-   "price_first": 280000.0,
-   "area_ha": 2.42,
-   "price_per_ha": 115702.48,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.793884277344,
-   "lon": -45.192260742188,
-   "image": "",
-   "posted_at": "2026-07-28T14:35:47.000Z",
-   "score": 0.331,
-   "reasons": [
-    "rio/riacho",
-    "casa",
-    "energia",
-    "bom acesso",
-    "escriturado",
-    "R$/ha 115.702 (0)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.53,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "energia"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.6,
-     "peso": 10,
-     "provas": [
-      "escriturado"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [
-      "R$/ha 115.702 (0)"
-     ],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-13T19:45:50+00:00",
-   "area_alqueires": 1.0,
-   "area_alqueire_tipo": "paulista",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa + energia\", \"acesso\": \"Bom acesso\", \"documentacao\": \"Escriturado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "9c1c00c5ab36e090",
-   "source": "facebook",
-   "source_id": "1015718994153241",
-   "url": "https://www.facebook.com/marketplace/item/1015718994153241/",
-   "title": "Lindo Sítio em Joanópolis SP - OPORTUNIDADE",
-   "description": "ACEITO TROCA, FAÇA SUA PROPOSTA!!!\n\nÓtima oportunidade de investimento! Região em crescimento no turismo!\n\nLinda propriedade em Joanópolis-SP, no Bairro do Sertãozinho, a 15km do centro da cidade.\n\nDiferenciais:\n\n> 100% Cercado;\n> Energia elétrica instalada;\n> Água abundante e cristalina (de nascente);\n> 22,3 mil metros quadrados de área total;\n> 1100 metros de altitude;\n> Vista deslumbrante pra Serra da Mantiqueira;\n> Estrada de acesso própria (servidão);\n> Local reservado, seguro e muito tranquilo.\n\nAgende sua visita!",
-   "price": 239000.0,
-   "price_first": 239000.0,
-   "area_ha": 2.23,
-   "price_per_ha": 107174.89,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.931213378906,
-   "lon": -46.279907226562,
-   "image": "",
-   "posted_at": "2026-06-25T18:17:40.000Z",
-   "score": 0.328,
-   "reasons": [
-    "nascente",
-    "água abundante",
-    "energia",
-    "cercado",
-    "tranquilo",
-    "reservado",
-    "15 km da cidade",
-    "R$/ha 107.175 (0)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.675,
-     "peso": 30,
-     "provas": [
-      "nascente",
-      "água abundante"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.26,
-     "peso": 20,
-     "provas": [
-      "energia",
-      "cercado"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.58,
-     "peso": 10,
-     "provas": [
-      "tranquilo",
-      "reservado"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.1,
-     "peso": 15,
-     "provas": [
-      "15 km da cidade"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [
-      "R$/ha 107.175 (0)"
-     ],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Nascente + água abundante\", \"benfeitorias\": \"Energia + cercado\", \"acesso\": \"15 km da cidade\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "1433c3e942ac4f47",
    "source": "facebook",
    "source_id": "1058401219919292",
@@ -4483,347 +4011,6 @@
    "distancia_centro_km": null,
    "destaques": "{\"agua\": \"Rio/riacho\", \"solo\": \"Mata nativa\"}",
    "estrelas": "[\"Mata nativa preservada\"]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "5abd97aaabc02b45",
-   "source": "facebook",
-   "source_id": "3670028546482784",
-   "url": "https://www.facebook.com/marketplace/item/3670028546482784/",
-   "title": "Sítio à Venda em Ajapi – 1 Alqueire | Casa, Poço Caipira e Fácil Acesso",
-   "description": "🌳 SÍTIO À VENDA EM AJAPI – RIO CLARO/SP\n\nExcelente oportunidade para quem busca tranquilidade, contato com a natureza e fácil acesso!\n\n📐 1 alqueire de terra\n📍 Localizado em Ajapi, a apenas 2 km da pista\n🚗 Acesso fácil\n💧 Poço caipira\n🌿 Ampla área rural, com muito potencial para lazer, cultivo ou formação de chácara\n\nUm lugar perfeito para quem quer sossego sem ficar longe da cidade.\n\n📲 Entre em contato para mais informações e agende uma visita!",
-   "price": 280000.0,
-   "price_first": 280000.0,
-   "area_ha": 2.42,
-   "price_per_ha": 115702.48,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.392883300781,
-   "lon": -47.576293945312,
-   "image": "",
-   "posted_at": "2026-08-11T19:05:44.000Z",
-   "score": 0.313,
-   "reasons": [
-    "rio/riacho",
-    "casa",
-    "sossegado",
-    "tranquilo",
-    "bom acesso",
-    "R$/ha 115.702 (0)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.35,
-     "peso": 20,
-     "provas": [
-      "casa"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.78,
-     "peso": 10,
-     "provas": [
-      "sossegado",
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [
-      "R$/ha 115.702 (0)"
-     ],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": 1.0,
-   "area_alqueire_tipo": "paulista",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\", \"acesso\": \"Bom acesso\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "d5b42471d752e81b",
-   "source": "olx",
-   "source_id": "1538408472",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/terreno-a-venda-55189-m-por-r-320-000-00-belem-taubate-sp-1538408472",
-   "title": "Terreno à venda, 55189 m² por R$ 320.000,00 - Belém - Taubaté/SP",
-   "description": "Código do anúncio: TAU302689<br><br>Terreno à Venda na Zona Rural  Fácil Acesso e Excelente Localização!<br><br><br><br>Apresentamos uma excelente oportunidade para quem procura um terreno amplo, com ótima localização e fácil acesso. Situado na área rural, este terreno possui 55.189 m² (5,5 hectares), ideal para empreendimentos agrícolas, construções rurais, lazer ou investimento a longo prazo.<br><br><br><br> Localização Estratégica:<br><br>A apenas 18 km da saída da Rodovia Dutra, com acesso facilitado e estrada em boas condições, garantindo comodidade tanto para transporte de mercadorias quanto para deslocamento diário.<br><br><br><br> Características do Imóvel:<br><br><br><br>Área total: 55.189 m²<br><br><br><br>Topografia favorável<br><br><br><br>Região tranquila e em expansão<br><br><br><br>Potencial para diversas finalidades (agricultura, criação, turismo rural, etc.)<br><br><br><br>Não perca esta oportunidade única de adquirir um terreno espaçoso, com excelente acesso e em uma região com grande potencial de valorização.<br><br><br><br> Entre em contato para mais informações ou agendar uma visita!<br><br><br><br>Mais Informações  CRECI;223452<br>TE2049",
-   "price": 320000.0,
-   "price_first": 320000.0,
-   "area_ha": 5.5189,
-   "price_per_ha": 57982.57,
-   "municipality": "Taubaté",
-   "uf": "SP",
-   "lat": -23.031448,
-   "lon": -45.5612792,
-   "image": "https://img.olx.com.br/images/52/527654083930386.jpg",
-   "posted_at": "",
-   "score": 0.305,
-   "reasons": [
-    "tranquilo",
-    "bom acesso",
-    "boa topografia",
-    "R$/ha 57.983 (++)",
-    "em Taubaté (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.3,
-     "peso": 5,
-     "provas": [
-      "boa topografia"
-     ]
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 57.983 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Taubaté (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-09-24T13:51:15+00:00",
-   "last_seen": "2026-09-24T13:51:15+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 29.6,
-   "destaques": "{\"acesso\": \"Bom acesso\", \"solo\": \"Boa topografia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "3a8ac1f2d6a4f0b6",
-   "source": "olx",
-   "source_id": "1536342162",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/terreno-a-venda-55189-m-por-r-320-000-00-belem-taubate-sp-1536342162",
-   "title": "Terreno à venda, 55189 m² por R$ 320.000,00 - Belém - Taubaté/SP",
-   "description": "Código do anúncio: TAU953850<br><br>Terreno à Venda na Zona Rural  Fácil Acesso e Excelente Localização!<br><br><br><br>Apresentamos uma excelente oportunidade para quem procura um terreno amplo, com ótima localização e fácil acesso. Situado na área rural, este terreno possui 55.189 m² (5,5 hectares), ideal para empreendimentos agrícolas, construções rurais, lazer ou investimento a longo prazo.<br><br><br><br> Localização Estratégica:<br><br>A apenas 18 km da saída da Rodovia Dutra, com acesso facilitado e estrada em boas condições, garantindo comodidade tanto para transporte de mercadorias quanto para deslocamento diário.<br><br><br><br> Características do Imóvel:<br><br><br><br>Área total: 55.189 m²<br><br><br><br>Topografia favorável<br><br><br><br>Região tranquila e em expansão<br><br><br><br>Potencial para diversas finalidades (agricultura, criação, turismo rural, etc.)<br><br><br><br>Não perca esta oportunidade única de adquirir um terreno espaçoso, com excelente acesso e em uma região com grande potencial de valorização.<br><br><br><br> Entre em contato para mais informações ou agendar uma visita!<br><br><br><br>Mais Informações  CRECI;223452<br>TE2049",
-   "price": 320000.0,
-   "price_first": 320000.0,
-   "area_ha": 5.5189,
-   "price_per_ha": 57982.57,
-   "municipality": "Taubaté",
-   "uf": "SP",
-   "lat": -23.031448,
-   "lon": -45.5612792,
-   "image": "https://img.olx.com.br/images/84/845680689727055.jpg",
-   "posted_at": "",
-   "score": 0.305,
-   "reasons": [
-    "tranquilo",
-    "bom acesso",
-    "boa topografia",
-    "R$/ha 57.983 (++)",
-    "em Taubaté (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.3,
-     "peso": 5,
-     "provas": [
-      "boa topografia"
-     ]
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 57.983 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Taubaté (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-09-17T13:48:39+00:00",
-   "last_seen": "2026-09-17T13:48:39+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 29.6,
-   "destaques": "{\"acesso\": \"Bom acesso\", \"solo\": \"Boa topografia\"}",
-   "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
@@ -5070,113 +4257,6 @@
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
    "destaques": "{\"agua\": \"3 nascentes\", \"benfeitorias\": \"Casa sede + piscina\", \"documentacao\": \"Escriturado + CAR/GEO em dia\", \"solo\": \"Frutíferas\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "53d49982be5c48bb",
-   "source": "facebook",
-   "source_id": "1548838582914997",
-   "url": "https://www.facebook.com/marketplace/item/1548838582914997/",
-   "title": "Estúdio 0 banheiros – Casa",
-   "description": "🌿 Vende-se Chácara/Terreno Rural – 3 Alqueires 🌿\n\nExcelente oportunidade para quem procura tranquilidade, contato com a natureza ou investimento!\n\n✅ Área de 3 alqueires\n💧 Abundância de água, ideal para criação de animais, plantio ou lazer.\n🌳 Terreno com ótimo potencial para sítio, chácara ou produção rural.\n🌄 Região tranquila, com belas paisagens e excelente qualidade de vida.\n\n💰 Valor: R$ 150.000 por alqueire.\n\nEntre em contato para mais informações e agende uma visita. Aproveite essa oportunidade de adquirir uma excelente propriedade rural!",
-   "price": 150000.0,
-   "price_first": 150000.0,
-   "area_ha": 7.26,
-   "price_per_ha": 20661.16,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.554373503,
-   "lon": -45.769322234159,
-   "image": "",
-   "posted_at": "",
-   "score": 0.268,
-   "reasons": [
-    "água abundante",
-    "tranquilo",
-    "R$/ha 20.661 (++)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.3,
-     "peso": 30,
-     "provas": [
-      "água abundante"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 20.661 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-13T16:17:48+00:00",
-   "area_alqueires": 3.0,
-   "area_alqueire_tipo": "paulista",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Água abundante\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -6768,6 +5848,113 @@
    "price_drop": null
   },
   {
+   "key": "868e9c95dbc7aa69",
+   "source": "facebook",
+   "source_id": "1018423094436871",
+   "url": "https://www.facebook.com/marketplace/item/1018423094436871/",
+   "title": "vendo área rural no Pouso Frio",
+   "description": "Vendo área rural de 35 mil metros no bairro pouso frio, topografia  baixa .Oportunidade , na beira do asfalto, ribeirão na divisa, aceita carro ou casa de menor valor como parte de pagamento.",
+   "price": 380000.0,
+   "price_first": 380000.0,
+   "area_ha": 3.5,
+   "price_per_ha": 108571.43,
+   "municipality": "Pindamonhangaba",
+   "uf": "SP",
+   "lat": -22.925720214844,
+   "lon": -45.466918945312,
+   "image": "",
+   "posted_at": "2026-07-22T21:54:17.000Z",
+   "score": 0.172,
+   "reasons": [
+    "rio/riacho",
+    "R$/ha 108.571 (0)",
+    "em Pindamonhangaba (zona boa)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "R$/ha 108.571 (0)"
+     ],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.75,
+     "peso": 0,
+     "provas": [
+      "em Pindamonhangaba (zona boa)"
+     ],
+     "ajuste": 0.06
+    }
+   },
+   "first_seen": "2026-08-16T09:23:15+00:00",
+   "last_seen": "2026-08-16T09:23:15+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "d57d522f3f07300b",
    "source": "brave",
    "source_id": "",
@@ -7075,208 +6262,6 @@
    "is_new": false
   },
   {
-   "key": "868e9c95dbc7aa69",
-   "source": "facebook",
-   "source_id": "1018423094436871",
-   "url": "https://www.facebook.com/marketplace/item/1018423094436871/",
-   "title": "vendo área rural no Pouso Frio",
-   "description": "Vendo área rural de 35 mil metros no bairro pouso frio, topografia  baixa .Oportunidade , na beira do asfalto, ribeirão na divisa, aceita carro ou casa de menor valor como parte de pagamento.",
-   "price": 380000.0,
-   "price_first": 380000.0,
-   "area_ha": null,
-   "price_per_ha": null,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.925720214844,
-   "lon": -45.466918945312,
-   "image": "",
-   "posted_at": "2026-07-22T21:54:17.000Z",
-   "score": 0.113,
-   "reasons": [
-    "rio/riacho"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-16T09:23:15+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Rio/riacho\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "6dea940de164c131",
-   "source": "facebook",
-   "source_id": "2163925460834746",
-   "url": "https://www.facebook.com/marketplace/item/2163925460834746/",
-   "title": "Vendo área rural no Pouso Frio",
-   "description": "Vendo área rural de 35 mil metros no bairro pouso frio, topografia  baixa .Oportunidade , na beira do asfalto, ribeirão na divisa, aceita carro ou casa de menor valor como parte de pagamento.",
-   "price": 380000.0,
-   "price_first": 380000.0,
-   "area_ha": null,
-   "price_per_ha": null,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.925720214844,
-   "lon": -45.466918945312,
-   "image": "",
-   "posted_at": "2026-07-22T22:08:27.000Z",
-   "score": 0.113,
-   "reasons": [
-    "rio/riacho"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-13T16:17:48+00:00",
-   "last_seen": "2026-08-15T09:21:49+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Rio/riacho\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "eefb10b0706fa3b1",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -7390,233 +6375,6 @@
    "price_drop": null
   },
   {
-   "key": "1f8b070d4d5ed38f",
-   "source": "imobiliaria_crawl",
-   "source_id": "",
-   "url": "https://www.sebastiaoimoveis.com.br/3501/imoveis/venda-sitio-area-rural-de-monteiro-lobato-monteiro-lobato-sp",
-   "title": "Sítio Plano em Monteiro Lobato com água, Natureza e Excelente Localização",
-   "description": "Imagine um lugar onde a tranquilidade da natureza se encontra com o espaço ideal para realizar seus sonhos. Este belíssimo sítio em Monteiro Lobato/SP possui aproximadamente 2 hectares de área totalmente aproveitável, com terreno predominantemente plano, oferecendo inúmeras possibilidades para moradia, lazer ou investimento.Localizado em uma região segura e valorizada, o acesso é fácil, com cerca de 4 km de estrada de terra bem conservada, proporcionando privacidade sem abrir mão da comodidade.…",
-   "price": 370000.0,
-   "price_first": 370000.0,
-   "area_ha": 2.0,
-   "price_per_ha": 185000.0,
-   "municipality": "Monteiro Lobato",
-   "uf": "SP",
-   "lat": -22.9553542,
-   "lon": -45.8387146,
-   "image": "https://www.grupo07brasil.com.br/admin/imovel/mini/20260624T1832410300-77353070.jpg",
-   "posted_at": "",
-   "score": 0.103,
-   "reasons": [
-    "tranquilo",
-    "4 km de terra",
-    "plano",
-    "⚠ R$/ha 185.000 (-)",
-    "em Monteiro Lobato (centro exato)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": [
-      "4 km de terra"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.5,
-     "peso": 5,
-     "provas": [
-      "plano"
-     ]
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.233,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 185.000 (-)"
-     ],
-     "ajuste": -0.08
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "em Monteiro Lobato (centro exato)"
-     ],
-     "ajuste": 0.13
-    }
-   },
-   "first_seen": "2026-09-17T13:36:57+00:00",
-   "last_seen": "2026-09-17T13:36:57+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 0.0,
-   "destaques": "{\"acesso\": \"4 km de terra\", \"solo\": \"Plano\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "14c6bf7aa197b502",
-   "source": "facebook",
-   "source_id": "1541656000941963",
-   "url": "https://www.facebook.com/marketplace/item/1541656000941963/",
-   "title": "2 quartos 2 banheiros – Casa",
-   "description": "Chacara Pé na água em Paraibuna SP\nBeira da represa  Capim D’Angola 2\n\nUma oportunidade única para quem busca qualidade de vida, contato com a natureza e um excelente investimento!\n\n📍 Localização: Bairro Capim D’Angola 2 – Paraibuna/SP\nEntrada no segundo pedagio sentido Caraguatatuba \n📐 Área total: 42.000 m²\nPoste de luz novo\n\nImagine acordar com uma vista deslumbrante da represa, cercado por muito verde, tranquilidade e ar puro. Com acesso direto à água, esta propriedade é perfeita para lazer, descanso ou para transformar em uma fonte de renda.\n\n✨ Ideal para:\n• Lazer com a família e amigos\n• Trilhas ecológicas\n• Passeios de quadriciclo\n• Construção de chalés para locação de temporada\n• Criação de peixes\n• Pesca esportiva\n• Turismo rural e ecoturismo\n\n💰 Transforme este paraíso em uma excelente fonte de renda mensal!\n\n🔹 Diferenciais:\n✔ Chácara à beira da represa (pé na água)\n✔ Vista privilegiada e contato direto com a natureza\n✔ Muita privacidade\n✔ O vizinho não possui acesso à estrada que contorna a propriedade\n\n📄 Documentação: Concessão de posse há mais de 40 anos (não possui escritura).\n\n🚗 Aceita permuta: Apartamento em São José dos Campos ou Carro de até R$ 210.000,00 como parte do pagamento. O restante deve ser pago em dinheiro.\n\nSe você procura um lugar para investir, descansar ou empreender em meio à natureza, esta é a oportunidade que estava esperando!",
-   "price": 338000.0,
-   "price_first": 338000.0,
-   "area_ha": 4.2,
-   "price_per_ha": 80476.19,
-   "municipality": "Paraibuna",
-   "uf": "SP",
-   "lat": -23.3864203,
-   "lon": -45.6626797,
-   "image": "",
-   "posted_at": "",
-   "score": 0.103,
-   "reasons": [
-    "menção a loteamento/condomínio",
-    "lago/açude",
-    "tranquilo",
-    "preservado",
-    "R$/ha 80.476 (+)",
-    "⚠ 51.2 km do centro de interesse (--)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.25,
-     "peso": 30,
-     "provas": [
-      "lago/açude"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.2,
-     "peso": 10,
-     "provas": [
-      "preservado"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.767,
-     "peso": 0,
-     "provas": [
-      "R$/ha 80.476 (+)"
-     ],
-     "ajuste": 0.08
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.167,
-     "peso": 0,
-     "provas": [
-      "⚠ 51.2 km do centro de interesse (--)"
-     ],
-     "ajuste": -0.1
-    }
-   },
-   "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 51.2,
-   "destaques": "{\"agua\": \"Lago/açude\", \"solo\": \"Preservado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "23546aa472c98565",
    "source": "olx",
    "source_id": "1535990776",
@@ -7724,121 +6482,6 @@
    "area_alqueire_tipo": "",
    "distancia_centro_km": 146.0,
    "destaques": "{\"solo\": \"Preservado + ⚠ acidentado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "08bba583b2020dd1",
-   "source": "facebook",
-   "source_id": "2372585856485043",
-   "url": "https://www.facebook.com/marketplace/item/2372585856485043/",
-   "title": "4 quartos 3 banheiros – Casa",
-   "description": "Linda chácara a um km da Rodovia dosTamoios, no Bairro da Grama. Possui energia solar, poço artesiano, internet, piscina. Uma casa recém reformada, com telhado novo em madeira tratada. Varanda grande, nova, com telhado e madeira tratada. Possui  3 suites a terminar.  Pomar com vinte pés de frutas,  horta e linda vista. Somente para venda.  Preço abaixo da avaliação.troco por ap. 2 dorm.região central são josé.Avaliada em 400mil.Troco por casa ou apartamento em São José ou Caraguatatuba. Vendendo bem abaixo do avaliado.NÃO ABAIXO O PREÇO  PARA TROCA VALOR É 400MIL",
-   "price": 350000.0,
-   "price_first": 350000.0,
-   "area_ha": null,
-   "price_per_ha": null,
-   "municipality": "Paraibuna",
-   "uf": "SP",
-   "lat": -23.3864203,
-   "lon": -45.6626797,
-   "image": "",
-   "posted_at": "",
-   "score": 0.081,
-   "reasons": [
-    "menção a loteamento/condomínio",
-    "poço artesiano",
-    "casa",
-    "energia",
-    "piscina",
-    "frutíferas",
-    "⚠ 51.2 km do centro de interesse (--)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.15,
-     "peso": 30,
-     "provas": [
-      "poço artesiano"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.58,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "energia",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.2,
-     "peso": 10,
-     "provas": [
-      "frutíferas"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.167,
-     "peso": 0,
-     "provas": [
-      "⚠ 51.2 km do centro de interesse (--)"
-     ],
-     "ajuste": -0.1
-    }
-   },
-   "first_seen": "2026-08-20T02:12:37+00:00",
-   "last_seen": "2026-08-20T02:12:37+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 51.2,
-   "destaques": "{\"agua\": \"Poço artesiano\", \"benfeitorias\": \"Casa + energia + piscina\", \"solo\": \"Frutíferas\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -8508,15 +7151,17 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado"
+ ],
  "criterios": {
   "estados": [
    "SP"
