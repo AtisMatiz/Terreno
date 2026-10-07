@@ -1,5 +1,5 @@
 {
- "generated_at": "06/10/2026 às 12:30",
+ "generated_at": "07/10/2026 às 12:44",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -7153,13 +7153,17 @@
  ],
  "new_count": 0,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "terradouradaimoveis.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "criterios": {
   "estados": [
    "SP"
