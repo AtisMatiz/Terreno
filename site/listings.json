@@ -1,5 +1,5 @@
 {
- "generated_at": "08/10/2026 às 12:43",
+ "generated_at": "08/10/2026 às 12:53",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -7153,15 +7153,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "criterios": {
   "estados": [
    "SP"
