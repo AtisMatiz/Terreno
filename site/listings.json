@@ -1,5 +1,5 @@
 {
- "generated_at": "09/10/2026 às 12:27",
+ "generated_at": "09/10/2026 às 12:38",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -5955,6 +5955,109 @@
    "price_drop": null
   },
   {
+   "key": "99e2a5a1bf4391c5",
+   "source": "olx",
+   "source_id": "1542686657",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/chacara-formada-com-4-nascentes-piscina-na-serra-de-piquete-1542686657",
+   "title": "Chacara formada com 4 nascentes piscina na serra de piquete",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "",
+   "posted_at": "",
+   "score": 0.16,
+   "reasons": [
+    "4 nascentes",
+    "piscina"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.5,
+     "peso": 30,
+     "provas": [
+      "4 nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.05,
+     "peso": 20,
+     "provas": [
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-09T15:38:39+00:00",
+   "last_seen": "2026-10-09T15:38:39+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"4 nascentes\", \"benfeitorias\": \"Piscina\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "is_new": true
+  },
+  {
    "key": "d57d522f3f07300b",
    "source": "brave",
    "source_id": "",
@@ -7151,17 +7254,16 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "terradouradaimoveis.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "sp.olx.com.br: bloqueado"
  ],
  "criterios": {
   "estados": [
