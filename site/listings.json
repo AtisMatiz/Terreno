@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 14:30",
+ "generated_at": "13/10/2026 às 15:50",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4051,6 +4051,137 @@
    "price_drop": null
   },
   {
+   "key": "fc2174a8984318af",
+   "source": "olx",
+   "source_id": "1543909988",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/fazenda-sitio-chacara-para-venda-com-39000-metros-quadrados-com-3-quartos-1543909988",
+   "title": "Fazenda/Sítio/Chácara para venda com 39000 metros quadrados com 3 quartos",
+   "description": "Código do anúncio: 478DA7DB<br><br>**Chácara à beira da represa  39.000 m² com acesso privativo à água | Santa Branca/SP**<br><br>Uma propriedade rara para quem sonha em viver perto da natureza sem abrir mão de conforto, segurança e lazer em família. São 39 mil m² com pé n'água  acesso privativo à represa , vista maravilhosa para boa parte do espelho d'água, duas casas (principal e secundária) e uma estrutura completa que poucos imóveis reúnem ao mesmo tempo. Escritura com matrícula regular, possibilitando financiamento.<br><br>**A propriedade**<br>* Casa principal e casa secundária, ambas com fogão à lenha, prontas para morar ou receber convidados<br>* Vista privilegiada para a represa<br>* Pé na água: acesso privativo à represa, com deck próprio  ideal para pesca, canoa, caiaque, passeios de barco ou jet ski<br>* Topografia excelente, 100% do terreno é utilizável<br>* Local super seguro<br><br>**Natureza e produção própria**<br>* Pomar generoso, com jaboticabeiras, mangueiras, bananeiras, goiabeiras, pitangueiras, figueira, laranjeiras, mexeriqueira, lima-da-pérsia, figo-da-índia e acerola<br>* Horta<br>* Galinheiro<br>* Lago próprio para peixes<br>* 3 nascentes de água na propriedade<br>* Visita frequente de tucanos e patos selvagens<br><br>**Lazer para a família**<br>* Campo de futebol<br>* Parquinho<br>* Churrasqueira<br>* Aceita animais de estimação<br><br>**Praticidade**<br>* Internet de fibra óptica<br>* Documentação regular, com matrículas individualizadas<br><br>Uma chácara assim  com fartura de água e vista para a represa não aparece todo dia no mercado. Agende sua visita e conheça de perto.",
+   "price": 1900000.0,
+   "price_first": 1900000.0,
+   "area_ha": 3.9,
+   "price_per_ha": 487179.49,
+   "municipality": "Santa Branca",
+   "uf": "SP",
+   "lat": -23.3974353,
+   "lon": -45.8842294,
+   "image": "https://img.olx.com.br/images/97/979618693298515.jpg",
+   "posted_at": "",
+   "score": 0.305,
+   "reasons": [
+    "lago/açude",
+    "3 nascentes",
+    "casa sede",
+    "mais de uma casa",
+    "curral",
+    "frutíferas",
+    "escriturado",
+    "documentação em dia",
+    "boa topografia",
+    "⚠ R$/ha 487.179 (--)",
+    "⚠ preço R$ 1.900.000 (> R$ 1 milhão)",
+    "⚠ 49.4 km do centro de interesse (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "3 nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "mais de uma casa",
+      "curral"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.95,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "documentação em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.3,
+     "peso": 5,
+     "provas": [
+      "boa topografia"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 487.179 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.900.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ 49.4 km do centro de interesse (-)"
+     ],
+     "ajuste": -0.05
+    }
+   },
+   "first_seen": "2026-10-13T18:50:50+00:00",
+   "last_seen": "2026-10-13T18:50:50+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 49.4,
+   "destaques": "{\"agua\": \"Lago/açude + 3 nascentes\", \"benfeitorias\": \"Casa sede + mais de uma casa + curral\", \"documentacao\": \"Escriturado + documentação em dia\", \"solo\": \"Frutíferas + boa topografia\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "1952c7a1b171b0cd",
    "source": "facebook",
    "source_id": "1436295827968599",
@@ -7421,7 +7552,7 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
   "pgfn",
   "olx",
@@ -7429,9 +7560,7 @@
   "caixa",
   "facebook"
  ],
- "warnings": [
-  "sp.olx.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
