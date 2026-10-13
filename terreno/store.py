@@ -57,6 +57,12 @@ CREATE TABLE IF NOT EXISTS price_history (
     PRIMARY KEY (key, seen_at)
 );
 
+CREATE TABLE IF NOT EXISTS revcache (
+    chave     TEXT PRIMARY KEY,
+    municipio TEXT NOT NULL,
+    uf        TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS geocache (
     query TEXT PRIMARY KEY,
     lat   REAL,
@@ -318,6 +324,17 @@ class Store:
         return {r["url"] for r in self.db.execute("SELECT url FROM listings")}
 
     # ------------------------------------------------------------- geocache
+    def reverse_cached(self, chave: str):
+        row = self.db.execute(
+            "SELECT municipio, uf FROM revcache WHERE chave = ?", (chave,)).fetchone()
+        return (row["municipio"], row["uf"]) if row else None
+
+    def reverse_put(self, chave: str, municipio: str, uf: str) -> None:
+        self.db.execute(
+            "INSERT OR REPLACE INTO revcache (chave, municipio, uf) VALUES (?,?,?)",
+            (chave, municipio, uf))
+        self.db.commit()
+
     def geocode_cached(self, query: str):
         row = self.db.execute(
             "SELECT lat, lon FROM geocache WHERE query = ?", (query,)
