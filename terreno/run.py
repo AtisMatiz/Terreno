@@ -104,22 +104,26 @@ def aplicar_correcoes(store: Store, criteria) -> int:
         # price_drop badge from showing a "discount" that never happened.
         if "price" in campos:
             d["price_first"] = d["price"]
-        d["price_per_ha"] = price_per_ha(d.get("price"), d.get("area_ha"))
+        alugando = d.get("secao") == "aluguel"
+        d["price_per_ha"] = None if alugando else price_per_ha(d.get("price"), d.get("area_ha"))
 
         titulo = "" if scoring.titulo_generico(d.get("title")) else (d.get("title") or "")
         text = f"{titulo} {d.get('description') or ''}"
-        nota, detalhe, evidencias, estrelas = scoring.avaliar(
-            text,
-            price_per_ha=d.get("price_per_ha"),
-            distancia_centro_km=d.get("distancia_centro_km"),
-            preco_ha_bom=bom,
-            preco_ha_limite=limite,
-            municipality=d.get("municipality") or "",
-            centro=criteria.center,
-            zona_melhor=criteria.zona_melhor,
-            zona_boa=criteria.zona_boa,
-            price=d.get("price"),
-        )
+        if alugando:
+            nota, detalhe, evidencias, estrelas = scoring.avaliar_aluguel(text, d.get("price"))
+        else:
+            nota, detalhe, evidencias, estrelas = scoring.avaliar(
+                text,
+                price_per_ha=d.get("price_per_ha"),
+                distancia_centro_km=d.get("distancia_centro_km"),
+                preco_ha_bom=bom,
+                preco_ha_limite=limite,
+                municipality=d.get("municipality") or "",
+                centro=criteria.center,
+                zona_melhor=criteria.zona_melhor,
+                zona_boa=criteria.zona_boa,
+                price=d.get("price"),
+            )
         _, aviso = scoring.tipo_ok(text)
         store.db.execute(
             "UPDATE listings SET title = ?, description = ?, price = ?, price_first = ?, "

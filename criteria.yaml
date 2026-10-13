@@ -76,15 +76,22 @@ area:
 #     filtros normais deixam passar o que não tem área ("campo ausente é
 #     falha nossa"), mas aqui isso encheria a seção de apartamentos e casas
 #     de cidade, que são baratos e têm "casa" no texto.
-#   * sem_descartes: nenhum critério de exclusão da busca principal (rural,
-#     condomínio, estrada de terra, nota mínima, teto de R$/ha...). Só sobra
-#     o que a seção exige acima, mais apartamento/sobrado/studio, que nunca
-#     é terra. Vale do Paraíba = só SP.
+#   * sem_descartes: nenhum critério de exclusão da busca principal
+#     (condomínio, estrada de terra, nota mínima, teto de R$/ha...). Só sobra
+#     o que a seção exige aqui.
+#   * exige_rural: continua sendo terra rural -- apartamento e casa de cidade
+#     seguem de fora (mesma regra `tipo_ok` da busca principal).
+#   * Região e estados são herdados: Vale do Paraíba + os municípios mineiros.
+#
+# Terceira seção, "Aluguel" (2026-10-13): o que está para ALUGAR em área rural
+# -- pelo menos uma casa, pelo menos 2.000 m², até R$ 6 mil/mês. Mesmas
+# fontes, mas só chega aqui o que for lido como aluguel (ver
+# `pipeline.detectar_finalidade`; a busca principal e a de chácaras passam a
+# recusar aluguel, que antes entraria como um "terreno de R$ 3.000"). A nota
+# NÃO é a global: é a pontuação própria de aluguel (scoring.avaliar_aluguel).
 secoes:
   chacaras:
     titulo: "Chácaras menores"
-    localizacao:
-      estados: [SP]
     area:
       min_ha: 0.2
       max_ha: 2
@@ -92,7 +99,24 @@ secoes:
       min: 0
       max: 120000
     exige_casa: true
+    exige_rural: true
     area_obrigatoria: true
+    sem_descartes: true
+    saida:
+      nota_minima: 0
+  aluguel:
+    titulo: "Aluguel"
+    finalidade: aluguel
+    area:
+      min_ha: 0.2
+      max_ha: 100000
+    preco:
+      min: 0
+      max: 6000
+    exige_casa: true
+    exige_rural: true
+    area_obrigatoria: true
+    preco_obrigatorio: true
     sem_descartes: true
     saida:
       nota_minima: 0

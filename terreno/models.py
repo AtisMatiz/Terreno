@@ -70,6 +70,10 @@ class Listing:
     # "chacaras" (the second, small-and-affordable search, see `secoes` in
     # criteria.yaml). Set by pipeline.filtrar_secoes, first match wins.
     secao: str = "sitios"
+    # "venda" | "aluguel". Not stored: the section already implies it once a
+    # listing is published. Set by the source when it knows (a rentals
+    # category), otherwise read from the text -- see pipeline.detectar_finalidade.
+    finalidade: str = "venda"
     first_seen: str = field(default_factory=_now)
     last_seen: str = field(default_factory=_now)
     price_first: float | None = None

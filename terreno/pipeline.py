@@ -17,6 +17,32 @@ from .units import area_detalhada, preco_total, price_per_ha, price_to_brl
 log = logging.getLogger("terreno.pipeline")
 
 
+# Deliberately only the unambiguous words: "mensal"/"/mês"/"locação" alone
+# also show up in sale ads (financing instalments, condo fees, "locação de
+# eventos") and would wrongly push a sale out of the sale sections.
+_RE_ALUGUEL = re.compile(
+    r"\b(aluga[-\s]?se|alugo|para\s+alugar|p/\s*alugar|para\s+loca[cç][aã]o|"
+    r"aluguel|alugu[eé]is)\b|[-/](aluguel|alugar|alugueis|locacao)[-/]", re.I)
+_RE_VENDA = re.compile(r"\b(vende[-\s]?se|vendo|[àa]\s+venda|venda|compra)\b", re.I)
+
+
+def detectar_finalidade(listing: Listing) -> str:
+    """"aluguel" or "venda". A source that knows (a rentals category) sets it
+    itself and that wins; otherwise it is read from the URL, the title and the
+    start of the description. An ad that says both ("vendo ou alugo") is
+    treated as a sale: the sale sections want it, and a rent search that
+    matched every "vende-se" ad mentioning renting would be mostly noise.
+
+    Before this existed rentals simply leaked into the sale search as
+    suspiciously cheap "terrenos" (R$ 3.000 for a chácara)."""
+    if listing.finalidade == "aluguel":
+        return "aluguel"
+    texto = f"{listing.url} {listing.title} {(listing.description or '')[:600]}"
+    if _RE_ALUGUEL.search(texto) and not _RE_VENDA.search(texto):
+        return "aluguel"
+    return "venda"
+
+
 def normalize(listing: Listing) -> Listing:
     """Fill derived fields. Sources may set price/area directly or leave the
     raw text for this to parse — whichever is cheaper at the source."""
@@ -49,7 +75,11 @@ def normalize(listing: Listing) -> Listing:
 
     listing.uf = (listing.uf or "").upper()[:2]
     listing.municipality = (listing.municipality or "").strip()
-    listing.price_per_ha = price_per_ha(listing.price, listing.area_ha)
+    listing.finalidade = detectar_finalidade(listing)
+    # A monthly rent per hectare is meaningless (and would feed the sale
+    # price/ha scoring a nonsense number).
+    listing.price_per_ha = (price_per_ha(listing.price, listing.area_ha)
+                            if listing.finalidade == "venda" else None)
     return listing
 
 
@@ -146,6 +176,8 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
 
     kept: list[Listing] = []
     for item in listings:
+        if item.finalidade != criteria.finalidade:
+            continue
         if item.posted_at and muito_antigo(item.posted_at):
             # Found 2026-08-17: a real Brave-discovered result was a LinkedIn
             # post from 2018 -- readable, well-written, and years stale. No
@@ -232,7 +264,9 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
             item.price = detail.price
         if item.area_ha is None:
             item.area_ha = detail.area_ha
-        item.price_per_ha = price_per_ha(item.price, item.area_ha)
+        item.finalidade = detectar_finalidade(item)
+        item.price_per_ha = (price_per_ha(item.price, item.area_ha)
+                             if item.finalidade == "venda" else None)
     return listings
 
 
@@ -259,11 +293,15 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         text = f"{titulo} {item.description}"
 
         if criteria.sem_descartes:
-            # "No exclusion criteria" (the small-plots section): only what
-            # that section explicitly requires, plus the one thing that can
-            # never be land -- an apartment.
+            # Sections with their own, explicit requirements instead of the
+            # main search's exclusion list: only what the section states.
+            # Apartments are never land, so they go whether or not the
+            # section asks for "rural" -- that gate (tipo_ok) is the same
+            # one the main search uses, so city houses are out too.
             motivo = ("apartamento/sobrado/studio" if scoring.eh_urbano_definitivo(text)
+                      else "não parece imóvel rural" if criteria.exige_rural and not scoring.tipo_ok(text)[0]
                       else "área não informada" if criteria.area_obrigatoria and item.area_ha is None
+                      else "preço não informado" if criteria.preco_obrigatorio and item.price is None
                       else "sem casa" if criteria.exige_casa and not scoring.tem_casa(text)
                       else None)
         else:
@@ -280,18 +318,23 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         # a run of only expensive listings the dearest of them still scored
         # full marks. Absolute thresholds are what the owner actually asked
         # for, and keeping both would have double-counted price.
-        nota, detalhe, evidencias, estrelas = scoring.avaliar(
-            text,
-            price_per_ha=item.price_per_ha,
-            distancia_centro_km=item.distancia_centro_km,
-            preco_ha_bom=bom,
-            preco_ha_limite=limite,
-            municipality=item.municipality,
-            centro=criteria.center,
-            zona_melhor=criteria.zona_melhor,
-            zona_boa=criteria.zona_boa,
-            price=item.price,
-        )
+        if criteria.finalidade == "aluguel":
+            # Rentals have their own rubric (price tier, water, houses), not
+            # the sale scoring -- see scoring.avaliar_aluguel.
+            nota, detalhe, evidencias, estrelas = scoring.avaliar_aluguel(text, item.price)
+        else:
+            nota, detalhe, evidencias, estrelas = scoring.avaliar(
+                text,
+                price_per_ha=item.price_per_ha,
+                distancia_centro_km=item.distancia_centro_km,
+                preco_ha_bom=bom,
+                preco_ha_limite=limite,
+                municipality=item.municipality,
+                centro=criteria.center,
+                zona_melhor=criteria.zona_melhor,
+                zona_boa=criteria.zona_boa,
+                price=item.price,
+            )
 
         _, aviso = scoring.tipo_ok(text)
         item.score = nota

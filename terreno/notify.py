@@ -153,10 +153,12 @@ def render_card(item, index: int) -> str:
     titulo = _esc((getattr(item, "title", "") or "sem título").strip()[:80])
     lines = [
         f"  # {index} - <b>{titulo}</b>",
-        *(["🏡 <b>Chácara menor</b> (seção \"Chácaras menores\")"]
-          if getattr(item, "secao", "sitios") == "chacaras" else []),
+        *({"chacaras": ["🏡 <b>Chácara menor</b> (seção \"Chácaras menores\")"],
+           "aluguel": ["🔑 <b>Aluguel</b> (seção \"Aluguel\")"]}
+          .get(getattr(item, "secao", "sitios"), [])),
         f"📍 <b>Localização:</b> {_esc(_where(item))}",
-        f"💰 <b>Preço:</b> {_fmt_brl(getattr(item, 'price', None))}",
+        f"💰 <b>Preço:</b> {_fmt_brl(getattr(item, 'price', None))}"
+        + ("/mês" if getattr(item, "secao", "sitios") == "aluguel" and getattr(item, "price", None) else ""),
         f"📐 <b>Área:</b> {_esc(_area_text(item))}",
         f"⭐ <b>Pontuação:</b> {_score_label(getattr(item, 'score', 0.0))}",
     ]
