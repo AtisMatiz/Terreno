@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 13:33",
+ "generated_at": "13/10/2026 às 14:01",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -7429,7 +7429,9 @@
   "caixa",
   "facebook"
  ],
- "warnings": [],
+ "warnings": [
+  "sp.olx.com.br: bloqueado"
+ ],
  "secoes": [
   {
    "id": "sitios",
