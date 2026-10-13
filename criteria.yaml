@@ -11,7 +11,7 @@
 #   regiao    — opcional; se preenchida, filtra pelos municípios de data/regioes.yaml
 #   municipios— opcional; se vazio, busca a região inteira (ou o estado inteiro)
 localizacao:
-  estados: [SP]
+  estados: [SP, MG]
   regiao: "vale do paraiba"     # null para o estado inteiro
   municipios: []                # ex: [Monteiro Lobato, São Bento do Sapucaí]
 
@@ -34,7 +34,12 @@ localizacao:
   #     lista própria, cai na curva de distância contínua já existente
   #     (`ajuste_centro`), que segue valendo para qualquer município fora das
   #     duas listas abaixo.
-  zona_melhor: [São Bento do Sapucaí, Sapucaí-Mirim, Pinhalzinho, Francisco Xavier]
+  # 2026-10-13 (pedido do dono): a melhor zona é a faixa inteira de Monteiro
+  # Lobato até Sapucaí-Mirim/São Bento, não só o entorno imediato -- inclui
+  # Santo Antônio do Pinhal (no meio do caminho) e o lado mineiro.
+  zona_melhor: [São Bento do Sapucaí, Sapucaí-Mirim, Pinhalzinho, Francisco Xavier,
+                Santo Antônio do Pinhal, Paraisópolis, Gonçalves, Consolação,
+                Brazópolis, Cruz Vera]
   zona_boa: [Campos do Jordão, Pindamonhangaba, Taubaté, Tremembé, Ribeirão Grande]
   # Limite de sanidade, não o critério de escolha. A ordenação por proximidade
   # é feita pela nota (ver `proximidade_centro` em terreno/scoring.py), então o

@@ -14,6 +14,7 @@
 //   GITHUB_TOKEN, GITHUB_REPO, GITHUB_REF, TERRENO_SENHA
 
 const CAMINHO = "data/correcoes.json";
+const WORKFLOW = "aplicar_correcoes.yml";
 
 // Mesma whitelist de terreno/run.py:CAMPOS_EDITAVEIS -- duplicada aqui de
 // propósito: esta função nunca deve escrever no arquivo um campo que o lado
@@ -103,9 +104,30 @@ export default async function handler(req, res) {
   });
 
   if (escrita.status === 200 || escrita.status === 201) {
+    // Recalcular a nota global não precisa esperar a busca agendada: dispara
+    // o workflow que aplica a correção e republica o site. Best-effort -- se
+    // o disparo falhar, a correção já está gravada e a próxima busca a aplica
+    // do mesmo jeito; só demora mais.
+    let recalculando = false;
+    try {
+      const disparo = await fetch(
+        `https://api.github.com/repos/${repo}/actions/workflows/${WORKFLOW}/dispatches`,
+        {
+          method: "POST",
+          headers: { ...headers, "Content-Type": "application/json" },
+          body: JSON.stringify({ ref }),
+        }
+      );
+      recalculando = disparo.status === 204;
+    } catch {
+      recalculando = false;
+    }
     return res.status(200).json({
       ok: true,
-      mensagem: "Correção gravada. Aparece no site na próxima execução.",
+      recalculando,
+      mensagem: recalculando
+        ? "Correção gravada. A nota está sendo recalculada (1–2 min)."
+        : "Correção gravada. A nota é recalculada na próxima execução.",
     });
   }
 
