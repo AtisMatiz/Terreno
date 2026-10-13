@@ -216,6 +216,29 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
     return kept
 
 
+def completar_municipio(listings: list[Listing], store, limite: int = 80) -> int:
+    """Fill a blank município (and UF) from the listing's coordinates.
+
+    Cheap and bounded: only listings that have coordinates but no município,
+    at most `limite` lookups per run (Nominatim allows one per second); the
+    result is cached by ~1 km cell, so a recurring listing costs nothing."""
+    feitos = 0
+    for item in listings:
+        if feitos >= limite:
+            break
+        if item.municipality or item.lat is None or item.lon is None:
+            continue
+        achou = geo.reverse(item.lat, item.lon, store)
+        feitos += 1
+        if achou:
+            item.municipality, uf = achou
+            if uf:
+                item.uf = uf
+    if feitos:
+        log.info("município lido pelas coordenadas em %d anúncio(s)", feitos)
+    return feitos
+
+
 def filtrar_secoes(listings: list[Listing], criteria: Criteria, store) -> list[Listing]:
     """Hard filters for every section, tagging each survivor with the section
     it belongs to. First match wins (the main search is tried first), so a

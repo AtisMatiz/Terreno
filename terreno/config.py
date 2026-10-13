@@ -168,7 +168,12 @@ class Criteria:
         preco["max"] = max(c.price_max for c in todos)
         raw["preco"] = preco
         loc = dict(raw.get("localizacao") or {})
-        loc["estados"] = sorted({s for _, c in self.secoes() for s in c.states})
+        # Order matters: states[0] is the default UF for listings that state
+        # none (facebook.py), so the main search's own order must come first
+        # -- sorting alphabetically made it "MG" (found 2026-10-13: every
+        # Marketplace sale listing came back as ?/MG).
+        loc["estados"] = list(dict.fromkeys(
+            s for _, c in self.secoes() for s in c.states))
         raw["localizacao"] = loc
         return Criteria(raw)
 

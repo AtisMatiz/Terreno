@@ -53,6 +53,44 @@ def geocode(query: str, store) -> tuple[float, float] | None:
     return lat, lon
 
 
+NOMINATIM_REVERSE = "https://nominatim.openstreetmap.org/reverse"
+
+
+def reverse(lat: float, lon: float, store) -> tuple[str, str] | None:
+    """(município, UF) of a coordinate, cached in the store.
+
+    Marketplace often gives a listing's latitude/longitude but no readable
+    city (all 49 sale listings of one real run had a blank município), and a
+    blank município silently bypasses the region filter. Coordinates are
+    rounded to ~1 km for the cache key: it is a town we want, not an address.
+    A miss is not cached (a transient failure must not blank a place forever)."""
+    global _last_call
+    chave = f"{lat:.2f},{lon:.2f}"
+    cached = store.reverse_cached(chave)
+    if cached:
+        return cached
+
+    elapsed = time.monotonic() - _last_call
+    if elapsed < 1.1:
+        time.sleep(1.1 - elapsed)
+    _last_call = time.monotonic()
+
+    data = http.get_json(
+        NOMINATIM_REVERSE,
+        params={"lat": f"{lat:.5f}", "lon": f"{lon:.5f}", "format": "json",
+                "zoom": 10, "addressdetails": 1, "accept-language": "pt-BR"},
+        headers=_HEADERS, retries=2,
+    )
+    addr = (data or {}).get("address") or {}
+    muni = (addr.get("city") or addr.get("town") or addr.get("village")
+            or addr.get("municipality") or "")
+    uf = str(addr.get("ISO3166-2-lvl4") or "").replace("BR-", "")[:2].upper()
+    if not muni:
+        return None
+    store.reverse_put(chave, muni, uf)
+    return muni, uf
+
+
 def haversine_km(a: tuple[float, float], b: tuple[float, float]) -> float:
     lat1, lon1, lat2, lon2 = map(math.radians, (a[0], a[1], b[0], b[1]))
     dlat, dlon = lat2 - lat1, lon2 - lon1

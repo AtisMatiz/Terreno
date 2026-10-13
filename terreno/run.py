@@ -228,6 +228,7 @@ def main(argv=None) -> int:
 
     normalized = [pipeline.normalize(item) for item in collected]
     deduped = pipeline.dedup(normalized)
+    pipeline.completar_municipio(deduped, store)
     filtered = pipeline.filtrar_secoes(deduped, criteria, store)
     enriched = pipeline.enrich(filtered, budgets)
     # Second pass, deliberately: sources that read price and area from a URL
