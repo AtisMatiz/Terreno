@@ -89,6 +89,7 @@ INCLUDE_DETAILS = os.getenv("APIFY_FB_DETALHES", "1") not in ("0", "false", "Fal
 # actor's own default) buys nothing here -- only the first is ever read (see
 # `_from_apify` below). Off by default; `getListingDetails` already covers
 # the field this pipeline actually needs (description).
+PROXY_PAIS = os.getenv("APIFY_FB_PROXY_PAIS", "BR").strip()
 GET_ALL_PHOTOS = os.getenv("APIFY_FB_TODAS_FOTOS", "0") not in ("0", "false", "False")
 
 # The `cookies` input is never set: it exists only to populate the seller's
@@ -138,6 +139,15 @@ def _via_apify(criteria, store, budgets, finalidade: str = "venda") -> list[List
         "getAllListingPhotos": GET_ALL_PHOTOS,
         "maxPagesPerUrl": MAX_PAGINAS_POR_URL,
     }
+    # Found 2026-10-13: the sale search came back as listings from San
+    # Francisco, Oakland, Petaluma... (the município read from each listing's
+    # coordinates). Marketplace decides what to show from the *request's*
+    # location, and this actor's default proxy exits in the US, so the search
+    # was effectively run from California. "Results depend on proxy region"
+    # (the actor's own input docs); Brazil keeps it where the land is.
+    # `APIFY_FB_PROXY_PAIS=""` turns it off.
+    if PROXY_PAIS:
+        payload["proxy"] = {"useApifyProxy": True, "apifyProxyCountry": PROXY_PAIS}
 
     # Tenta cada conta até uma de fato aceitar a chamada paga -- os dois
     # pré-checks abaixo (ledger local, `/limits` geral da conta) são só para
@@ -173,6 +183,14 @@ def _via_apify(criteria, store, budgets, finalidade: str = "venda") -> list[List
             log.debug("apify: %s", u)
         try:
             items = _apify_post(DEFAULT_ACTOR, tok, payload, MAX_CHARGE_USD_POR_RUN)
+            if not items and "proxy" in payload:
+                # An input the actor rejects (HTTP 400) comes back empty, and
+                # the proxy field is the one unconfirmed part of it: retry
+                # once without it rather than lose the whole search. A truly
+                # empty result costs nothing, so the retry is free too.
+                log.warning("apify: sem itens com proxy %s — tentando sem proxy", PROXY_PAIS)
+                sem_proxy = {k: v for k, v in payload.items() if k != "proxy"}
+                items = _apify_post(DEFAULT_ACTOR, tok, sem_proxy, MAX_CHARGE_USD_POR_RUN)
         except SemCreditoApify:
             log.warning("apify: conta %s recusada na chamada real (402) — tentando a próxima", c)
             continue
