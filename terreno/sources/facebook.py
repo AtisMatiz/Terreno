@@ -298,6 +298,34 @@ POLOS_UF = {
 }
 
 
+# Âncoras por coordenada (2026-10-13, pedido do dono): "lat,lon,raio_km", uma
+# por vírgula-ponto. Resolvem o problema acima de outro jeito -- o Marketplace
+# também aceita `latitude`/`longitude`/`radius` na própria URL (é assim que o
+# ator monta a busca por filtros), então a busca pode ser ancorada em qualquer
+# ponto, sem depender de o município ter uma página de cidade. O padrão é o
+# centroide da zona preferida (Monteiro Lobato, São Bento, Sapucaí-Mirim e as
+# cidades mineiras vizinhas): a 30 km dele cabe tudo, o ponto mais distante
+# (Cruz Vera) fica a 27 km. Ancorar em São Bento sozinho com 30 km deixaria
+# Monteiro Lobato (31,6 km), o centro de interesse, de fora.
+#
+# Ainda NÃO confirmado contra um run pago real que o Facebook respeite estes
+# parâmetros nesta forma de URL (mesma ressalva dos campos de saída em
+# `_from_apify`): o log "N item(ns) de <url>" de `_via_apify` mostra na
+# primeira execução se esta URL rendeu algo. `APIFY_FB_ANCORAS=""` desliga.
+ANCORAS_MARKETPLACE = os.getenv("APIFY_FB_ANCORAS", "-22.72,-45.82,30")
+
+
+def _ancoras() -> list[tuple[float, float, float]]:
+    out = []
+    for parte in ANCORAS_MARKETPLACE.split(";"):
+        try:
+            lat, lon, raio = (float(x) for x in parte.split(","))
+        except ValueError:
+            continue
+        out.append((lat, lon, raio))
+    return out
+
+
 def _locais(criteria) -> list[str]:
     """Tokens de localidade do Marketplace (slug ou id numérico) a consultar.
 
@@ -371,7 +399,15 @@ def _start_urls(criteria) -> list[str]:
     # README do ator para categoria; sem `CATEGORIA_MARKETPLACE` volta à
     # `/marketplace/<cidade>/search/?query=...` de antes.
     caminho = CATEGORIA_MARKETPLACE.strip("/") if CATEGORIA_MARKETPLACE else "search"
+    # Âncoras por coordenada primeiro: a zona preferida é o que o teto de
+    # custo por run (`MAX_CHARGE_USD_POR_RUN`) nunca deve cortar -- o ator
+    # percorre as URLs em ordem, então quem vem por último é quem fica sem.
+    cat_ancora = f"category/{CATEGORIA_MARKETPLACE.strip('/')}" if CATEGORIA_MARKETPLACE else "search"
     urls = [
+        f"https://www.facebook.com/marketplace/{cat_ancora}/?"
+        + urlencode({"latitude": lat, "longitude": lon, "radius": int(raio)}) + "&" + consulta
+        for lat, lon, raio in _ancoras()
+    ] + [
         f"https://www.facebook.com/marketplace/{token}/{caminho}/?{consulta}"
         for token in _locais(criteria)
     ]
