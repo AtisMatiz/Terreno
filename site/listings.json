@@ -1,5 +1,5 @@
 {
- "generated_at": "12/10/2026 às 15:15",
+ "generated_at": "13/10/2026 às 12:58",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -6593,6 +6593,123 @@
    "price_drop": null
   },
   {
+   "key": "52afde58103d28e1",
+   "source": "olx",
+   "source_id": "1424701775",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/sitio-com-4-dormitorios-a-venda-24200-m-por-r-1-600-000-00-cassununga-santo-antonio-1424701775",
+   "title": "Sítio com 4 dormitórios à venda, 24200 m² por R$ 1.600.000,00 - Cassununga - Santo Antônio",
+   "description": "Código do anúncio: SI0001<br><br>Sítio disponível para venda, localizado bem próximo a Rodovia Monteiro Lobato, no bairro do Cassununga, na cidade de Santo Antônio do Pinhal/SP.<br>Ótima localização, menos de 100 metros do asfalto.<br><br>Área total = 24.200m²<br>Área total construída estimada em 250m²<br><br>Construções<br>Casa Principal<br>- 2 dormitórios, 2 banheiros, sala de estar e cozinha<br>- ampla área externa com quintal cimentado<br>- quiosque com churrasqueira<br><br>Chalé<br>- dormitório com banheira de hidromassagem, banheiro social<br><br>Casa Amarela<br>- sala de estar e cozinha integrados em ambiente único, dormitório e banheiro;<br>- avarandado, ampla área externa;<br>- salão de festas no piso superior;<br>-piscina.<br><br>Chalé Amarelo Topo<br>- dormitório com banheira de hidromassagem, cozinha e banheiro social;<br>- redário, balanço.<br><br>Terreno com possibilidade de novas construções (Chalés).<br><br>Documentação OK<br>Escritura + Matrícula + CAR -",
+   "price": 1600000.0,
+   "price_first": 1600000.0,
+   "area_ha": 2.42,
+   "price_per_ha": 661157.02,
+   "municipality": "Santo Antônio do Pinhal",
+   "uf": "SP",
+   "lat": -22.8250504,
+   "lon": -45.6674063,
+   "image": "https://img.olx.com.br/images/83/839637296887734.jpg",
+   "posted_at": "",
+   "score": 0.07,
+   "reasons": [
+    "casa",
+    "piscina",
+    "escriturado",
+    "CAR/GEO em dia",
+    "⚠ R$/ha 661.157 (--)",
+    "⚠ preço R$ 1.600.000 (> R$ 1 milhão)",
+    "em Santo Antônio do Pinhal (zona melhor)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.4,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 661.157 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.92,
+     "peso": 0,
+     "provas": [
+      "em Santo Antônio do Pinhal (zona melhor)"
+     ],
+     "ajuste": 0.1
+    }
+   },
+   "first_seen": "2026-08-14T10:23:43+00:00",
+   "last_seen": "2026-08-14T10:23:43+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 22.8,
+   "destaques": "{\"benfeitorias\": \"Casa + piscina\", \"documentacao\": \"Escriturado + CAR/GEO em dia\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "00a17cbd5f97e935",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -6927,123 +7044,6 @@
    "price_drop": null
   },
   {
-   "key": "52afde58103d28e1",
-   "source": "olx",
-   "source_id": "1424701775",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/sitio-com-4-dormitorios-a-venda-24200-m-por-r-1-600-000-00-cassununga-santo-antonio-1424701775",
-   "title": "Sítio com 4 dormitórios à venda, 24200 m² por R$ 1.600.000,00 - Cassununga - Santo Antônio",
-   "description": "Código do anúncio: SI0001<br><br>Sítio disponível para venda, localizado bem próximo a Rodovia Monteiro Lobato, no bairro do Cassununga, na cidade de Santo Antônio do Pinhal/SP.<br>Ótima localização, menos de 100 metros do asfalto.<br><br>Área total = 24.200m²<br>Área total construída estimada em 250m²<br><br>Construções<br>Casa Principal<br>- 2 dormitórios, 2 banheiros, sala de estar e cozinha<br>- ampla área externa com quintal cimentado<br>- quiosque com churrasqueira<br><br>Chalé<br>- dormitório com banheira de hidromassagem, banheiro social<br><br>Casa Amarela<br>- sala de estar e cozinha integrados em ambiente único, dormitório e banheiro;<br>- avarandado, ampla área externa;<br>- salão de festas no piso superior;<br>-piscina.<br><br>Chalé Amarelo Topo<br>- dormitório com banheira de hidromassagem, cozinha e banheiro social;<br>- redário, balanço.<br><br>Terreno com possibilidade de novas construções (Chalés).<br><br>Documentação OK<br>Escritura + Matrícula + CAR -",
-   "price": 1600000.0,
-   "price_first": 1600000.0,
-   "area_ha": 2.42,
-   "price_per_ha": 661157.02,
-   "municipality": "Santo Antônio do Pinhal",
-   "uf": "SP",
-   "lat": -22.8250504,
-   "lon": -45.6674063,
-   "image": "https://img.olx.com.br/images/83/839637296887734.jpg",
-   "posted_at": "",
-   "score": 0.0,
-   "reasons": [
-    "casa",
-    "piscina",
-    "escriturado",
-    "CAR/GEO em dia",
-    "⚠ R$/ha 661.157 (--)",
-    "⚠ preço R$ 1.600.000 (> R$ 1 milhão)",
-    "22.8 km do centro de interesse (0)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.4,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.9,
-     "peso": 10,
-     "provas": [
-      "escriturado",
-      "CAR/GEO em dia"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 661.157 (--)"
-     ],
-     "ajuste": -0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.333,
-     "peso": 0,
-     "provas": [
-      "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
-     ],
-     "ajuste": -0.05
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [
-      "22.8 km do centro de interesse (0)"
-     ],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 22.8,
-   "destaques": "{\"benfeitorias\": \"Casa + piscina\", \"documentacao\": \"Escriturado + CAR/GEO em dia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "d8873f5d31ea70e9",
    "source": "facebook",
    "source_id": "2219011195328960",
@@ -7267,7 +7267,8 @@
  ],
  "criterios": {
   "estados": [
-   "SP"
+   "SP",
+   "MG"
   ],
   "regiao": "vale do paraiba",
   "municipios": [],
