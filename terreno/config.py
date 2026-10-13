@@ -120,6 +120,20 @@ class Criteria:
     def sem_descartes(self) -> bool:
         return bool(self.raw.get("sem_descartes"))
 
+    @property
+    def exige_rural(self) -> bool:
+        return bool(self.raw.get("exige_rural"))
+
+    @property
+    def preco_obrigatorio(self) -> bool:
+        return bool(self.raw.get("preco_obrigatorio"))
+
+    @property
+    def finalidade(self) -> str:
+        """"venda" (default) or "aluguel": what kind of offer this search is
+        for. A listing read as the other kind never passes the hard filters."""
+        return str(self.raw.get("finalidade") or "venda")
+
     def secoes(self) -> list[tuple[str, "Criteria"]]:
         """[(nome, criterios)] in priority order: the main search first, then
         each configured section. First match wins, so a listing that fits the
@@ -143,14 +157,14 @@ class Criteria:
         query itself, so asking with only the main search's R$100k floor
         would never return the sub-R$120k plots the second section wants.
         Each section still re-applies its own exact limits afterwards."""
-        todos = [c for _, c in self.secoes()]
+        todos = [c for _, c in self.secoes() if c.finalidade == "venda"]
         raw = dict(self.raw)
         preco = dict(raw.get("preco") or {})
         preco["min"] = min(c.price_min for c in todos)
         preco["max"] = max(c.price_max for c in todos)
         raw["preco"] = preco
         loc = dict(raw.get("localizacao") or {})
-        loc["estados"] = sorted({s for c in todos for s in c.states})
+        loc["estados"] = sorted({s for _, c in self.secoes() for s in c.states})
         raw["localizacao"] = loc
         return Criteria(raw)
 

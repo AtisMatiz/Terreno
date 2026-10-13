@@ -99,10 +99,13 @@ GET_ALL_PHOTOS = os.getenv("APIFY_FB_TODAS_FOTOS", "0") not in ("0", "false", "F
 
 
 def fetch(criteria, store, budgets) -> list[Listing]:
-    listings = _via_apify(criteria, store, budgets)
-    if listings:
-        return listings
-    return _via_playwright(criteria, budgets)
+    listings = _via_apify(criteria, store, budgets) or _via_playwright(criteria, budgets)
+    # Rentals are a separate Marketplace category (propertyrentals) and a
+    # separate actor call, so every item that comes back is known to be a
+    # rental -- there is no reliable per-item marker to tell it from a sale.
+    if any(c.finalidade == "aluguel" for _, c in criteria.secoes()):
+        listings = listings + _via_apify(criteria, store, budgets, "aluguel")
+    return listings
 
 
 # ------------------------------------------------------------------- Apify
@@ -117,13 +120,13 @@ def _apify_contas() -> list[tuple[str, str]]:
     return [(t, c) for t, c in ((env("APIFY_TOKEN_2"), "2"), (env("APIFY_TOKEN"), "1")) if t]
 
 
-def _via_apify(criteria, store, budgets) -> list[Listing]:
+def _via_apify(criteria, store, budgets, finalidade: str = "venda") -> list[Listing]:
     contas = _apify_contas()
     if not contas:
         log.info("APIFY_TOKEN/APIFY_TOKEN_2 not set — skipping Apify backend")
         return []
 
-    urls = _start_urls(criteria)
+    urls = _start_urls(criteria, finalidade)
     if not urls:
         log.warning("apify: nenhuma URL de busca montada — pulando")
         return []
@@ -206,6 +209,7 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
     for item in items:
         listing = _from_apify(item, uf_padrao)
         if listing:
+            listing.finalidade = finalidade
             out.append(listing)
         else:
             descartados += 1
@@ -227,6 +231,17 @@ def _via_apify(criteria, store, budgets) -> list[Listing]:
         # nome do campo de descrição não é documentado, só inferido.
         log.warning("apify: detalhes pedidos mas nenhum item trouxe descrição — "
                     "confira o nome do campo (tentados: %s)", ", ".join(CAMPOS_DESCRICAO))
+
+    # Where the listings actually are -- the per-URL count above depends on an
+    # unconfirmed field name, this does not. It is what shows whether the
+    # coordinate anchor (see ANCORAS_MARKETPLACE) really returns items around
+    # São Bento/Monteiro Lobato and not just around the two city polos.
+    if out:
+        onde = Counter(f"{x.municipality or '?'}/{x.uf or '?'}" for x in out)
+        log.info("apify (%s): por município: %s", finalidade,
+                 ", ".join(f"{m} {n}" for m, n in onde.most_common(12)))
+        log.info("apify (%s): chaves do 1º item: %s", finalidade,
+                 ", ".join(sorted(items[0])[:30]))
 
     log.info("facebook/apify: %d listings", len(out))
     return out
@@ -362,26 +377,40 @@ def _locais(criteria) -> list[str]:
     return tokens
 
 
-def _start_urls(criteria) -> list[str]:
+# Aluguel: palavras de busca, janela e categoria próprias. Aluguel rural é raro
+# e anúncio de aluguel dura mais, então a janela é de 30 dias (venda: 7).
+CONSULTA_ALUGUEL = os.getenv("APIFY_FB_CONSULTA_ALUGUEL", "chacara sitio casa de campo rural")
+DIAS_ALUGUEL = os.getenv("APIFY_FB_DIAS_ALUGUEL", "30")
+
+
+def _start_urls(criteria, finalidade: str = "venda") -> list[str]:
     """URLs de busca do Marketplace para o ator visitar.
 
     `APIFY_FB_START_URLS` (separadas por vírgula) substitui tudo isto — é a
     saída para quando o Facebook mudar o formato de novo, sem precisar de uma
     nova versão do código.
     """
+    alugando = finalidade == "aluguel"
     override = env("APIFY_FB_START_URLS")
-    if override:
+    if override and not alugando:
         return [u.strip() for u in override.split(",") if u.strip()][:MAX_START_URLS]
 
     # `exact=false` é o padrão do próprio Marketplace para uma busca de várias
     # palavras; min/maxPrice são os mesmos parâmetros que a UI dele põe na URL.
     # Filtrar preço na origem é o que faz o orçamento (agora por página, ver
     # `MAX_PAGINAS_POR_URL`) ser gasto em terra e não em sofá usado.
-    params: dict[str, str] = {"query": CONSULTA, "exact": "false"}
-    if criteria.price_min > 0:
-        params["minPrice"] = str(int(criteria.price_min))
-    if 0 < criteria.price_max < 1e9:
-        params["maxPrice"] = str(int(criteria.price_max))
+    if alugando:
+        teto = max((c.price_max for _, c in criteria.secoes() if c.finalidade == "aluguel"),
+                   default=0)
+        params: dict[str, str] = {"query": CONSULTA_ALUGUEL, "exact": "false"}
+        if 0 < teto < 1e9:
+            params["maxPrice"] = str(int(teto))
+    else:
+        params = {"query": CONSULTA, "exact": "false"}
+        if criteria.price_min > 0:
+            params["minPrice"] = str(int(criteria.price_min))
+        if 0 < criteria.price_max < 1e9:
+            params["maxPrice"] = str(int(criteria.price_max))
 
     # Cada item devolvido é cobrado (~US$ 0,0124), inclusive os que o pipeline
     # já viu ontem e vai descartar no dedup -- então, numa execução diária,
@@ -391,18 +420,20 @@ def _start_urls(criteria) -> list[str]:
     # cota em anúncios que têm chance de ser novos.
     if ORDEM_MARKETPLACE:
         params["sortBy"] = ORDEM_MARKETPLACE
-    if DIAS_DESDE_ANUNCIO:
-        params["daysSinceListed"] = DIAS_DESDE_ANUNCIO
+    dias = DIAS_ALUGUEL if alugando else DIAS_DESDE_ANUNCIO
+    if dias:
+        params["daysSinceListed"] = dias
     consulta = urlencode(params)
 
     # `/marketplace/<cidade>/<categoria>?query=...` é a forma documentada no
     # README do ator para categoria; sem `CATEGORIA_MARKETPLACE` volta à
     # `/marketplace/<cidade>/search/?query=...` de antes.
-    caminho = CATEGORIA_MARKETPLACE.strip("/") if CATEGORIA_MARKETPLACE else "search"
+    categoria = "propertyrentals" if alugando else CATEGORIA_MARKETPLACE
+    caminho = categoria.strip("/") if categoria else "search"
     # Âncoras por coordenada primeiro: a zona preferida é o que o teto de
     # custo por run (`MAX_CHARGE_USD_POR_RUN`) nunca deve cortar -- o ator
     # percorre as URLs em ordem, então quem vem por último é quem fica sem.
-    cat_ancora = f"category/{CATEGORIA_MARKETPLACE.strip('/')}" if CATEGORIA_MARKETPLACE else "search"
+    cat_ancora = f"category/{categoria.strip('/')}" if categoria else "search"
     urls = [
         f"https://www.facebook.com/marketplace/{cat_ancora}/?"
         + urlencode({"latitude": lat, "longitude": lon, "radius": int(raio)}) + "&" + consulta

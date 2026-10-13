@@ -56,6 +56,7 @@
   .titulo a{color:inherit;text-decoration:none}
   .titulo a:hover{text-decoration:underline;text-decoration-color:var(--accent)}
   .preco{font-size:17px;font-weight:650;letter-spacing:-.01em}
+  .preco small{font-weight:400;font-size:12px;color:var(--muted)}
   .dados{display:flex;flex-wrap:wrap;gap:5px;font-size:12px;color:var(--muted)}
   .dados span{background:var(--bg);border:1px solid var(--border);
     border-radius:20px;padding:1px 8px;white-space:nowrap}
@@ -266,7 +267,7 @@
   function barras(it){
     const dims = it.dimensoes || {};
     // Heaviest criteria first — the order the buyer actually cares about.
-    const ordem = ['agua','benfeitorias','mata','topografia','silencio',
+    const ordem = ['preco_mensal','agua','benfeitorias','mata','topografia','silencio',
                    'acessibilidade','regularizacao','fertilidade','distancia'];
     return ordem.filter(k => dims[k]).map(k => {
       const d = dims[k];
@@ -301,10 +302,10 @@
         <div class="selos">${selos}</div>
         <h2 class="titulo"><a href="${link}" target="_blank" rel="noopener">
           ${escHtml(it.title) || 'sem título'}</a></h2>
-        <div class="preco">${brl(it.price)}</div>
+        <div class="preco">${brl(it.price)}${it.secao === 'aluguel' ? ' <small>/mês</small>' : ''}</div>
         <div class="dados">
           <span>${ha(it.area_ha)}</span>
-          ${it.price_per_ha ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
+          ${it.price_per_ha && it.secao !== 'aluguel' ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
           ${onde ? `<span>${escHtml(onde)}</span>` : ''}
         </div>
         <div class="nota">pontuação <b>${pct(it.score)}</b>

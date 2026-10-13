@@ -575,6 +575,72 @@ def tem_casa(text: str) -> bool:
                if rotulo in _PADROES_CASA)
 
 
+# ---------------------------------------------------------------- aluguel
+# Rental rubric (owner's call, 2026-10-13), separate from the sale scoring:
+#   price/month  +++ below R$ 1.500   ++ below R$ 3.000   (up to R$ 6.000 is
+#                the search ceiling, scores nothing extra)
+#   water        ++  rio/nascente
+#   houses       +++ more than one house
+# Each "+" is one point; the note is points over the maximum (8).
+ALUGUEL_TIERS = ((1500.0, 3, "+++"), (3000.0, 2, "++"))
+ALUGUEL_PONTOS_MAX = 8
+
+
+def n_casas_mais_de_uma(folded: str) -> bool:
+    """More than one house on the property: an explicit "duas casas"/"mais de
+    uma casa", or a main house plus a caretaker's house."""
+    pats = {rotulo: pattern for pattern, _, rotulo in DIMENSOES["benfeitorias"]["positivos"]}
+    if _hits(folded, pats["mais de uma casa"]):
+        return True
+    return bool(_hits(folded, pats["casa sede"]) and _hits(folded, pats["casa de caseiro"]))
+
+
+def avaliar_aluguel(text: str, price: float | None) -> tuple[float, dict, list[str], list[str]]:
+    """Score a rental: (nota 0..1, dimensoes, evidências, estrelas).
+
+    `dimensoes` uses the same shape as the sale scoring so the page's bars and
+    the notification card read it unchanged (agua / benfeitorias keys feed the
+    card's "Água"/"Benfeitorias" lines); the monthly-price tier is its own
+    `preco_mensal` row."""
+    folded = _fold(text)
+    pontos = 0
+    detalhe: dict[str, dict] = {}
+    evidencias: list[str] = []
+
+    simbolo, pts_preco = "", 0
+    if price:
+        for teto, pts, marca in ALUGUEL_TIERS:
+            if price < teto:
+                simbolo, pts_preco = marca, pts
+                break
+    pontos += pts_preco
+    prova_preco = ([f"{simbolo} R$ {price:,.0f}/mês".replace(",", ".")] if simbolo
+                   else ([f"R$ {price:,.0f}/mês".replace(",", ".")] if price else []))
+    detalhe["preco_mensal"] = {"rotulo": "Aluguel/mês", "nota": pts_preco / 3, "peso": 3,
+                               "provas": prova_preco}
+    evidencias += prova_preco
+
+    agua = [rotulo for pattern, _, rotulo in DIMENSOES["agua"]["positivos"]
+            if rotulo in ("nascente", "mina d'água", "rio/riacho") and _hits(folded, pattern)]
+    pts_agua = 2 if agua else 0
+    pontos += pts_agua
+    detalhe["agua"] = {"rotulo": "Água", "nota": pts_agua / 2, "peso": 2,
+                       "provas": agua}
+    if agua:
+        evidencias.append("++ " + " + ".join(agua))
+
+    varias = n_casas_mais_de_uma(folded)
+    pts_casas = 3 if varias else 0
+    pontos += pts_casas
+    provas_casas = ["mais de uma casa"] if varias else (["casa"] if tem_casa(text) else [])
+    detalhe["benfeitorias"] = {"rotulo": "Casas", "nota": pts_casas / 3, "peso": 3,
+                               "provas": provas_casas}
+    if varias:
+        evidencias.append("+++ mais de uma casa")
+
+    return pontos / ALUGUEL_PONTOS_MAX, detalhe, evidencias, []
+
+
 # Price per hectare above which raw land (no benfeitoria at all) is discarded
 # outright rather than merely penalised (owner's explicit call, 2026-08-21):
 # unimproved land at that price is not the deal being looked for.
