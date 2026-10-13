@@ -51,6 +51,9 @@ def render(rows, out_dir: Path, *, new_keys: set[str], sources: list[str],
         "new_count": sum(1 for i in listings if i["is_new"]),
         "sources": sources,
         "warnings": warnings or [],
+        # Section ids -> headings, in display order (main search first).
+        "secoes": [{"id": k, "titulo": v} for k, v in criteria.titulos_secoes().items()]
+                  if criteria else [{"id": "sitios", "titulo": "Sítios maiores"}],
         # Pre-fills the "Configurar busca" panel with what this run actually
         # used, so the form always starts from the current state.
         "criterios": {

@@ -184,6 +184,23 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
     return kept
 
 
+def filtrar_secoes(listings: list[Listing], criteria: Criteria, store) -> list[Listing]:
+    """Hard filters for every section, tagging each survivor with the section
+    it belongs to. First match wins (the main search is tried first), so a
+    listing is never published twice. Cheap enough to run before *and* after
+    enrichment, same as `apply_filters` always was."""
+    out: list[Listing] = []
+    vistos: set[str] = set()
+    for nome, crit in criteria.secoes():
+        for item in apply_filters(listings, crit, store):
+            if item.key in vistos:
+                continue
+            vistos.add(item.key)
+            item.secao = nome
+            out.append(item)
+    return out
+
+
 def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
     """Fetch detail pages for listings that arrived without a description.
 
@@ -241,7 +258,16 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         titulo = "" if scoring.titulo_generico(item.title) else item.title
         text = f"{titulo} {item.description}"
 
-        motivo = scoring.motivo_descarte(text, item.area_ha, item.price_per_ha)
+        if criteria.sem_descartes:
+            # "No exclusion criteria" (the small-plots section): only what
+            # that section explicitly requires, plus the one thing that can
+            # never be land -- an apartment.
+            motivo = ("apartamento/sobrado/studio" if scoring.eh_urbano_definitivo(text)
+                      else "área não informada" if criteria.area_obrigatoria and item.area_ha is None
+                      else "sem casa" if criteria.exige_casa and not scoring.tem_casa(text)
+                      else None)
+        else:
+            motivo = scoring.motivo_descarte(text, item.area_ha, item.price_per_ha)
         if motivo:
             descartados[motivo] = descartados.get(motivo, 0) + 1
             continue
@@ -278,7 +304,10 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         # worth it for reasons price alone does not capture -- but it does not
         # earn a Telegram ping. Discarding would lose it; notifying on
         # everything is the flood being fixed.
-        item.notificavel = not (item.price_per_ha and item.price_per_ha > limite)
+        # (Small plots are always "expensive" per hectare -- R$120k on 0.3 ha
+        # is R$400k/ha -- so that ceiling would silence the whole section.)
+        item.notificavel = (True if criteria.sem_descartes
+                            else not (item.price_per_ha and item.price_per_ha > limite))
 
         if item.score >= nota_minima:
             kept.append(item)

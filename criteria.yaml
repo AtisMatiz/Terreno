@@ -59,6 +59,44 @@ area:
   min_ha: 2
   max_ha: 10
 
+# ---------------------------------------------------------------- seções
+# Segunda busca, paralela à principal (2026-10-13, pedido do dono): chácaras
+# pequenas e baratas. Roda nas mesmas fontes e nos mesmos runs -- não é um
+# job separado --, e aparece no site numa seção própria ("Chácaras menores"),
+# abaixo dos "Sítios maiores". Cada chave aqui sobrescreve a busca principal
+# só nesta seção; tudo que não aparece (região, centro, pesos da nota) é
+# herdado, então a NOTA GLOBAL é exatamente a mesma.
+#
+#   * área >= 0,2 ha (2.000 m²), abaixo do mínimo da busca principal (2 ha):
+#     quem tem 2 ha ou mais já cai na primeira seção, nunca nas duas.
+#   * preço até R$ 120 mil, sem piso.
+#   * exige_casa: pelo menos uma casa, lida do texto como a dimensão
+#     benfeitorias já lê (ignora "ideal para construir sua casa", etc.).
+#   * area_obrigatoria: sem área conhecida o anúncio é descartado. Os
+#     filtros normais deixam passar o que não tem área ("campo ausente é
+#     falha nossa"), mas aqui isso encheria a seção de apartamentos e casas
+#     de cidade, que são baratos e têm "casa" no texto.
+#   * sem_descartes: nenhum critério de exclusão da busca principal (rural,
+#     condomínio, estrada de terra, nota mínima, teto de R$/ha...). Só sobra
+#     o que a seção exige acima, mais apartamento/sobrado/studio, que nunca
+#     é terra. Vale do Paraíba = só SP.
+secoes:
+  chacaras:
+    titulo: "Chácaras menores"
+    localizacao:
+      estados: [SP]
+    area:
+      min_ha: 0.2
+      max_ha: 2
+    preco:
+      min: 0
+      max: 120000
+    exige_casa: true
+    area_obrigatoria: true
+    sem_descartes: true
+    saida:
+      nota_minima: 0
+
 # ---------------------------------------------------------------- preço
 preco:
   min: 100000

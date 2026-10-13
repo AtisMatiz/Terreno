@@ -104,6 +104,56 @@ class Criteria:
     def nota_minima(self) -> float:
         return float(self.output("nota_minima", 0.0) or 0.0)
 
+    # ------------------------------------------------------------ seções
+    # A second, independent search that shares the same sources and runs
+    # (criteria.yaml `secoes`): its keys are deep-merged over the main
+    # criteria, so a section only has to state what differs.
+    @property
+    def exige_casa(self) -> bool:
+        return bool(self.raw.get("exige_casa"))
+
+    @property
+    def area_obrigatoria(self) -> bool:
+        return bool(self.raw.get("area_obrigatoria"))
+
+    @property
+    def sem_descartes(self) -> bool:
+        return bool(self.raw.get("sem_descartes"))
+
+    def secoes(self) -> list[tuple[str, "Criteria"]]:
+        """[(nome, criterios)] in priority order: the main search first, then
+        each configured section. First match wins, so a listing that fits the
+        main search is never duplicated into a later one."""
+        out: list[tuple[str, Criteria]] = [("sitios", self)]
+        base = {k: v for k, v in self.raw.items() if k != "secoes"}
+        for nome, sec in (self.raw.get("secoes") or {}).items():
+            over = {k: v for k, v in (sec or {}).items() if k != "titulo"}
+            out.append((nome, Criteria(_merge(base, over))))
+        return out
+
+    def titulos_secoes(self) -> dict[str, str]:
+        t = {"sitios": "Sítios maiores"}
+        for nome, sec in (self.raw.get("secoes") or {}).items():
+            t[nome] = (sec or {}).get("titulo") or nome
+        return t
+
+    def para_busca(self) -> "Criteria":
+        """What the *sources* are queried with: the widest price window of any
+        section. Sources (olx, facebook, ...) put the price range in the
+        query itself, so asking with only the main search's R$100k floor
+        would never return the sub-R$120k plots the second section wants.
+        Each section still re-applies its own exact limits afterwards."""
+        todos = [c for _, c in self.secoes()]
+        raw = dict(self.raw)
+        preco = dict(raw.get("preco") or {})
+        preco["min"] = min(c.price_min for c in todos)
+        preco["max"] = max(c.price_max for c in todos)
+        raw["preco"] = preco
+        loc = dict(raw.get("localizacao") or {})
+        loc["estados"] = sorted({s for c in todos for s in c.states})
+        raw["localizacao"] = loc
+        return Criteria(raw)
+
     # ------------------------------------------------------------ fontes
     def profile(self, name: str | None) -> list[str] | None:
         if not name:

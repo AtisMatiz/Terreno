@@ -66,6 +66,10 @@ class Listing:
     # see terreno.extract.imagem -- so the token cost tracks the shortlist,
     # not the whole crawl.
     imagem_analise: dict = field(default_factory=dict)
+    # Which section of the site this belongs to: "sitios" (the main search) or
+    # "chacaras" (the second, small-and-affordable search, see `secoes` in
+    # criteria.yaml). Set by pipeline.filtrar_secoes, first match wins.
+    secao: str = "sitios"
     first_seen: str = field(default_factory=_now)
     last_seen: str = field(default_factory=_now)
     price_first: float | None = None
