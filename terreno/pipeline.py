@@ -259,6 +259,18 @@ def completar_municipio(listings: list[Listing], store, criteria: Criteria,
             item.municipality = municipio_da_regiao(item, criteria)
     if feitos:
         log.info("município lido pelas coordenadas em %d anúncio(s)", feitos)
+    # Where the Marketplace listings really are, once their município is known
+    # (the source-side log can only show what the actor itself returned, which
+    # for sale listings is nothing but coordinates). This is what tells whether
+    # the coordinate anchor reaches the preferred zone.
+    fb = [x for x in listings if x.source == "facebook" and x.finalidade == "venda"]
+    if fb:
+        onde = {}
+        for x in fb:
+            k = f"{x.municipality or '?'}/{x.uf or '?'}"
+            onde[k] = onde.get(k, 0) + 1
+        top = sorted(onde.items(), key=lambda kv: -kv[1])[:15]
+        log.info("facebook (venda) por município: %s", ", ".join(f"{k} {n}" for k, n in top))
     return feitos
 
 
