@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 12:58",
+ "generated_at": "13/10/2026 às 13:06",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -114,6 +114,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -241,6 +242,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -373,6 +375,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -498,6 +501,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -622,6 +626,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -753,6 +758,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -894,6 +900,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1031,6 +1038,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1149,6 +1157,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1287,6 +1296,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1400,6 +1410,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1517,6 +1528,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1631,6 +1643,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1751,6 +1764,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1869,6 +1883,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -1989,6 +2004,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2099,6 +2115,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2224,6 +2241,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2347,6 +2365,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2489,6 +2508,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2600,6 +2620,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2725,6 +2746,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2845,6 +2867,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -2965,6 +2988,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3083,6 +3107,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3208,6 +3233,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3324,6 +3350,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3446,6 +3473,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3562,6 +3590,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3673,6 +3702,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3795,6 +3825,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -3907,6 +3938,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4014,6 +4046,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4141,6 +4174,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4261,6 +4295,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4376,6 +4411,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4485,6 +4521,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4610,6 +4647,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4721,6 +4759,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4841,6 +4880,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -4948,6 +4988,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -5066,6 +5107,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -5184,6 +5226,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -5300,6 +5343,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -5408,6 +5452,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -5521,6 +5566,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false
   },
   {
@@ -5623,6 +5669,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false
   },
   {
@@ -5730,6 +5777,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false
   },
   {
@@ -5844,6 +5892,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -5951,6 +6000,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6055,6 +6105,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false
   },
   {
@@ -6156,6 +6207,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6261,6 +6313,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6362,6 +6415,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false
   },
   {
@@ -6474,6 +6528,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6589,6 +6644,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6706,6 +6762,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 0,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6813,6 +6870,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -6928,6 +6986,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -7040,6 +7099,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -7145,6 +7205,7 @@
    "disponibilidade": "desconhecido",
    "notificavel": 1,
    "imagem_analise": "{}",
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   },
@@ -7250,6 +7311,7 @@
    "disponibilidade": null,
    "notificavel": 1,
    "imagem_analise": null,
+   "secao": "sitios",
    "is_new": false,
    "price_drop": null
   }
@@ -7264,6 +7326,16 @@
  ],
  "warnings": [
   "sp.olx.com.br: bloqueado"
+ ],
+ "secoes": [
+  {
+   "id": "sitios",
+   "titulo": "Sítios maiores"
+  },
+  {
+   "id": "chacaras",
+   "titulo": "Chácaras menores"
+  }
  ],
  "criterios": {
   "estados": [
