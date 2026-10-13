@@ -519,6 +519,12 @@
       }
       modalEditar.close();
       desenhar();
+      // A nota global só muda depois que o workflow recalcula (o navegador
+      // não tem o scoring) -- avisa em vez de deixar a nota velha parecer bug.
+      const av = $('aviso');
+      av.hidden = false;
+      av.textContent = '✓ ' + (d.mensagem || 'Correção gravada.') +
+        ' Recarregue a página depois para ver a nota nova.';
     } catch (err) {
       eResultado.textContent = '✕ Não foi possível falar com /api/editar. ' +
         'Isso é esperado fora da Vercel (disco, GitHub Pages) -- a função só existe lá.';

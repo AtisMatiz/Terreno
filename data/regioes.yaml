@@ -43,6 +43,19 @@ vale do paraiba:
     - Silveiras
     - Taubaté
     - Tremembé
+    # Sul de Minas, lado mineiro da Mantiqueira (2026-10-13, pedido do dono).
+    # Mantidos aqui, na mesma região, e não numa região nova, porque
+    # `regiao: vale do paraiba` é a chave que outras partes do código leem
+    # (ex. polos do Marketplace em sources/facebook.py). "Cruz Vera" não é
+    # município, é distrito de Brazópolis -- os dois nomes entram porque
+    # o anúncio pode trazer qualquer um. "Luminoso" não existe como município
+    # em MG (o único resultado é uma estrada em Diamantina) e ficou de fora.
+    - Paraisópolis
+    - Consolação
+    - Gonçalves
+    - Sapucaí-Mirim
+    - Brazópolis
+    - Cruz Vera
 
 serra da mantiqueira:
   uf: SP
