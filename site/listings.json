@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 13:19",
+ "generated_at": "13/10/2026 às 13:25",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4990,7 +4990,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "chacaras",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "9fa9767b360f2110",
@@ -5321,7 +5321,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "sitios",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -6093,7 +6093,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "chacaras",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "3bbf61e1947764d5",
@@ -7518,7 +7518,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "chacaras",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "d8873f5d31ea70e9",
@@ -7733,7 +7733,7 @@
    "price_drop": null
   }
  ],
- "new_count": 4,
+ "new_count": 0,
  "sources": [
   "pgfn",
   "olx",
@@ -7750,6 +7750,10 @@
   {
    "id": "chacaras",
    "titulo": "Chácaras menores"
+  },
+  {
+   "id": "aluguel",
+   "titulo": "Aluguel"
   }
  ],
  "criterios": {
