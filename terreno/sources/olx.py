@@ -90,6 +90,36 @@ def _title_from_slug(slug: str, listing_id: str) -> str:
     return title.capitalize()
 
 
+# The result card always shows the price ("R$ 110.000"), but most listing slugs
+# do not carry it ("por-r-..." is the exception) -- so reading it from the slug
+# alone left almost every OLX listing without a price, which then slipped
+# through any price ceiling as "unknown passes" (found 2026-10-13: R$120k
+# section showing OLX plots that cost more). The card text is read in the page
+# itself: the anchor's own text, or the nearest ancestor that has a price and
+# holds only this one listing link.
+_CARD_JS = """els => els.map(a => {
+  let n = a, t = a.innerText || '';
+  for (let i = 0; i < 4 && !/R\\$/.test(t) && n.parentElement; i++) {
+    n = n.parentElement;
+    if (n.querySelectorAll('a[href*="olx.com.br"]').length > 1) break;
+    t = n.innerText || '';
+  }
+  return [a.getAttribute('href'), t.slice(0, 400)];
+})"""
+_CARD_PRICE_RE = re.compile(r"R\$\s*(\d{1,3}(?:\.\d{3})+|\d+)(?:,\d{2})?")
+
+
+def _price_from_card(text: str) -> float | None:
+    m = _CARD_PRICE_RE.search(text or "")
+    if not m:
+        return None
+    try:
+        value = float(m.group(1).replace(".", ""))
+    except ValueError:
+        return None
+    return value if value > 0 else None
+
+
 def _listing_from_url(url: str, uf: str) -> Listing | None:
     m = _LISTING_HREF_RE.match(url.strip())
     if not m:
@@ -146,17 +176,17 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             break
 
                         page.wait_for_timeout(_HYDRATION_WAIT_MS)
-                        hrefs = page.eval_on_selector_all(
-                            "a", "els => els.map(e => e.getAttribute('href'))"
-                        )
+                        cards = page.eval_on_selector_all("a", _CARD_JS)
 
                         new_this_page = 0
-                        for href in hrefs or []:
+                        for href, texto in cards or []:
                             if not href or href in seen_urls:
                                 continue
                             listing = _listing_from_url(href, uf)
                             if not listing:
                                 continue
+                            if listing.price is None:
+                                listing.price = _price_from_card(texto)
                             seen_urls.add(href)
                             out.append(listing)
                             new_this_page += 1
