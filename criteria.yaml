@@ -101,6 +101,9 @@ secoes:
     exige_casa: true
     exige_rural: true
     area_obrigatoria: true
+    # Sem preço conhecido não dá para saber se cabe no teto de R$ 120 mil, e os
+    # filtros normais deixam passar "preço desconhecido".
+    preco_obrigatorio: true
     sem_descartes: true
     saida:
       nota_minima: 0

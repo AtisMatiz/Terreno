@@ -41,6 +41,13 @@ LIMIT = 4096
 # what daily new-listing volume actually produces.
 MAX_MESSAGES = 50
 
+# Order of the sections in a Telegram ping, with their titles.
+SECOES_TELEGRAM = (
+    ("chacaras", "🏡 CHÁCARAS MENORES"),
+    ("sitios", "🌿 SÍTIOS MAIORES"),
+    ("aluguel", "🔑 ALUGUEL"),
+)
+
 HEADER = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿"
 HEADER_CONT = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿 (continuação)"
 
@@ -153,9 +160,6 @@ def render_card(item, index: int) -> str:
     titulo = _esc((getattr(item, "title", "") or "sem título").strip()[:80])
     lines = [
         f"  # {index} - <b>{titulo}</b>",
-        *({"chacaras": ["🏡 <b>Chácara menor</b> (seção \"Chácaras menores\")"],
-           "aluguel": ["🔑 <b>Aluguel</b> (seção \"Aluguel\")"]}
-          .get(getattr(item, "secao", "sitios"), [])),
         f"📍 <b>Localização:</b> {_esc(_where(item))}",
         f"💰 <b>Preço:</b> {_fmt_brl(getattr(item, 'price', None))}"
         + ("/mês" if getattr(item, "secao", "sitios") == "aluguel" and getattr(item, "price", None) else ""),
@@ -203,8 +207,22 @@ def build_messages(listings: list, page_url: str = "", top_n: int = 8,
     if not listings and not alertas:
         return []
 
-    cards = [render_card(item, i)
-             for i, item in enumerate(listings[:max(top_n, 0)], 1)]
+    # One block per site section, numbered from #1 inside each (owner's call,
+    # 2026-10-13): "Chácaras menores #1, #2... then Sítios maiores #1, #2...",
+    # so a message never mixes a R$100k chácara with a R$1M sítio under one
+    # running number. The section title rides on the first card of each block
+    # (not its own message), so the packer below can still split anywhere.
+    listings = listings[:max(top_n, 0)]
+    ordem = [c for c, _ in SECOES_TELEGRAM]
+    por_secao: dict[str, list] = {c: [] for c in ordem}
+    for item in listings:
+        chave = getattr(item, "secao", "sitios")
+        por_secao[chave if chave in por_secao else "sitios"].append(item)
+    cards = []
+    for chave, titulo in SECOES_TELEGRAM:
+        for i, item in enumerate(por_secao[chave], 1):
+            card = render_card(item, i)
+            cards.append(f"<b>━━ {titulo} ━━</b>\n\n{card}" if i == 1 else card)
 
     def footer(dropped: int) -> str:
         tail: list[str] = []
