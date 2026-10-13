@@ -104,6 +104,9 @@ secoes:
     # Sem preço conhecido não dá para saber se cabe no teto de R$ 120 mil, e os
     # filtros normais deixam passar "preço desconhecido".
     preco_obrigatorio: true
+    # Idem para o município: sem ele o filtro de região não consegue excluir
+    # o que é de fora (OLX trazia Guararema e Sorocaba sem município lido).
+    municipio_obrigatorio: true
     sem_descartes: true
     saida:
       nota_minima: 0
@@ -120,6 +123,9 @@ secoes:
     exige_rural: true
     area_obrigatoria: true
     preco_obrigatorio: true
+    # Idem para o município: sem ele o filtro de região não consegue excluir
+    # o que é de fora (OLX trazia Guararema e Sorocaba sem município lido).
+    municipio_obrigatorio: true
     sem_descartes: true
     saida:
       nota_minima: 0

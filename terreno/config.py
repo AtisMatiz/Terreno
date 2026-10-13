@@ -125,6 +125,10 @@ class Criteria:
         return bool(self.raw.get("exige_rural"))
 
     @property
+    def municipio_obrigatorio(self) -> bool:
+        return bool(self.raw.get("municipio_obrigatorio"))
+
+    @property
     def preco_obrigatorio(self) -> bool:
         return bool(self.raw.get("preco_obrigatorio"))
 
