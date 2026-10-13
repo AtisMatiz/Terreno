@@ -220,7 +220,18 @@ DIMENSOES: dict[str, dict] = {
             (r"casa sede|sede da fazenda|casa principal", 50, "casa sede"),
             (r"casa (?:do |de )?caseiro|casa de colono", 35, "casa de caseiro"),
             (r"(duas|tres|\b[2-9])\s+casas", 55, "mais de uma casa"),
-            (r"\bcasas?\b|residencia|moradia", 35, "casa"),
+            # An unfinished house is not a house you can use yet: it gets its
+            # own, smaller entry and is shown as such ("casa em construção"),
+            # and the plain "casa" pattern below skips that exact mention so
+            # it is not counted twice (found 2026-10-13: a listing sold as
+            # "com casa" whose ad said the house was under construction).
+            (r"\bcasas?\s+(?:ainda\s+)?(?:em|na|numa)\s+(?:fase\s+de\s+)?"
+             r"(?:construcao|obras?|andamento|acabamento)\b|"
+             r"\bcasas?\s+(?:inacabada|incompleta|a\s+terminar|a\s+acabar)", 15,
+             "casa em construção"),
+            (r"\bcasas?\b(?!\s+(?:ainda\s+)?(?:em|na|numa)\s+(?:fase\s+de\s+)?"
+             r"(?:construcao|obras?|andamento|acabamento)\b)(?!\s+(?:inacabada|incompleta|a\s+terminar|a\s+acabar))"
+             r"|residencia|moradia", 35, "casa"),
             (r"currais?|estabulo|mangueira", 20, "curral"),
             (r"galpoes?|galpao|barracao|paiol", 20, "galpão"),
             (r"energia|luz eletrica|rede eletrica|trifasic|monofasic", 18, "energia"),
@@ -562,7 +573,8 @@ def eh_urbano_definitivo(text: str) -> bool:
     return bool(_hits(_fold(text), TIPO_URBANO_DEFINITIVO))
 
 
-_PADROES_CASA = {"casa sede", "casa de caseiro", "mais de uma casa", "casa"}
+_PADROES_CASA = {"casa sede", "casa de caseiro", "mais de uma casa", "casa",
+                 "casa em construção"}
 
 
 def tem_casa(text: str) -> bool:
@@ -803,6 +815,7 @@ def ajuste_zona(
 # sede + casa de caseiro + casa" reads badly. Scoring is untouched; only the
 # evidence list is pruned.
 _REDUNDANTES: dict[str, tuple[str, ...]] = {
+    "casa em construção": ("casa",),
     "casa sede": ("casa",),
     "casa de caseiro": ("casa",),
     "mais de uma casa": ("casa",),
