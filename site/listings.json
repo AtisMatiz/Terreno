@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 13:06",
+ "generated_at": "13/10/2026 às 13:19",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4885,6 +4885,114 @@
    "price_drop": null
   },
   {
+   "key": "755511952d1903a7",
+   "source": "olx",
+   "source_id": "1543009646",
+   "url": "https://sp.olx.com.br/sao-paulo-e-regiao/terrenos/sitio-chacara-de-6-000-m-com-riacho-casa-de-apoio-e-2-escrituras-averbadas-1543009646",
+   "title": "Sitio chacara de 6 000 m com riacho casa de apoio e 2 escrituras averbadas",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": 0.6,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "",
+   "posted_at": "",
+   "score": 0.242,
+   "reasons": [
+    "menção a chácara/sítio/fazenda sem outro sinal rural (pode ser nome de bairro)",
+    "rio/riacho",
+    "casa",
+    "escriturado"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.375,
+     "peso": 30,
+     "provas": [
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-13T16:19:46+00:00",
+   "last_seen": "2026-10-13T16:19:46+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "chacaras",
+   "is_new": true
+  },
+  {
    "key": "9fa9767b360f2110",
    "source": "facebook",
    "source_id": "2255223725287738",
@@ -5109,6 +5217,111 @@
    "imagem_analise": "{}",
    "secao": "sitios",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "30e2966c7b18d7c1",
+   "source": "olx",
+   "source_id": "1543787380",
+   "url": "https://mg.olx.com.br/regiao-de-montes-claros-e-diamantina/terrenos/sitio-a-venda-1543787380",
+   "title": "Sítio a Venda ",
+   "description": "* 1 alqueire de terra toda empastada <br>* casa em construção <br>* curral de madeira <br>* Poço artesiano com 3 mil litros de vazão por hora <br>* Água da comunidade <br>Contato ( 38) 99918-9873",
+   "price": 220000.0,
+   "price_first": 220000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 45454.55,
+   "municipality": "",
+   "uf": "MG",
+   "lat": null,
+   "lon": null,
+   "image": "https://img.olx.com.br/images/18/189669579235206.jpg",
+   "posted_at": "",
+   "score": 0.22,
+   "reasons": [
+    "casa",
+    "R$/ha 45.455 (++)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 45.455 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-13T16:19:46+00:00",
+   "last_seen": "2026-10-13T16:19:46+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -5779,6 +5992,108 @@
    "imagem_analise": "{}",
    "secao": "sitios",
    "is_new": false
+  },
+  {
+   "key": "f4c88293c50c57f3",
+   "source": "olx",
+   "source_id": "1532416580",
+   "url": "https://sp.olx.com.br/sao-paulo-e-regiao/terrenos/chacara-no-paiao-guararema-2-306-m-2-casas-e-estrutura-para-animais-1532416580",
+   "title": "Chacara no paiao guararema 2 306 m 2 casas e estrutura para animais",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": 0.2306,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "",
+   "posted_at": "",
+   "score": 0.18,
+   "reasons": [
+    "menção a chácara/sítio/fazenda sem outro sinal rural (pode ser nome de bairro)",
+    "mais de uma casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.9,
+     "peso": 20,
+     "provas": [
+      "mais de uma casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-13T16:19:46+00:00",
+   "last_seen": "2026-10-13T16:19:46+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"Mais de uma casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "chacaras",
+   "is_new": true
   },
   {
    "key": "3bbf61e1947764d5",
@@ -7104,6 +7419,108 @@
    "price_drop": null
   },
   {
+   "key": "f4c230cfe925f9db",
+   "source": "olx",
+   "source_id": "1436915432",
+   "url": "https://sp.olx.com.br/regiao-de-sorocaba/terrenos/excelente-terreno-residencial-5341-m2-na-beira-da-castelo-branco-porangaba-e-quadra-1436915432",
+   "title": "Excelente terreno residencial 5341 m2 na beira da castelo branco porangaba e quadra",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": 0.5341,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "",
+   "posted_at": "",
+   "score": 0.0,
+   "reasons": [
+    "não parece imóvel rural",
+    "⚠ sem contexto rural"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": [
+      "⚠ sem contexto rural"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-13T16:19:46+00:00",
+   "last_seen": "2026-10-13T16:19:46+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"⚠ sem contexto rural\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "chacaras",
+   "is_new": true
+  },
+  {
    "key": "d8873f5d31ea70e9",
    "source": "facebook",
    "source_id": "2219011195328960",
@@ -7316,7 +7733,7 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 4,
  "sources": [
   "pgfn",
   "olx",
@@ -7324,9 +7741,7 @@
   "caixa",
   "facebook"
  ],
- "warnings": [
-  "sp.olx.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
