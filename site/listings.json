@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 15:50",
+ "generated_at": "13/10/2026 às 16:12",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4178,7 +4178,7 @@
    "notificavel": 0,
    "imagem_analise": "{}",
    "secao": "sitios",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -7552,7 +7552,7 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
   "pgfn",
   "olx",
