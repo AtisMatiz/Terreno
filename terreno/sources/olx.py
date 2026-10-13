@@ -137,6 +137,54 @@ def _listing_from_url(url: str, uf: str) -> Listing | None:
     )
 
 
+def fetch_html(urls: list[str], *, espera_ms: int = 2_500) -> dict[str, str]:
+    """Detail pages through the same real headless browser the search pages
+    already pass with.
+
+    OLX's search pages load fine in headless Chromium, but the plain-HTTP
+    ladder (requests, curl_cffi impersonation, even the paid unblocker) gets
+    403 or an unreadable page on the *detail* pages -- measured 2026-10-13: the
+    unblocker's 15-request budget was spent on OLX alone and most listings
+    still came back without price, município or description. A browser is
+    what actually passes, so detail pages go through one. One browser, one
+    page, sequential and unhurried (one page per ~4 s is also what keeps this
+    looking like a person); {url: html} for what loaded, nothing for what
+    didn't -- a failure must not take the run down.
+    """
+    out: dict[str, str] = {}
+    if not urls:
+        return out
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        log.warning("olx: playwright não instalado, sem páginas de detalhe")
+        return out
+    bloqueadas = 0
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            try:
+                page = browser.new_context(user_agent=_UA, locale="pt-BR").new_page()
+                for url in urls:
+                    try:
+                        resp = page.goto(url, timeout=_NAV_TIMEOUT_MS,
+                                         wait_until="domcontentloaded")
+                        page.wait_for_timeout(espera_ms)
+                        if resp is not None and resp.status >= 400:
+                            bloqueadas += 1
+                            continue
+                        out[url] = page.content()
+                    except Exception as exc:  # noqa: BLE001 -- one page must not stop the rest
+                        log.debug("olx: detalhe falhou %s: %s", url, exc)
+            finally:
+                browser.close()
+    except Exception as exc:  # noqa: BLE001 -- browser failure must not take the run down
+        log.warning("olx: erro no navegador (detalhes): %s", exc)
+    log.info("olx: %d de %d páginas de detalhe lidas pelo navegador (%d recusadas)",
+             len(out), len(urls), bloqueadas)
+    return out
+
+
 def fetch(criteria, store, budgets) -> list[Listing]:
     out: list[Listing] = []
     max_pages = int(budgets.get("max_paginas_por_fonte", 5))

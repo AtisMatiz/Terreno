@@ -11,6 +11,7 @@ from .config import Criteria, fold
 from .datas import muito_antigo
 from .extract.rules import extract as rules_extract
 from .http import get as http_get
+from .sources.olx import fetch_html as olx_fetch_html
 from .models import Listing
 from .units import area_detalhada, preco_total, price_per_ha, price_to_brl
 
@@ -305,11 +306,29 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
         return listings
 
     log.info("enriching %d of %d listings (cap %d)", len(pending), len(listings), cap)
-    for item in pending[:cap]:
-        resp = http_get(item.url)
-        if resp is None:
-            continue
-        detail = rules_extract(resp.text, item.url, source=item.source)
+
+    # OLX detail pages only open in a real browser (see olx.fetch_html), so
+    # those go through one, and never through the paid unblocker -- which
+    # would otherwise spend its whole per-run budget on OLX and still fail.
+    # Falls back to the normal HTTP path only if no browser page loaded at
+    # all (browser unavailable), so an environment without Playwright keeps
+    # working exactly as before.
+    olx_cap = int(budgets.get("max_paginas_olx_navegador", 120))
+    olx_pend = [x for x in pending if x.source == "olx"][:olx_cap]
+    html_olx = olx_fetch_html([x.url for x in olx_pend]) if olx_pend else {}
+    com_navegador = bool(html_olx)
+
+    for item in pending[:cap] + [x for x in olx_pend if x not in pending[:cap]]:
+        if item.source == "olx" and com_navegador:
+            html = html_olx.get(item.url)
+            if html is None:
+                continue
+        else:
+            resp = http_get(item.url)
+            if resp is None:
+                continue
+            html = resp.text
+        detail = rules_extract(html, item.url, source=item.source)
         if not detail:
             continue
         item.description = detail.description or item.description
