@@ -553,6 +553,28 @@ def tipo_ok(text: str) -> tuple[bool, str]:
     return False, "não parece imóvel rural"
 
 
+def eh_urbano_definitivo(text: str) -> bool:
+    """Apartment/rowhouse/studio, per `TIPO_URBANO_DEFINITIVO` (exchange-aware).
+
+    The one gate the "chácaras menores" section keeps even though it has no
+    other exclusion criteria: an apartment is not land at all, so it can never
+    be what that search is for, whatever its price or area."""
+    return bool(_hits(_fold(text), TIPO_URBANO_DEFINITIVO))
+
+
+_PADROES_CASA = {"casa sede", "casa de caseiro", "mais de uma casa", "casa"}
+
+
+def tem_casa(text: str) -> bool:
+    """At least one house on the property, by the same evidence the
+    benfeitorias dimension uses (negation/exchange/aspirational-aware, so
+    "ideal para construir sua casa" is not a house)."""
+    folded = _fold(text)
+    return any(_hits(folded, pattern)
+               for pattern, _, rotulo in DIMENSOES["benfeitorias"]["positivos"]
+               if rotulo in _PADROES_CASA)
+
+
 # Price per hectare above which raw land (no benfeitoria at all) is discarded
 # outright rather than merely penalised (owner's explicit call, 2026-08-21):
 # unimproved land at that price is not the deal being looked for.

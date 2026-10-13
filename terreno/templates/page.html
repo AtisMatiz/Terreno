@@ -39,8 +39,12 @@
   input[type=search]{min-width:190px;flex:1}
   button{cursor:pointer}
   button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
-  main{padding:16px;display:grid;gap:12px;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));max-width:1500px;margin:0 auto}
+  main{padding:16px;max-width:1500px;margin:0 auto}
+  .cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  .secao-titulo{margin:22px 0 10px;font-size:17px;letter-spacing:-.01em;
+    display:flex;align-items:baseline;gap:8px}
+  .secao-titulo:first-child{margin-top:0}
+  .secao-titulo small{font-weight:400;color:var(--muted);font-size:13px}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:11px;
     overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
   .card.oculto{opacity:.34}
@@ -368,10 +372,25 @@
       (fPrecoMax == null || (i.price != null && i.price <= fPrecoMax))
     );
     linhas.sort(ordenadores[document.getElementById('ordem').value]);
-    grade.replaceChildren(...(linhas.length
-      ? linhas.map(cartao)
-      : [Object.assign(document.createElement('div'),
-          {className:'vazio', textContent:'Nenhuma oferta corresponde a esses filtros.'})]));
+    // Uma seção por busca (sítios maiores, chácaras menores), na ordem que o
+    // run.py publicou. Cada uma mostra o próprio título e contagem, mesmo
+    // vazia -- uma seção sumida pareceria uma busca que não rodou.
+    const secoes = dados.secoes || [{id:'sitios', titulo:'Sítios maiores'}];
+    const blocos = [];
+    for (const s of secoes) {
+      const doGrupo = linhas.filter(i => (i.secao || 'sitios') === s.id);
+      const h = document.createElement('h2');
+      h.className = 'secao-titulo';
+      h.innerHTML = `${escHtml(s.titulo)} <small>${doGrupo.length}</small>`;
+      const g = document.createElement('div');
+      g.className = 'cards';
+      g.replaceChildren(...(doGrupo.length
+        ? doGrupo.map(cartao)
+        : [Object.assign(document.createElement('div'),
+            {className:'vazio', textContent:'Nenhuma oferta nesta seção com esses filtros.'})]));
+      blocos.push(h, g);
+    }
+    grade.replaceChildren(...blocos);
   }
 
   ['q','ordem','uf','municipio','fonte'].forEach(id =>

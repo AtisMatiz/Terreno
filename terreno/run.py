@@ -202,7 +202,9 @@ def main(argv=None) -> int:
         if not fetch:
             warnings.append(f"{name}: unknown source")
             continue
-        found, error = run_source(name, fetch, criteria, store, budgets)
+        # Sources are queried with the widest window of every section (see
+        # Criteria.para_busca); the exact per-section limits are applied below.
+        found, error = run_source(name, fetch, criteria.para_busca(), store, budgets)
         if error:
             warnings.append(error)
             saude[name] = False
@@ -222,13 +224,16 @@ def main(argv=None) -> int:
 
     normalized = [pipeline.normalize(item) for item in collected]
     deduped = pipeline.dedup(normalized)
-    filtered = pipeline.apply_filters(deduped, criteria, store)
+    filtered = pipeline.filtrar_secoes(deduped, criteria, store)
     enriched = pipeline.enrich(filtered, budgets)
     # Second pass, deliberately: sources that read price and area from a URL
     # slug carry no municipality yet on the first pass, so the region and radius
     # filters would silently never apply to them. Enrichment fills those in.
-    refiltered = pipeline.apply_filters(enriched, criteria, store)
-    scored = pipeline.score_all(refiltered, criteria)
+    refiltered = pipeline.filtrar_secoes(enriched, criteria, store)
+    scored = []
+    for nome, crit in criteria.secoes():
+        scored += pipeline.score_all([x for x in refiltered if x.secao == nome], crit)
+    scored.sort(key=lambda x: (x.score, x.first_seen), reverse=True)
     log.info("%d brutos -> %d sem duplicata -> %d filtrados -> %d após enriquecer -> %d pontuados",
              len(normalized), len(deduped), len(filtered), len(refiltered), len(scored))
 
