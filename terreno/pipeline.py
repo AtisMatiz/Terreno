@@ -216,7 +216,25 @@ def apply_filters(listings: list[Listing], criteria: Criteria, store) -> list[Li
     return kept
 
 
-def completar_municipio(listings: list[Listing], store, limite: int = 80) -> int:
+def municipio_da_regiao(item: Listing, criteria: Criteria) -> str:
+    """A município of the search region named in the listing's own text/URL.
+
+    OLX gives no município (and its detail pages are often blocked), but the
+    title slug names the place ("...chacara-em-sao-bento-do-sapucai-..."). Only
+    the region's own towns are looked for, so this can never invent a place
+    outside it: a listing about Juiz de Fora or Porangaba finds nothing, stays
+    blank, and is dropped by the sections that require a município."""
+    texto = " " + re.sub(r"[^a-z0-9]+", " ", fold(
+        f"{item.url} {item.title} {(item.description or '')[:400]}")) + " "
+    for nome in sorted(criteria.municipalities, key=len, reverse=True):
+        chave = " " + re.sub(r"[^a-z0-9]+", " ", fold(nome)) + " "
+        if chave in texto:
+            return nome
+    return ""
+
+
+def completar_municipio(listings: list[Listing], store, criteria: Criteria,
+                        limite: int = 80) -> int:
     """Fill a blank município (and UF) from the listing's coordinates.
 
     Cheap and bounded: only listings that have coordinates but no município,
@@ -224,9 +242,12 @@ def completar_municipio(listings: list[Listing], store, limite: int = 80) -> int
     result is cached by ~1 km cell, so a recurring listing costs nothing."""
     feitos = 0
     for item in listings:
+        if item.municipality:
+            continue
+        if item.lat is None or item.lon is None:
+            item.municipality = municipio_da_regiao(item, criteria)
+            continue
         if feitos >= limite:
-            break
-        if item.municipality or item.lat is None or item.lon is None:
             continue
         achou = geo.reverse(item.lat, item.lon, store)
         feitos += 1
@@ -234,6 +255,8 @@ def completar_municipio(listings: list[Listing], store, limite: int = 80) -> int
             item.municipality, uf = achou
             if uf:
                 item.uf = uf
+        else:
+            item.municipality = municipio_da_regiao(item, criteria)
     if feitos:
         log.info("município lido pelas coordenadas em %d anúncio(s)", feitos)
     return feitos
