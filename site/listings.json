@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 13:28",
+ "generated_at": "13/10/2026 às 13:33",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4652,118 +4652,6 @@
    "price_drop": null
   },
   {
-   "key": "7dce0e1f21ca60e8",
-   "source": "facebook",
-   "source_id": "904291382737469",
-   "url": "https://www.facebook.com/marketplace/item/904291382737469/",
-   "title": "Sítio a venda em Dom Viçoso MG",
-   "description": "SÍTIO À VENDA – OPORTUNIDADE PARA MORADIA, LAZER OU PRODUÇÃO RURAL\n\nExcelente sítio com 7 hectares, ideal para quem busca tranquilidade, contato com a natureza e uma propriedade com ótima estrutura e abundância de recursos hídricos.\n\nA propriedade conta com:\n\n2 currais\nCasinha de máquinas\nCasa em fase de acabamento\nEnergia elétrica instalada\nFartura de água durante todo o ano\n\nUm imóvel com grande potencial para pecuária, agricultura, lazer ou investimento, em uma região privilegiada e cercada pela natureza.\n\nValor: R$ 650.000,00\n\nEntre em contato para mais informações e agende sua visita. Uma excelente oportunidade para quem deseja investir no campo com segurança e qualidade de vida.\n\nRomualdo Lima Corretor\nCRECI 59687\n[hidden information]\nRodrigo Lima negócios imobiliários",
-   "price": 650000.0,
-   "price_first": 650000.0,
-   "area_ha": 7.0,
-   "price_per_ha": 92857.14,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.788391113281,
-   "lon": -45.159301757812,
-   "image": "",
-   "posted_at": "2026-08-13T14:28:13.000Z",
-   "score": 0.254,
-   "reasons": [
-    "casa",
-    "curral",
-    "energia",
-    "tranquilo",
-    "R$/ha 92.857 (+)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.73,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "curral",
-      "energia"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.767,
-     "peso": 0,
-     "provas": [
-      "R$/ha 92.857 (+)"
-     ],
-     "ajuste": 0.08
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-17T21:50:45+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"benfeitorias\": \"Casa + curral + energia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "000b2a73eb3fbe7e",
    "source": "facebook",
    "source_id": "3519647824875745",
@@ -5112,26 +5000,29 @@
    "price_drop": null
   },
   {
-   "key": "30e2966c7b18d7c1",
-   "source": "olx",
-   "source_id": "1543787380",
-   "url": "https://mg.olx.com.br/regiao-de-montes-claros-e-diamantina/terrenos/sitio-a-venda-1543787380",
-   "title": "Sítio a Venda ",
-   "description": "* 1 alqueire de terra toda empastada <br>* casa em construção <br>* curral de madeira <br>* Poço artesiano com 3 mil litros de vazão por hora <br>* Água da comunidade <br>Contato ( 38) 99918-9873",
-   "price": 220000.0,
-   "price_first": 220000.0,
-   "area_ha": 4.84,
-   "price_per_ha": 45454.55,
+   "key": "7dce0e1f21ca60e8",
+   "source": "facebook",
+   "source_id": "904291382737469",
+   "url": "https://www.facebook.com/marketplace/item/904291382737469/",
+   "title": "Sítio a venda em Dom Viçoso MG",
+   "description": "SÍTIO À VENDA – OPORTUNIDADE PARA MORADIA, LAZER OU PRODUÇÃO RURAL\n\nExcelente sítio com 7 hectares, ideal para quem busca tranquilidade, contato com a natureza e uma propriedade com ótima estrutura e abundância de recursos hídricos.\n\nA propriedade conta com:\n\n2 currais\nCasinha de máquinas\nCasa em fase de acabamento\nEnergia elétrica instalada\nFartura de água durante todo o ano\n\nUm imóvel com grande potencial para pecuária, agricultura, lazer ou investimento, em uma região privilegiada e cercada pela natureza.\n\nValor: R$ 650.000,00\n\nEntre em contato para mais informações e agende sua visita. Uma excelente oportunidade para quem deseja investir no campo com segurança e qualidade de vida.\n\nRomualdo Lima Corretor\nCRECI 59687\n[hidden information]\nRodrigo Lima negócios imobiliários",
+   "price": 650000.0,
+   "price_first": 650000.0,
+   "area_ha": 7.0,
+   "price_per_ha": 92857.14,
    "municipality": "",
-   "uf": "MG",
-   "lat": null,
-   "lon": null,
-   "image": "https://img.olx.com.br/images/18/189669579235206.jpg",
-   "posted_at": "",
-   "score": 0.22,
+   "uf": "SP",
+   "lat": -22.788391113281,
+   "lon": -45.159301757812,
+   "image": "",
+   "posted_at": "2026-08-13T14:28:13.000Z",
+   "score": 0.214,
    "reasons": [
-    "casa",
-    "R$/ha 45.455 (++)"
+    "casa em construção",
+    "curral",
+    "energia",
+    "tranquilo",
+    "R$/ha 92.857 (+)"
    ],
    "dimensoes": {
     "agua": {
@@ -5142,17 +5033,21 @@
     },
     "benfeitorias": {
      "rotulo": "Benfeitorias",
-     "nota": 0.35,
+     "nota": 0.53,
      "peso": 20,
      "provas": [
-      "casa"
+      "casa em construção",
+      "curral",
+      "energia"
      ]
     },
     "silencio": {
      "rotulo": "Sossego",
-     "nota": 0.0,
+     "nota": 0.28,
      "peso": 10,
-     "provas": []
+     "provas": [
+      "tranquilo"
+     ]
     },
     "acessibilidade": {
      "rotulo": "Acesso e distância",
@@ -5180,12 +5075,12 @@
     },
     "preco_ha": {
      "rotulo": "Preço por hectare",
-     "nota": 1.0,
+     "nota": 0.767,
      "peso": 0,
      "provas": [
-      "R$/ha 45.455 (++)"
+      "R$/ha 92.857 (+)"
      ],
-     "ajuste": 0.15
+     "ajuste": 0.08
     },
     "preco_absoluto": {
      "rotulo": "Preço total",
@@ -5202,12 +5097,12 @@
      "ajuste": 0.0
     }
    },
-   "first_seen": "2026-10-13T16:19:46+00:00",
-   "last_seen": "2026-10-13T16:19:46+00:00",
+   "first_seen": "2026-08-17T21:50:45+00:00",
+   "last_seen": "2026-08-17T21:50:45+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
-   "destaques": "{\"benfeitorias\": \"Casa\"}",
+   "destaques": "{\"benfeitorias\": \"Casa em construção + curral + energia\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -5884,6 +5779,111 @@
    "imagem_analise": "{}",
    "secao": "sitios",
    "is_new": false
+  },
+  {
+   "key": "30e2966c7b18d7c1",
+   "source": "olx",
+   "source_id": "1543787380",
+   "url": "https://mg.olx.com.br/regiao-de-montes-claros-e-diamantina/terrenos/sitio-a-venda-1543787380",
+   "title": "Sítio a Venda ",
+   "description": "* 1 alqueire de terra toda empastada <br>* casa em construção <br>* curral de madeira <br>* Poço artesiano com 3 mil litros de vazão por hora <br>* Água da comunidade <br>Contato ( 38) 99918-9873",
+   "price": 220000.0,
+   "price_first": 220000.0,
+   "area_ha": 4.84,
+   "price_per_ha": 45454.55,
+   "municipality": "",
+   "uf": "MG",
+   "lat": null,
+   "lon": null,
+   "image": "https://img.olx.com.br/images/18/189669579235206.jpg",
+   "posted_at": "",
+   "score": 0.18,
+   "reasons": [
+    "casa em construção",
+    "R$/ha 45.455 (++)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.15,
+     "peso": 20,
+     "provas": [
+      "casa em construção"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 45.455 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-13T16:19:46+00:00",
+   "last_seen": "2026-10-13T16:19:46+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"Casa em construção\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": false,
+   "price_drop": null
   },
   {
    "key": "3bbf61e1947764d5",
@@ -7228,7 +7228,7 @@
    "score": 0.0,
    "reasons": [
     "menção a chácara/sítio/fazenda sem outro sinal rural (pode ser nome de bairro)",
-    "casa",
+    "casa em construção",
     "⚠ 61.6 km do centro de interesse (--)"
    ],
    "dimensoes": {
@@ -7240,10 +7240,10 @@
     },
     "benfeitorias": {
      "rotulo": "Benfeitorias",
-     "nota": 0.35,
+     "nota": 0.15,
      "peso": 20,
      "provas": [
-      "casa"
+      "casa em construção"
      ]
     },
     "silencio": {
@@ -7305,7 +7305,7 @@
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 61.6,
-   "destaques": "{\"benfeitorias\": \"Casa\"}",
+   "destaques": "{\"benfeitorias\": \"Casa em construção\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
