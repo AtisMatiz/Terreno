@@ -159,7 +159,7 @@ def fetch_html(urls: list[str], *, espera_ms: int = 2_500) -> dict[str, str]:
     except ImportError:
         log.warning("olx: playwright não instalado, sem páginas de detalhe")
         return out
-    bloqueadas = 0
+    bloqueadas = seguidas = 0
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
@@ -172,7 +172,16 @@ def fetch_html(urls: list[str], *, espera_ms: int = 2_500) -> dict[str, str]:
                         page.wait_for_timeout(espera_ms)
                         if resp is not None and resp.status >= 400:
                             bloqueadas += 1
+                            seguidas += 1
+                            # Measured 2026-10-13: 119 of 120 refused from the
+                            # CI runner. If the first few all are, the rest
+                            # will be too -- stop paying ~4 s each for it.
+                            if seguidas >= 6 and not out:
+                                log.warning("olx: detalhes recusados pelo navegador "
+                                            "(%d seguidos) -- desistindo", seguidas)
+                                break
                             continue
+                        seguidas = 0
                         out[url] = page.content()
                     except Exception as exc:  # noqa: BLE001 -- one page must not stop the rest
                         log.debug("olx: detalhe falhou %s: %s", url, exc)

@@ -89,6 +89,7 @@ INCLUDE_DETAILS = os.getenv("APIFY_FB_DETALHES", "1") not in ("0", "false", "Fal
 # actor's own default) buys nothing here -- only the first is ever read (see
 # `_from_apify` below). Off by default; `getListingDetails` already covers
 # the field this pipeline actually needs (description).
+ESTRITO = os.getenv("APIFY_FB_ESTRITO", "1") not in ("0", "false", "False")
 PROXY_PAIS = os.getenv("APIFY_FB_PROXY_PAIS", "BR").strip()
 GET_ALL_PHOTOS = os.getenv("APIFY_FB_TODAS_FOTOS", "0") not in ("0", "false", "False")
 
@@ -146,6 +147,14 @@ def _via_apify(criteria, store, budgets, finalidade: str = "venda") -> list[List
     # was effectively run from California. "Results depend on proxy region"
     # (the actor's own input docs); Brazil keeps it where the land is.
     # `APIFY_FB_PROXY_PAIS=""` turns it off.
+    # The real cause, most likely (2026-10-13, after the proxy did not change
+    # anything): when a Marketplace search has few local results it pads the
+    # list with "broad matches" from elsewhere -- here, the San Francisco Bay
+    # Area, the default location of the request. The actor has a switch for
+    # exactly this: "Exclude listings that are broad matches (outside
+    # location, similar items, etc.)".
+    if ESTRITO:
+        payload["strictFiltering"] = True
     if PROXY_PAIS:
         payload["proxy"] = {"useApifyProxy": True, "apifyProxyCountry": PROXY_PAIS}
 

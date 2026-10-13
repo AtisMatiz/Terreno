@@ -1,0 +1,21 @@
+name: diagnóstico OLX (cards)
+
+# Só mede, não escreve nada: o que a página de resultados da OLX já traz
+# (preço, município, área) sem abrir os anúncios, que dão 403 do runner.
+on:
+  workflow_dispatch:
+
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar Playwright + Chromium
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - run: python scripts/diagnostico_olx_cards.py
