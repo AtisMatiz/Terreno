@@ -300,6 +300,7 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
             # one the main search uses, so city houses are out too.
             motivo = ("apartamento/sobrado/studio" if scoring.eh_urbano_definitivo(text)
                       else "não parece imóvel rural" if criteria.exige_rural and not scoring.tipo_ok(text)[0]
+                      else "município não informado" if criteria.municipio_obrigatorio and not item.municipality
                       else "área não informada" if criteria.area_obrigatoria and item.area_ha is None
                       else "preço não informado" if criteria.preco_obrigatorio and item.price is None
                       else "sem casa" if criteria.exige_casa and not scoring.tem_casa(text)
