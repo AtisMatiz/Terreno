@@ -405,6 +405,11 @@ sites_alvo:
   - leilaoimovel.com.br
   # achados em 2026-10-12 (busca semanal), verificados com anúncios reais:
   - rivieraimoveis.com
+  # achados em 2026-10-14 (busca web), verificados com anúncios reais:
+  - carbogninimoveis.com.br
+  - garantvendas.com.br
+  - francaimobiliaria.com.br
+  - alexandreimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
