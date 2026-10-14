@@ -1,5 +1,5 @@
 {
- "generated_at": "13/10/2026 às 16:12",
+ "generated_at": "14/10/2026 às 10:54",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -3238,6 +3238,130 @@
    "price_drop": null
   },
   {
+   "key": "0187a3694a1aa7a5",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.palermodecastro.com.br/1992/imoveis/venda-sitio-6-quartos-centro-jambeiro-sp",
+   "title": "Sítio imerso em natureza,um achado!!!",
+   "description": "Sítio em Jambeiro: Natureza, Água e Potencial Rural. Localizado a apenas 6 km do centro de Jambeiro, este lindo sítio oferece sossego e contato direto com a natureza, em uma área de 57 mil metros quadrados, com muita água e mata nativa preservada. O imóvel traz uma estrutura diferenciada, com 4 casas individuais, cada uma com 2 dormitórios, ideais para família, hóspedes ou até renda com locação. Conta também com deck de madeira, piscina com deck, espaço para criação de vacas, galinheiro e uma ag…",
+   "price": 1600000.0,
+   "price_first": 1600000.0,
+   "area_ha": 5.7,
+   "price_per_ha": 280701.75,
+   "municipality": "Jambeiro",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.palermodecastro.com.br/admin/imovel/mini/20261013T1622080300-538350502.jpg",
+   "posted_at": "",
+   "score": 0.35,
+   "reasons": [
+    "água abundante",
+    "mais de uma casa",
+    "piscina",
+    "sossegado",
+    "reservado",
+    "6 km da cidade",
+    "mata nativa",
+    "⚠ R$/ha 280.702 (--)",
+    "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.3,
+     "peso": 30,
+     "provas": [
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.95,
+     "peso": 20,
+     "provas": [
+      "mais de uma casa",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.8,
+     "peso": 10,
+     "provas": [
+      "sossegado",
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.7,
+     "peso": 15,
+     "provas": [
+      "6 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.85,
+     "peso": 10,
+     "provas": [
+      "mata nativa"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 280.702 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-14T13:54:32+00:00",
+   "last_seen": "2026-10-14T13:54:32+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Água abundante\", \"benfeitorias\": \"Mais de uma casa + piscina\", \"acesso\": \"6 km da cidade\", \"solo\": \"Mata nativa\"}",
+   "estrelas": "[\"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "88aa6e6cb335133f",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -4780,6 +4904,119 @@
    "imagem_analise": "{}",
    "secao": "sitios",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "a80380f219348f53",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.rachidimoveis.com.br/226/imoveis/venda-sitio-2-quartos-bentos-pirangucu-mg",
+   "title": "SÍTIO MARAVILHOSO COM MUITA ÁGUA E VISTAS PANORÂMICAS",
+   "description": "Sítio com nascentes, em região da serra da mantiqueira, localizado à 29 km do Centro comercial de Campos do Jordão ,SP. Reserve sua visita!!!",
+   "price": 1600000.0,
+   "price_first": 1600000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "Campos do Jordão",
+   "uf": "SP",
+   "lat": -22.738299,
+   "lon": -45.5903769,
+   "image": "https://www.rachidimoveis.com.br/admin/imovel/mini/20210505T2213040300-679882370.jpg",
+   "posted_at": "",
+   "score": 0.25,
+   "reasons": [
+    "água abundante",
+    "várias nascentes",
+    "29 km da cidade",
+    "⚠ preço R$ 1.600.000 (> R$ 1 milhão)",
+    "em Campos do Jordão (zona boa)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.8,
+     "peso": 30,
+     "provas": [
+      "água abundante",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": [
+      "29 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.75,
+     "peso": 0,
+     "provas": [
+      "em Campos do Jordão (zona boa)"
+     ],
+     "ajuste": 0.06
+    }
+   },
+   "first_seen": "2026-10-14T13:54:32+00:00",
+   "last_seen": "2026-10-14T13:54:32+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 35.1,
+   "destaques": "{\"agua\": \"Água abundante + várias nascentes\", \"acesso\": \"29 km da cidade\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -7552,15 +7789,16 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 2,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "secoes": [
   {
    "id": "sitios",
