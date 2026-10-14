@@ -1,5 +1,5 @@
 {
- "generated_at": "14/10/2026 às 10:54",
+ "generated_at": "14/10/2026 às 11:10",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -3358,7 +3358,7 @@
    "notificavel": 0,
    "imagem_analise": "{}",
    "secao": "sitios",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -5016,7 +5016,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "sitios",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -7789,16 +7789,15 @@
    "price_drop": null
   }
  ],
- "new_count": 2,
+ "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
