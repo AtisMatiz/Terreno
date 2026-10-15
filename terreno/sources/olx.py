@@ -101,7 +101,10 @@ _CARD_JS = """els => els.map(a => {
   let n = a, t = a.innerText || '';
   for (let i = 0; i < 4 && !/R\\$/.test(t) && n.parentElement; i++) {
     n = n.parentElement;
-    if (n.querySelectorAll('a[href*="olx.com.br"]').length > 1) break;
+    // a card links the same ad twice (photo + title): count distinct hrefs
+    const hs = new Set([...n.querySelectorAll('a[href*="olx.com.br"]')]
+      .map(x => x.getAttribute('href')));
+    if (hs.size > 1) break;
     t = n.innerText || '';
   }
   return [a.getAttribute('href'), t.slice(0, 400)];
@@ -118,6 +121,25 @@ def _price_from_card(text: str) -> float | None:
     except ValueError:
         return None
     return value if value > 0 else None
+
+
+def _municipio_from_card(text: str) -> str:
+    """Card layout (measured 2026-10-13): "título\\n489m²\\nR$ 1.500\\n\\n
+    Sorocaba, Quintais do Imperador\\n\\nHoje, 18:46". The município is the
+    first comma-separated piece of the block after the price block."""
+    parts = (text or "").split("\n\n")
+    if len(parts) < 2 or "R$" not in parts[0]:
+        return ""
+    loc = parts[1].strip()
+    if not loc or ":" in loc or loc.split(",")[0].strip().lower() in ("hoje", "ontem"):
+        return ""
+    muni = loc.split(",")[0].strip()
+    return "" if re.search(r"\d", muni) else muni
+
+
+def _area_from_card(text: str) -> str:
+    m = re.search(r"^\s*(\d[\d.]*)\s*m²\s*$", text or "", re.M)
+    return f"{m.group(1)} m²" if m else ""
 
 
 def _listing_from_url(url: str, uf: str) -> Listing | None:
@@ -244,6 +266,12 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                                 continue
                             if listing.price is None:
                                 listing.price = _price_from_card(texto)
+                            if not listing.municipality:
+                                listing.municipality = _municipio_from_card(texto)
+                            if not listing.area_ha:
+                                a = _area_from_card(texto)
+                                if a:
+                                    listing.area_ha = area_to_ha(a, uf)
                             seen_urls.add(href)
                             out.append(listing)
                             new_this_page += 1
