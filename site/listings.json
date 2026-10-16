@@ -1,5 +1,5 @@
 {
- "generated_at": "16/10/2026 às 10:25",
+ "generated_at": "16/10/2026 às 10:41",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -5141,6 +5141,110 @@
    "price_drop": null
   },
   {
+   "key": "4384a1b12a83e0bb",
+   "source": "olx",
+   "source_id": "1408831883",
+   "url": "https://mg.olx.com.br/belo-horizonte-e-regiao/terrenos/sitio-8-ha-proximo-serra-do-cipo-2-casas-curral-criatorio-de-peixe-e-cachoeira-privada-1408831883",
+   "title": "Sitio 8 ha proximo serra do cipo 2 casas curral criatorio de peixe e cachoeira privada",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": 8.0,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "MG",
+   "lat": null,
+   "lon": null,
+   "image": "",
+   "posted_at": "",
+   "score": 0.24,
+   "reasons": [
+    "cachoeira",
+    "mais de uma casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.2,
+     "peso": 30,
+     "provas": [
+      "cachoeira"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.9,
+     "peso": 20,
+     "provas": [
+      "mais de uma casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-16T13:41:43+00:00",
+   "last_seen": "2026-10-16T13:41:43+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Cachoeira\", \"benfeitorias\": \"Mais de uma casa\"}",
+   "estrelas": "[\"Cachoeira\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true
+  },
+  {
    "key": "9fa9767b360f2110",
    "source": "facebook",
    "source_id": "2255223725287738",
@@ -7789,18 +7893,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "superbid.net: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
