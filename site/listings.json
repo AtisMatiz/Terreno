@@ -1,5 +1,5 @@
 {
- "generated_at": "19/10/2026 às 12:48",
+ "generated_at": "19/10/2026 às 13:27",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -3236,6 +3236,112 @@
    "secao": "sitios",
    "is_new": false,
    "price_drop": null
+  },
+  {
+   "key": "37c11dddfe296ba7",
+   "source": "olx",
+   "source_id": "1545443148",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/linda-chacara-com-nascentes-e-lagos-em-monteiro-lobato-49-000m2-1545443148",
+   "title": "Linda chacara com nascentes e lagos em monteiro lobato 49 000m2",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": 4.9,
+   "price_per_ha": null,
+   "municipality": "Monteiro Lobato",
+   "uf": "SP",
+   "lat": -22.9553542,
+   "lon": -45.8387146,
+   "image": "",
+   "posted_at": "",
+   "score": 0.355,
+   "reasons": [
+    "lago/açude",
+    "várias nascentes",
+    "em Monteiro Lobato (centro exato)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "em Monteiro Lobato (centro exato)"
+     ],
+     "ajuste": 0.13
+    }
+   },
+   "first_seen": "2026-10-19T16:27:15+00:00",
+   "last_seen": "2026-10-19T16:27:15+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 0.0,
+   "destaques": "{\"agua\": \"Lago/açude + várias nascentes\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true
   },
   {
    "key": "0187a3694a1aa7a5",
@@ -7893,18 +7999,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "superbid.net: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
