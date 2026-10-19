@@ -423,6 +423,8 @@ sites_alvo:
   - terranaimobiliaria.com.br
   - vendasdefazendas.com.br
   - mercadodeterras.com.br
+  # achados em 2026-10-19 (busca semanal), verificados com anúncios reais:
+  - garantvendas.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
