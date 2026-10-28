@@ -1,5 +1,5 @@
 {
- "generated_at": "28/10/2026 às 12:18",
+ "generated_at": "28/10/2026 às 12:36",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -3331,7 +3331,7 @@
     }
    },
    "first_seen": "2026-10-19T16:27:15+00:00",
-   "last_seen": "2026-10-19T16:27:15+00:00",
+   "last_seen": "2026-10-28T15:36:53+00:00",
    "area_alqueires": null,
    "area_alqueire_tipo": "",
    "distancia_centro_km": 0.0,
@@ -8238,13 +8238,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
