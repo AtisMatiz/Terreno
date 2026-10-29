@@ -430,8 +430,6 @@ sites_alvo:
   # achados em 2026-10-24 (busca web), verificados com anúncios reais:
   - multiplicarural.com.br
   - sitioefazenda.com.br
-  # achados em 2026-10-29 (busca web diária), verificados com anúncios reais:
-  - gurudosimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
