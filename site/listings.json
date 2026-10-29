@@ -1,5 +1,5 @@
 {
- "generated_at": "29/10/2026 às 12:24",
+ "generated_at": "29/10/2026 às 12:41",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -5013,6 +5013,112 @@
    "price_drop": null
   },
   {
+   "key": "b3e500b64102f37a",
+   "source": "olx",
+   "source_id": "1548514995",
+   "url": "https://sp.olx.com.br/regiao-de-sorocaba/terrenos/sitio-a-venda-em-cesario-lange-6-4-ha-2-lagoas-nascente-e-casa-completa-mobiliada-1548514995",
+   "title": "Sitio à venda em cesario lange 6 4 ha 2 lagoas nascente e casa completa mobiliada",
+   "description": "",
+   "price": null,
+   "price_first": null,
+   "area_ha": 4.0,
+   "price_per_ha": null,
+   "municipality": "",
+   "uf": "SP",
+   "lat": null,
+   "lon": null,
+   "image": "",
+   "posted_at": "",
+   "score": 0.258,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "casa"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.35,
+     "peso": 20,
+     "provas": [
+      "casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-29T15:41:00+00:00",
+   "last_seen": "2026-10-29T15:41:00+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true
+  },
+  {
    "key": "9e7eb1c586082704",
    "source": "facebook",
    "source_id": "2935362616828561",
@@ -8236,17 +8342,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "silvarilloimoveis.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
