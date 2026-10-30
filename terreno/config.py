@@ -182,7 +182,7 @@ class Criteria:
         # -- sorting alphabetically made it "MG" (found 2026-10-13: every
         # Marketplace sale listing came back as ?/MG).
         loc["estados"] = list(dict.fromkeys(
-            s for _, c in self.secoes() for s in c.states))
+            s for _, c in self.secoes() if c.finalidade == "venda" for s in c.states))
         raw["localizacao"] = loc
         return Criteria(raw)
 

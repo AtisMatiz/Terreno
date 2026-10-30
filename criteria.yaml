@@ -139,6 +139,7 @@ secoes:
     titulo: "Leilão"
     finalidade: leilao
     localizacao:
+      estados: [SP, MG, RJ]      # RJ por causa de Paraty
       regiao: "perimetro leilao"
       centro: null
       raio_km: null

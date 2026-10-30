@@ -45,7 +45,8 @@ CREATE TABLE IF NOT EXISTS listings (
     first_seen      TEXT NOT NULL,
     last_seen       TEXT NOT NULL,
     dismissed       INTEGER DEFAULT 0,
-    secao           TEXT DEFAULT 'sitios'
+    secao           TEXT DEFAULT 'sitios',
+    encerramento    TEXT DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS idx_listings_last_seen ON listings(last_seen);
 CREATE INDEX IF NOT EXISTS idx_listings_uf ON listings(uf);
@@ -183,6 +184,7 @@ class Store:
             ("notificavel", "INTEGER DEFAULT 1"),
             ("imagem_analise", "TEXT"),
             ("secao", "TEXT DEFAULT 'sitios'"),
+            ("encerramento", "TEXT DEFAULT ''"),
         )
         existentes = {r["name"] for r in self.db.execute("PRAGMA table_info(listings)")}
         for nome, tipo in novas:
@@ -241,13 +243,14 @@ class Store:
                 price, price_first, area_ha, price_per_ha, municipality, uf, lat, lon,
                 image, posted_at, score, reasons, dimensoes, area_alqueires,
                 area_alqueire_tipo, distancia_centro_km, destaques, estrelas,
-                disponibilidade, notificavel, imagem_analise, secao, first_seen, last_seen)
+                disponibilidade, notificavel, imagem_analise, secao, encerramento,
+                first_seen, last_seen)
             VALUES (:key, :source, :source_id, :url, :title, :description,
                 :price, :price_first, :area_ha, :price_per_ha, :municipality, :uf,
                 :lat, :lon, :image, :posted_at, :score, :reasons, :dimensoes,
                 :area_alqueires, :area_alqueire_tipo, :distancia_centro_km,
                 :destaques, :estrelas, :disponibilidade, :notificavel,
-                :imagem_analise, :secao, :first_seen, :last_seen)
+                :imagem_analise, :secao, :encerramento, :first_seen, :last_seen)
             ON CONFLICT(key) DO UPDATE SET
                 url=excluded.url, title=excluded.title, description=excluded.description,
                 price=excluded.price, area_ha=excluded.area_ha,
@@ -263,6 +266,7 @@ class Store:
                 notificavel=excluded.notificavel,
                 imagem_analise=excluded.imagem_analise,
                 secao=excluded.secao,
+                encerramento=excluded.encerramento,
                 last_seen=excluded.last_seen
             """,
             d,
