@@ -344,14 +344,15 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                         if not any(_LISTING_HREF_RE.match(h or "") for h, _ in cards or []):
                             # Walled off (or nothing rendered): the HTTP ladder
                             # (curl_cffi, then the paid unblocker) as a fallback,
-                            # for the first pages only -- unblocker credits are
-                            # shared with every other source in the run.
-                            if pageno <= (2 if uf == criteria.states[0] else 1):
-                                resp = http.get(url, timeout=60, retries=1)
-                                if resp is not None:
-                                    cards = _cards_do_html(resp.text, url)
-                                    log.info("olx %s p%d: via HTTP, %d anúncio(s)", uf,
-                                             pageno, len(cards))
+                            # unblocker credits are shared with every other source in the run.
+                            # (curl_cffi gets through for free -- measured 2026-10-30,
+                            # 150 of 150 cards with price -- so every page uses it; the
+                            # per-run cap on the paid unblocker bounds the rest.)
+                            resp = http.get(url, timeout=60, retries=1)
+                            if resp is not None:
+                                cards = _cards_do_html(resp.text, url)
+                                log.info("olx %s p%d: via HTTP, %d anúncio(s)", uf,
+                                         pageno, len(cards))
 
                         # A card links the same ad twice (photo, title); the photo
                         # link has no text. Keep the richest text per ad instead of
