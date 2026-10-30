@@ -134,8 +134,8 @@ class Criteria:
 
     @property
     def finalidade(self) -> str:
-        """"venda" (default) or "aluguel": what kind of offer this search is
-        for. A listing read as the other kind never passes the hard filters."""
+        """"venda" (default), "aluguel" or "leilao": what kind of offer this
+        search is for. A listing read as the other kind never passes the hard filters."""
         return str(self.raw.get("finalidade") or "venda")
 
     def secoes(self) -> list[tuple[str, "Criteria"]]:
@@ -148,6 +148,15 @@ class Criteria:
             over = {k: v for k, v in (sec or {}).items() if k != "titulo"}
             out.append((nome, Criteria(_merge(base, over))))
         return out
+
+    def todos_municipios(self) -> list[str]:
+        """Municípios of the main search and of every section: where a
+        município is read from a listing's text when nothing else names one."""
+        vistos: dict[str, str] = {}
+        for _, crit in self.secoes():
+            for m in crit.municipalities:
+                vistos.setdefault(fold(m), m)
+        return list(vistos.values())
 
     def titulos_secoes(self) -> dict[str, str]:
         t = {"sitios": "Sítios maiores"}

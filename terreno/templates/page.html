@@ -233,6 +233,7 @@
   const ha  = n => n == null ? 'área n/d'
     : (n >= 1 ? n.toLocaleString('pt-BR',{maximumFractionDigits:1}) : n.toFixed(2)) + ' ha';
   const pct = n => Math.round((n || 0) * 100) + '%';
+  const estrelas = n => (Math.round((n || 0) * 12) / 2).toString().replace('.', ',') + '/6 ★';
   const agua = it => (it.dimensoes && it.dimensoes.agua ? it.dimensoes.agua.nota : 0);
 
   document.getElementById('meta').textContent =
@@ -267,7 +268,7 @@
   function barras(it){
     const dims = it.dimensoes || {};
     // Heaviest criteria first — the order the buyer actually cares about.
-    const ordem = ['preco_mensal','agua','benfeitorias','mata','topografia','silencio',
+    const ordem = ['preco_mensal','preco','localizacao','agua','benfeitorias','mata','topografia','silencio',
                    'acessibilidade','regularizacao','fertilidade','distancia'];
     return ordem.filter(k => dims[k]).map(k => {
       const d = dims[k];
@@ -305,10 +306,10 @@
         <div class="preco">${brl(it.price)}${it.secao === 'aluguel' ? ' <small>/mês</small>' : ''}</div>
         <div class="dados">
           <span>${ha(it.area_ha)}</span>
-          ${it.price_per_ha && it.secao !== 'aluguel' ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
+          ${it.price_per_ha && it.secao !== 'aluguel' && it.secao !== 'leilao' ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
           ${onde ? `<span>${escHtml(onde)}</span>` : ''}
         </div>
-        <div class="nota">pontuação <b>${pct(it.score)}</b>
+        <div class="nota">pontuação <b>${it.secao === 'leilao' ? estrelas(it.score) : pct(it.score)}</b>
           <button class="btn-detalhe">${aberto ? 'ocultar detalhe' : 'ver detalhe'}</button>
         </div>
         <div class="barras" ${aberto ? '' : 'hidden'}>${barras(it)}</div>

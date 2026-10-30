@@ -176,4 +176,5 @@ def _to_listing(item: dict, uf: str) -> Listing | None:
         municipality=municipio,
         uf=(sigla or uf)[:2].upper(),
         image=str(imagem or ""),
+        finalidade="leilao",
     )

@@ -186,4 +186,7 @@ def _to_listing(linha: list[str], uf: str) -> Listing | None:
         area_ha=area_ha,
         municipality=cidade,
         uf=uf.upper(),
+        # Only the auction modalities ("Leilão SFI", "Leilão Único", ...) go to
+        # the Leilão section; direct/online sales stay ordinary sales.
+        finalidade=("leilao" if "leil" in linha[COL["modalidade"]].lower() else "venda"),
     )

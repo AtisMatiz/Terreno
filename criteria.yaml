@@ -131,6 +131,30 @@ secoes:
       nota_minima: 0
 
 # ---------------------------------------------------------------- preço
+  leilao:
+    # Leilões (2026-10-30): imóveis rurais em leilão, até R$ 700 mil, no
+    # perímetro maior de data/regioes.yaml ("perimetro leilao"). Rubrica própria
+    # de 6 estrelas em scoring.avaliar_leilao; fontes: terreno/sources/leilao.py
+    # (sites de data/leiloes.yaml) + PGFN + Caixa em leilão.
+    titulo: "Leilão"
+    finalidade: leilao
+    localizacao:
+      regiao: "perimetro leilao"
+      centro: null
+      raio_km: null
+    area:
+      min_ha: 0
+      max_ha: 100000
+    preco:
+      min: 0
+      max: 700000
+    exige_rural: true
+    preco_obrigatorio: true
+    municipio_obrigatorio: true
+    sem_descartes: true
+    saida:
+      nota_minima: 0
+
 preco:
   min: 100000
   max: 2000000
@@ -187,6 +211,7 @@ fontes:
   # terreno/sources/imobiliaria_crawl.py e o perfil ci_crawl_imobiliaria.
   imobiliaria_crawl: true
   facebook: true
+  leilao: true        # sites de leilão de data/leiloes.yaml (terreno/sources/leilao.py)
 
 # Onde cada fonte roda. Só existe um lugar agora: o runner do GitHub Actions
 # (`python -m terreno.run --profile ci`, o que o workflow roda). A execução
@@ -244,6 +269,7 @@ perfis:
   # .github/workflows/search_crawl_imobiliaria.yml e
   # terreno/sources/imobiliaria_crawl.py.
   ci_crawl_imobiliaria: [imobiliaria_crawl]
+  ci_leilao: [leilao]
 
 # Sites vasculhados pela camada Brave com `site:`. É assim que a busca cobre
 # dezenas de portais e imobiliárias sem um scraper dedicado para cada um: a
@@ -329,6 +355,9 @@ orcamentos:
   # sem teto mensal como os orçamentos acima.
   imobiliaria_max_candidatos: 40    # páginas candidatas por host (sitemap ou navegação)
   imobiliaria_timeout_pagina_s: 25
+  leilao_max_candidatos: 60          # lotes candidatos por site de leilão
+  leilao_timeout_pagina_s: 25
+  leilao_paralelismo: 8              # sites de leilão varridos ao mesmo tempo
   imobiliaria_paralelismo: 20       # hosts varridos ao mesmo tempo
   max_paginas_por_fonte: 10
   # Sem teto de tempo ou de contagem para visitar candidatos do Brave: cada

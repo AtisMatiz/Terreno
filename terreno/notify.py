@@ -46,6 +46,7 @@ SECOES_TELEGRAM = (
     ("chacaras", "🏡 CHÁCARAS MENORES"),
     ("sitios", "🌿 SÍTIOS MAIORES"),
     ("aluguel", "🔑 ALUGUEL"),
+    ("leilao", "🔨 LEILÃO"),
 )
 
 HEADER = "🌿 <b>NOVO IMÓVEL ENCONTRADO - VALE DO PARAÍBA</b> 🌿"
@@ -122,6 +123,12 @@ def _score_label(score01: float) -> str:
     return f"{pts}/100 ({SCORE_FALLBACK})"
 
 
+def _estrelas_label(score01: float) -> str:
+    """Auction rubric: the 0..1 score is stars/6 -- shown as stars, not as /100."""
+    estrelas = round((score01 or 0) * 6 * 2) / 2
+    return f"{_fmt_num(estrelas)}/6 ★"
+
+
 def _alqueire_unidade(alq: float, tipo: str) -> str:
     nome = ALQUEIRE_NOMES.get((tipo or "").strip().lower(), "")
     if nome:
@@ -164,7 +171,10 @@ def render_card(item, index: int) -> str:
         f"💰 <b>Preço:</b> {_fmt_brl(getattr(item, 'price', None))}"
         + ("/mês" if getattr(item, "secao", "sitios") == "aluguel" and getattr(item, "price", None) else ""),
         f"📐 <b>Área:</b> {_esc(_area_text(item))}",
-        f"⭐ <b>Pontuação:</b> {_score_label(getattr(item, 'score', 0.0))}",
+        f"⭐ <b>Pontuação:</b> "
+        + (_estrelas_label(getattr(item, 'score', 0.0))
+           if getattr(item, "secao", "sitios") == "leilao"
+           else _score_label(getattr(item, 'score', 0.0))),
     ]
 
     # Starred features (Listing.estrelas) get their own line right under the
