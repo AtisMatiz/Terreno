@@ -32,6 +32,7 @@ from __future__ import annotations
 import logging
 import re
 
+from .. import http
 from ..models import Listing
 from ..units import area_to_ha
 from .base import UF_NAMES
@@ -65,6 +66,48 @@ _UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 "
     "(KHTML, like Gecko) Version/17.0 Safari/605.1.15"
 )
+
+
+def _novo_contexto(browser):
+    """A context that looks like the Chromium it really is. The old Safari/macOS
+    user agent on a Linux Chromium is a fingerprint mismatch, and Playwright's
+    own default says "HeadlessChrome" -- since 2026-10-30 OLX answers either with
+    a Cloudflare "Attention Required" page."""
+    major = (browser.version or "").split(".")[0] or "130"
+    ua = (f"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+          f"Chrome/{major}.0.0.0 Safari/537.36")
+    ctx = browser.new_context(user_agent=ua, locale="pt-BR",
+                              timezone_id="America/Sao_Paulo",
+                              viewport={"width": 1366, "height": 900})
+    ctx.add_init_script(
+        "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
+    return ctx
+
+
+def _bloqueada(titulo: str) -> bool:
+    t = (titulo or "").lower()
+    return any(x in t for x in ("attention required", "just a moment", "access denied",
+                                "um momento"))
+
+
+_A_RE = re.compile(r'<a\b[^>]*?href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', re.I | re.S)
+
+
+def _cards_do_html(html: str, base: str) -> list[tuple[str, str]]:
+    """Same [(href, text)] the browser path returns, read from fetched HTML --
+    the fallback when the browser is walled off but the HTTP ladder (curl_cffi,
+    then the unblocker) gets through."""
+    from urllib.parse import urljoin
+    out = []
+    for href, inner in _A_RE.findall(html or ""):
+        full = urljoin(base, href.replace("&amp;", "&"))
+        if not _LISTING_HREF_RE.match(full):
+            continue
+        texto = re.sub(r"<(?:br|/div|/p|/span|/h\d|/li)[^>]*>", "\n", inner, flags=re.I)
+        texto = re.sub(r"<[^>]+>", "", texto)
+        texto = re.sub(r"[ \t]+", " ", texto)
+        out.append((full, "\n".join(l.strip() for l in texto.splitlines() if l.strip())))
+    return out
 
 
 def _price_from_slug(slug: str) -> float | None:
@@ -126,17 +169,24 @@ def _price_from_card(text: str) -> float | None:
 
 
 def _municipio_from_card(text: str) -> str:
-    """Card layout (measured 2026-10-13): "título\\n489m²\\nR$ 1.500\\n\\n
-    Sorocaba, Quintais do Imperador\\n\\nHoje, 18:46". The município is the
-    first comma-separated piece of the block after the price block."""
-    parts = (text or "").split("\n\n")
-    if len(parts) < 2 or "R$" not in parts[0]:
+    """Card layout (measured 2026-10-13): "título / 489m² / R$ 1.500 / [IPTU..] /
+    Sorocaba, Quintais do Imperador / Hoje, 18:46". The município is the first
+    comma-separated piece of the first line after the price lines."""
+    linhas = [l.strip() for l in (text or "").splitlines() if l.strip()]
+    ultimo = None
+    for i, l in enumerate(linhas):
+        if "R$" in l:
+            ultimo = i
+    if ultimo is None:
         return ""
-    loc = parts[1].strip()
-    if not loc or ":" in loc or loc.split(",")[0].strip().lower() in ("hoje", "ontem"):
-        return ""
-    muni = loc.split(",")[0].strip()
-    return "" if re.search(r"\d", muni) else muni
+    for l in linhas[ultimo + 1:]:
+        if re.match(r"^(iptu|condom[ií]nio)", l, re.I):
+            continue
+        if ":" in l or l.split(",")[0].strip().lower() in ("hoje", "ontem", "chat"):
+            return ""
+        muni = l.split(",")[0].strip()
+        return "" if re.search(r"\d", muni) else muni
+    return ""
 
 
 def _area_from_card(text: str) -> str:
@@ -188,7 +238,7 @@ def fetch_html(urls: list[str], *, espera_ms: int = 2_500) -> dict[str, str]:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             try:
-                page = browser.new_context(user_agent=_UA, locale="pt-BR").new_page()
+                page = _novo_contexto(browser).new_page()
                 for url in urls:
                     try:
                         resp = page.goto(url, timeout=_NAV_TIMEOUT_MS,
@@ -234,8 +284,7 @@ def fetch(criteria, store, budgets) -> list[Listing]:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             try:
-                context = browser.new_context(user_agent=_UA, locale="pt-BR")
-                page = context.new_page()
+                page = _novo_contexto(browser).new_page()
                 for uf in criteria.states:
                     if not UF_NAMES.get(uf):
                         continue
@@ -257,12 +306,29 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             break
 
                         page.wait_for_timeout(_HYDRATION_WAIT_MS)
-                        # Cards below the fold render lazily: without scrolling
-                        # they come back as empty text (found 2026-10-30).
-                        for _ in range(6):
-                            page.mouse.wheel(0, 2500)
-                            page.wait_for_timeout(500)
-                        cards = page.eval_on_selector_all("a", _CARD_JS)
+                        titulo = page.title() or ""
+                        if _bloqueada(titulo):
+                            log.warning("olx %s p%d: navegador barrado (%r)", uf, pageno,
+                                        titulo[:50])
+                            cards = []
+                        else:
+                            # Cards below the fold render lazily: without
+                            # scrolling they come back as empty text.
+                            for _ in range(6):
+                                page.mouse.wheel(0, 2500)
+                                page.wait_for_timeout(500)
+                            cards = page.eval_on_selector_all("a", _CARD_JS)
+                        if not any(_LISTING_HREF_RE.match(h or "") for h, _ in cards or []):
+                            # Walled off (or nothing rendered): the HTTP ladder
+                            # (curl_cffi, then the paid unblocker) as a fallback,
+                            # for the first pages only -- unblocker credits are
+                            # shared with every other source in the run.
+                            if pageno <= (2 if uf == criteria.states[0] else 1):
+                                resp = http.get(url, timeout=60, retries=1)
+                                if resp is not None:
+                                    cards = _cards_do_html(resp.text, url)
+                                    log.info("olx %s p%d: via HTTP, %d anúncio(s)", uf,
+                                             pageno, len(cards))
 
                         # A card links the same ad twice (photo, title); the photo
                         # link has no text. Keep the richest text per ad instead of
@@ -278,7 +344,7 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             log.info("olx %s p1: %d links, %d de anúncio, título %r",
                                      uf, len(cards or []),
                                      sum(1 for h in melhor if _LISTING_HREF_RE.match(h)),
-                                     (page.title() or "")[:60])
+                                     titulo[:60])
 
                         new_this_page = 0
                         for href, texto in melhor.items():
