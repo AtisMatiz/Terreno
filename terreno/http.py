@@ -414,6 +414,10 @@ def get(url: str, *, params: dict | None = None, headers: dict | None = None,
             continue
 
         if 500 <= r.status_code < 600:
+            # Logged (2026-10-30): a Telegram send failed after ~34 s of silent
+            # 5xx retries and nothing in the log said why.
+            log.warning("%s: HTTP %s (attempt %d/%d) — %s", host, r.status_code,
+                        attempt + 1, retries, (r.text or "")[:150].replace("\n", " "))
             time.sleep(2 ** attempt)
             continue
 
