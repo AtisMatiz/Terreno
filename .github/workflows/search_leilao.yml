@@ -1,0 +1,82 @@
+name: terreno leilões
+
+# Seção Leilão (2026-10-30): varre os sites de data/leiloes.yaml (fonte
+# `leilao`, terreno/sources/leilao.py) e publica o que cair na seção "Leilão"
+# (rubrica de 6 estrelas). Diário, logo depois do crawler de imobiliárias; o
+# grupo de concorrência `terreno-search` serializa com os outros jobs.
+
+on:
+  schedule:
+    # 08:10 UTC = 05:10 America/Sao_Paulo. Second stage of the nightly chain
+    # (2026-09-09, era 10:00 UTC): moved right after search_novos so it reads
+    # whatever novos just seeded into sites_descobertos on Mondays, and early
+    # enough that the whole chain (novos -> crawl -> sdb -> search) clears
+    # before the user's morning instead of trickling in until 10-11am.
+    - cron: "40 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: terreno-search
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Varrer sites de leilão (data/leiloes.yaml)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TERRENO_PAGE_URL: ${{ vars.TERRENO_PAGE_URL }}
+        run: python -m terreno.run --profile ci_leilao
+
+      - name: Commit results
+        run: |
+          git config user.name  "terreno-bot"
+          git config user.email "terreno-bot@users.noreply.github.com"
+          git add data/terreno.sqlite3 site/ criteria.yaml
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: leilões $(date -u +%Y-%m-%dT%H:%MZ)"
+            for i in 1 2 3 4; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              sleep $((2 ** i))
+            done
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: crawl
+    # Só a branch default publica no Pages -- sem isso, um workflow_dispatch
+    # manual numa branch de teste "falha" aqui porque a política de proteção
+    # do ambiente github-pages recusa o deploy (2026-08-31, run 33192921890),
+    # mesmo com o crawl em si tendo funcionado.
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

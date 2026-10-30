@@ -36,8 +36,9 @@ def detectar_finalidade(listing: Listing) -> str:
 
     Before this existed rentals simply leaked into the sale search as
     suspiciously cheap "terrenos" (R$ 3.000 for a chácara)."""
-    if listing.finalidade == "aluguel":
-        return "aluguel"
+    if listing.finalidade in ("aluguel", "leilao"):
+        # Set by the source itself (a rentals category, an auction house).
+        return listing.finalidade
     texto = f"{listing.url} {listing.title} {(listing.description or '')[:600]}"
     if _RE_ALUGUEL.search(texto) and not _RE_VENDA.search(texto):
         return "aluguel"
@@ -227,7 +228,7 @@ def municipio_da_regiao(item: Listing, criteria: Criteria) -> str:
     blank, and is dropped by the sections that require a município."""
     texto = " " + re.sub(r"[^a-z0-9]+", " ", fold(
         f"{item.url} {item.title} {(item.description or '')[:400]}")) + " "
-    for nome in sorted(criteria.municipalities, key=len, reverse=True):
+    for nome in sorted(criteria.todos_municipios(), key=len, reverse=True):
         chave = " " + re.sub(r"[^a-z0-9]+", " ", fold(nome)) + " "
         if chave in texto:
             return nome
@@ -396,7 +397,10 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         # a run of only expensive listings the dearest of them still scored
         # full marks. Absolute thresholds are what the owner actually asked
         # for, and keeping both would have double-counted price.
-        if criteria.finalidade == "aluguel":
+        if criteria.finalidade == "leilao":
+            nota, detalhe, evidencias, estrelas = scoring.avaliar_leilao(
+                text, item.price, item.area_ha, item.municipality)
+        elif criteria.finalidade == "aluguel":
             # Rentals have their own rubric (price tier, water, houses), not
             # the sale scoring -- see scoring.avaliar_aluguel.
             nota, detalhe, evidencias, estrelas = scoring.avaliar_aluguel(text, item.price)

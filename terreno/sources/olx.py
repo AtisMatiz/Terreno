@@ -45,8 +45,10 @@ BASE = "https://www.olx.com.br/imoveis/terrenos"
 # www), any path, ending in a 6+ digit id -- the most stable pattern any
 # classifieds portal has, confirmed against real rendered output in
 # scripts/diagnostico_olx_navegador.py.
+# `www` is accepted too (2026-10-30): some cards link the ad on the bare domain
+# ("/terrenos/...-1543914631"); the 6+ digit id keeps category links out.
 _LISTING_HREF_RE = re.compile(
-    r"^https?://(?!www\.)[a-z]{2,3}\.olx\.com\.br/.+-(\d{6,})/?(?:\?.*)?$", re.I
+    r"^https?://[a-z]{2,3}\.olx\.com\.br/.+-(\d{6,})/?(?:\?.*)?$", re.I
 )
 
 # "...-1000-m-por-r-350-000-00-village-..." -- reais are dash-separated
@@ -107,7 +109,7 @@ _CARD_JS = """els => els.map(a => {
     if (hs.size > 1) break;
     t = n.innerText || '';
   }
-  return [a.getAttribute('href'), t.slice(0, 400)];
+  return [a.href, t.slice(0, 400)];
 })"""
 _CARD_PRICE_RE = re.compile(r"R\$\s*(\d{1,3}(?:\.\d{3})+|\d+)(?:,\d{2})?")
 
@@ -255,11 +257,32 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             break
 
                         page.wait_for_timeout(_HYDRATION_WAIT_MS)
+                        # Cards below the fold render lazily: without scrolling
+                        # they come back as empty text (found 2026-10-30).
+                        for _ in range(6):
+                            page.mouse.wheel(0, 2500)
+                            page.wait_for_timeout(500)
                         cards = page.eval_on_selector_all("a", _CARD_JS)
 
-                        new_this_page = 0
+                        # A card links the same ad twice (photo, title); the photo
+                        # link has no text. Keep the richest text per ad instead of
+                        # the first one seen.
+                        melhor: dict[str, str] = {}
                         for href, texto in cards or []:
-                            if not href or href in seen_urls:
+                            if not href:
+                                continue
+                            antigo = melhor.get(href)
+                            if antigo is None or ("R$" in texto and "R$" not in antigo):
+                                melhor[href] = texto or ""
+                        if pageno == 1:
+                            log.info("olx %s p1: %d links, %d de anúncio, título %r",
+                                     uf, len(cards or []),
+                                     sum(1 for h in melhor if _LISTING_HREF_RE.match(h)),
+                                     (page.title() or "")[:60])
+
+                        new_this_page = 0
+                        for href, texto in melhor.items():
+                            if href in seen_urls:
                                 continue
                             listing = _listing_from_url(href, uf)
                             if not listing:
@@ -283,5 +306,6 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     except Exception as exc:  # noqa: BLE001 -- Playwright/browser failure must not take the run down
         log.warning("olx: erro no navegador: %s", exc)
 
-    log.info("olx: %d listings", len(out))
+    log.info("olx: %d listings (%d com preço, %d com município)", len(out),
+             sum(1 for x in out if x.price), sum(1 for x in out if x.municipality))
     return out

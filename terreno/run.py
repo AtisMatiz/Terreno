@@ -105,11 +105,16 @@ def aplicar_correcoes(store: Store, criteria) -> int:
         if "price" in campos:
             d["price_first"] = d["price"]
         alugando = d.get("secao") == "aluguel"
-        d["price_per_ha"] = None if alugando else price_per_ha(d.get("price"), d.get("area_ha"))
+        leilao = d.get("secao") == "leilao"
+        d["price_per_ha"] = (None if alugando or leilao
+                             else price_per_ha(d.get("price"), d.get("area_ha")))
 
         titulo = "" if scoring.titulo_generico(d.get("title")) else (d.get("title") or "")
         text = f"{titulo} {d.get('description') or ''}"
-        if alugando:
+        if leilao:
+            nota, detalhe, evidencias, estrelas = scoring.avaliar_leilao(
+                text, d.get("price"), d.get("area_ha"), d.get("municipality") or "")
+        elif alugando:
             nota, detalhe, evidencias, estrelas = scoring.avaliar_aluguel(text, d.get("price"))
         else:
             nota, detalhe, evidencias, estrelas = scoring.avaliar(

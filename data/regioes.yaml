@@ -57,6 +57,75 @@ vale do paraiba:
     - Brazópolis
     - Cruz Vera
 
+# Perímetro da busca de leilões (2026-10-30, pedido do dono): do Alto Tietê
+# (Mogi das Cruzes, oeste) a Cunha (leste), de Paraisópolis (norte) ao litoral
+# de Ubatuba (sul). É o "vale do paraiba" acima MAIS o que o perímetro acrescenta;
+# a lista completa está aqui, explícita, para poder ser conferida município a
+# município. Decisões de borda, para o dono confirmar:
+#   incluídos no limite: Santa Isabel (oeste), Wenceslau Braz e Camanducaia (MG,
+#     norte/oeste), Caraguatatuba (sul, entre Ubatuba e o resto do litoral);
+#   fora de propósito: Suzano, Arujá, Itaquaquecetuba (a oeste de Mogi), Nazaré
+#     Paulista e Joanópolis (noroeste), Delfim Moreira e Itajubá (ao norte de
+#     Paraisópolis), São Sebastião e Ilhabela (ao sul de Ubatuba), Paraty (RJ).
+#   Os municípios do vale entre Aparecida e Bananal (leste de Cunha) ficam, pois
+#     já faziam parte da região principal.
+# "São Francisco Xavier" é distrito de São José dos Campos, listado por poder
+# aparecer como "município" em anúncios.
+perimetro leilao:
+  uf: SP
+  municipios:
+    - Aparecida
+    - Arapeí
+    - Areias
+    - Bananal
+    - Caçapava
+    - Cachoeira Paulista
+    - Campos do Jordão
+    - Canas
+    - Cruzeiro
+    - Cunha
+    - Guaratinguetá
+    - Igaratá
+    - Jacareí
+    - Jambeiro
+    - Lagoinha
+    - Lavrinhas
+    - Lorena
+    - Monteiro Lobato
+    - Natividade da Serra
+    - Paraibuna
+    - Pindamonhangaba
+    - Piquete
+    - Potim
+    - Queluz
+    - Redenção da Serra
+    - Roseira
+    - Santa Branca
+    - Santo Antônio do Pinhal
+    - São Bento do Sapucaí
+    - São José do Barreiro
+    - São José dos Campos
+    - São Luiz do Paraitinga
+    - Silveiras
+    - Taubaté
+    - Tremembé
+    - Paraisópolis
+    - Consolação
+    - Gonçalves
+    - Sapucaí-Mirim
+    - Brazópolis
+    - Cruz Vera
+    - Mogi das Cruzes
+    - Biritiba-Mirim
+    - Salesópolis
+    - Guararema
+    - Santa Isabel
+    - Caraguatatuba
+    - Ubatuba
+    - São Francisco Xavier
+    - Wenceslau Braz
+    - Camanducaia
+
 serra da mantiqueira:
   uf: SP
   municipios:

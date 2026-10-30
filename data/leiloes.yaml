@@ -1,0 +1,166 @@
+# Sites de leilão rastreados pela fonte `leilao` (terreno/sources/leilao.py).
+#
+# Lista inicial montada à mão em 2026-10-30 (pesquisa na web + checagem de que
+# o domínio responde). Cada entrada:
+#   nome          — como aparece nos logs
+#   host          — domínio (sem https://), obrigatório e único
+#   tipo          — agregador | plataforma | leiloeiro | banco | governo
+#   ativo         — false desliga sem apagar (ex.: domínio fora do ar)
+#   paginas       — (opcional) páginas de listagem para semear a varredura
+#   paginas_por_municipio — (opcional) modelo de URL com {slug} e {uf},
+#                   expandido para cada município do perímetro
+#   padrao_anuncio — (opcional) regex que identifica o link de um lote
+#   notas         — livre; o que foi observado
+# Sem `paginas`, o robô lê o sitemap/navegação do host (mesmo método do
+# crawler de imobiliárias) e fica só com links que parecem imóvel rural.
+# Caixa e PGFN já são fontes próprias (`caixa`, `pgfn`) e entram na seção
+# Leilão por conta própria -- listadas abaixo só para o registro, ativo:false.
+# Para acrescentar um site, só inclua uma entrada nova no fim da lista.
+
+sites:
+  - nome: Leilão Imóvel
+    host: www.leilaoimovel.com.br
+    tipo: agregador
+    ativo: true
+    paginas_por_municipio: "https://www.leilaoimovel.com.br/leilao-de-imovel/{slug}-{uf}"
+    padrao_anuncio: "/imovel/[a-z]{2}/[^/]+/.+-imovel-\\d+"
+    notas: >
+      Reúne judiciais, extrajudiciais e venda direta de quase 500 leiloeiros e
+      bancos; tem página por cidade e lotes rurais prefixados "rural-".
+      Respondeu 403 ao curl do sandbox (parede de bot): pode precisar do
+      desbloqueador no CI.
+
+  - nome: Spy Leilões
+    host: spyleiloes.com.br
+    tipo: agregador
+    ativo: true
+    notas: Busca e monitora leilões de imóveis em todo o Brasil; páginas por UF/cidade.
+
+  - nome: Mega Leilões
+    host: www.megaleiloes.com.br
+    tipo: plataforma
+    ativo: true
+    notas: Judiciais e extrajudiciais; editais em cdn1.megaleiloes.com.br.
+
+  - nome: Portal Zuk (Zukerman)
+    host: www.portalzuk.com.br
+    tipo: plataforma
+    ativo: true
+    notas: zukerman.com.br e lut.com.br redirecionam para cá.
+
+  - nome: Leilões Judiciais (Grupo Lance)
+    host: www.leiloesjudiciais.com.br
+    tipo: plataforma
+    ativo: true
+    notas: Imóveis, terrenos, veículos; grupolance.com.br é o mesmo grupo.
+
+  - nome: Superbid
+    host: www.superbid.net
+    tipo: plataforma
+    ativo: true
+    notas: 403 ao curl do sandbox; lotes de bancos e judiciais.
+
+  - nome: Sold
+    host: www.sold.com.br
+    tipo: plataforma
+    ativo: true
+    notas: Grupo Superbid; página inicial é app (pouco HTML) -- depende do sitemap.
+
+  - nome: Sodré Santoro
+    host: www.sodresantoro.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Forte em veículos, tem imóveis; 403 ao curl do sandbox.
+
+  - nome: Frazão Leilões
+    host: frazaoleiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Trabalha com bancos; 403 ao curl do sandbox.
+
+  - nome: Alfa Leilões
+    host: www.alfaleiloes.com
+    tipo: leiloeiro
+    ativo: true
+    notas: Especialista em imóveis; tinha sítio em São José dos Campos (Bairro dos Forros).
+
+  - nome: Lance no Leilão
+    host: lancenoleilao.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Faz os leilões do Banco do Brasil em SP, incluindo imóveis rurais.
+
+  - nome: Leilões Brasil
+    host: leiloesbrasil.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Trabalha com bancos; 403 ao curl do sandbox.
+
+  - nome: Franco Leilões
+    host: www.francoleiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Judiciais e extrajudiciais; categoria "Imóvel Rural" no site.
+
+  - nome: Luthero Leilões
+    host: lutheroleiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Leilões eletrônicos de varas de São José dos Campos (TJSP).
+
+  - nome: Leilão Online
+    host: leilaoonline.net
+    tipo: leiloeiro
+    ativo: true
+    notas: Carros, máquinas e imóveis.
+
+  - nome: Biasi Leilões
+    host: biasileiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: 403 ao curl do sandbox.
+
+  - nome: Nakakogue Leilões
+    host: nakakogueleiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+
+  - nome: Kronberg Leilões
+    host: kronbergleiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+
+  - nome: Resale
+    host: resale.com.br
+    tipo: plataforma
+    ativo: true
+    notas: '"Outlet imobiliário": imóveis de bancos, vendas diretas e leilões.'
+
+  - nome: Hasta Pública Leilões
+    host: hastapublica.com.br
+    tipo: leiloeiro
+    ativo: true
+
+  - nome: Leilão VIP
+    host: www.leilaovip.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: Redireciona a / para /canal.
+
+  - nome: Milan Leilões
+    host: milanleiloes.com.br
+    tipo: leiloeiro
+    ativo: true
+    notas: 403 ao curl do sandbox.
+
+  - nome: Caixa (imóveis em leilão)
+    host: venda-imoveis.caixa.gov.br
+    tipo: banco
+    ativo: false
+    notas: Já é a fonte `caixa` (CSV público); só as modalidades "Leilão" vão para esta seção.
+
+  - nome: PGFN Comprei
+    host: comprei.pgfn.gov.br
+    tipo: governo
+    ativo: false
+    notas: Já é a fonte `pgfn` (API pública); todos os lotes vão para esta seção.

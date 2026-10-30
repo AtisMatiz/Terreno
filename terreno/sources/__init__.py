@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from . import (brave, caixa, facebook, htmlportal, imobiliaria_crawl,
-               mercadolivre, olx, pgfn, vivareal)
+               leilao, mercadolivre, olx, pgfn, vivareal)
 
 # name -> fetch(criteria, store, budgets) -> list[Listing]
 REGISTRY = {
@@ -25,4 +25,5 @@ REGISTRY = {
     "brave_novos": brave.fetch_novos,     # descoberta genérica de sites, roda como job separado
     "imobiliaria_crawl": imobiliaria_crawl.fetch,  # varredura sem API, roda 2x/semana
     "facebook": facebook.fetch,
+    "leilao": leilao.fetch,               # sites de data/leiloes.yaml, job próprio diário
 }

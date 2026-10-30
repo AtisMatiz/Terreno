@@ -645,6 +645,103 @@ def avaliar_aluguel(text: str, price: float | None) -> tuple[float, dict, list[s
     return pontos / ALUGUEL_PONTOS_MAX, detalhe, evidencias, []
 
 
+# ---------------------------------------------------------------- leilão
+# Auction rubric (owner's call, 2026-10-30), 6 stars at most. Price is
+# cumulative (below R$ 150k earns both lines), which is what makes the
+# maximum exactly 6:
+#   price < R$ 150k          +0.5      price < R$ 300k          +1
+#   area > 5 ha              +0.5
+#   inner ring (SJC, Caçapava, Taubaté, Pindamonhangaba, Paraisópolis)  +0.5
+#   core (São Francisco Xavier, Monteiro Lobato, Santo Antônio do Pinhal,
+#         São Bento do Sapucaí, Gonçalves, Sapucaí-Mirim)               +1
+#   nascente +1      rio/riacho/córrego +0.5
+#   a house +1       other buildings (galpão, chalé, rancho, ...) +0.5
+LEILAO_ESTRELAS_MAX = 6.0
+LEILAO_PRECO = ((150_000.0, 0.5), (300_000.0, 1.0))
+LEILAO_AREA_HA = 5.0
+LEILAO_ANEL = ("sao jose dos campos", "cacapava", "taubate", "pindamonhangaba",
+               "paraisopolis")
+LEILAO_NUCLEO = ("sao francisco xavier", "monteiro lobato", "santo antonio do pinhal",
+                 "sao bento do sapucai", "goncalves", "sapucai-mirim", "sapucai mirim")
+# São Francisco Xavier is a district of São José dos Campos: the listing's
+# município says "São José dos Campos", only the text names the district.
+_LEILAO_DISTRITOS = ("sao francisco xavier",)
+_LEILAO_OUTRAS_EDIFICACOES = (
+    r"galpoes?|galpao|barracao|barracoes|chales?|ranchos?|cabanas?|edicula|"
+    r"casa\s+de\s+(?:caseiro|hospedes?|apoio|funcionarios?|empregados?)|"
+    r"segunda\s+casa|outra\s+casa|duas\s+casas|mais\s+de\s+uma\s+casa|"
+    r"paiol|estabulo|\bsalao\b|quiosque"
+)
+
+
+def avaliar_leilao(text: str, price: float | None, area_ha: float | None,
+                   municipality: str = "") -> tuple[float, dict, list[str], list[str]]:
+    """Score an auction lot: (nota 0..1 = stars/6, dimensoes, evidências, estrelas)."""
+    folded = _fold(text)
+    muni = _fold(municipality).replace("-", " ").strip()
+    estrelas = 0.0
+    evidencias: list[str] = []
+    detalhe: dict[str, dict] = {}
+
+    pts_preco = 0.0
+    if price:
+        for teto, pts in LEILAO_PRECO:
+            if price < teto:
+                pts_preco += pts
+    estrelas += pts_preco
+    prova_preco = [f"R$ {price:,.0f}".replace(",", ".")] if price else []
+    detalhe["preco"] = {"rotulo": "Preço", "nota": pts_preco / 1.5, "peso": 1.5,
+                        "provas": prova_preco}
+    if pts_preco:
+        evidencias.append(f"+{pts_preco:g} preço < R$ {'150' if pts_preco > 1 else '300'} mil".replace(".", ","))
+
+    grande = bool(area_ha and area_ha > LEILAO_AREA_HA)
+    estrelas += 0.5 if grande else 0
+    if grande:
+        evidencias.append("+0,5 área > 5 ha")
+
+    nucleo = (any(n.replace("-", " ") == muni for n in LEILAO_NUCLEO)
+              or any(d in folded for d in _LEILAO_DISTRITOS))
+    anel = muni in LEILAO_ANEL
+    pts_local = 1.0 if nucleo else (0.5 if anel else 0.0)
+    estrelas += pts_local
+    if pts_local:
+        evidencias.append(f"+{pts_local:g} localização ({municipality})".replace(".", ","))
+    detalhe["localizacao"] = {"rotulo": "Localização", "nota": pts_local, "peso": 1,
+                              "provas": [municipality] if pts_local and municipality else []}
+
+    nascente = any(_hits(folded, pattern)
+                   for pattern, _, rotulo in DIMENSOES["agua"]["positivos"]
+                   if rotulo in ("nascente", "mina d'água"))
+    rio = any(_hits(folded, pattern)
+              for pattern, _, rotulo in DIMENSOES["agua"]["positivos"]
+              if rotulo == "rio/riacho")
+    pts_agua = (1.0 if nascente else 0.0) + (0.5 if rio else 0.0)
+    estrelas += pts_agua
+    provas_agua = (["nascente"] if nascente else []) + (["rio/riacho"] if rio else [])
+    detalhe["agua"] = {"rotulo": "Água", "nota": pts_agua / 1.5, "peso": 1.5,
+                       "provas": provas_agua}
+    if nascente:
+        evidencias.append("+1 nascente")
+    if rio:
+        evidencias.append("+0,5 rio/riacho/córrego")
+
+    casa = tem_casa(text)
+    outras = bool(_hits(folded, _LEILAO_OUTRAS_EDIFICACOES))
+    pts_obras = (1.0 if casa else 0.0) + (0.5 if outras else 0.0)
+    estrelas += pts_obras
+    detalhe["benfeitorias"] = {"rotulo": "Construções", "nota": pts_obras / 1.5,
+                               "peso": 1.5,
+                               "provas": (["casa"] if casa else []) + (["outras construções"] if outras else [])}
+    if casa:
+        evidencias.append("+1 casa")
+    if outras:
+        evidencias.append("+0,5 outras construções")
+
+    estrelas = min(estrelas, LEILAO_ESTRELAS_MAX)
+    return estrelas / LEILAO_ESTRELAS_MAX, detalhe, evidencias, []
+
+
 # Price per hectare above which raw land (no benfeitoria at all) is discarded
 # outright rather than merely penalised (owner's explicit call, 2026-08-21):
 # unimproved land at that price is not the deal being looked for.
