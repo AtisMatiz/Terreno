@@ -1,5 +1,5 @@
 {
- "generated_at": "29/10/2026 às 12:41",
+ "generated_at": "30/10/2026 às 12:12",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4407,6 +4407,124 @@
    "price_drop": null
   },
   {
+   "key": "4039870f5322dfaf",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://sp.mgfimoveis.com.br/venda-sp-sao-jose-dos-campos-terreno-2070m-imperdivel-bairro-capuava-65016",
+   "title": "Terreno de 2.070M² Imperdível, Bairro Capuava (São José dos Campos",
+   "description": "A fazenda possui 3 Dormitórios, 54m² de Área Privada, Sol da manha e está localizado em Rodovia dos Tamoios Km, São José dos Campos, Sp à venda por R$30.000.<br><p><p>Terreno de 2.070m² Imperdível, Bairro Capuava (São José dos Campos)DESCRIÇÃO:<br>Vendo Terreno<br>- Bairro Capuava<br>- São José dos Campos<br>- 2.070m²Medidas: 15m (de frente) x 138m (de lateral) x 15m (de fundo)<br>Valor: R$30.000,00 (À vista)<br>Localização: Bairro Capuava, 1.400m do asfalto (Rodovia dos Tamoios KM 12)¬ Apenas 10 mim. da Rodovia Dutra (Shopping Vale Sul).¬ Ideal para chácara ou sítio (Moradia ou Final de semana).¬ Vizinho em frente, residentes no local.¬ Lindo visual, com bela natureza e ótima topografia.¬ Local com energia elétrica, e água de nascente.¬ Fácil acesso, rua cascalhada e com bom estado de conservação e com ponto de ônibus próximo.Ligue e marque uma visita até o local, contato Marco Antônio 12 98865-8280 (oi) ou deixe seu telefone pelo chat ou e-mail, que eu entro em contato e marcamos uma visita até o local.Vendo Terreno<br>- Bairro Capuava<br>- São José dos Campos<br>- 2.070m² Medidas: 15m (de frente) x 138m (de lateral) x 15m (de fundo) Valor: R$30.000,00 (À vista) Localização: Bairro Capuava, 1.400m do asfalto (Rodovia dos Tamoios KM<br>1<br>2) ¬ Apenas 1 mim. da...</p></p>",
+   "price": 30000.0,
+   "price_first": 30000.0,
+   "area_ha": 0.207,
+   "price_per_ha": 144927.54,
+   "municipality": "São José Dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://i.mgfserv.com/640x314/aHR0cHM6Ly9wcm94eS5kZXp0b3AuY29tL2ltYWdlLzEyMDB4NjMwL2FIUjBjSE02THk4d01BLmpwZw.jpg",
+   "posted_at": "",
+   "score": 0.316,
+   "reasons": [
+    "nascente",
+    "água de qualidade",
+    "casa",
+    "energia",
+    "bom acesso",
+    "R$/ha 144.928 (0)",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.525,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "água de qualidade"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.53,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "R$/ha 144.928 (0)"
+     ],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-30T15:12:44+00:00",
+   "last_seen": "2026-10-30T15:12:44+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + água de qualidade\", \"benfeitorias\": \"Casa + energia\", \"acesso\": \"Bom acesso\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "chacaras",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "fc2174a8984318af",
    "source": "olx",
    "source_id": "1543909988",
@@ -4787,6 +4905,122 @@
    "price_drop": null
   },
   {
+   "key": "7be20f9a41714086",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.palermodecastro.com.br/2013/imoveis/venda-sitio-3-quartos-borda-da-mata-cacapava-sp",
+   "title": "Sítio 3 alqueires,Caçapava sp",
+   "description": "Atenção, atenção, você que sonha com a vida no campo. Sítio em Caçapava, a apenas seis quilômetros da Dutra, próximo ao bairro Germana. São três alqueires de terra plana, com muito pasto, água boa, capineira e estrutura pronta pra trabalhar. Casa principal, curral, casa de caseiro e acesso fácil, só alegria pra quem quer começá na criação de gado, montá uma granja ou até criá cavalos. É terra boa, tradição e oportunidade num só lugar. Aproveite, porque terra assim não fica anunciada por muito te…",
+   "price": 1500000.0,
+   "price_first": 1500000.0,
+   "area_ha": null,
+   "price_per_ha": null,
+   "municipality": "Caçapava",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.palermodecastro.com.br/admin/imovel/mini/20261029T1648190300-921185926.jpg",
+   "posted_at": "",
+   "score": 0.273,
+   "reasons": [
+    "casa sede",
+    "casa de caseiro",
+    "bom acesso",
+    "terra boa/fértil",
+    "plano",
+    "⚠ preço R$ 1.500.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "casa de caseiro"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.45,
+     "peso": 10,
+     "provas": [
+      "terra boa/fértil"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.5,
+     "peso": 5,
+     "provas": [
+      "plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.500.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-10-30T15:12:44+00:00",
+   "last_seen": "2026-10-30T15:12:44+00:00",
+   "area_alqueires": 3.0,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"benfeitorias\": \"Casa sede + casa de caseiro\", \"acesso\": \"Bom acesso\", \"solo\": \"Terra boa/fértil + plano\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "cde4f66066b22792",
    "source": "olx",
    "source_id": "1301560044",
@@ -5116,7 +5350,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "sitios",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "9e7eb1c586082704",
@@ -8342,15 +8576,18 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 2,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "secoes": [
   {
    "id": "sitios",
