@@ -316,7 +316,7 @@ def telegram(listings: list, page_url: str, top_n: int = 8,
                 "parse_mode": "HTML",
                 "disable_web_page_preview": "true",
             },
-            retries=2,
+            retries=4,
         )
         if resp is None:
             # Keep going: a later card is still worth delivering.
