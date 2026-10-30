@@ -74,6 +74,9 @@ class Listing:
     # listing is published. Set by the source when it knows (a rentals
     # category), otherwise read from the text -- see pipeline.detectar_finalidade.
     finalidade: str = "venda"
+    # Leilão only: when the auction closes (ISO "YYYY-MM-DDTHH:MM", Brasília
+    # time). Empty when the page states no date.
+    encerramento: str = ""
     first_seen: str = field(default_factory=_now)
     last_seen: str = field(default_factory=_now)
     price_first: float | None = None

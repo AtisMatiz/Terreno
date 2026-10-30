@@ -62,11 +62,12 @@ vale do paraiba:
 # de Ubatuba (sul). É o "vale do paraiba" acima MAIS o que o perímetro acrescenta;
 # a lista completa está aqui, explícita, para poder ser conferida município a
 # município. Decisões de borda, para o dono confirmar:
-#   incluídos no limite: Santa Isabel (oeste), Wenceslau Braz e Camanducaia (MG,
-#     norte/oeste), Caraguatatuba (sul, entre Ubatuba e o resto do litoral);
+#   incluídos no limite: Santa Isabel (oeste), Camanducaia (MG, oeste),
+#     Caraguatatuba (sul); São Sebastião e Paraty (RJ) entraram a pedido do
+#     dono em 2026-10-30, que também tirou Wenceslau Braz;
 #   fora de propósito: Suzano, Arujá, Itaquaquecetuba (a oeste de Mogi), Nazaré
 #     Paulista e Joanópolis (noroeste), Delfim Moreira e Itajubá (ao norte de
-#     Paraisópolis), São Sebastião e Ilhabela (ao sul de Ubatuba), Paraty (RJ).
+#     Paraisópolis), Ilhabela.
 #   Os municípios do vale entre Aparecida e Bananal (leste de Cunha) ficam, pois
 #     já faziam parte da região principal.
 # "São Francisco Xavier" é distrito de São José dos Campos, listado por poder
@@ -123,7 +124,8 @@ perimetro leilao:
     - Caraguatatuba
     - Ubatuba
     - São Francisco Xavier
-    - Wenceslau Braz
+    - São Sebastião
+    - Paraty
     - Camanducaia
 
 serra da mantiqueira:

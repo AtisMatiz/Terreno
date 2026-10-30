@@ -126,6 +126,7 @@
       <option value="ppha_asc">R$/ha ↑</option>
       <option value="area_desc">Área ↓</option>
       <option value="area_asc">Área ↑</option>
+      <option value="encerramento">Leilão: encerra primeiro</option>
     </select>
     <select id="uf"><option value="">Todos os estados</option></select>
     <select id="municipio"><option value="">Todos os municípios</option></select>
@@ -254,6 +255,14 @@
       .forEach(v => sel.add(new Option(v, v)));
   }
 
+  const agoraIso = new Date().toISOString().slice(0, 16);
+  const proxEnc = i => (i.encerramento && i.encerramento >= agoraIso)
+    ? Date.parse(i.encerramento) : Infinity;
+  const fmtEnc = iso => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?/.exec(iso || '');
+    return m ? `${m[3]}/${m[2]}/${m[1]}` + (m[4] ? ` às ${m[4]}:${m[5]}` : '') : '';
+  };
+
   const ordenadores = {
     nota:       (a,b) => b.score - a.score,
     agua:       (a,b) => agua(b) - agua(a) || b.score - a.score,
@@ -263,6 +272,8 @@
     ppha_asc:   (a,b) => (a.price_per_ha ?? Infinity) - (b.price_per_ha ?? Infinity),
     area_desc:  (a,b) => (b.area_ha ?? -1) - (a.area_ha ?? -1),
     area_asc:   (a,b) => (a.area_ha ?? Infinity) - (b.area_ha ?? Infinity),
+    // Leilões que encerram primeiro no topo; sem data (ou já encerrados) vão para o fim.
+    encerramento: (a,b) => proxEnc(a) - proxEnc(b) || b.score - a.score,
   };
 
   function barras(it){
@@ -293,6 +304,8 @@
         ? `<span class="selo s-baixa">baixou ${brl(Math.abs(it.price_drop))}</span>` : '',
     ].join('');
     const onde = [it.municipality, it.uf].filter(Boolean).join('/');
+    const encerra = it.secao === 'leilao' && it.encerramento
+      ? `<span>⏳ ${it.encerramento < agoraIso ? 'encerrado' : 'encerra'} ${fmtEnc(it.encerramento)}</span>` : '';
     const provas = (it.reasons || []).map(r =>
       `<span class="${r.startsWith('⚠') ? 'alerta' : ''}">${escHtml(r)}</span>`).join('');
     const link = safeUrl(it.url);
@@ -308,6 +321,7 @@
           <span>${ha(it.area_ha)}</span>
           ${it.price_per_ha && it.secao !== 'aluguel' && it.secao !== 'leilao' ? `<span>${brl(it.price_per_ha)}/ha</span>` : ''}
           ${onde ? `<span>${escHtml(onde)}</span>` : ''}
+          ${encerra}
         </div>
         <div class="nota">pontuação <b>${it.secao === 'leilao' ? estrelas(it.score) : pct(it.score)}</b>
           <button class="btn-detalhe">${aberto ? 'ocultar detalhe' : 'ver detalhe'}</button>

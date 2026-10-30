@@ -17,6 +17,7 @@ caller (pipeline) decides which listings deserve a ping and in what order.
 from __future__ import annotations
 
 import logging
+import re
 
 from . import http
 from .config import env
@@ -123,6 +124,15 @@ def _score_label(score01: float) -> str:
     return f"{pts}/100 ({SCORE_FALLBACK})"
 
 
+def _fmt_encerramento(iso: str) -> str:
+    """"2026-11-04T14:00" -> "04/11/2026 às 14:00"; "" -> "data não informada"."""
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?", iso or "")
+    if not m:
+        return "data não informada"
+    a, mes, d, h, mi = m.groups()
+    return f"{d}/{mes}/{a}" + (f" às {h}:{mi}" if h else "")
+
+
 def _estrelas_label(score01: float) -> str:
     """Auction rubric: the 0..1 score is stars/6 -- shown as stars, not as /100."""
     estrelas = round((score01 or 0) * 6 * 2) / 2
@@ -168,9 +178,11 @@ def render_card(item, index: int) -> str:
     lines = [
         f"  # {index} - <b>{titulo}</b>",
         f"📍 <b>Localização:</b> {_esc(_where(item))}",
-        f"💰 <b>Preço:</b> {_fmt_brl(getattr(item, 'price', None))}"
+        f"💰 <b>{'Último lance' if getattr(item, 'secao', 'sitios') == 'leilao' else 'Preço'}:</b> {_fmt_brl(getattr(item, 'price', None))}"
         + ("/mês" if getattr(item, "secao", "sitios") == "aluguel" and getattr(item, "price", None) else ""),
         f"📐 <b>Área:</b> {_esc(_area_text(item))}",
+        *([f"⏳ <b>Encerra:</b> {_esc(_fmt_encerramento(getattr(item, 'encerramento', '')))}"]
+          if getattr(item, "secao", "sitios") == "leilao" else []),
         f"⭐ <b>Pontuação:</b> "
         + (_estrelas_label(getattr(item, 'score', 0.0))
            if getattr(item, "secao", "sitios") == "leilao"

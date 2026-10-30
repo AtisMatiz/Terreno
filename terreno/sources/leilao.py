@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import logging
 import re
+from datetime import datetime, timedelta, timezone
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote, urljoin, urlparse
@@ -40,14 +41,17 @@ from . import imobiliaria_crawl
 
 log = logging.getLogger("terreno.sources.leilao")
 
+BRT = timezone(timedelta(hours=-3))
+
 NAME = "leilao"
 LEILOES_PATH = ROOT / "data" / "leiloes.yaml"
 
 # Municípios do perímetro que ficam em Minas (o resto é SP); só serve para
 # montar a URL por cidade dos sites que têm página por município.
+_RJ = {"paraty"}
 _MG = {fold(m) for m in (
     "Paraisópolis", "Consolação", "Gonçalves", "Sapucaí-Mirim", "Brazópolis",
-    "Cruz Vera", "Wenceslau Braz", "Camanducaia")}
+    "Cruz Vera", "Camanducaia")}
 
 # Lote que parece terra; e o que nunca é imóvel (veículos, máquinas...).
 _RURAL = ("rural", "sitio", "fazenda", "chacara", "gleba", "terra", "terreno",
@@ -82,7 +86,7 @@ def _paginas(site: dict, municipios: list[str]) -> list[str]:
     modelo = site.get("paginas_por_municipio")
     if modelo:
         for m in municipios:
-            uf = "mg" if fold(m) in _MG else "sp"
+            uf = "mg" if fold(m) in _MG else "rj" if fold(m) in _RJ else "sp"
             paginas.append(modelo.format(slug=_slug(m), uf=uf, UF=uf.upper(),
                                          municipio=m, municipio_url=quote(m)))
     # `paginar: {param: pagina, ate: 6}` -> each seed page also as ?pagina=2..6
@@ -146,9 +150,57 @@ def _sem_menu(html: str) -> str:
     return html
 
 
+_ULTIMO_LANCE_RE = re.compile(
+    r"(?:[úu]ltimo\s+lance|lance\s+atual|maior\s+lance|[úu]ltima\s+oferta)"
+    r"[^R$]{0,40}R\$\s*([\d.]+(?:,\d{1,2})?)", re.I)
+
+_DATA_RE = re.compile(
+    r"(\d{2})/(\d{2})/(\d{4})(?:\s*(?:às|as|a partir das|-|,)?\s*(\d{1,2})\s*[:h]\s*(\d{2}))?")
+_DATA_PISTA = re.compile(
+    r"pra[cç]a|encerra|encerramento|t[eé]rmino|termina|fim do leil|data do leil|"
+    r"leil[aã]o\s+em|lance\s+final|data\s+limite|prazo", re.I)
+
+
+def _valor(bruto: str) -> float | None:
+    try:
+        v = float(bruto.replace(".", "").replace(",", "."))
+    except ValueError:
+        return None
+    return v if v > 0 else None
+
+
+def data_encerramento(texto: str, agora: datetime | None = None) -> tuple[str, bool]:
+    """(ISO date-time, já_encerrado) of the closing: among the dates that sit
+    right after a closing/round word ("2ª Praça: 19/10/2026 às 14:00",
+    "encerra em ..."), the next one still ahead; when all are behind, the last
+    (flagged as ended). ("", False) when the page states none."""
+    agora = agora or datetime.now(BRT)
+    achadas: list[datetime] = []
+    for m in _DATA_RE.finditer(texto or ""):
+        antes = texto[max(0, m.start() - 45): m.start()]
+        if not _DATA_PISTA.search(antes):
+            continue
+        d, mes, a, h, mi = m.groups()
+        try:
+            achadas.append(datetime(int(a), int(mes), int(d), int(h or 23),
+                                    int(mi or 59), tzinfo=BRT))
+        except ValueError:
+            continue
+    if not achadas:
+        return "", False
+    futuras = [x for x in achadas if x >= agora]
+    alvo = min(futuras) if futuras else max(achadas)
+    return alvo.strftime("%Y-%m-%dT%H:%M"), not futuras
+
+
 def preco_do_lance(texto: str) -> float | None:
-    """The auction's own price (lance mínimo / 1ª-2ª praça) from the page text:
-    the lowest one stated, since the next round is the one that is open."""
+    """The price that matters in an auction: the *last bid* at the time of the
+    search (owner's call, 2026-10-30: a Mogi das Cruzes lot listed at R$ 41 k
+    was at ~R$ 105 k). Without a bid yet, the opening value of the open round
+    (lance mínimo / 1ª-2ª praça): the lowest one stated."""
+    ultimo = _ULTIMO_LANCE_RE.search(texto or "")
+    if ultimo and _valor(ultimo.group(1)):
+        return _valor(ultimo.group(1))
     valores = []
     for bruto in _PRECO_LEILAO_RE.findall(texto or ""):
         try:
@@ -167,17 +219,22 @@ def fetch_site(site: dict, municipios: list[str], *, budgets: dict,
     urls = candidatos(site, municipios, maximo=maximo, timeout=timeout)
     out: list[Listing] = []
     for url in urls:
-        if url in ja_vistos:
-            continue
+        # No `ja_vistos` skip, unlike the other crawlers: an auction lot changes
+        # every day (last bid, closing date), so it is read again each run.
         resp = http.get(url, timeout=timeout, retries=1)
         if resp is None:
             continue
-        listing = rules.extract(_sem_menu(resp.text), url, source=NAME)
+        limpo = _sem_menu(resp.text)
+        listing = rules.extract(limpo, url, source=NAME)
         if not listing:
             continue
-        lance = preco_do_lance(f"{listing.title} {listing.description}")
+        texto = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", limpo))
+        lance = preco_do_lance(texto)
         if lance:
             listing.price = lance
+        listing.encerramento, encerrado = data_encerramento(texto)
+        if encerrado:
+            continue                      # the auction is over
         listing.finalidade = "leilao"
         log.debug("leilao: %s | %s/%s | R$ %s | %s ha", listing.title[:60],
                   listing.municipality, listing.uf, listing.price, listing.area_ha)
@@ -212,8 +269,10 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                 continue
             log.info("leilao: %s: %d candidato(s), %d lote(s)", site["host"], n, len(lotes))
             for lote in lotes[:6]:
-                log.info("leilao:   %s | %s/%s | R$ %s | %s ha", (lote.title or "")[:55],
-                         lote.municipality or "?", lote.uf or "?", lote.price, lote.area_ha)
+                log.info("leilao:   %s | %s/%s | R$ %s | %s ha | encerra %s",
+                         (lote.title or "")[:55], lote.municipality or "?",
+                         lote.uf or "?", lote.price, lote.area_ha,
+                         lote.encerramento or "?")
             out.extend(lotes)
     log.info("leilao: %d lote(s) de %d site(s)", len(out), len(sites))
     return out
