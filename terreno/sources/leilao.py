@@ -136,6 +136,16 @@ def candidatos(site: dict, municipios: list[str], *, maximo: int, timeout: int) 
     return list(achados)[:maximo]
 
 
+def _sem_menu(html: str) -> str:
+    """The page without its site chrome. Found in the 2026-10-30 dry-run: the
+    description of a Mega Leilões lot began with the whole category menu
+    ("Imóveis Apartamentos Casas Hospitais ... Barcos Cavalos"), so a rural lot
+    read as an apartment and every water/building keyword was noise."""
+    for tag in ("nav", "header", "footer", "form", "select", "aside", "noscript"):
+        html = re.sub(rf"<{tag}\b.*?</{tag}>", " ", html, flags=re.S | re.I)
+    return html
+
+
 def preco_do_lance(texto: str) -> float | None:
     """The auction's own price (lance mínimo / 1ª-2ª praça) from the page text:
     the lowest one stated, since the next round is the one that is open."""
@@ -162,7 +172,7 @@ def fetch_site(site: dict, municipios: list[str], *, budgets: dict,
         resp = http.get(url, timeout=timeout, retries=1)
         if resp is None:
             continue
-        listing = rules.extract(resp.text, url, source=NAME)
+        listing = rules.extract(_sem_menu(resp.text), url, source=NAME)
         if not listing:
             continue
         lance = preco_do_lance(f"{listing.title} {listing.description}")
