@@ -291,6 +291,17 @@ class Store:
             )
         return listing
 
+    def forget(self, keys: list[str]) -> int:
+        """Delete listings (and their price history) so they count as new again."""
+        keys = [k for k in (keys or []) if k]
+        if not keys:
+            return 0
+        marks = ",".join("?" * len(keys))
+        self.db.execute(f"DELETE FROM price_history WHERE key IN ({marks})", keys)
+        n = self.db.execute(f"DELETE FROM listings WHERE key IN ({marks})", keys).rowcount
+        self.db.commit()
+        return n
+
     def dismiss_many(self, keys: list[str]) -> int:
         """Mark listings as permanently dismissed (e.g. sold -- see
         VENDIDOS_PATH). Idempotent: already-dismissed keys are a no-op, so
