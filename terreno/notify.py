@@ -297,7 +297,23 @@ def _enviar(token: str, chat_id: str, text: str) -> bool:
     """One message: POST first (a long GET query string stalled twice on
     2026-10-30 -- "Read timed out" through requests *and* curl_cffi), then the
     old GET path as a fallback."""
+    import socket
+
     import requests
+    import urllib3.util.connection as _conn
+    # api.telegram.org resolves to an IPv6 address first, and on 2026-10-30 the
+    # Actions runner connected and finished TLS to it in 0.2 s, then got *no
+    # response at all* (curl: 0 bytes in 30 s) -- every Leilão ping died on a
+    # read timeout. IPv4 only for the Telegram call.
+    antes = _conn.allowed_gai_family
+    _conn.allowed_gai_family = lambda: socket.AF_INET
+    try:
+        return _enviar_post(token, chat_id, text, requests)
+    finally:
+        _conn.allowed_gai_family = antes
+
+
+def _enviar_post(token: str, chat_id: str, text: str, requests) -> bool:
     for tentativa in range(3):
         try:
             r = requests.post(
