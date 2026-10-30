@@ -20,4 +20,4 @@ jobs:
         env:
           ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
           TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
-        run: python scripts/diagnostico_olx_http.py
+        run: PYTHONPATH=. python scripts/diagnostico_olx_http.py
