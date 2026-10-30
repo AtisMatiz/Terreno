@@ -1,0 +1,23 @@
+name: diagnóstico OLX (HTTP)
+
+# Só mede: o que a escada HTTP (curl_cffi -> ZenRows) traz da página de
+# resultados da OLX quando o navegador do runner é barrado pela Cloudflare.
+on:
+  workflow_dispatch:
+
+jobs:
+  http:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Rodar diagnóstico
+        env:
+          ZENROWS_API_KEY: ${{ secrets.ZENROWS_API_KEY }}
+          TERRENO_UNBLOCKER: ${{ vars.TERRENO_UNBLOCKER }}
+        run: python scripts/diagnostico_olx_http.py
