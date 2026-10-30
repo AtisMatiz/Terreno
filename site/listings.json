@@ -1,5 +1,5 @@
 {
- "generated_at": "30/10/2026 às 12:12",
+ "generated_at": "30/10/2026 às 12:19",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4521,7 +4521,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "chacaras",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -5017,7 +5017,7 @@
    "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "sitios",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -8576,17 +8576,16 @@
    "price_drop": null
   }
  ],
- "new_count": 2,
+ "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "superbid.net: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "olx: 0 resultados"
  ],
  "secoes": [
   {
