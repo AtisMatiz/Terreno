@@ -1,0 +1,29 @@
+name: diagnóstico Telegram
+
+# Só mede: o runner alcança api.telegram.org com o token real? (2026-10-30: os
+# pings do Leilão deram "Read timed out" em todas as tentativas.) Manda uma
+# mensagem curta de teste ao chat configurado.
+on:
+  workflow_dispatch:
+
+jobs:
+  telegram:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: getMe e mensagem de teste
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          set +e
+          echo "--- DNS"; getent hosts api.telegram.org
+          echo "--- getMe"
+          curl -sS -m 30 -o /tmp/me.json -w "http=%{http_code} connect=%{time_connect}s tls=%{time_appconnect}s total=%{time_total}s\n" \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe" 2>&1 | sed "s/${TELEGRAM_BOT_TOKEN}/TOKEN/g"
+          head -c 300 /tmp/me.json | sed "s/${TELEGRAM_BOT_TOKEN}/TOKEN/g"; echo
+          echo "--- sendMessage (POST)"
+          curl -sS -m 30 -o /tmp/send.json -w "http=%{http_code} total=%{time_total}s\n" \
+            -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" -d text="✅ Terreno: teste de conexão do GitHub Actions" 2>&1 | sed "s/${TELEGRAM_BOT_TOKEN}/TOKEN/g"
+          head -c 300 /tmp/send.json | sed "s/${TELEGRAM_BOT_TOKEN}/TOKEN/g"; echo
