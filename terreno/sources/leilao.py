@@ -28,7 +28,7 @@ import logging
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from urllib.parse import urljoin, urlparse
+from urllib.parse import quote, urljoin, urlparse
 
 import yaml
 
@@ -83,7 +83,16 @@ def _paginas(site: dict, municipios: list[str]) -> list[str]:
     if modelo:
         for m in municipios:
             uf = "mg" if fold(m) in _MG else "sp"
-            paginas.append(modelo.format(slug=_slug(m), uf=uf, municipio=m))
+            paginas.append(modelo.format(slug=_slug(m), uf=uf, UF=uf.upper(),
+                                         municipio=m, municipio_url=quote(m)))
+    # `paginar: {param: pagina, ate: 6}` -> each seed page also as ?pagina=2..6
+    pag = site.get("paginar")
+    if pag and paginas:
+        param, ate = pag.get("param", "pagina"), int(pag.get("ate", 3))
+        base = list(paginas)
+        for p in base:
+            sep = "&" if "?" in p else "?"
+            paginas += [f"{p}{sep}{param}={n}" for n in range(2, ate + 1)]
     return paginas
 
 
@@ -160,6 +169,8 @@ def fetch_site(site: dict, municipios: list[str], *, budgets: dict,
         if lance:
             listing.price = lance
         listing.finalidade = "leilao"
+        log.debug("leilao: %s | %s/%s | R$ %s | %s ha", listing.title[:60],
+                  listing.municipality, listing.uf, listing.price, listing.area_ha)
         listing.description = f"{listing.description} · Leiloeiro: {site.get('nome', site['host'])}".strip(" ·")
         out.append(listing)
     return out, len(urls)
@@ -190,6 +201,9 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                 log.warning("leilao: %s falhou: %s", site["host"], exc)
                 continue
             log.info("leilao: %s: %d candidato(s), %d lote(s)", site["host"], n, len(lotes))
+            for lote in lotes[:6]:
+                log.info("leilao:   %s | %s/%s | R$ %s | %s ha", (lote.title or "")[:55],
+                         lote.municipality or "?", lote.uf or "?", lote.price, lote.area_ha)
             out.extend(lotes)
     log.info("leilao: %d lote(s) de %d site(s)", len(out), len(sites))
     return out

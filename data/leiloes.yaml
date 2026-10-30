@@ -34,24 +34,37 @@ sites:
     host: spyleiloes.com.br
     tipo: agregador
     ativo: true
+    paginas_por_municipio: "https://spyleiloes.com.br/{UF}/{municipio_url}"
     notas: Busca e monitora leilões de imóveis em todo o Brasil; páginas por UF/cidade.
 
   - nome: Mega Leilões
     host: www.megaleiloes.com.br
     tipo: plataforma
     ativo: true
+    paginas:
+      - "https://www.megaleiloes.com.br/imoveis/imoveis-rurais/sp"
+      - "https://www.megaleiloes.com.br/imoveis/imoveis-rurais/mg"
+      - "https://www.megaleiloes.com.br/imoveis/glebas/sp"
+      - "https://www.megaleiloes.com.br/imoveis/glebas/mg"
+    paginas_por_municipio: "https://www.megaleiloes.com.br/imoveis/imoveis-rurais/{uf}/{slug}"
+    padrao_anuncio: "/imoveis/[a-z-]+/[a-z]{2}/[^/]+/.+-[jx]\\d+"
     notas: Judiciais e extrajudiciais; editais em cdn1.megaleiloes.com.br.
 
   - nome: Portal Zuk (Zukerman)
     host: www.portalzuk.com.br
     tipo: plataforma
     ativo: true
+    paginas:
+      - "https://www.portalzuk.com.br/leilao-de-imoveis/t/todos-imoveis/terrenos"
     notas: zukerman.com.br e lut.com.br redirecionam para cá.
 
   - nome: Leilões Judiciais (Grupo Lance)
     host: www.leiloesjudiciais.com.br
     tipo: plataforma
     ativo: true
+    paginas:
+      - "https://www.leiloesjudiciais.com.br/imoveis/fazendas-sitios-e-chacaras"
+      - "https://www.leiloesjudiciais.com.br/imoveis/terrenos-e-lotes"
     notas: Imóveis, terrenos, veículos; grupolance.com.br é o mesmo grupo.
 
   - nome: Superbid
@@ -106,6 +119,12 @@ sites:
     host: lutheroleiloes.com.br
     tipo: leiloeiro
     ativo: true
+    paginas:
+      - "https://lutheroleiloes.com.br/"
+      - "https://lutheroleiloes.com.br/?tipo=abertos-para-lance"
+      - "https://lutheroleiloes.com.br/buscador?categoria=1"
+      - "https://lutheroleiloes.com.br/buscador?categoria=2"
+    padrao_anuncio: "/eventos/leilao/\\d+/.+/lote"
     notas: Leilões eletrônicos de varas de São José dos Campos (TJSP).
 
   - nome: Leilão Online
