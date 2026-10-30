@@ -340,8 +340,15 @@ def main(argv=None) -> int:
         # new" in the log, only 3 cards in Telegram, no visible reason why
         # the 4th was missing). notify.build_messages still packs whatever
         # doesn't fit one message into as many more as it takes.
-        notify.telegram(para_avisar, pagina, len(para_avisar),
-                        alertas=alertas_saude)
+        enviado = notify.telegram(para_avisar, pagina, len(para_avisar),
+                                  alertas=alertas_saude)
+        if enviado is False and fresh:
+            # The ping did not go out (Telegram unreachable): forget the new
+            # rows so the next run finds them "new" again and re-sends --
+            # otherwise a lost ping is lost for good (2026-10-30, Leilão).
+            esquecidos = store.forget([x.key for x in fresh])
+            log.warning("telegram falhou: %d anúncio(s) novo(s) esquecidos para "
+                        "reenviar na próxima execução", esquecidos)
 
     store.close()
     return 0

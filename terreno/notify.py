@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import logging
 import re
+import time
 
 from . import http
 from .config import env
@@ -292,14 +293,55 @@ def build_messages(listings: list, page_url: str = "", top_n: int = 8,
     return [m for m in messages if m.strip()]
 
 
+def _enviar(token: str, chat_id: str, text: str) -> bool:
+    """One message: POST first (a long GET query string stalled twice on
+    2026-10-30 -- "Read timed out" through requests *and* curl_cffi), then the
+    old GET path as a fallback."""
+    import requests
+    for tentativa in range(3):
+        try:
+            r = requests.post(
+                API.format(token=token),
+                json={"chat_id": chat_id, "text": text, "parse_mode": "HTML",
+                      "disable_web_page_preview": True},
+                timeout=20,
+            )
+        except requests.RequestException as exc:
+            log.warning("telegram: POST falhou (%d/3): %s", tentativa + 1,
+                        type(exc).__name__)
+            time.sleep(2 ** tentativa)
+            continue
+        if r.status_code == 200:
+            return True
+        log.warning("telegram: POST HTTP %s (%d/3): %s", r.status_code, tentativa + 1,
+                    (r.text or "")[:200].replace("\n", " "))
+        if r.status_code == 429:
+            try:
+                time.sleep(min(int(r.json().get("parameters", {}).get("retry_after", 3)), 20))
+            except (ValueError, AttributeError):
+                time.sleep(3)
+            continue
+        if 400 <= r.status_code < 500:
+            break                      # the request itself is wrong; GET would not help
+        time.sleep(2 ** tentativa)
+    resp = http.get(
+        API.format(token=token),
+        params={"chat_id": chat_id, "text": text, "parse_mode": "HTML",
+                "disable_web_page_preview": "true"},
+        retries=2,
+    )
+    return resp is not None
+
+
 def telegram(listings: list, page_url: str, top_n: int = 8,
-             alertas: list[str] | None = None) -> bool:
+             alertas: list[str] | None = None) -> bool | None:
     """Send the ping. True only if every message went out (also True when
-    there's nothing new to say — nothing to send is not a failure to send)."""
+    there's nothing new to say). None when Telegram is not configured, so the
+    caller can tell "not configured" from "tried and failed"."""
     token, chat_id = env("TELEGRAM_BOT_TOKEN"), env("TELEGRAM_CHAT_ID")
     if not token or not chat_id:
         log.info("telegram not configured — no ping sent")
-        return False
+        return None
 
     messages = build_messages(listings, page_url, top_n, alertas)
     if not messages:
@@ -308,17 +350,7 @@ def telegram(listings: list, page_url: str, top_n: int = 8,
 
     ok = True
     for i, text in enumerate(messages, 1):
-        resp = http.get(
-            API.format(token=token),
-            params={
-                "chat_id": chat_id,
-                "text": text,
-                "parse_mode": "HTML",
-                "disable_web_page_preview": "true",
-            },
-            retries=4,
-        )
-        if resp is None:
+        if not _enviar(token, chat_id, text):
             # Keep going: a later card is still worth delivering.
             ok = False
             log.warning("telegram: send failed (%d/%d)", i, len(messages))
