@@ -90,23 +90,46 @@ def _bloqueada(titulo: str) -> bool:
                                 "um momento"))
 
 
-_A_RE = re.compile(r'<a\b[^>]*?href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', re.I | re.S)
+_CARD_SPLIT = re.compile(r'<section[^>]*class="[^"]*olx-adcard\b', re.I)
+_HREF_RE = re.compile(r'href=["\']([^"\']+)["\']', re.I)
+_LOCAL_RE = re.compile(
+    r'class="[^"]*(?:location|address|locality)[^"]*"[^>]*>\s*([^<]+)', re.I)
+
+
+def _texto_do_bloco(bloco: str) -> str:
+    bloco = re.sub(r"<(?:svg|script|style)\b.*?</(?:svg|script|style)>", " ", bloco,
+                   flags=re.S | re.I)
+    bloco = re.sub(r"<(?:br|/div|/p|/span|/h\d|/li|/section)[^>]*>", "\n", bloco, flags=re.I)
+    bloco = re.sub(r"<[^>]+>", "", bloco).replace("&amp;", "&").replace("&nbsp;", " ")
+    bloco = re.sub(r"[ \t]+", " ", bloco)
+    return "\n".join(l.strip() for l in bloco.splitlines() if l.strip())
 
 
 def _cards_do_html(html: str, base: str) -> list[tuple[str, str]]:
     """Same [(href, text)] the browser path returns, read from fetched HTML --
     the fallback when the browser is walled off but the HTTP ladder (curl_cffi,
-    then the unblocker) gets through."""
+    then the unblocker) gets through.
+
+    Measured 2026-10-30: a card is a `<section class="olx-adcard">` whose link
+    holds only the title; the area, price and place are *siblings* of the link,
+    inside the section -- so the card text is the whole section, not the
+    anchor's."""
     from urllib.parse import urljoin
     out = []
-    for href, inner in _A_RE.findall(html or ""):
-        full = urljoin(base, href.replace("&amp;", "&"))
-        if not _LISTING_HREF_RE.match(full):
+    partes = _CARD_SPLIT.split(html or "")
+    for bloco in partes[1:]:
+        bloco = bloco.split(">", 1)[-1]          # rest of the <section ...> tag
+        href = next((urljoin(base, h.replace("&amp;", "&"))
+                     for h in _HREF_RE.findall(bloco)
+                     if _LISTING_HREF_RE.match(urljoin(base, h.replace("&amp;", "&")))), None)
+        if not href:
             continue
-        texto = re.sub(r"<(?:br|/div|/p|/span|/h\d|/li)[^>]*>", "\n", inner, flags=re.I)
-        texto = re.sub(r"<[^>]+>", "", texto)
-        texto = re.sub(r"[ \t]+", " ", texto)
-        out.append((full, "\n".join(l.strip() for l in texto.splitlines() if l.strip())))
+        texto = _texto_do_bloco(bloco)
+        local = _LOCAL_RE.search(bloco)
+        if local:
+            # place named by its own element: put it right after the price line
+            texto += "\n" + local.group(1).strip()
+        out.append((href, texto))
     return out
 
 
