@@ -382,7 +382,14 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
                       else "área não informada" if criteria.area_obrigatoria and item.area_ha is None
                       else "preço não informado" if criteria.preco_obrigatorio and item.price is None
                       else "sem casa" if criteria.exige_casa and not scoring.tem_casa(text)
+                      else "em condomínio/loteamento fechado"
+                      if scoring.em_condominio_fechado(text)
                       else None)
+        elif criteria.municipio_obrigatorio and not item.municipality:
+            # No município means no way to tell the listing is inside the search
+            # area (2026-10-31: a Jaboticatubas/MG chácara, hundreds of km out,
+            # reached Telegram with a blank município).
+            motivo = "município não informado"
         else:
             motivo = scoring.motivo_descarte(text, item.area_ha, item.price_per_ha)
         if motivo:
