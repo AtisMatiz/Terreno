@@ -1,5 +1,5 @@
 {
- "generated_at": "30/10/2026 às 18:49",
+ "generated_at": "31/10/2026 às 11:41",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -1308,6 +1308,70 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "fef0765c747bdbb8",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.campobrasilimoveis.com.br/alugar/sp/sao-jose-dos-campos/zona-norte/chacara/10481370",
+   "title": "LINDA CHÁCARA DE 2.000 M² NA ZONA NORTE DE SÃO JOSÉ DOS CAMPOS!",
+   "description": "LINDA CHÁCARA DE 2.000 M² NA ZONA NORTE DE SÃO JOSÉ DOS CAMPOS!\n\nCASA SEDE\n- 4 dormitórios \n- Cozinha\n- Sala de TV\n- Despensa \n- Lavanderia \n- 3 Wc\n- Laje\n- Forro de madeira\n- Piso frio\n- Varanda \n\nLAZER\n- Gramado \n- Fogão à lenha \n- Forno à lenha \n- Jardim \n\nDIVERSOS \n- 2 garagens cobertas\n- Canil\n- Galinheiro \n- Pasto\n- Cercado \n- Nascente\n- Riacho \n- Água encanada Sabesp \n- Internet fibra\n\n\nVisite nosso site: www.campobrasilimoveis.com.br\nAcesse nossa página no instagram: @campobrasil_imoveis\n\n&quot;Campo Brasil Imóveis, realizando sonhos de porteira em porteira!&quot;",
+   "price": 2750.0,
+   "price_first": 2750.0,
+   "area_ha": 0.2,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://cdnuso.com/35548/https://static.tokkobroker.com/w_pics/10481370_168259328383620588424926333814763787300438858669108433499890021990505.jpg",
+   "posted_at": "",
+   "score": 0.5,
+   "reasons": [
+    "++ R$ 2.750/mês",
+    "++ nascente + rio/riacho"
+   ],
+   "dimensoes": {
+    "preco_mensal": {
+     "rotulo": "Aluguel/mês",
+     "nota": 0.6666666666666666,
+     "peso": 3,
+     "provas": [
+      "++ R$ 2.750/mês"
+     ]
+    },
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 2,
+     "provas": [
+      "nascente",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Casas",
+     "nota": 0.0,
+     "peso": 3,
+     "provas": [
+      "casa"
+     ]
+    }
+   },
+   "first_seen": "2026-10-31T14:41:23+00:00",
+   "last_seen": "2026-10-31T14:41:23+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho\", \"benfeitorias\": \"Casa\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "aluguel",
+   "encerramento": "",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -3980,71 +4044,6 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "f796888212de90cf",
-   "source": "leilao",
-   "source_id": "",
-   "url": "https://www.megaleiloes.com.br/imoveis/imoveis-rurais/sp/mogi-das-cruzes/area-9-ha-sitio-cocuera-mogi-das-cruzes-sp-j128053?utm_source=megaleiloes&utm_medium=link&utm_campaign=area-9-ha-sitio-cocuera-mogi-das-cruzes-sp-j128053&utm_term=J128053&utm_content=link",
-   "title": "Área 9 ha (Sítio) - Cocuera - Mogi das Cruzes - SP | Mega Leilões",
-   "description": "Área 9 ha (Sítio) - Cocuera - Mogi das Cruzes - SP | Mega Leilões 50% abaixo na 2ª praça Valor inicial R$ 41.271,85 Judicial Leilão ML34522 Código Lote J128053 Número Lote Lote 2 Lotes neste leilão 2 --> Visitas 26.186 Habilitados 35 Lances 9 Mega Leilões Imóveis Imóveis Rurais São Paulo Mogi das Cruzes Área 9 ha (Sítio) - Cocuera - Mogi das Cruzes - SP Navegue pelos lotes: Localização Estrada Cocuera, s/n, Cocuera, Mogi das Cruzes, SP Vara 3ª Vara Cível do Foro da Comarca de Mogi das Cruzes/SP Forum 3ª Vara Cível do Foro da Comarca de Mogi das Cruzes/SP Leiloeiro Fernando José Cerello G. Pereira JUCESP Nº 844 - Leiloeiro oficial do Estado de São Paulo JUCEMG Nº 1192 - Leiloeiro oficial do Estado de Minas Gerais JUCEMAT Nº 73 - Leiloeiro oficial do Estado de Mato Grosso Processo 0003223-24.1995.8.26.0361 () Controle Não aplicável Autor CR ALMEIDA S.A. - ENGENHARIA E CONSTRUÇÕES Réu IMPORTADORA E COMERCIAL SÃO MATHEUS LTDA. Valor de Avaliação R$ 825.437,17 ( Oitocentos e vinte e cinco mil, quatrocentos e trinta e sete reais e dezesete centavos) em 10/2026 , que será atualizado até a data da alienação conforme tabela de atualização monetária do TJ/ SP . A descrição dos lotes é uma cópia fiel das informações fornecidas pelos cartórios, comitente ou outro órgão responsável pelo bem. O bem será vendido no estado em que se encontra conforme edital publicado. Reservamo-nos o direito de corrigir possíveis erros de digitação. Cumpre informar, que nos leilões Judiciais e de Falência, o procedimento do pós-arrematação, deve ser realizado pelo arrematante junto ao seu procurador/advogado , diretamente nos autos do processo, uma vez que o Leiloeiro é auxiliar da justiça e está impedido de atuar nessa esfera devido ao conflito de interesses a ser gerado. Aquele que tentar fraudar a arrematação, além da reparação do dano na esfera cível - arts. 186 e 927 do Código Civil - ficará sujeito as penalidades do artigo 358 do Código Penal: Art. 358 - Impedir, perturbar ou fraudar arremata · Leiloeiro: Mega Leilões",
-   "price": 105271.85,
-   "price_first": 105271.85,
-   "area_ha": 9.0,
-   "price_per_ha": null,
-   "municipality": "Mogi das Cruzes",
-   "uf": "SP",
-   "lat": null,
-   "lon": null,
-   "image": "https://cdn1.megaleiloes.com.br/batches/128053/0a906611e231e2715451914b5dbae94f_670x380.jpg",
-   "posted_at": "",
-   "score": 0.3333333333333333,
-   "reasons": [
-    "+1,5 preço < R$ 150 mil",
-    "+0,5 área > 5 ha"
-   ],
-   "dimensoes": {
-    "preco": {
-     "rotulo": "Preço",
-     "nota": 1.0,
-     "peso": 1.5,
-     "provas": [
-      "R$ 105.272"
-     ]
-    },
-    "localizacao": {
-     "rotulo": "Localização",
-     "nota": 0.0,
-     "peso": 1,
-     "provas": []
-    },
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 1.5,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Construções",
-     "nota": 0.0,
-     "peso": 1.5,
-     "provas": []
-    }
-   },
-   "first_seen": "2026-10-30T21:49:57+00:00",
-   "last_seen": "2026-10-30T21:49:57+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "leilao",
-   "encerramento": "2026-11-04T14:00",
-   "is_new": true,
    "price_drop": null
   },
   {
@@ -8716,14 +8715,14 @@
  ],
  "new_count": 1,
  "sources": [
-  "leilao"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "lancenoleilao.com.br: bloqueado",
-  "milanleiloes.com.br: bloqueado",
-  "www.leilaoimovel.com.br: bloqueado",
-  "www.portalzuk.com.br: bloqueado",
-  "www.superbid.net: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "secoes": [
   {
