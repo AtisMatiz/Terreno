@@ -91,6 +91,12 @@ GAVETA = r"contrato de gaveta|contratos? de gaveta"
 CONDOMINIO_FECHADO = r"condominio fechado|loteamento fechado"
 
 
+def em_condominio_fechado(text: str) -> bool:
+    """Inside a gated condominium / closed allotment (owner: none of those, in
+    any section) -- negation-aware like every other keyword here."""
+    return bool(_hits(_fold(text), CONDOMINIO_FECHADO))
+
+
 def _fold(text: str) -> str:
     text = unicodedata.normalize("NFKD", (text or "").lower())
     return "".join(c for c in text if not unicodedata.combining(c))

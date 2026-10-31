@@ -162,6 +162,10 @@ preco:
 
 # Teto de R$ por hectare que **descarta** o anúncio de vez. null = sem teto.
 # Diferente de `preco_por_ha` abaixo, que só muda nota e canal.
+# Sem município não dá para saber se o anúncio está na área de busca (2026-10-31:
+# uma chácara de Jaboticatubas/MG chegou ao Telegram com município em branco).
+municipio_obrigatorio: true
+
 max_preco_por_ha: null
 
 # Preço por hectare — o critério que o dono usa para separar oportunidade de
