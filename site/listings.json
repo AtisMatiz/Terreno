@@ -1,5 +1,5 @@
 {
- "generated_at": "31/10/2026 às 11:59",
+ "generated_at": "01/11/2026 às 12:11",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4108,7 +4108,7 @@
    "imagem_analise": "{}",
    "secao": "leilao",
    "encerramento": "2026-11-04T14:00",
-   "is_new": true,
+   "is_new": false,
    "price_drop": null
   },
   {
@@ -8778,16 +8778,18 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
-  "leilao"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "lancenoleilao.com.br: bloqueado",
-  "milanleiloes.com.br: bloqueado",
-  "www.leilaoimovel.com.br: bloqueado",
-  "www.portalzuk.com.br: bloqueado",
-  "www.superbid.net: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "terradouradaimoveis.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "secoes": [
   {
