@@ -1,5 +1,5 @@
 {
- "generated_at": "01/11/2026 às 12:11",
+ "generated_at": "01/11/2026 às 12:33",
  "listings": [
   {
    "key": "b6d444c1ff0f2bfe",
@@ -4691,6 +4691,123 @@
    "price_drop": null
   },
   {
+   "key": "cde4f66066b22792",
+   "source": "olx",
+   "source_id": "1301560044",
+   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/chacara-na-represa-preco-abaixou-1301560044",
+   "title": "Chácara  na Represa-Preço Abaixou!",
+   "description": "Abaixou o Preço - Barato-não tem igual na represa de frente com esse preço.<br>Sítio na frente da represa de Paraibuna-SP<br>Gleba 5 <br>Com luz na porta e água.<br>Frente da estrada perto do asfalto.<br>Com escritura e registro.<br> ?Sobre o imóvel:<br>?Localizado em Redencao da Serra;<br>?Área total dos lotes: 20.000 m2<br> ?Água:Poço semi-Artesiano;<br>?Energia elétrica:Não possui energia elétrica necessário fazer pedido de ligação de forma gratuita;<br>?Acesso: 7,5 km do asfalto Sp 121 no km 22,5 Pesqueiro Trairão a direita + 7,5 km<br>?Relevo:Aclive;<br> ?Frente e vista 180 graus represa de Paraibuna;<br>?Entre em contato para maiores informações! Mande seu Watsap .",
+   "price": 149000.0,
+   "price_first": 149000.0,
+   "area_ha": 2.0,
+   "price_per_ha": 74500.0,
+   "municipality": "Redenção da Serra",
+   "uf": "SP",
+   "lat": -23.2803652,
+   "lon": -45.5345747,
+   "image": "https://img.olx.com.br/images/49/498675655326125.jpg",
+   "posted_at": "",
+   "score": 0.316,
+   "reasons": [
+    "lago/açude",
+    "poço artesiano",
+    "energia",
+    "escriturado",
+    "R$/ha 74.500 (++)",
+    "⚠ 47.7 km do centro de interesse (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.4,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.18,
+     "peso": 20,
+     "provas": [
+      "energia"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 74.500 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ 47.7 km do centro de interesse (-)"
+     ],
+     "ajuste": -0.05
+    }
+   },
+   "first_seen": "2026-08-30T14:08:20+00:00",
+   "last_seen": "2026-11-01T15:33:10+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 47.7,
+   "destaques": "{\"agua\": \"Lago/açude + poço artesiano\", \"benfeitorias\": \"Energia\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": false,
+   "price_drop": null
+  },
+  {
    "key": "fc2174a8984318af",
    "source": "olx",
    "source_id": "1543909988",
@@ -5181,123 +5298,6 @@
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
    "destaques": "{\"benfeitorias\": \"Casa sede + casa de caseiro\", \"acesso\": \"Bom acesso\", \"solo\": \"Terra boa/fértil + plano\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "cde4f66066b22792",
-   "source": "olx",
-   "source_id": "1301560044",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/pe-na-agua-na-represa-paraibuna-redencao-barato-1301560044",
-   "title": "Pé na Água na Represa Paraibuna-Redencao-Barato ",
-   "description": "Abaixou o Preço - Barato-não tem igual na represa de frente com esse preço.<br>Sítio na frente da represa de Paraibuna-SP<br>Gleba 5 <br>Com luz na porta e água.<br>Frente da estrada perto do asfalto.<br>Com escritura e registro.<br> ?Sobre o imóvel:<br>?Localizado em Redencao da Serra;<br>?Área total dos lotes: 20.000 m2<br> ?Água:Poço semi-Artesiano;<br>?Energia elétrica:Não possui energia elétrica necessário fazer pedido de ligação de forma gratuita;<br>?Acesso: 7,5 km do asfalto Sp 121 no km 22,5 Pesqueiro Trairão a direita + 7,5 km<br>?Relevo:Aclive;<br> ?Frente e vista 180 graus represa de Paraibuna;<br>?Entre em contato para maiores informações! Mande seu Watsap .",
-   "price": 149000.0,
-   "price_first": 149000.0,
-   "area_ha": 2.0,
-   "price_per_ha": 74500.0,
-   "municipality": "Paraibuna",
-   "uf": "SP",
-   "lat": -23.3864203,
-   "lon": -45.6626797,
-   "image": "https://img.olx.com.br/images/26/260638413418187.jpg",
-   "posted_at": "",
-   "score": 0.266,
-   "reasons": [
-    "lago/açude",
-    "poço artesiano",
-    "energia",
-    "escriturado",
-    "R$/ha 74.500 (++)",
-    "⚠ 51.2 km do centro de interesse (--)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.4,
-     "peso": 30,
-     "provas": [
-      "lago/açude",
-      "poço artesiano"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.18,
-     "peso": 20,
-     "provas": [
-      "energia"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.6,
-     "peso": 10,
-     "provas": [
-      "escriturado"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 74.500 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.167,
-     "peso": 0,
-     "provas": [
-      "⚠ 51.2 km do centro de interesse (--)"
-     ],
-     "ajuste": -0.1
-    }
-   },
-   "first_seen": "2026-08-30T14:08:20+00:00",
-   "last_seen": "2026-08-30T14:08:20+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 51.2,
-   "destaques": "{\"agua\": \"Lago/açude + poço artesiano\", \"benfeitorias\": \"Energia\", \"documentacao\": \"Escriturado\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -8780,17 +8780,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "superbid.net: bloqueado",
-  "terradouradaimoveis.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
