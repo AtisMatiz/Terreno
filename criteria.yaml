@@ -57,7 +57,7 @@ localizacao:
 #   tarefa             = 0,3025 ha (BA e Nordeste)
 area:
   min_ha: 2
-  max_ha: 10
+  max_ha: 600      # sem teto de verdade (dono, 2026-11-02): 600 ha só como limite técnico
 
 # ---------------------------------------------------------------- seções
 # Segunda busca, paralela à principal (2026-10-13, pedido do dono): chácaras
@@ -92,12 +92,16 @@ area:
 secoes:
   chacaras:
     titulo: "Chácaras menores"
+    # Faixa folgada de propósito (dono, 2026-11-02): 0,2-3 ha e até R$ 300 mil, para
+    # nada cair entre as duas seções. Entre 2 e 3 ha a faixa se sobrepõe à dos
+    # sítios maiores; a seção principal vem primeiro e fica com o anúncio
+    # (pipeline.filtrar_secoes: o primeiro que casa leva), então nunca duplica.
     area:
       min_ha: 0.2
-      max_ha: 2
+      max_ha: 3
     preco:
       min: 0
-      max: 120000
+      max: 300000
     exige_casa: true
     exige_rural: true
     area_obrigatoria: true
