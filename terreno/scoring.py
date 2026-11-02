@@ -83,6 +83,13 @@ KM_TERRA_DESCARTE = 8.0
 GAVETA = r"contrato de gaveta|contratos? de gaveta"
 
 
+# Gated condominium / closed allotment: not what is wanted (owner). This constant
+# and the discard in `motivo_descarte` existed only on the other branch, so the
+# production cherry-pick of `em_condominio_fechado` crashed every run with a
+# NameError (2026-11-01/02) -- they live here now too.
+CONDOMINIO_FECHADO = r"condominio fechado|loteamento fechado"
+
+
 def em_condominio_fechado(text: str) -> bool:
     """Inside a gated condominium / closed allotment (owner: none of those, in
     any section) -- negation-aware like every other keyword here."""
@@ -788,6 +795,9 @@ def motivo_descarte(
     ok, _ = tipo_ok(text)
     if not ok:
         return "não parece imóvel rural"
+
+    if _hits(folded, CONDOMINIO_FECHADO):
+        return "em condomínio/loteamento fechado"
 
     km = km_estrada_terra(folded)
     if km is not None and km > KM_TERRA_DESCARTE:
