@@ -86,6 +86,12 @@ class AreaDetalhada:
     alqueire_tipo: str = ""
 
 
+# Land-registry notation "ha,a.ca": "2,73.48 ha" is 2 ha + 73 ares + 48 centiares
+# = 2,7348 ha. Read as an ordinary number it became 73,48 ha (2026-11-03: a
+# 2,7 ha sítio at Mohallem Imóveis was published as 73,5 ha).
+_HA_ARES_CA = re.compile(r"(\d{1,4}),(\d{2})\.(\d{2})(?=\s*(?:ha|hectares?|hec|há)\b)")
+
+
 def _por_unidade(text: str, *, apenas_grandes: bool = False) -> float | None:
     """First non-alqueire area in `text`, in hectares.
 
@@ -95,6 +101,7 @@ def _por_unidade(text: str, *, apenas_grandes: bool = False) -> float | None:
     and is worth trusting, while the m² figure on the same page is almost
     always the built area of the house, not the land.
     """
+    text = _HA_ARES_CA.sub(lambda m: f"{m.group(1)}.{m.group(2)}{m.group(3)}", text)
     # Longest unit names first so "hectares" is not shadowed by "ha".
     for unit in sorted(_UNIT_HA, key=len, reverse=True):
         if apenas_grandes and _UNIT_HA[unit] < 1.0:
