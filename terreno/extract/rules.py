@@ -258,6 +258,26 @@ def _data_publicada(html: str, haystack: str) -> str:
     return encontrar_data_pt(haystack)
 
 
+def _area_estruturada(nodes: list[dict]) -> float | None:
+    """Land area in hectares from a JSON-LD `floorSize`, or None. A bare number
+    is read as m²; anything under 5.000 m² is assumed to be built area and
+    ignored."""
+    for node in nodes:
+        fs = node.get("floorSize")
+        valor, unidade = fs, ""
+        if isinstance(fs, dict):
+            valor = fs.get("value")
+            unidade = f"{fs.get('unitCode', '')} {fs.get('unitText', '')}".lower()
+        try:
+            v = float(str(valor).replace(",", "."))
+        except (TypeError, ValueError):
+            continue
+        ha = v if ("har" in unidade or " ha" in f" {unidade}") else v / 10_000
+        if ha >= 0.5:
+            return round(ha, 4)
+    return None
+
+
 def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     """Best-effort structured listing from a page. None when the page clearly
     is not an individual offer."""
@@ -288,7 +308,9 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
     # not a single one -- there is no honest way to say which node "belongs"
     # to this URL, so treat it the same as no listing at all rather than
     # silently picking the first one.
-    if len(listing_nodes) > 1:
+    # ...unless they all name the same property: some sites (Mohallem Imóveis)
+    # repeat the one listing's Place node, which is not a results page.
+    if len({str(n.get("name") or "").strip() for n in listing_nodes}) > 1:
         return None
 
     for node in listing_nodes:
@@ -334,6 +356,12 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
         price = price_to_brl(haystack)
     if area_ha is None:
         area_ha = area_to_ha(haystack, uf)
+    # The page's own structured floor size beats a typo in the prose, but only
+    # when it clearly is a land area (>= 5.000 m², not a house's built area)
+    # and the two disagree by more than 3x.
+    area_ld = _area_estruturada(listing_nodes)
+    if area_ld and (area_ha is None or not (1 / 3 <= area_ld / area_ha <= 3)):
+        area_ha = area_ld
 
     # A page mentioning several distinct "R$ ..." amounts is very likely a
     # category or search-results page listing many properties, not a single
