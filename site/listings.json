@@ -1,6 +1,136 @@
 {
- "generated_at": "02/11/2026 às 19:57",
+ "generated_at": "03/11/2026 às 13:22",
  "listings": [
+  {
+   "key": "da2001476c937f20",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=79",
+   "title": "Padrão em , Lorena",
+   "description": "Sítio de 6,5 Alqueires à Venda em Lorena - SP | Excelente para Pecuária no Vale do Paraíba\r\nOportunidade imperdível para quem busca investimento com excelente aptidão para pecuária e alta riqueza hídrica no Vale do Paraíba. Localizado no município de Lorena/SP, este sítio une tranquilidade rural, estrutura pronta para uso e fácil acesso à zona urbana.\r\nDestaques e Principais Características\r\n\r\nÁrea Total: 6,5 alqueires paulistas (com ótimas proporções e bom aproveitamento).\r\nAptidão: Excelente infraestrutura natural para pecuária (corte ou leite) e projetos agropecuários.\r\nTopografia: Média alta, contando com áreas planas estratégicas para manejo e construções.\r\nRecursos Hídricos Privilegiados: Cortado por riacho, possui nascentes próprias na propriedade e poço caipira, garantindo abundância de água durante todo o ano.\r\nLogística Estratégica: Apenas 15 km do centro de Lorena/SP, sendo apenas 3 km em estrada de terra de fácil rodagem.\r\nDocumentação 100% Regularizada: Possui Escritura Registrada, garantindo total segurança jurídica na negociação.\r\n\r\nEstrutura e Benfeitorias\r\nO imóvel dispõe de 3 edificações prontas para moradia, recepção de visitas ou alojamento de colaboradores:\r\n\r\nCasa Sede: Aconchegante varanda, 3 dormitórios, sala ampla, cozinha e banheiro social.\r\nSegunda Casa: 2 dormitórios, sala, cozinha e banheiro.\r\nTerceira Casa: 2 dormitórios, sala, cozinha e banheiro.\r\n\r\nInvestimento e Condições\r\n\r\nValor de Pedida: R$ 990.000,00 (Estuda propostas)\r\nCondições de Pagamento: A combinar.\r\n\r\n(Para mais informações ou agendamento de visitas, entre em contato via WhatsApp.)",
+   "price": 990000.0,
+   "price_first": 990000.0,
+   "area_ha": 15.73,
+   "price_per_ha": 62937.06,
+   "municipality": "Lorena",
+   "uf": "SP",
+   "lat": -22.7367652,
+   "lon": -45.1070876,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_82aa82bacfd88842c409ab083a3fa785.jpg",
+   "posted_at": "",
+   "score": 0.65,
+   "reasons": [
+    "rio/riacho",
+    "água abundante",
+    "várias nascentes",
+    "casa sede",
+    "tranquilo",
+    "bom acesso",
+    "15 km da cidade",
+    "escriturado",
+    "plano",
+    "R$/ha 62.937 (++)",
+    "⚠ 78.8 km do centro de interesse (---)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "rio/riacho",
+      "água abundante",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.85,
+     "peso": 20,
+     "provas": [
+      "casa sede"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.45,
+     "peso": 15,
+     "provas": [
+      "bom acesso",
+      "15 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.5,
+     "peso": 5,
+     "provas": [
+      "plano"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 62.937 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ 78.8 km do centro de interesse (---)"
+     ],
+     "ajuste": -0.15
+    }
+   },
+   "first_seen": "2026-11-03T16:22:40+00:00",
+   "last_seen": "2026-11-03T16:22:40+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 78.8,
+   "destaques": "{\"agua\": \"Rio/riacho + água abundante + várias nascentes\", \"benfeitorias\": \"Casa sede\", \"acesso\": \"Bom acesso + 15 km da cidade\", \"documentacao\": \"Escriturado\", \"solo\": \"Plano\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
   {
    "key": "b6d444c1ff0f2bfe",
    "source": "facebook",
@@ -1308,6 +1438,142 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "9b1accea447eb267",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.hsimoveisrurais.com.br/imoveis_detalhes.php?id=132",
+   "title": "Padrão em , Jacareí",
+   "description": "Sítio 4,3 Alqueires em Jacareí/SP: Padrão Leiteiro e Terra de Altíssima Fertilidade para Milho!\r\nSe você procura uma propriedade rural produtiva, com abundância de água e logística privilegiada no Vale do Paraíba, este sítio em Jacareí é a oportunidade ideal. Com solo de altíssima qualidade, excelente estrutura de manejo e documentação 100% regularizada, o imóvel está pronto para faturar e produzir!\r\nDestaques da Propriedade\r\n\r\nÁrea Total: 4,3 Alqueires Paulista (~10,4 Hectares).\r\nAptidão Agrícola e Pecuária: Excelente para Gado de Leite e solos férteis ideais para plantação de milho e silagem.\r\nTopografia: Média/Alta, garantindo boa drenagem e aproveitamento do solo.\r\nRecursos Hídricos Excepcionais: Riquíssimo em água, equipado com nascente própria, riacho, 3 poços e lago.\r\n\r\nInfraestrutura e Benfeitorias\r\n\r\nSede Achegada: Casa aconchegante com 3 dormitórios, sala ampla, cozinha, banheiro e área de lazer com churrasqueira.\r\nManejo e Depósito: Mangueiro estruturado para lida com gado e 2 galpões/espaços de apoio para ferramentas, maquinários e insumos.\r\nPomar: Diversas árvores frutíferas já produzindo.\r\n\r\nLogística Estratégica &amp;amp; Acesso\r\nLocalização imbatível para o escoamento da produção e facilidade de transporte:\r\n\r\nA apenas 1 km da Rodovia Carvalho Pinto.\r\nApenas 1 km de estrada de terra (excelente trafegabilidade).\r\nDistante apenas 20 km do centro de Jacareí/SP.\r\n\r\nDocumentação Rigorosamente em Dia\r\nCompre com total segurança jurídica e facilidade na transferência:\r\n\r\nEscriturada\r\nGeorreferenciada (GEO)\r\nCadastro Ambiental Rural (CAR)\r\nITR e CCIR quitados e atualizados\r\n\r\nValores e Condições\r\n\r\nValor de Pedida: R$ 1.200.000,00\r\nCondições de Pagamento: Estuda propostas e negociação de condições de pagamento.\r\n\r\nAgende sua visita e venha conhecer de perto este potencial produtivo!\r\nEntre em contato para maiores informações, envio de localização ou agendamento de visita presencial.",
+   "price": 1200000.0,
+   "price_first": 1200000.0,
+   "area_ha": 10.4,
+   "price_per_ha": 115384.62,
+   "municipality": "Jacareí",
+   "uf": "SP",
+   "lat": -23.3050682,
+   "lon": -45.9723075,
+   "image": "https://s3.us-east-1.amazonaws.com/sgipro/1439/med_7f2616243c54e0db2e08e142742dd9cc.jpg",
+   "posted_at": "",
+   "score": 0.502,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "lago/açude",
+    "água abundante",
+    "casa",
+    "galpão",
+    "1 km de terra",
+    "20 km da cidade",
+    "frutíferas",
+    "escriturado",
+    "CAR/GEO em dia",
+    "R$/ha 115.385 (0)",
+    "⚠ preço R$ 1.200.000 (> R$ 1 milhão)",
+    "⚠ 41.2 km do centro de interesse (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho",
+      "lago/açude",
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.55,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "galpão"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.55,
+     "peso": 15,
+     "provas": [
+      "1 km de terra",
+      "20 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "R$/ha 115.385 (0)"
+     ],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.200.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ 41.2 km do centro de interesse (-)"
+     ],
+     "ajuste": -0.05
+    }
+   },
+   "first_seen": "2026-11-03T16:22:40+00:00",
+   "last_seen": "2026-11-03T16:22:40+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 41.2,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho + lago/açude + água abundante\", \"benfeitorias\": \"Casa + galpão\", \"acesso\": \"1 km de terra + 20 km da cidade\", \"documentacao\": \"Escriturado + CAR/GEO em dia\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -5001,6 +5267,120 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "4d6751e5947435ab",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.paraisoimoveis.com.br/427/imoveis/venda-terreno-rural-centro-brasopolis-mg",
+   "title": "ÁREA RURAL EM BRAZÓPOLIS | 28,21 Ha COM ÁGUA, PASTAGENS E MATA NATIVA",
+   "description": "Uma propriedade rural para quem reconhece o valor da terra, dos recursos naturais e das possibilidades de uso no longo prazo.Existem propriedades cujo valor está diretamente ligado à extensão territorial. Outras se destacam pelos recursos naturais, pela vocação produtiva e pelas possibilidades que oferecem ao longo do tempo.Esta área rural de 28,21 hectares, equivalente a 282.100 m², está localizada na região do Anhumas, em Brazópolis, no sul de Minas Gerais. É uma propriedade que reúne caracter…",
+   "price": 1700000.0,
+   "price_first": 1700000.0,
+   "area_ha": 28.21,
+   "price_per_ha": 60262.32,
+   "municipality": "Brazópolis",
+   "uf": "MG",
+   "lat": -22.4742842,
+   "lon": -45.6165577,
+   "image": "https://www.paraisoimoveis.com.br/admin/imovel/mini/20261023T1802170300-402232801.jpg",
+   "posted_at": "",
+   "score": 0.285,
+   "reasons": [
+    "mata nativa",
+    "pasto formado",
+    "R$/ha 60.262 (++)",
+    "⚠ preço R$ 1.700.000 (> R$ 1 milhão)",
+    "em Brazópolis (zona melhor)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.85,
+     "peso": 10,
+     "provas": [
+      "mata nativa",
+      "pasto formado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 60.262 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.700.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.92,
+     "peso": 0,
+     "provas": [
+      "em Brazópolis (zona melhor)"
+     ],
+     "ajuste": 0.1
+    }
+   },
+   "first_seen": "2026-11-03T16:22:40+00:00",
+   "last_seen": "2026-11-03T16:22:40+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 58.1,
+   "destaques": "{\"solo\": \"Mata nativa + pasto formado\"}",
+   "estrelas": "[\"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -8778,16 +9158,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 3,
  "sources": [
-  "leilao"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "lancenoleilao.com.br: bloqueado",
-  "milanleiloes.com.br: bloqueado",
-  "www.leilaoimovel.com.br: bloqueado",
-  "www.portalzuk.com.br: bloqueado",
-  "www.superbid.net: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "secoes": [
   {
