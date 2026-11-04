@@ -346,7 +346,8 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
             if resp is None:
                 continue
             html = resp.text
-        detail = rules_extract(html, item.url, source=item.source)
+        detail = rules_extract(html, item.url, source=item.source,
+                               preco_conhecido=item.price if item.source == "olx" else None)
         if not detail:
             continue
         item.description = detail.description or item.description
