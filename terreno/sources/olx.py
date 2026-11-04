@@ -49,10 +49,11 @@ REGIOES_OLX = {
     # (Caraguatatuba alone was 71 of the first 500 ads); the "vale-do-paraiba"
     # sub-region is the one that matters.
     "SP": ("vale-do-paraiba-e-litoral-norte/vale-do-paraiba",),
-    # No MG region slug is confirmed yet ("sul-de-minas" is not one: OLX answered
-    # with ads from the whole country). The log now lists the region segments
-    # seen in ad URLs so the right one can be added here.
-    "MG": (),
+    # MG: "sul-de-minas" is not a region (OLX answered with ads from the whole
+    # country). "regiao-de-pocos-de-caldas-e-varginha" is real (seen in ad URLs);
+    # the Pouso Alegre/Itajubá one is a guess. A slug that OLX does not know is
+    # detected on its first page (most ads in other regions) and skipped.
+    "MG": ("regiao-de-pouso-alegre-e-itajuba", "regiao-de-pocos-de-caldas-e-varginha"),
 }
 BASE = "https://www.olx.com.br/imoveis/terrenos"
 BASE_ALUGUEL = "https://www.olx.com.br/imoveis/aluguel"
@@ -445,6 +446,14 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                                 anuncios = [h for h in melhor if _LISTING_HREF_RE.match(h)]
                                 com_preco = sum(1 for h in anuncios
                                                 if _price_from_card(melhor[h]))
+                        if sufixo and pageno == 1 and anuncios:
+                            esperada = sufixo.strip("/").split("/")[0]
+                            certas = sum(1 for h in anuncios if _regiao_da_url(h) == esperada)
+                            if certas < 0.3 * len(anuncios):
+                                log.warning("olx %s%s: região desconhecida para a OLX (%d de %d "
+                                            "anúncios nela) -- pulando", uf, sufixo, certas,
+                                            len(anuncios))
+                                break
                         log.info("olx%s %s%s p%d: %d anúncio(s), %d com preço no card",
                                  " aluguel" if aluguel else "", uf, sufixo, pageno,
                                  len(anuncios), com_preco)
@@ -475,6 +484,13 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             out.append(listing)
                             new_this_page += 1
 
+                        log.info("olx%s %s%s p%d: %d novo(s)", " aluguel" if aluguel else "",
+                                 uf, sufixo, pageno, new_this_page)
+                        if aluguel and pageno == 1:
+                            for l in list(out)[-new_this_page:][:4] if new_this_page else []:
+                                log.info("olx aluguel exemplo: %s | %s | R$ %s | %s",
+                                         (l.title or "")[:50], l.municipality or "?", l.price,
+                                         l.url[-60:])
                         if new_this_page == 0:
                             break  # last page, or nothing rendered
             finally:
