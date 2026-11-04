@@ -55,6 +55,11 @@ REGIOES_OLX = {
     "MG": (),
 }
 BASE = "https://www.olx.com.br/imoveis/terrenos"
+BASE_ALUGUEL = "https://www.olx.com.br/imoveis/aluguel"
+# Rental searches: words tried on the rental category, and the regions they run in
+# ("" = the whole state; the Vale do Paraíba region page for SP).
+ALUGUEL_BUSCAS = ("chacara", "sitio")
+ALUGUEL_REGIOES = {"SP": ("vale-do-paraiba-e-litoral-norte/vale-do-paraiba",)}
 
 # A real listing link after hydration: a state subdomain (sp.olx.com.br, not
 # www), any path, ending in a 6+ digit id -- the most stable pattern any
@@ -341,21 +346,40 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                 # all with price and município now) and exactly 5 were in the
                 # search region: OLX ranks the whole state, and the Vale do Paraíba
                 # is a sliver of it. The regional page lists only that sliver.
+                # (state, region path, pages, base URL, extra query, is rental)
                 alvos = []
                 for uf in criteria.states:
                     if not UF_NAMES.get(uf):
                         continue
-                    alvos += [(uf, f"/{r}", max_pages) for r in REGIOES_OLX.get(uf, ())]
-                    alvos.append((uf, "", 2 if REGIOES_OLX.get(uf) else max_pages))
-                for uf, sufixo, limite in alvos:
+                    alvos += [(uf, f"/{r}", max_pages, BASE, {}, False)
+                              for r in REGIOES_OLX.get(uf, ())]
+                    alvos.append((uf, "", 2 if REGIOES_OLX.get(uf) else max_pages,
+                                  BASE, {}, False))
+                # Rentals (the Aluguel section): OLX has no "land for rent" list
+                # worth reading, rural rentals sit among the houses, so the
+                # rental category is searched by word ("chácara", "sítio") on the
+                # region page, capped at the section's own monthly ceiling.
+                teto_aluguel = max([c.price_max for _, c in criteria.secoes()
+                                    if c.finalidade == "aluguel"] or [0])
+                if teto_aluguel:
+                    for q in ALUGUEL_BUSCAS:
+                        for uf, regioes in ALUGUEL_REGIOES.items():
+                            if uf in criteria.states:
+                                for r in regioes:
+                                    alvos.append((uf, f"/{r}" if r else "", 3, BASE_ALUGUEL,
+                                                  {"q": q, "pe": int(teto_aluguel)}, True))
+                for uf, sufixo, limite, base, extra, aluguel in alvos:
                     for pageno in range(1, limite + 1):
                         params = {"o": pageno}
-                        if criteria.price_min:
-                            params["ps"] = int(criteria.price_min)
-                        if criteria.price_max:
-                            params["pe"] = int(criteria.price_max)
+                        if aluguel:
+                            params.update(extra)
+                        else:
+                            if criteria.price_min:
+                                params["ps"] = int(criteria.price_min)
+                            if criteria.price_max:
+                                params["pe"] = int(criteria.price_max)
                         qs = "&".join(f"{k}={v}" for k, v in params.items())
-                        url = f"{BASE}/estado-{uf.lower()}{sufixo}?{qs}"
+                        url = f"{base}/estado-{uf.lower()}{sufixo}?{qs}"
 
                         try:
                             page.goto(url, timeout=_NAV_TIMEOUT_MS,
@@ -421,8 +445,9 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                                 anuncios = [h for h in melhor if _LISTING_HREF_RE.match(h)]
                                 com_preco = sum(1 for h in anuncios
                                                 if _price_from_card(melhor[h]))
-                        log.info("olx %s%s p%d: %d anúncio(s), %d com preço no card",
-                                 uf, sufixo, pageno, len(anuncios), com_preco)
+                        log.info("olx%s %s%s p%d: %d anúncio(s), %d com preço no card",
+                                 " aluguel" if aluguel else "", uf, sufixo, pageno,
+                                 len(anuncios), com_preco)
 
                         new_this_page = 0
                         for href, texto in melhor.items():
@@ -431,11 +456,18 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             listing = _listing_from_url(href, uf)
                             if not listing:
                                 continue
+                            if aluguel:
+                                # A rental's card area is mostly the built area of the
+                                # house, not the land: leave the area to the detail page
+                                # (and the section's own 0,2 ha rule) instead of
+                                # rejecting a chácara because the card says "120 m²".
+                                listing.finalidade = "aluguel"
+                                listing.area_ha = None
                             if listing.price is None:
                                 listing.price = _price_from_card(texto)
                             if not listing.municipality:
                                 listing.municipality = _municipio_from_card(texto)
-                            if not listing.area_ha:
+                            if not listing.area_ha and not aluguel:
                                 a = _area_from_card(texto)
                                 if a:
                                     listing.area_ha = area_to_ha(a, uf)
