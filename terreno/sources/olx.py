@@ -45,8 +45,14 @@ NAME = "olx"
 # e.g. ".../estado-sp/vale-do-paraiba-e-litoral-norte"). The MG one is a best
 # guess; a wrong slug just yields no ads and the statewide backstop still runs.
 REGIOES_OLX = {
-    "SP": ("vale-do-paraiba-e-litoral-norte",),
-    "MG": ("sul-de-minas",),
+    # ".../estado-sp/vale-do-paraiba-e-litoral-norte" returns the Litoral Norte too
+    # (Caraguatatuba alone was 71 of the first 500 ads); the "vale-do-paraiba"
+    # sub-region is the one that matters.
+    "SP": ("vale-do-paraiba-e-litoral-norte/vale-do-paraiba",),
+    # No MG region slug is confirmed yet ("sul-de-minas" is not one: OLX answered
+    # with ads from the whole country). The log now lists the region segments
+    # seen in ad URLs so the right one can be added here.
+    "MG": (),
 }
 BASE = "https://www.olx.com.br/imoveis/terrenos"
 
@@ -225,10 +231,24 @@ def _area_from_card(text: str) -> str:
     return f"{m.group(1)} m²" if m else ""
 
 
+def _uf_da_url(url: str, padrao: str) -> str:
+    """Two-letter state from the ad's own host ("mg.olx.com.br" -> "MG"). The MG
+    page set returned ads from all over Brazil on 2026-11-04 (Brasília, Goiânia,
+    "Online") and every one of them was being stamped with the page's own UF."""
+    m = re.match(r"^https?://([a-z]{2})\.olx\.com\.br/", url.strip(), re.I)
+    return m.group(1).upper() if m else padrao
+
+
+def _regiao_da_url(url: str) -> str:
+    m = re.match(r"^https?://[a-z]{2,3}\.olx\.com\.br/([^/]+)/", url.strip(), re.I)
+    return m.group(1) if m else ""
+
+
 def _listing_from_url(url: str, uf: str) -> Listing | None:
     m = _LISTING_HREF_RE.match(url.strip())
     if not m:
         return None
+    uf = _uf_da_url(url, uf)
     listing_id = m.group(1)
     slug = url.rsplit("/", 1)[-1].split("?")[0]
     return Listing(
@@ -433,6 +453,8 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     from collections import Counter
     top = Counter(f"{x.municipality or '?'}/{x.uf}" for x in out).most_common(14)
     log.info("olx: municípios mais frequentes: %s", ", ".join(f"{k} {n}" for k, n in top))
+    regs = Counter(f"{x.uf}:{_regiao_da_url(x.url)}" for x in out).most_common(24)
+    log.info("olx: regiões vistas nas URLs: %s", ", ".join(f"{k} {n}" for k, n in regs))
     log.info("olx: %d listings (%d com preço, %d com município)", len(out),
              sum(1 for x in out if x.price), sum(1 for x in out if x.municipality))
     return out
