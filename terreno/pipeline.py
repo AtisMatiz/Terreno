@@ -362,6 +362,8 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
 
     kept: list[Listing] = []
     descartados: dict[str, int] = {}
+    por_fonte: dict[str, int] = {}
+    exemplos: dict[str, list[str]] = {}
     for item in listings:
         # An auto-generated category title ("Estúdio 0 banheiros – Casa")
         # carries no real feature information -- see scoring.titulo_generico
@@ -394,6 +396,13 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
             motivo = scoring.motivo_descarte(text, item.area_ha, item.price_per_ha)
         if motivo:
             descartados[motivo] = descartados.get(motivo, 0) + 1
+            if motivo == "município não informado":
+                # Which sources lose their município, with a few examples (the
+                # 2026-11-04 run dropped 416 of 573 listings for this and the log
+                # could not say who they were).
+                por_fonte[item.source] = por_fonte.get(item.source, 0) + 1
+                if len(exemplos.setdefault(item.source, [])) < 3:
+                    exemplos[item.source].append(f"{(item.title or '')[:55]} | {item.url[-70:]}")
             continue
 
         # Price per hectare and distance to the centre of interest are scored
@@ -446,6 +455,12 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
 
     for motivo, n in sorted(descartados.items(), key=lambda kv: -kv[1]):
         log.info("%d anúncio(s) descartado(s): %s", n, motivo)
+    if por_fonte:
+        log.info("sem município, por fonte: %s",
+                 ", ".join(f"{k} {v}" for k, v in sorted(por_fonte.items(), key=lambda kv: -kv[1])))
+        for fonte, ex in exemplos.items():
+            for e in ex:
+                log.info("  sem município [%s]: %s", fonte, e)
     kept.sort(key=lambda x: (x.score, x.first_seen), reverse=True)
     return kept
 
