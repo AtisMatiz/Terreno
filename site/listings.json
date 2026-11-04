@@ -1,5 +1,5 @@
 {
- "generated_at": "04/11/2026 às 13:25",
+ "generated_at": "04/11/2026 às 13:47",
  "listings": [
   {
    "key": "da2001476c937f20",
@@ -6483,6 +6483,118 @@
    "price_drop": null
   },
   {
+   "key": "30e631bb120cfa31",
+   "source": "olx",
+   "source_id": "1546072328",
+   "url": "https://mg.olx.com.br/regiao-de-pocos-de-caldas-e-varginha/terrenos/terreno-a-venda-6-alqueires-por-r-1-200-000-zona-rural-paraisopolis-mg-1546072328",
+   "title": "Terreno à venda 6 alqueires por r 1 200 000 zona rural paraisopolis mg",
+   "description": "",
+   "price": 1200000.0,
+   "price_first": 1200000.0,
+   "area_ha": 29.04,
+   "price_per_ha": 41322.31,
+   "municipality": "Paraisópolis",
+   "uf": "MG",
+   "lat": -22.5541683,
+   "lon": -45.7800024,
+   "image": "",
+   "posted_at": "",
+   "score": 0.228,
+   "reasons": [
+    "tranquilo",
+    "R$/ha 41.322 (++)",
+    "⚠ preço R$ 1.200.000 (> R$ 1 milhão)",
+    "em Paraisópolis (zona melhor)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.0,
+     "peso": 30,
+     "provas": []
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 41.322 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.200.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.92,
+     "peso": 0,
+     "provas": [
+      "em Paraisópolis (zona melhor)"
+     ],
+     "ajuste": 0.1
+    }
+   },
+   "first_seen": "2026-11-04T16:47:18+00:00",
+   "last_seen": "2026-11-04T16:47:18+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 45.0,
+   "destaques": "{}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "7db8c3d368e7e5de",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -9158,21 +9270,15 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "betoimoveisfazendas.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "senaimoveis.com.br: bloqueado",
-  "silvacorretor.com: bloqueado",
-  "venda-imoveis.caixa.gov.br: bloqueado",
-  "vivareal.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zapimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
