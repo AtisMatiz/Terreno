@@ -388,6 +388,12 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
         # "benfeitorias" with the category tag itself, not a real claim.
         titulo = "" if scoring.titulo_generico(item.title) else item.title
         text = f"{titulo} {item.description}"
+        # A stated land area is rural evidence in its own right. The type gate
+        # reads only words, and a card/slug like "Chacara com casa" (area in a
+        # separate field) never said "hectares" -- so real chácaras with a known
+        # 0,5 ha or 5 ha were dropped as "menção a chácara sem outro sinal rural".
+        gate = (f"{text} {item.area_ha:g} hectares"
+                if item.area_ha and item.area_ha >= 0.2 else text)
 
         if criteria.sem_descartes:
             # Sections with their own, explicit requirements instead of the
@@ -396,7 +402,7 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
             # section asks for "rural" -- that gate (tipo_ok) is the same
             # one the main search uses, so city houses are out too.
             motivo = ("apartamento/sobrado/studio" if scoring.eh_urbano_definitivo(text)
-                      else "não parece imóvel rural" if criteria.exige_rural and not scoring.tipo_ok(text)[0]
+                      else "não parece imóvel rural" if criteria.exige_rural and not scoring.tipo_ok(gate)[0]
                       else "município não informado" if criteria.municipio_obrigatorio and not item.municipality
                       else "área não informada" if criteria.area_obrigatoria and item.area_ha is None
                       else "preço não informado" if criteria.preco_obrigatorio and item.price is None
@@ -410,7 +416,7 @@ def score_all(listings: list[Listing], criteria: Criteria) -> list[Listing]:
             # reached Telegram with a blank município).
             motivo = "município não informado"
         else:
-            motivo = scoring.motivo_descarte(text, item.area_ha, item.price_per_ha)
+            motivo = scoring.motivo_descarte(gate, item.area_ha, item.price_per_ha)
         if motivo:
             descartados[motivo] = descartados.get(motivo, 0) + 1
             if motivo == "município não informado":
