@@ -449,7 +449,13 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                         if sufixo and pageno == 1 and anuncios:
                             esperada = sufixo.strip("/").split("/")[0]
                             certas = sum(1 for h in anuncios if _regiao_da_url(h) == esperada)
-                            if certas < 0.3 * len(anuncios):
+                            log.info("olx%s %s%s: %d de %d anúncios na região esperada",
+                                     " aluguel" if aluguel else "", uf, sufixo, certas,
+                                     len(anuncios))
+                            # Only the unverified MG slugs are skipped on this test;
+                            # the SP page is a real region whose ranking mixes in
+                            # ads from elsewhere (the município filter handles those).
+                            if uf == "MG" and certas < 0.3 * len(anuncios):
                                 log.warning("olx %s%s: região desconhecida para a OLX (%d de %d "
                                             "anúncios nela) -- pulando", uf, sufixo, certas,
                                             len(anuncios))
