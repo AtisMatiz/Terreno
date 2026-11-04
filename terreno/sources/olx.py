@@ -430,6 +430,9 @@ def fetch(criteria, store, budgets) -> list[Listing]:
     except Exception as exc:  # noqa: BLE001 -- Playwright/browser failure must not take the run down
         log.warning("olx: erro no navegador: %s", exc)
 
+    from collections import Counter
+    top = Counter(f"{x.municipality or '?'}/{x.uf}" for x in out).most_common(14)
+    log.info("olx: municípios mais frequentes: %s", ", ".join(f"{k} {n}" for k, n in top))
     log.info("olx: %d listings (%d com preço, %d com município)", len(out),
              sum(1 for x in out if x.price), sum(1 for x in out if x.municipality))
     return out
