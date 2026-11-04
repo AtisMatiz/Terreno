@@ -87,5 +87,22 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
+      # The Pages deploy is a nicety, not the job: the search already committed its
+      # results by now. On 2026-11-04 a GitHub Pages incident left a deployment
+      # "in progress" and every run after it failed here ("Please cancel ... first
+      # or wait for it to complete") -- two failure e-mails for a search that had
+      # in fact worked. So: one retry after a wait, and a warning, not a failure,
+      # if Pages is still busy.
       - id: deploy
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Pages ocupado -- espera 4 min para tentar de novo
+        if: steps.deploy.outcome == 'failure'
+        run: sleep 240
+      - id: deploy_retry
+        if: steps.deploy.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Pages indisponível (a busca em si funcionou)
+        if: steps.deploy.outcome == 'failure' && steps.deploy_retry.outcome == 'failure'
+        run: echo "::warning::GitHub Pages recusou o deploy duas vezes; os resultados já estão commitados no repositório."
