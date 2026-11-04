@@ -40,6 +40,14 @@ from .base import UF_NAMES
 log = logging.getLogger("terreno.sources.olx")
 
 NAME = "olx"
+
+# OLX's own region slugs (the segment right after /estado-xx/ in a listing URL,
+# e.g. ".../estado-sp/vale-do-paraiba-e-litoral-norte"). The MG one is a best
+# guess; a wrong slug just yields no ads and the statewide backstop still runs.
+REGIOES_OLX = {
+    "SP": ("vale-do-paraiba-e-litoral-norte",),
+    "MG": ("sul-de-minas",),
+}
 BASE = "https://www.olx.com.br/imoveis/terrenos"
 
 # A real listing link after hydration: a state subdomain (sp.olx.com.br, not
@@ -308,17 +316,26 @@ def fetch(criteria, store, budgets) -> list[Listing]:
             browser = p.chromium.launch(headless=True)
             try:
                 page = _novo_contexto(browser).new_page()
+                # Regional listings first, then a short statewide backstop. The
+                # 2026-11-04 dry-run read 959 statewide ads (10 pages x 2 states,
+                # all with price and município now) and exactly 5 were in the
+                # search region: OLX ranks the whole state, and the Vale do Paraíba
+                # is a sliver of it. The regional page lists only that sliver.
+                alvos = []
                 for uf in criteria.states:
                     if not UF_NAMES.get(uf):
                         continue
-                    for pageno in range(1, max_pages + 1):
+                    alvos += [(uf, f"/{r}", max_pages) for r in REGIOES_OLX.get(uf, ())]
+                    alvos.append((uf, "", 2 if REGIOES_OLX.get(uf) else max_pages))
+                for uf, sufixo, limite in alvos:
+                    for pageno in range(1, limite + 1):
                         params = {"o": pageno}
                         if criteria.price_min:
                             params["ps"] = int(criteria.price_min)
                         if criteria.price_max:
                             params["pe"] = int(criteria.price_max)
                         qs = "&".join(f"{k}={v}" for k, v in params.items())
-                        url = f"{BASE}/estado-{uf.lower()}?{qs}"
+                        url = f"{BASE}/estado-{uf.lower()}{sufixo}?{qs}"
 
                         try:
                             page.goto(url, timeout=_NAV_TIMEOUT_MS,
@@ -384,8 +401,8 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                                 anuncios = [h for h in melhor if _LISTING_HREF_RE.match(h)]
                                 com_preco = sum(1 for h in anuncios
                                                 if _price_from_card(melhor[h]))
-                        log.info("olx %s p%d: %d anúncio(s), %d com preço no card",
-                                 uf, pageno, len(anuncios), com_preco)
+                        log.info("olx %s%s p%d: %d anúncio(s), %d com preço no card",
+                                 uf, sufixo, pageno, len(anuncios), com_preco)
 
                         new_this_page = 0
                         for href, texto in melhor.items():
