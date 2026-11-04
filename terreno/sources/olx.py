@@ -341,6 +341,7 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                                 page.mouse.wheel(0, 2500)
                                 page.wait_for_timeout(500)
                             cards = page.eval_on_selector_all("a", _CARD_JS)
+                        via_http = False
                         if not any(_LISTING_HREF_RE.match(h or "") for h, _ in cards or []):
                             # Walled off (or nothing rendered): the HTTP ladder
                             # (curl_cffi, then the paid unblocker) as a fallback,
@@ -351,6 +352,7 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             resp = http.get(url, timeout=60, retries=1)
                             if resp is not None:
                                 cards = _cards_do_html(resp.text, url)
+                                via_http = True
                                 log.info("olx %s p%d: via HTTP, %d anúncio(s)", uf,
                                          pageno, len(cards))
 
@@ -364,11 +366,26 @@ def fetch(criteria, store, budgets) -> list[Listing]:
                             antigo = melhor.get(href)
                             if antigo is None or ("R$" in texto and "R$" not in antigo):
                                 melhor[href] = texto or ""
-                        if pageno == 1:
-                            log.info("olx %s p1: %d links, %d de anúncio, título %r",
-                                     uf, len(cards or []),
-                                     sum(1 for h in melhor if _LISTING_HREF_RE.match(h)),
-                                     titulo[:60])
+                        anuncios = [h for h in melhor if _LISTING_HREF_RE.match(h)]
+                        com_preco = sum(1 for h in anuncios if _price_from_card(melhor[h]))
+                        # Measured 2026-11-04: the browser path kept the card text
+                        # (price, município) only on page 1 of each state -- 100 of 996
+                        # listings. When most cards of a page came back without a
+                        # price, read the same page through the HTTP ladder (curl_cffi,
+                        # free) and take its richer card text.
+                        if anuncios and com_preco < len(anuncios) / 2 and not via_http:
+                            resp = http.get(url, timeout=60, retries=1)
+                            if resp is not None:
+                                for href, texto in _cards_do_html(resp.text, url):
+                                    if href in melhor and not _price_from_card(melhor[href]):
+                                        melhor[href] = texto
+                                    elif href not in melhor:
+                                        melhor[href] = texto
+                                anuncios = [h for h in melhor if _LISTING_HREF_RE.match(h)]
+                                com_preco = sum(1 for h in anuncios
+                                                if _price_from_card(melhor[h]))
+                        log.info("olx %s p%d: %d anúncio(s), %d com preço no card",
+                                 uf, pageno, len(anuncios), com_preco)
 
                         new_this_page = 0
                         for href, texto in melhor.items():
