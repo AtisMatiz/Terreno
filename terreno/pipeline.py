@@ -303,6 +303,10 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
     """
     cap = int(budgets.get("max_paginas_enriquecimento", 80))
     pending = [x for x in listings if not x.description]
+    # The sections that demand a house / a rural type (chácaras, aluguel) cannot
+    # be judged without the description, so they are enriched first when the cap
+    # cannot cover everything. Stable sort: the rest keeps its order.
+    pending.sort(key=lambda x: 0 if x.secao in ("chacaras", "aluguel") else 1)
     if not pending:
         return listings
 
@@ -319,11 +323,24 @@ def enrich(listings: list[Listing], budgets: dict) -> list[Listing]:
     html_olx = olx_fetch_html([x.url for x in olx_pend]) if olx_pend else {}
     com_navegador = bool(html_olx)
 
+    olx_pend = [x for x in pending if x.source == "olx"][:olx_cap]
+    usados_http = 0
     for item in pending[:cap] + [x for x in olx_pend if x not in pending[:cap]]:
         if item.source == "olx" and com_navegador:
             html = html_olx.get(item.url)
             if html is None:
-                continue
+                # The browser is walled off from most OLX detail pages (1 of 120
+                # loaded on 2026-11-04) and this used to `continue` here, leaving
+                # almost every OLX listing without a description -- no house, no
+                # water, no condominium check for the chácaras/aluguel sections.
+                # The HTTP ladder (curl_cffi first, free) often passes; bounded.
+                if usados_http >= cap:
+                    continue
+                usados_http += 1
+                resp = http_get(item.url, timeout=25, retries=1)
+                if resp is None:
+                    continue
+                html = resp.text
         else:
             resp = http_get(item.url)
             if resp is None:
