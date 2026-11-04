@@ -302,9 +302,15 @@ def _area_estruturada(nodes: list[dict]) -> float | None:
     return None
 
 
-def extract(html: str, url: str, source: str = "brave") -> Listing | None:
+def extract(html: str, url: str, source: str = "brave",
+            preco_conhecido: float | None = None) -> Listing | None:
     """Best-effort structured listing from a page. None when the page clearly
-    is not an individual offer."""
+    is not an individual offer.
+
+    `preco_conhecido`: the price already read from the search card (OLX). A
+    detail page carries a \"similar ads\" block full of other prices, which made the
+    many-prices guard drop real chácaras; the known price settles which one is
+    this ad's."""
     # Cheapest guard first: a URL that is a section of a site rather than one
     # property needs no parsing at all to be rejected.
     if _URL_NAO_ANUNCIO.search(urlsplit(url).path):
@@ -313,7 +319,7 @@ def extract(html: str, url: str, source: str = "brave") -> Listing | None:
 
     title = ""
     description = ""
-    price = None
+    price = preco_conhecido
     area_ha = None
     image = ""
     municipality = ""
