@@ -1,5 +1,5 @@
 {
- "generated_at": "04/11/2026 às 15:13",
+ "generated_at": "05/11/2026 às 13:38",
  "listings": [
   {
    "key": "da2001476c937f20",
@@ -6828,6 +6828,121 @@
    "price_drop": null
   },
   {
+   "key": "1a91c4d6234c545c",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.grupo07brasil.com.br/3547/imoveis/venda-chacara-area-rural-de-paraibuna-paraibuna-sp",
+   "title": "Sítio de 10 hectares em Paraibuna, rico em água, natureza e tranquilidade",
+   "description": "SÍTIO DE 10 HECTARES EM PARAIBUNA – NATUREZA, ÁGUA ABUNDANTE E EXCELENTE POTENCIAL RURALExcelente oportunidade para quem busca tranquilidade, contato com a natureza e qualidade de vida no interior de São Paulo!Esta bela propriedade rural possui aproximadamente 10 hectares e está localizada no município de Paraibuna/SP, nas proximidades da divisa com Redenção da Serra, em uma região privilegiada pela natureza, próxima ao bairro Paiol Grande, à Pousada Lumiar e à Rota da Luz.Um lugar especial para…",
+   "price": 470000.0,
+   "price_first": 470000.0,
+   "area_ha": 10.0,
+   "price_per_ha": 47000.0,
+   "municipality": "Paraibuna",
+   "uf": "SP",
+   "lat": -23.3864203,
+   "lon": -45.6626797,
+   "image": "https://www.grupo07brasil.com.br/admin/imovel/mini/20261104T1511490300-491352400.jpg",
+   "posted_at": "",
+   "score": 0.208,
+   "reasons": [
+    "água abundante",
+    "galpão",
+    "tranquilo",
+    "R$/ha 47.000 (++)",
+    "⚠ 51.2 km do centro de interesse (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.3,
+     "peso": 30,
+     "provas": [
+      "água abundante"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.2,
+     "peso": 20,
+     "provas": [
+      "galpão"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 47.000 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.167,
+     "peso": 0,
+     "provas": [
+      "⚠ 51.2 km do centro de interesse (--)"
+     ],
+     "ajuste": -0.1
+    }
+   },
+   "first_seen": "2026-11-05T16:38:23+00:00",
+   "last_seen": "2026-11-05T16:38:23+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 51.2,
+   "destaques": "{\"agua\": \"Água abundante\", \"benfeitorias\": \"Galpão\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "3fecde8f96d8a0ee",
    "source": "olx",
    "source_id": "1447972331",
@@ -9270,16 +9385,17 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "leilao"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "lancenoleilao.com.br: bloqueado",
-  "milanleiloes.com.br: bloqueado",
-  "www.leilaoimovel.com.br: bloqueado",
-  "www.portalzuk.com.br: bloqueado",
-  "www.superbid.net: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "secoes": [
   {
