@@ -314,14 +314,23 @@ def _enviar(token: str, chat_id: str, text: str) -> bool:
 
 
 def _enviar_post(token: str, chat_id: str, text: str, requests) -> bool:
+    """POST one message. A *read* timeout means Telegram already has the request
+    and may well have delivered it (2026-11-06: the answer took longer than our
+    timeout, every retry delivered again and the same card arrived 7 times), so
+    after one it is never resent -- it counts as sent. Only failures that never
+    reached Telegram (connect error/timeout, 5xx, 429) are retried."""
     for tentativa in range(3):
         try:
             r = requests.post(
                 API.format(token=token),
                 json={"chat_id": chat_id, "text": text, "parse_mode": "HTML",
                       "disable_web_page_preview": True},
-                timeout=20,
+                timeout=(15, 60),
             )
+        except requests.ReadTimeout:
+            log.warning("telegram: sem resposta em 60 s -- a mensagem pode ter sido entregue; "
+                        "não reenvio (evita duplicata)")
+            return True
         except requests.RequestException as exc:
             log.warning("telegram: POST falhou (%d/3): %s", tentativa + 1,
                         type(exc).__name__)
@@ -338,15 +347,11 @@ def _enviar_post(token: str, chat_id: str, text: str, requests) -> bool:
                 time.sleep(3)
             continue
         if 400 <= r.status_code < 500:
-            break                      # the request itself is wrong; GET would not help
+            return False               # the request itself is wrong
         time.sleep(2 ** tentativa)
-    resp = http.get(
-        API.format(token=token),
-        params={"chat_id": chat_id, "text": text, "parse_mode": "HTML",
-                "disable_web_page_preview": "true"},
-        retries=2,
-    )
-    return resp is not None
+    # No GET fallback: it goes through the impersonation ladder, which resends the
+    # same text up to four times. Three clean attempts are enough.
+    return False
 
 
 def telegram(listings: list, page_url: str, top_n: int = 8,
