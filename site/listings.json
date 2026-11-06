@@ -1,6 +1,137 @@
 {
- "generated_at": "05/11/2026 às 13:52",
+ "generated_at": "06/11/2026 às 13:03",
  "listings": [
+  {
+   "key": "0858404401e063cd",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://viverrural.com.br/imoveis/sitio-em-sao-luiz-do-paraitinga-15-alq/",
+   "title": "Sítio em São Luiz do Paraitinga - 15 alq",
+   "description": "Sítio em São Luiz do Paraitinga - 15 alq - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0109 Finalidade: Venda Sítio em São Luiz do Paraitinga &#8211; 15 alq Sítio a venda em São Luiz do Paraitinga, com área de 15 alqueires paulista (36,3 hectares), com muita água, diversas nascentes na propriedade, formando lagos e riachos. Sítio final de linha, bastante reservado! &#8211; Casa sede com 5 quartos, 2 banheiros, sala, cozinha com fogão a lenha e piscina. &#8211; Pomar formado; &#8211; Curral; &#8211; Área de pasto dividida em piquetes e áreas com vegetação nativa preservando as nascentes; &#8211; Platôs para demais construções. 20 km do centro de São Luiz do Paraitinga, 10 km de Catuçaba. Valor R$ 1.200.000,00 Informações no WhatsApp 012 99712-6075 CRECI 239129 Área: 363000m² Valor do Imóvel: R$ 1.200.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que entrassem em contato comigo o mais rápido possível. Obrigado! Enviar formulário Contato Estamos localizados em São Luiz do Paraitinga – SP alessandra@viverrural.com.br Telefone/ WhatsApp Fale conosco (12) 99712-6075 Instagram Facebook Youtube SOLUÇÕES IMOBILIÁRIAS Compra e Venda Locação de Imóveis Permuta de Imóveis Avaliação de Imóveis Consultoria Imobiliária BOLETIM INFORMATIVO Se inscreva e receba novidades sobre Imóveis em geral! Digite seu e-mail Inscrever-se Política de Privacidade Política de Cookies Copyright © 2026 Viver Rural Imobiliária. Todos os direitos reservados. Gostou deste site? Crie o seu com a WhatsApp Call Now Button",
+   "price": 1200000.0,
+   "price_first": 1200000.0,
+   "area_ha": 36.3,
+   "price_per_ha": 33057.85,
+   "municipality": "São Luiz do Paraitinga",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://viverrural.com.br/wp-content/uploads/2024/05/WhatsApp-Image-2022-01-31-at-13.38.35.jpeg",
+   "posted_at": "2024-05-29T12:26:39+00:00",
+   "score": 0.69,
+   "reasons": [
+    "rio/riacho",
+    "lago/açude",
+    "água abundante",
+    "várias nascentes",
+    "casa sede",
+    "piscina",
+    "reservado",
+    "20 km da cidade",
+    "mata nativa",
+    "frutíferas",
+    "R$/ha 33.058 (++)",
+    "⚠ preço R$ 1.200.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "rio/riacho",
+      "lago/açude",
+      "água abundante",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.9,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.3,
+     "peso": 10,
+     "provas": [
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.1,
+     "peso": 15,
+     "provas": [
+      "20 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.65,
+     "peso": 10,
+     "provas": [
+      "mata nativa",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 33.058 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.200.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-06T16:03:55+00:00",
+   "last_seen": "2026-11-06T16:03:55+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho + lago/açude + água abundante + várias nascentes\", \"benfeitorias\": \"Casa sede + piscina\", \"acesso\": \"20 km da cidade\", \"solo\": \"Mata nativa + frutíferas\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
   {
    "key": "da2001476c937f20",
    "source": "imobiliaria_crawl",
@@ -510,6 +641,130 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "a73be9c72202227a",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://viverrural.com.br/imoveis/827/",
+   "title": "Sítio em São Luiz do Paraitinga - 8 alq",
+   "description": "Sítio em São Luiz do Paraitinga - 8 alq - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0111 Finalidade: Venda Sítio em São Luiz do Paraitinga &#8211; 8 alq Lindo sítio disponível para venda em São Luiz do Paraitinga Sítio formado, pronto para curtir bons momentos com a família e amigos. Um refúgio para quem procura contato com a natureza e tranquilidade. Propriedade com ótima localização, próximo ao Litoral Norte do Estado de SP &#8211; Ubatuba. &#8211; Sítio com área de 8 alqueires paulista, ou 19,36 hectares; &#8211; Casa sede com varanda, 5 quartos, sendo uma suíte, 2 banheiros, sala, cozinha, churrasqueira, rancho com fogão a lenha; &#8211; 2 Casas de caseiro; &#8211; Nascente de água, 3 lagos com peixes; &#8211; Curral; &#8211; Galinheiro; &#8211; Horta; &#8211; Pomar formado; &#8211; Reserva de vegetação nativa; Valor R$ 1.100.000,00 Informações no WhatsApp Alessandra CRECI 239129 Área: 193600m² Valor do Imóvel: R$ 1.100.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que entrassem em contato comigo o mais rápido possível. Obrigado! Enviar formulário Contato Estamos localizados em São Luiz do Paraitinga – SP alessandra@viverrural.com.br Telefone/ WhatsApp Fale conosco (12) 99712-6075 Instagram Facebook Youtube SOLUÇÕES IMOBILIÁRIAS Compra e Venda Locação de Imóveis Permuta de Imóveis Avaliação de Imóveis Consultoria Imobiliária BOLETIM INFORMATIVO Se inscreva e receba novidades sobre Imóveis em geral! Digite seu e-mail Inscrever-se Política de Privacidade Política de Cookies Copyright © 2026 Viver Rural Imobiliária. Todos ",
+   "price": 1100000.0,
+   "price_first": 1100000.0,
+   "area_ha": 19.36,
+   "price_per_ha": 56818.18,
+   "municipality": "São Luiz do Paraitinga",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://viverrural.com.br/wp-content/uploads/2024/08/7.png",
+   "posted_at": "2024-08-24T14:45:56+00:00",
+   "score": 0.58,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "casa sede",
+    "mais de uma casa",
+    "tranquilo",
+    "mata nativa",
+    "frutíferas",
+    "R$/ha 56.818 (++)",
+    "⚠ preço R$ 1.100.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.625,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "mais de uma casa"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.65,
+     "peso": 10,
+     "provas": [
+      "mata nativa",
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 56.818 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.100.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-06T16:03:55+00:00",
+   "last_seen": "2026-11-06T16:03:55+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Casa sede + mais de uma casa\", \"solo\": \"Mata nativa + frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -1641,6 +1896,124 @@
    "price_drop": null
   },
   {
+   "key": "1389dccfefcfd6fb",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://viverrural.com.br/imoveis/fazenda-em-sao-luiz-do-paraitinga-oportunidade/",
+   "title": "Fazenda em São Luiz do Paraitinga",
+   "description": "Fazenda em São Luiz do Paraitinga - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0112 Finalidade: Venda Fazenda em São Luiz do Paraitinga Fazenda em São Luiz do Paraitinga disponível para venda! Oportunidade em adquirir um lindo sítio na região da Serra do Mar &#8211; Ubatuba, com áreas aproximadas de 20 alqueires ou 48,4 hectares após o desmembramento. Conforme mapa anexado no anúncio, o desmembramento de aproximadamente 20 alqueires paulista se dá de uma área maior (40 alqueires paulista). No mapa é possível observar as glebas disponíveis para venda, onde em vermelho demonstramos a área total da fazenda (40 alqueires) e em amarelo e verde as glebas da propriedade como opções de compra, aproximadamente 20 alqueires cada gleba. As nascentes e os cursos d&#8217;água estão demonstrados no mapa em azul. &#8211; Platôs para construções com vista panorâmica para a Serra da Mantiqueira; &#8211; Área formada predominantemente em pasto; &#8211; Áreas de Reserva com Vegetação Nativa; &#8211; Ótima localização; &#8211; Altitude chegando a 1180 m; &#8211; Propriedade rica em água, com nascentes d&#8217;água e riacho; &#8211; Documentação ok (escritura com matrícula, CCIR, ITR e CAR). O desmembramento da gleba negociada, se dará conforme georreferenciamento da área, sendo realizado no processo da compra do imóvel. Valor de 20 alqueires &#8211; R$ 1.100.000,00 (55 mil/alqueire paulista) Informações no WhatsApp (12) 99712-6075 Alessandra CRECI 239129 Área: 484000m² Valor do Imóvel: R$ 1.100.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que ",
+   "price": 1100000.0,
+   "price_first": 1100000.0,
+   "area_ha": 48.4,
+   "price_per_ha": 22727.27,
+   "municipality": "São Luiz do Paraitinga",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://viverrural.com.br/wp-content/uploads/2024/08/4-2.png",
+   "posted_at": "2024-08-25T11:26:04+00:00",
+   "score": 0.49,
+   "reasons": [
+    "rio/riacho",
+    "água abundante",
+    "várias nascentes",
+    "escriturado",
+    "CAR/GEO em dia",
+    "R$/ha 22.727 (++)",
+    "⚠ preço R$ 1.100.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 1.0,
+     "peso": 30,
+     "provas": [
+      "rio/riacho",
+      "água abundante",
+      "várias nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.9,
+     "peso": 10,
+     "provas": [
+      "escriturado",
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 22.727 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.100.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-06T16:03:55+00:00",
+   "last_seen": "2026-11-06T16:03:55+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Rio/riacho + água abundante + várias nascentes\", \"documentacao\": \"Escriturado + CAR/GEO em dia\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "c38d6eef3d399f8e",
    "source": "facebook",
    "source_id": "1487138539882728",
@@ -2110,6 +2483,122 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
+   "price_drop": null
+  },
+  {
+   "key": "43be01137c80062a",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://viverrural.com.br/imoveis/sitio-a-venda-em-cunha/",
+   "title": "Sítio a venda em Cunha - 4,5 alq",
+   "description": "Sítio a venda em Cunha - 4,5 alq - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0103 Finalidade: Venda Sítio a venda em Cunha &#8211; 4,5 alq Lindo Sítio!!! Antiga propriedade rural, com 10,9 hectares, localizada em um dos primeiros bairros do município de Cunha, próximo ao Parque Serra do Mar, núcleo Cunha. Sítio com cachoeiras, piscinas naturais e nascente. A área ainda presenteia com uma charmosa casa de pau a pique, construída a mais de 80 anos. Em uma das cachoeiras do sítio, a água foi canalizada para um antigo moinho (restaurado). Platôs com vista para demais construções&#8230; Valor R$ 780.000,00 Entre em contato e agende uma visita na propriedade, vc vai se encantar WhatsApp 012 99712-6075 CRECI 239129 Área: 108900m² Valor do Imóvel: R$ 780.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que entrassem em contato comigo o mais rápido possível. Obrigado! Enviar formulário Contato Estamos localizados em São Luiz do Paraitinga – SP alessandra@viverrural.com.br Telefone/ WhatsApp Fale conosco (12) 99712-6075 Instagram Facebook Youtube SOLUÇÕES IMOBILIÁRIAS Compra e Venda Locação de Imóveis Permuta de Imóveis Avaliação de Imóveis Consultoria Imobiliária BOLETIM INFORMATIVO Se inscreva e receba novidades sobre Imóveis em geral! Digite seu e-mail Inscrever-se Política de Privacidade Política de Cookies Copyright © 2026 Viver Rural Imobiliária. Todos os direitos reservados. Gostou deste site? Crie o seu com a WhatsApp Call Now Button",
+   "price": 780000.0,
+   "price_first": 780000.0,
+   "area_ha": 10.9,
+   "price_per_ha": 71559.63,
+   "municipality": "Cunha",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://viverrural.com.br/wp-content/uploads/2024/05/IMG-20211015-WA0034.jpg",
+   "posted_at": "2024-05-20T18:20:53+00:00",
+   "score": 0.432,
+   "reasons": [
+    "nascente",
+    "cachoeira",
+    "casa",
+    "piscina",
+    "reservado",
+    "R$/ha 71.560 (++)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.575,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "cachoeira"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.4,
+     "peso": 20,
+     "provas": [
+      "casa",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.3,
+     "peso": 10,
+     "provas": [
+      "reservado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 71.560 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-06T16:03:55+00:00",
+   "last_seen": "2026-11-06T16:03:55+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + cachoeira\", \"benfeitorias\": \"Casa + piscina\"}",
+   "estrelas": "[\"Cachoeira\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
    "price_drop": null
   },
   {
@@ -3699,6 +4188,120 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false
+  },
+  {
+   "key": "acc90792b4c0f0c2",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://viverrural.com.br/imoveis/imovel-0101/",
+   "title": "Sítio em São Luiz do Paraitinga - 11,5 alq",
+   "description": "Sítio em São Luiz do Paraitinga - 11,5 alq - Imobili&aacute;ria Viver Rural Ir para o conteúdo Fale conosco (12) 99712-6075 Fale conosco (12) 99712-6075 alessandra@viverrural.com.br Instagram Facebook Youtube Home Institucional Contato Home Institucional Contato Viver o seu sonho pode estar na Viver Rural. Imóveis rurais no interior de São Paulo! 🏡 Código do Imóvel: 0101 Finalidade: Venda Sítio em São Luiz do Paraitinga &#8211; 11,5 alq Lindo sítio disponível para venda em São Luiz do Paraitinga, município no interior de São Paulo, esse sítio é um refúgio para quem procura tranquilidade, privacidade e contato com a natureza. Propriedade com ótima localização, fica próxima ao centro histórico de São Luiz do Paraitinga e apenas 176 km de distância da capital de São Paulo, na descida da Serra do Mar para o litoral norte do estado &#8211; Ubatuba. &#8211; Sítio com área de 11,5 alqueires paulista, ou 28 hectares; &#8211; 2 nascentes de água, 2 lagos; &#8211; Platô para construção com vista panorâmica; &#8211; Pastagem, áreas para plantio e reserva de vegetação nativa; &#8211; Escritura com matrícula e impostos rurais ok! Valor R$ 1.600.000,00 Informações no WhatsApp Alessandra CRECI 239129 Área: 280.000m² Valor do Imóvel: R$ 1.600.000,00 Explore a região dúvidas sobre o imóvel preencha o formulário Nome Telefone/ WhatsApp Email O que você deseja? Compra Venda Locação Administração Código do Imóvel Mensagem Me interessei pelo imóvel, gostaria que entrassem em contato comigo o mais rápido possível. Obrigado! Enviar formulário Contato Estamos localizados em São Luiz do Paraitinga – SP alessandra@viverrural.com.br Telefone/ WhatsApp Fale conosco (12) 99712-6075 Instagram Facebook Youtube SOLUÇÕES IMOBILIÁRIAS Compra e Venda Locação de Imóveis Permuta de Imóveis Avaliação de Imóveis Consultoria Imobiliária BOLETIM INFORMATIVO Se inscreva e receba novidades sobre Imóveis em geral! Digite seu e-mail Inscrever-se Política de Privacidade Política de Cookies Copyright © 2026 Vive",
+   "price": 1600000.0,
+   "price_first": 1600000.0,
+   "area_ha": 28.0,
+   "price_per_ha": 57142.86,
+   "municipality": "São Luiz do Paraitinga",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://viverrural.com.br/wp-content/uploads/2024/03/IMG-20240321-WA0009.jpg",
+   "posted_at": "2024-03-21T13:29:41+00:00",
+   "score": 0.353,
+   "reasons": [
+    "lago/açude",
+    "2 nascentes",
+    "tranquilo",
+    "R$/ha 57.143 (++)",
+    "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "lago/açude",
+      "2 nascentes"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.28,
+     "peso": 10,
+     "provas": [
+      "tranquilo"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 57.143 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-06T16:03:55+00:00",
+   "last_seen": "2026-11-06T16:03:55+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude + 2 nascentes\"}",
+   "estrelas": "[\"Múltiplas nascentes\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
   },
   {
    "key": "0187a3694a1aa7a5",
@@ -9385,15 +9988,20 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 5,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "superbid.net: bloqueado",
+  "vivareal.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zapimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "secoes": [
   {
    "id": "sitios",
