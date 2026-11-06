@@ -468,6 +468,8 @@ sites_alvo:
   # achados em 2026-11-03 (busca web), verificados com anúncios reais:
   - ricardorosacorretordeimoveis.com
   - realtylife.com.br
+  # achados em 2026-11-06 (busca web), verificados com anúncios reais:
+  - gurudosimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
