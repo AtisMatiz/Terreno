@@ -1,5 +1,5 @@
 {
- "generated_at": "09/11/2026 às 15:52",
+ "generated_at": "09/11/2026 às 16:11",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -9710,18 +9710,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "exchange.superbid.net: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "vivareal.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "www.olx.com.br: bloqueado",
-  "zapimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
