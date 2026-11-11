@@ -235,6 +235,46 @@ def municipio_da_regiao(item: Listing, criteria: Criteria) -> str:
     return ""
 
 
+_UF_NA_URL = re.compile(r"-(sp|mg|rj)(?=[-/_.?#]|$)")
+
+
+def uf_da_url(url: str) -> str:
+    """The UF an imobiliária spells in its own URL slug
+    ("...venda-sitio-2-quartos-bentos-pirangucu-mg" -> MG), "" when none."""
+    from urllib.parse import urlsplit
+    achados = _UF_NA_URL.findall(urlsplit(url or "").path.lower())
+    return achados[-1].upper() if achados else ""
+
+
+def corrigir_local_pela_url(listings: list[Listing], criteria: Criteria) -> int:
+    """When the URL names a UF that contradicts the município/UF the extractor
+    read, the URL wins and the município is re-derived from URL + title only.
+
+    2026-11-11: a Piranguçu/MG sítio on an imobiliária from Campos do Jordão
+    arrived as "Campos do Jordão - SP" because the site's own header names that
+    town. Piranguçu is outside the region, so the município now comes back blank
+    and the listing is dropped as "município não informado"."""
+    mudou = 0
+    for item in listings:
+        uf_url = uf_da_url(item.url)
+        if not uf_url:
+            continue
+        if item.uf and item.uf.upper() == uf_url:
+            continue
+        if not item.uf:
+            item.uf = uf_url
+            continue
+        antes = f"{item.municipality}/{item.uf}"
+        item.uf = uf_url
+        item.municipality = municipio_da_regiao(
+            Listing(source=item.source, url=item.url, title=item.title, description=""),
+            criteria)
+        mudou += 1
+        log.info("local corrigido pela URL: %s -> %s/%s (%s)", antes,
+                 item.municipality or "?", uf_url, item.url[-80:])
+    return mudou
+
+
 def completar_municipio(listings: list[Listing], store, criteria: Criteria,
                         limite: int = 80) -> int:
     """Fill a blank município (and UF) from the listing's coordinates.
@@ -242,6 +282,7 @@ def completar_municipio(listings: list[Listing], store, criteria: Criteria,
     Cheap and bounded: only listings that have coordinates but no município,
     at most `limite` lookups per run (Nominatim allows one per second); the
     result is cached by ~1 km cell, so a recurring listing costs nothing."""
+    corrigir_local_pela_url(listings, criteria)
     feitos = 0
     for item in listings:
         if item.municipality:
