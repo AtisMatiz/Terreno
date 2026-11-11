@@ -313,6 +313,24 @@ def _enviar(token: str, chat_id: str, text: str) -> bool:
         _conn.allowed_gai_family = antes
 
 
+def _enviar_texto_puro(token: str, chat_id: str, text: str, requests) -> bool:
+    """A card Telegram refused to parse as HTML (a stray "<" in a title...) is
+    sent once more as plain text, so one odd card is not lost -- and does not
+    make the whole batch look failed."""
+    import html as _html
+    limpo = _html.unescape(re.sub(r"<[^>]+>", "", text))
+    try:
+        r = requests.post(API.format(token=token),
+                          json={"chat_id": chat_id, "text": limpo,
+                                "disable_web_page_preview": True},
+                          timeout=(15, 60))
+    except requests.ReadTimeout:
+        return True
+    except requests.RequestException:
+        return False
+    return r.status_code == 200
+
+
 def _enviar_post(token: str, chat_id: str, text: str, requests) -> bool:
     """POST one message. A *read* timeout means Telegram already has the request
     and may well have delivered it (2026-11-06: the answer took longer than our
@@ -346,6 +364,8 @@ def _enviar_post(token: str, chat_id: str, text: str, requests) -> bool:
             except (ValueError, AttributeError):
                 time.sleep(3)
             continue
+        if r.status_code == 400 and "parse" in (r.text or "").lower():
+            return _enviar_texto_puro(token, chat_id, text, requests)
         if 400 <= r.status_code < 500:
             return False               # the request itself is wrong
         time.sleep(2 ** tentativa)
@@ -369,10 +389,14 @@ def telegram(listings: list, page_url: str, top_n: int = 8,
         log.info("telegram: nothing new to report — no ping sent")
         return True
 
-    ok = True
+    entregues = 0
     for i, text in enumerate(messages, 1):
-        if not _enviar(token, chat_id, text):
+        if _enviar(token, chat_id, text):
+            entregues += 1
+        else:
             # Keep going: a later card is still worth delivering.
-            ok = False
             log.warning("telegram: send failed (%d/%d)", i, len(messages))
-    return ok
+    # False only when *nothing* arrived. With a partial delivery the caller must
+    # not "forget" the new rows: that made every run re-send the cards that had
+    # arrived (2026-11-11, the same Piranguçu card on every run).
+    return entregues > 0
