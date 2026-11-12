@@ -1,5 +1,5 @@
 {
- "generated_at": "11/11/2026 às 13:41",
+ "generated_at": "12/11/2026 às 13:57",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -1875,122 +1875,6 @@
    "price_drop": null
   },
   {
-   "key": "2ad1c5d4013ae677",
-   "source": "brave",
-   "source_id": "",
-   "url": "https://refugiorural.com.br/imovel/sitio-a-venda-em-igarata-sp/SI214",
-   "title": "LINDO SÍTIO COM LAGOS, NASCENTES, RIACHO LOCALIZADO EM IGARATÁ/SP",
-   "description": "Lindo Sítio em Igaratá SPSão 4 alqueires (9,68 hectares) com 4 lagos menores e 1 grande. Possui casa de 5 cômodos , rancho com churasqueira, 2 nascentes de",
-   "price": 610000.0,
-   "price_first": 610000.0,
-   "area_ha": 9.68,
-   "price_per_ha": 63016.53,
-   "municipality": "Igaratá",
-   "uf": "SP",
-   "lat": -23.2063475,
-   "lon": -46.156934,
-   "image": "https://objectstorage.sa-saopaulo-1.oraclecloud.com/n/grq6lwb4htd1/b/tecimob-production/o/media/b752121c-7471-4fc3-b3df-b56df0a3997d/properties/de5eb7a7-d63e-42c5-8ec9-c8dd7ea073bb/images/600x450/outside/41aa818b-efdb-4b5f-9ba0-85a52ee499e91726598136WCzx.webp",
-   "posted_at": "",
-   "score": 0.47,
-   "reasons": [
-    "rio/riacho",
-    "lago/açude",
-    "2 nascentes",
-    "casa",
-    "R$/ha 63.017 (++)",
-    "⚠ 42.9 km do centro de interesse (-)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 1.0,
-     "peso": 30,
-     "provas": [
-      "rio/riacho",
-      "lago/açude",
-      "2 nascentes"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.35,
-     "peso": 20,
-     "provas": [
-      "casa"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 63.017 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.333,
-     "peso": 0,
-     "provas": [
-      "⚠ 42.9 km do centro de interesse (-)"
-     ],
-     "ajuste": -0.05
-    }
-   },
-   "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 42.9,
-   "destaques": "{\"agua\": \"Rio/riacho + lago/açude + 2 nascentes\", \"benfeitorias\": \"Casa\"}",
-   "estrelas": "[\"Múltiplas nascentes\"]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "43be01137c80062a",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -2349,118 +2233,6 @@
    "price_drop": null
   },
   {
-   "key": "1805264518f81649",
-   "source": "brave",
-   "source_id": "",
-   "url": "https://pt.linkedin.com/pulse/vendo-s%C3%ADtio-315-alqueires-em-monteiro-lobatosp-com-bispo-neto",
-   "title": "VENDO SÍTIO 3,15 ALQUEIRES EM MONTEIRO LOBATO/SP - COM ESCRITURA",
-   "description": "Casa com 2 dormitórios, sala, cozinha com fogão industrial e à lenha, wc social, salão com churrasqueira, fogão à lenha, wc social. Horta, galinheiro, quarto para guardar ração.",
-   "price": 600000.0,
-   "price_first": 600000.0,
-   "area_ha": 7.623,
-   "price_per_ha": 78709.17,
-   "municipality": "Monteiro Lobato",
-   "uf": "SP",
-   "lat": -22.9553542,
-   "lon": -45.8387146,
-   "image": "https://media.licdn.com/dms/image/v2/C4E12AQHuw2MDfx1PNg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1520189828439?e=2147483647&amp;v=beta&amp;t=c1pj_C5PzctQM7iJqXDix0hD8WXKQLv_bde7_g8AgYE",
-   "posted_at": "",
-   "score": 0.41,
-   "reasons": [
-    "casa",
-    "escriturado",
-    "R$/ha 78.709 (++)",
-    "em Monteiro Lobato (centro exato)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.35,
-     "peso": 20,
-     "provas": [
-      "casa"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.6,
-     "peso": 10,
-     "provas": [
-      "escriturado"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 78.709 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "em Monteiro Lobato (centro exato)"
-     ],
-     "ajuste": 0.13
-    }
-   },
-   "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-13T19:45:50+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 0.0,
-   "destaques": "{\"benfeitorias\": \"Casa\", \"documentacao\": \"Escriturado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "19ac3a82b0e26b17",
    "source": "olx",
    "source_id": "1530747235",
@@ -2586,6 +2358,122 @@
    "encerramento": "",
    "is_new": false,
    "price_drop": null
+  },
+  {
+   "key": "40b7d07203550972",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.campobrasilimoveis.com.br/comprar/sp/sao-jose-dos-campos/santana/area/9646297",
+   "title": "ÁREA RURAL 4 ALQUEIRES ESCRITURADA , COM NASCENTE E DE FÁCIL ACESSO EM SÃO JOSÉ DOS CAMPOS !",
+   "description": "ÁREA RURAL 4 ALQUEIRES ESCRITURADA , COM NASCENTE E DE FÁCIL ACESSO EM SÃO JOSÉ DOS CAMPOS ! \n\n- Mata nativa \n- Nascente \n- Riacho \n- Escriturada\n\n\nIdeal para construir seu sítio com segurança, fácil acesso e rico em água ! \n\n\nVisite nosso site: www.campobrasilimoveis.com.br\nAcesse nossa página no instagram: @campobrasil_imoveis",
+   "price": null,
+   "price_first": null,
+   "area_ha": 9.68,
+   "price_per_ha": null,
+   "municipality": "São José dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://cdnuso.com/35548/https://static.tokkobroker.com/w_pics/9646297_44087376773594041585308234909392566460501426817585302611431922507299786029368.jpg",
+   "posted_at": "",
+   "score": 0.403,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "bom acesso",
+    "mata nativa",
+    "escriturado",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.35,
+     "peso": 15,
+     "provas": [
+      "bom acesso"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.65,
+     "peso": 10,
+     "provas": [
+      "mata nativa"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-12T16:57:22+00:00",
+   "last_seen": "2026-11-12T16:57:22+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho\", \"acesso\": \"Bom acesso\", \"documentacao\": \"Escriturado\", \"solo\": \"Mata nativa\"}",
+   "estrelas": "[\"Mata nativa preservada\"]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true
   },
   {
    "key": "62475fdaf82d1bd9",
@@ -3341,126 +3229,6 @@
    "price_drop": null
   },
   {
-   "key": "56d4ec99c6414d6e",
-   "source": "facebook",
-   "source_id": "1015546568148213",
-   "url": "https://www.facebook.com/marketplace/item/1015546568148213/",
-   "title": "Terreno em Monteiro Lobato Vendo ou troco",
-   "description": "🏡✨ TROQUE O APARTAMENTO PELA QUALIDADE DE VIDA QUE VOCÊ MERECE ✨🏡\n\nVendo ou troco excelente terreno rural em Monteiro Lobato/SP, localizado na Estrada da Pedra Branca, uma região conhecida pela tranquilidade, belas paisagens e contato direto com a natureza.\n\n✅ 32.000 m² de área\n✅ Escritura definitiva\n✅ Energia elétrica\n✅ Fácil acesso\n✅ Excelente para sítio, chácara, lazer, moradia ou investimento\n✅ Região com grande potencial de valorização\n\n💰 Valor: R$ 250.000\n\n🔄 ACEITO PERMUTA\n• Apartamento\n• Casa\n• Carro\n• Caminhonete\n• Analiso propostas\n\n🏦 Aceito financiamento bancário.\n🤝 Negociação direta com o proprietário.\n\nSe você está cansado do condomínio, trânsito e agitação da cidade, esta pode ser a oportunidade de transformar patrimônio urbano em qualidade de vida para toda a família.\n\nEntre em contato e apresente sua proposta. Negócio sério, documentação em ordem e condições facilitadas.",
-   "price": 250000.0,
-   "price_first": 250000.0,
-   "area_ha": 3.2,
-   "price_per_ha": 78125.0,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -23.178405761719,
-   "lon": -45.884399414062,
-   "image": "",
-   "posted_at": "2026-08-08T21:35:14.000Z",
-   "score": 0.369,
-   "reasons": [
-    "menção a loteamento/condomínio",
-    "casa",
-    "energia",
-    "tranquilo",
-    "⚠ vizinhança próxima",
-    "bom acesso",
-    "escriturado",
-    "R$/ha 78.125 (++)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.53,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "energia"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": [
-      "tranquilo",
-      "⚠ vizinhança próxima"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.6,
-     "peso": 10,
-     "provas": [
-      "escriturado"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 78.125 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"benfeitorias\": \"Casa + energia\", \"acesso\": \"Bom acesso\", \"documentacao\": \"Escriturado\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "37c11dddfe296ba7",
    "source": "olx",
    "source_id": "1545443148",
@@ -4052,130 +3820,6 @@
    "price_drop": null
   },
   {
-   "key": "dab1c28cfeba5814",
-   "source": "olx",
-   "source_id": "1428404121",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/sitio-a-venda-42000-m-por-r-850-000-00-souzas-monteiro-lobato-sp-1428404121",
-   "title": "Sítio à venda, 42000 m² por R$ 850.000,00 - Souzas - Monteiro Lobato/SP",
-   "description": "Código do anúncio: SI0014<br><br>Linda propriedade em Monteiro Lobato , no bairro do Souza, a 7 km do centro de Monteiro Lobato,4 km da Escola Pandavas.<br>A propriedade possui uma casa muito boa com 3 dormitórios, cozinha espaçosa, piscina , banheiro externo , rancho com forno e fogão a lenha , churrasqueira e pomar .<br>Tem nascente própria, uma reserva de mata e área de pastagem .<br><br>Boa localização. -",
-   "price": 850000.0,
-   "price_first": 850000.0,
-   "area_ha": 4.2,
-   "price_per_ha": 202380.95,
-   "municipality": "Monteiro Lobato",
-   "uf": "SP",
-   "lat": -22.9553542,
-   "lon": -45.8387146,
-   "image": "https://img.olx.com.br/images/39/390606536241606.jpg",
-   "posted_at": "",
-   "score": 0.338,
-   "reasons": [
-    "nascente",
-    "casa",
-    "piscina",
-    "7 km da cidade",
-    "mata",
-    "pasto formado",
-    "frutíferas",
-    "⚠ R$/ha 202.381 (--)",
-    "em Monteiro Lobato (centro exato)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "nascente"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.4,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.7,
-     "peso": 15,
-     "provas": [
-      "7 km da cidade"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.6,
-     "peso": 10,
-     "provas": [
-      "mata",
-      "pasto formado",
-      "frutíferas"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 202.381 (--)"
-     ],
-     "ajuste": -0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "em Monteiro Lobato (centro exato)"
-     ],
-     "ajuste": 0.13
-    }
-   },
-   "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 0.0,
-   "destaques": "{\"agua\": \"Nascente\", \"benfeitorias\": \"Casa + piscina\", \"acesso\": \"7 km da cidade\", \"solo\": \"Mata + pasto formado + frutíferas\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "26a871d8f1e5320e",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -4287,119 +3931,6 @@
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "3aca324976add8ba",
-   "source": "brave",
-   "source_id": "",
-   "url": "https://www.imoveisalphahouse.com.br/imoveis/a-venda/casa/chacara-santa-luzia-taubate-sp?brrcep_id=%5B%7B%22brrcepid%22%3A51694%7D%5D&search_name=Ch%C3%A1cara+Santa+Luzia&localidade=Taubat%C3%A9%2C+SP&order=mais_proximos",
-   "title": "Casa à venda, Chácara Santa Luzia, Taubaté, SP",
-   "description": "🏡 Casa à venda – Chácara Santa Luzia, Taubaté\n\nSe você busca espaço, conforto e uma ótima localização, esta casa é ideal para você!\n\n✔ 4 quartos – Perfeito para famílias grandes ou quem precisa de espaço extra\n✔ 2 banheiros – Mais praticidade no dia a dia\n✔ Sala ampla – Conforto e aconchego para receber visitas\n✔ Cozinha bem distribuída – Pronta para suas melhores receitas\n✔ Garagem para 2 carros – Segurança e comodidade para sua família\n\n📍 Localizada no bairro Chácara Santa Luzia, em Taubaté, com fácil acesso a comércios, escolas e serviços essenciais.\n\nGostou? Entre em contato para mais informações e agende sua visita! 📞🏡\n\nPara comprar, vender ou alugar um imóvel, a Alpha House é a escolha certa. Nossos corretores são especialistas no mercado imobiliário e têm o conhecimento necessário para ajudá-lo alcançar seus objetivos.\n\nNão perca tempo, entre em contato conosco hoje mesmo e descubra como a Alpha House pode ajudá-lo a realizar seus sonhos. Estamos ansiosos para atendê-lo e oferecer o serviço de excelência que você merece.\n\nVocê pode nos ligar no telefone fixo e WhatsApp no número 12 36481595 para obter informações rápidas e esclarecer suas dúvidas sobre compra, venda ou locação de imóveis. Além disso, acompanhe as novidades da Alpha House e confira nossas ofertas especiais seguindo-nos no Instagram @imoveisalphahouse.\n\nMKT - Imóbiliaria ALPHA HOUSE - CRECI: CRECI JURIDICO: J-44047",
-   "price": 371000.0,
-   "price_first": 371000.0,
-   "area_ha": 4.72,
-   "price_per_ha": 78601.69,
-   "municipality": "Taubaté",
-   "uf": "SP",
-   "lat": -23.031448,
-   "lon": -45.5612792,
-   "image": "https://static.arboimoveis.com.br/white-label-assets/J-44047_ALPHAH/",
-   "posted_at": "",
-   "score": 0.332,
-   "reasons": [
-    "menção a chácara/sítio/fazenda sem outro sinal rural (pode ser nome de bairro)",
-    "casa",
-    "bom acesso",
-    "R$/ha 78.602 (++)",
-    "em Taubaté (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.35,
-     "peso": 20,
-     "provas": [
-      "casa"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.35,
-     "peso": 15,
-     "provas": [
-      "bom acesso"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 78.602 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Taubaté (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 29.6,
-   "destaques": "{\"benfeitorias\": \"Casa\", \"acesso\": \"Bom acesso\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "sitios",
    "encerramento": "",
@@ -4899,135 +4430,6 @@
    "price_drop": null
   },
   {
-   "key": "1952c7a1b171b0cd",
-   "source": "facebook",
-   "source_id": "1436295827968599",
-   "url": "https://www.facebook.com/marketplace/item/1436295827968599/",
-   "title": "2 quartos 1 banheiro – Casa",
-   "description": "🌿 Sítio 24.000m² à Venda – Chácara Vovô Geraldo\n\n📍 Ribeirão Grande – Bairro Graminha – Pindamonhangaba/SP\n\nSe você busca tranquilidade, autonomia e contato direto com a natureza, encontrou o lugar ideal! A Chácara Vovô Geraldo reúne estrutura completa, sustentabilidade e documentação impecável — pronta para morar ou investir.\n\n⸻\n\n🌳 Diferenciais do Imóvel\n\n✅ 21.000 m² de área total\n✅ Rio passando nos fundos da propriedade\n✅ Casa com energia 100% solar – mais economia e independência\n✅ Excelente disponibilidade de água\n✅ Curral pronto para uso\n✅ Pasto formado de ótima qualidade\n✅ Pomar com diversas árvores frutíferas em formação\n\nUm verdadeiro refúgio rural, com estrutura ideal para quem deseja viver com qualidade de vida e menor custo mensal.\n\n⸻\n\n🏡 Estrutura das Construções\n\n✔ Casa Principal (Pronta para morar – somente energia solar)\n\t•\t2 quartos confortáveis\n\t•\tSala aconchegante\n\t•\tCopa e cozinha integradas\n\t•\tSustentável e econômica\n\n✔ Construções Adicionais\n\t•\t2 casas em fase final de obra (faltando acabamento)\n\nIdeais para:\n\t•\tReceber visitas\n\t•\tMoradia para familiares\n\t•\tRenda com aluguel rural ou temporada\n\n⸻\n\n📄 Documentação Regularizada\n\n✔ Escritura definitiva\n✔ INCRA e documentação rural em dia\n\nCompre com total segurança.\n\n⸻\n\n💰 Valor e Condições\n\n💵 R$ 650.000,00\n🔁 Aceita permuta por terreno em Pindamonhangaba como parte do pagamento\n\n⸻\n\n🌿 Oportunidade única para quem quer investir ou viver cercado pela natureza, com sustentabilidade e excelente custo-benefício.\n\n📲 Agende sua visita:\nLuciano – [hidden information]",
-   "price": 650000.0,
-   "price_first": 650000.0,
-   "area_ha": 2.4,
-   "price_per_ha": 270833.33,
-   "municipality": "Pindamonhangaba",
-   "uf": "SP",
-   "lat": -22.9364,
-   "lon": -45.4622602,
-   "image": "",
-   "posted_at": "",
-   "score": 0.297,
-   "reasons": [
-    "rio/riacho",
-    "casa",
-    "energia",
-    "tranquilo",
-    "pasto formado",
-    "frutíferas",
-    "escriturado",
-    "documentação em dia",
-    "CAR/GEO em dia",
-    "⚠ R$/ha 270.833 (--)",
-    "em Pindamonhangaba (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.53,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "energia"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.4,
-     "peso": 10,
-     "provas": [
-      "pasto formado",
-      "frutíferas"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 1.0,
-     "peso": 10,
-     "provas": [
-      "escriturado",
-      "documentação em dia",
-      "CAR/GEO em dia"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 270.833 (--)"
-     ],
-     "ajuste": -0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Pindamonhangaba (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-08-13T19:45:50+00:00",
-   "last_seen": "2026-08-20T09:26:45+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 38.6,
-   "destaques": "{\"agua\": \"Rio/riacho\", \"benfeitorias\": \"Casa + energia\", \"documentacao\": \"Escriturado + documentação em dia + CAR/GEO em dia\", \"solo\": \"Pasto formado + frutíferas\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "4d6751e5947435ab",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -5371,117 +4773,6 @@
    "area_alqueire_tipo": "",
    "distancia_centro_km": null,
    "destaques": "{\"benfeitorias\": \"Casa sede + casa de caseiro\", \"acesso\": \"Bom acesso\", \"solo\": \"Terra boa/fértil + plano\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "4951c94b26e404c4",
-   "source": "facebook",
-   "source_id": "1529251441729352",
-   "url": "https://www.facebook.com/marketplace/item/1529251441729352/",
-   "title": "SÍTIO SEM BENFEITORIAS EM MARIA DA FÉ-MG",
-   "description": "SÍTIO SEM BENFEITORIAS EM MARIA DA FÉ-MG\n\n7,19 HECTARES OU 2,97 ALQUEIRES PAULISTA\n80% TRATORAVEL\n1 NASCENTE\nEXCELENTE TOPOGRAFIA\nTERRA DE PLANTIO\nMANGUEIRO SIMPLES\nGALPÃO FEITO COM MADEIRAS\n5 KM DO ASFALTO\nACEITA VEICULO COMO PARTE DE PAGAMENTO\nDISTÂNCIA DO ASFALTO 11KM E 12 KM DA ENTRADA DA CIDADE.\n\nVALOR: R$ 255.000\n\nRef.: 843\n\nLeandro Rabelo\nWhats 12 991817191",
-   "price": 240000.0,
-   "price_first": 240000.0,
-   "area_ha": 7.19,
-   "price_per_ha": 33379.69,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.733459472656,
-   "lon": -45.115356445312,
-   "image": "",
-   "posted_at": "2026-07-22T17:08:12.000Z",
-   "score": 0.263,
-   "reasons": [
-    "nascente",
-    "galpão",
-    "⚠ sem benfeitorias",
-    "R$/ha 33.380 (++)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "nascente"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": [
-      "galpão",
-      "⚠ sem benfeitorias"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 1.0,
-     "peso": 0,
-     "provas": [
-      "R$/ha 33.380 (++)"
-     ],
-     "ajuste": 0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": 2.97,
-   "area_alqueire_tipo": "paulista",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Nascente\", \"benfeitorias\": \"Galpão + ⚠ sem benfeitorias\"}",
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 1,
@@ -8149,125 +7440,6 @@
    "price_drop": null
   },
   {
-   "key": "52afde58103d28e1",
-   "source": "olx",
-   "source_id": "1424701775",
-   "url": "https://sp.olx.com.br/vale-do-paraiba-e-litoral-norte/terrenos/sitio-com-4-dormitorios-a-venda-24200-m-por-r-1-600-000-00-cassununga-santo-antonio-1424701775",
-   "title": "Sítio com 4 dormitórios à venda, 24200 m² por R$ 1.600.000,00 - Cassununga - Santo Antônio",
-   "description": "Código do anúncio: SI0001<br><br>Sítio disponível para venda, localizado bem próximo a Rodovia Monteiro Lobato, no bairro do Cassununga, na cidade de Santo Antônio do Pinhal/SP.<br>Ótima localização, menos de 100 metros do asfalto.<br><br>Área total = 24.200m²<br>Área total construída estimada em 250m²<br><br>Construções<br>Casa Principal<br>- 2 dormitórios, 2 banheiros, sala de estar e cozinha<br>- ampla área externa com quintal cimentado<br>- quiosque com churrasqueira<br><br>Chalé<br>- dormitório com banheira de hidromassagem, banheiro social<br><br>Casa Amarela<br>- sala de estar e cozinha integrados em ambiente único, dormitório e banheiro;<br>- avarandado, ampla área externa;<br>- salão de festas no piso superior;<br>-piscina.<br><br>Chalé Amarelo Topo<br>- dormitório com banheira de hidromassagem, cozinha e banheiro social;<br>- redário, balanço.<br><br>Terreno com possibilidade de novas construções (Chalés).<br><br>Documentação OK<br>Escritura + Matrícula + CAR -",
-   "price": 1600000.0,
-   "price_first": 1600000.0,
-   "area_ha": 2.42,
-   "price_per_ha": 661157.02,
-   "municipality": "Santo Antônio do Pinhal",
-   "uf": "SP",
-   "lat": -22.8250504,
-   "lon": -45.6674063,
-   "image": "https://img.olx.com.br/images/83/839637296887734.jpg",
-   "posted_at": "",
-   "score": 0.07,
-   "reasons": [
-    "casa",
-    "piscina",
-    "escriturado",
-    "CAR/GEO em dia",
-    "⚠ R$/ha 661.157 (--)",
-    "⚠ preço R$ 1.600.000 (> R$ 1 milhão)",
-    "em Santo Antônio do Pinhal (zona melhor)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.4,
-     "peso": 20,
-     "provas": [
-      "casa",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.9,
-     "peso": 10,
-     "provas": [
-      "escriturado",
-      "CAR/GEO em dia"
-     ]
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 661.157 (--)"
-     ],
-     "ajuste": -0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.333,
-     "peso": 0,
-     "provas": [
-      "⚠ preço R$ 1.600.000 (> R$ 1 milhão)"
-     ],
-     "ajuste": -0.05
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.92,
-     "peso": 0,
-     "provas": [
-      "em Santo Antônio do Pinhal (zona melhor)"
-     ],
-     "ajuste": 0.1
-    }
-   },
-   "first_seen": "2026-08-14T10:23:43+00:00",
-   "last_seen": "2026-08-14T10:23:43+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 22.8,
-   "destaques": "{\"benfeitorias\": \"Casa + piscina\", \"documentacao\": \"Escriturado + CAR/GEO em dia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "00a17cbd5f97e935",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -8438,15 +7610,18 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "leilao"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "milanleiloes.com.br: bloqueado",
-  "www.leilaoimovel.com.br: bloqueado",
-  "www.portalzuk.com.br: bloqueado",
-  "www.superbid.net: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "exchange.superbid.net: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "vivareal.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zapimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "secoes": [
   {
