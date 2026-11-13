@@ -30,3 +30,9 @@ Itens conhecidos que ficaram para depois. Atualizado em 2026-11-06.
 - Causa raiz da lentidão da API do Telegram a partir do runner é desconhecida. Relé na Vercel
   só se voltar a falhar. Desde 2026-11-06 um timeout de leitura nunca reenvia (evita
   mensagens duplicadas).
+
+## Município
+- Páginas de listagem por cidade (ex.: mohallemimoveis.com.br/.../campos-do-jordao-sp) trazem
+  o texto do primeiro anúncio, que pode ser de outra cidade (Piranguçu/MG saiu como
+  "Campos do Jordão - SP"). Ideia: quando o título diz "área rural de <lugar>" e o lugar não
+  é da região, descartar. O caso de 2026-11-13 foi dispensado à mão (data/vendidos.json).
