@@ -1,5 +1,5 @@
 {
- "generated_at": "13/11/2026 às 13:26",
+ "generated_at": "13/11/2026 às 13:51",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -1757,133 +1757,6 @@
    "secao": "sitios",
    "encerramento": "",
    "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "8b295da6e55dc69e",
-   "source": "brave",
-   "source_id": "",
-   "url": "https://www.mohallemimoveis.com.br/imoveis/a-venda/sitio/campos-do-jordao-sp",
-   "title": "Sítio à venda situado na área rural de Piranguçu, há 6Km do Centro da Cidade, próximo à Campos do Jordão - SP",
-   "description": "Sítio à venda situado na área rural de Piranguçu, há 6Km do Centro da Cidade, próximo à Campos do Jordão - SP.\n\nLocalizado na encantadora região de Piranguçu/MG, este Sítio oferece uma vida tranquila e repleta de natureza, próximo à Campos do Jordão - SP. Com uma área total de 2,73.48 ha, esta propriedade é um verdadeiro refúgio para quem busca paz e conforto. O Sítio possui 1 Casa Principal, com 3 dormitórios espaçosos, Sala de TV aconchegante com lareira, Cozinha bem equipada com despensa, 02 banheiros sociais, Área de serviços conveniente, Espaço gourmet completo, com forno de pizza, fogão à lenha e churrasqueira, 03 vagas de garagem, sendo 01 coberta. Possui ainda Casa de caseiros na propriedade, Tem 4 piquetes, Espaço para depósito, Piscina para relaxar nos dias ensolarados, Lagos com carpas e outros peixes, proporcionando um ambiente sereno, Amplo pomar com diversas variedades de frutas, Nascente própria, garantindo água fresca e pura, Internet fibra para estar sempre conectado, Caixas de abelha para apreciar a produção de mel, Fornalha para aquecer os dias frios, Galinheiro para criar suas próprias galinhas, Fogo de chão para noites acolhedoras, Banheiro externo para maior comodidade, Monitoramento e sistema de alarme com câmeras, garantindo segurança e Pomar.\n\nAceita permuta em imóveis condicionado a análise!",
-   "price": 600000.0,
-   "price_first": 600000.0,
-   "area_ha": 2.7348,
-   "price_per_ha": 219394.47,
-   "municipality": "Campos do Jordão",
-   "uf": "SP",
-   "lat": -22.738299,
-   "lon": -45.5903769,
-   "image": "https://static.arboimoveis.com.br/white-label-assets/4881_MOHA/",
-   "posted_at": "",
-   "score": 0.45,
-   "reasons": [
-    "nascente",
-    "lago/açude",
-    "casa sede",
-    "casa de caseiro",
-    "piscina",
-    "tranquilo",
-    "6 km da cidade",
-    "frutíferas",
-    "⚠ R$/ha 219.394 (--)",
-    "em Campos do Jordão (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.625,
-     "peso": 30,
-     "provas": [
-      "nascente",
-      "lago/açude"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 1.0,
-     "peso": 20,
-     "provas": [
-      "casa sede",
-      "casa de caseiro",
-      "piscina"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.7,
-     "peso": 15,
-     "provas": [
-      "6 km da cidade"
-     ]
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.2,
-     "peso": 10,
-     "provas": [
-      "frutíferas"
-     ]
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 219.394 (--)"
-     ],
-     "ajuste": -0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Campos do Jordão (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-11-13T16:26:55+00:00",
-   "last_seen": "2026-11-13T16:26:55+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": 35.1,
-   "destaques": "{\"agua\": \"Nascente + lago/açude\", \"benfeitorias\": \"Casa sede + casa de caseiro + piscina\", \"acesso\": \"6 km da cidade\", \"solo\": \"Frutíferas\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": true,
    "price_drop": null
   },
   {
@@ -7396,18 +7269,15 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
-  "sdb_scan"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "www.creditoreal.com.br: bloqueado",
-  "www.dfimoveis.com.br: bloqueado",
-  "www.econodata.com.br: bloqueado",
-  "www.netimoveis.com: bloqueado",
-  "www.properstar.pt: bloqueado",
-  "www.viniciusimoveis.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
