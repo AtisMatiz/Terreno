@@ -1,5 +1,5 @@
 {
- "generated_at": "13/11/2026 às 13:51",
+ "generated_at": "14/11/2026 às 12:14",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -5540,6 +5540,124 @@
    "price_drop": null
   },
   {
+   "key": "6109f84efc5bda49",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://www.mercadodeterras.com.br/imovel/sao-paulo/sao-jose-dos-campos/sitio-com-34000m2-e-vista-para-serra-da-mantiqueira",
+   "title": "Sítio com 34.000m² e vista para a Serra da Mantiqueira",
+   "description": "Propriedade rural de 34000m2 com escritura em cartório. Para amantes da natureza, silêncio e sossego, com trilhas, represa e vista para a Serra da Mantiqueira. Casa principal com 2 quartos, ar-condicionado, sala ampla, cozinha, internet, área gourmet, churrasqueira, lareira e pomar.",
+   "price": 1000000.0,
+   "price_first": 1000000.0,
+   "area_ha": 3.4,
+   "price_per_ha": 294117.65,
+   "municipality": "São José dos Campos",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "https://www.mercadodeterras.com.br/sites/default/files/pictures/images/2023/01/mercadodeterrasS3-63c7eeb61e03e.jpeg",
+   "posted_at": "",
+   "score": 0.225,
+   "reasons": [
+    "lago/açude",
+    "casa sede",
+    "sossegado",
+    "frutíferas",
+    "escriturado",
+    "⚠ R$/ha 294.118 (--)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.85,
+     "peso": 20,
+     "provas": [
+      "casa sede"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.5,
+     "peso": 10,
+     "provas": [
+      "sossegado"
+     ]
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "frutíferas"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.0,
+     "peso": 0,
+     "provas": [
+      "⚠ R$/ha 294.118 (--)"
+     ],
+     "ajuste": -0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-14T15:14:42+00:00",
+   "last_seen": "2026-11-14T15:14:42+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Casa sede\", \"documentacao\": \"Escriturado\", \"solo\": \"Frutíferas\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 0,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "7dce0e1f21ca60e8",
    "source": "facebook",
    "source_id": "904291382737469",
@@ -6551,115 +6669,6 @@
    "price_drop": null
   },
   {
-   "key": "868e9c95dbc7aa69",
-   "source": "facebook",
-   "source_id": "1018423094436871",
-   "url": "https://www.facebook.com/marketplace/item/1018423094436871/",
-   "title": "vendo área rural no Pouso Frio",
-   "description": "Vendo área rural de 35 mil metros no bairro pouso frio, topografia  baixa .Oportunidade , na beira do asfalto, ribeirão na divisa, aceita carro ou casa de menor valor como parte de pagamento.",
-   "price": 380000.0,
-   "price_first": 380000.0,
-   "area_ha": 3.5,
-   "price_per_ha": 108571.43,
-   "municipality": "Pindamonhangaba",
-   "uf": "SP",
-   "lat": -22.925720214844,
-   "lon": -45.466918945312,
-   "image": "",
-   "posted_at": "2026-07-22T21:54:17.000Z",
-   "score": 0.172,
-   "reasons": [
-    "rio/riacho",
-    "R$/ha 108.571 (0)",
-    "em Pindamonhangaba (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.375,
-     "peso": 30,
-     "provas": [
-      "rio/riacho"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.0,
-     "peso": 20,
-     "provas": []
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [
-      "R$/ha 108.571 (0)"
-     ],
-     "ajuste": 0.0
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Pindamonhangaba (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-08-16T09:23:15+00:00",
-   "last_seen": "2026-08-16T09:23:15+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"agua\": \"Rio/riacho\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "99e2a5a1bf4391c5",
    "source": "olx",
    "source_id": "1542686657",
@@ -7269,15 +7278,21 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
- "warnings": [],
+ "warnings": [
+  "arboimoveis.com.br: bloqueado",
+  "cocampo.com: bloqueado",
+  "exchange.superbid.net: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "leilaoimovel.com.br: bloqueado",
+  "vivareal.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "zapimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
+ ],
  "secoes": [
   {
    "id": "sitios",
