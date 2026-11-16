@@ -1,5 +1,5 @@
 {
- "generated_at": "15/11/2026 às 12:52",
+ "generated_at": "16/11/2026 às 15:40",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -3587,6 +3587,131 @@
    "price_drop": null
   },
   {
+   "key": "f751ce09ca7b258d",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://gintervale.com.br/comprar/sp/jacarei/jardim-colonia/sitio/12265213",
+   "title": "Sítio de 136.000 m2 a venda no Bairro do Mato Dentro, Jacareí/SP",
+   "description": "Sítio de 136.000 m2 a venda no Bairro do Mato Dentro, Jacareí/SP\n\nCasa principal com 3 dormitórios sendo 1 suíte, sala, cozinha, varanda;\nEspaço de lazer com churrasqueira, piscina, banheiros independentes;\nLago com peixes;\nEstábulo;\nBoa vizinhança;\nFogão a lenha e forno de pizza;\nLocalizado a 10 km da cidade de  Sta Branca;\nPróximo ao Rivers Restaurante;\nQuiosque na Fazenda;\n\nDe porteira fechada, com 13 animais entre vacas e cavalos;\nO sítio possui escritura e registro no Cartório de Imóveis da cidade",
+   "price": 1590000.0,
+   "price_first": 1590000.0,
+   "area_ha": 13.6,
+   "price_per_ha": 116911.76,
+   "municipality": "Jacareí",
+   "uf": "SP",
+   "lat": -23.3050682,
+   "lon": -45.9723075,
+   "image": "https://static.tokkobroker.com/w_pics/12265213_49040112644282739935180409056370182441475719163203828125279537320424351942503.jpg",
+   "posted_at": "",
+   "score": 0.34,
+   "reasons": [
+    "lago/açude",
+    "casa sede",
+    "curral",
+    "piscina",
+    "10 km da cidade",
+    "escriturado",
+    "R$/ha 116.912 (0)",
+    "⚠ preço R$ 1.590.000 (> R$ 1 milhão)",
+    "⚠ 41.2 km do centro de interesse (-)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.25,
+     "peso": 30,
+     "provas": [
+      "lago/açude"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 1.0,
+     "peso": 20,
+     "provas": [
+      "casa sede",
+      "curral",
+      "piscina"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.7,
+     "peso": 15,
+     "provas": [
+      "10 km da cidade"
+     ]
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.6,
+     "peso": 10,
+     "provas": [
+      "escriturado"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "R$/ha 116.912 (0)"
+     ],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.590.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ 41.2 km do centro de interesse (-)"
+     ],
+     "ajuste": -0.05
+    }
+   },
+   "first_seen": "2026-11-16T18:40:09+00:00",
+   "last_seen": "2026-11-16T18:40:09+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 41.2,
+   "destaques": "{\"agua\": \"Lago/açude\", \"benfeitorias\": \"Casa sede + curral + piscina\", \"acesso\": \"10 km da cidade\", \"documentacao\": \"Escriturado\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "88aa6e6cb335133f",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -5081,128 +5206,6 @@
    "price_drop": null
   },
   {
-   "key": "000b2a73eb3fbe7e",
-   "source": "facebook",
-   "source_id": "3519647824875745",
-   "url": "https://www.facebook.com/marketplace/item/3519647824875745/",
-   "title": "3 quartos 2 banheiros Casa",
-   "description": "Chácara de 1 alqueire • Taubaté\n\nCom topografia excelente, rica em água com lago e mina d'água, espaço para plantio e criação, e uma casa muito aconchegante.\n\n🔑Espaço para novas construções\n🔑Vista espetacular no topo do terreno\n🔑Uma área gourmet fantástica com forno a lenha e churrasqueira\n🔑Toda cercada\n\nDestaque para o acesso, menos de 1km do asfalto, e a documentação 100%.\n\nÀ venda em Taubaté.\n\n24200 metros | 200 metros construídos\n\n2 dormitórios | área gourmet\n\nR$ 880.000,00 | Cód 440\n\n#entendereconectar\n\nMais informações?\nEntre em contato: 📲 12 99649-0061\ncreci 211850F",
-   "price": 880000.0,
-   "price_first": 880000.0,
-   "area_ha": 2.42,
-   "price_per_ha": 363636.36,
-   "municipality": "Taubaté",
-   "uf": "SP",
-   "lat": -23.031448,
-   "lon": -45.5612792,
-   "image": "",
-   "posted_at": "",
-   "score": 0.25,
-   "reasons": [
-    "mina d'água",
-    "lago/açude",
-    "água abundante",
-    "casa",
-    "⚠ barulho",
-    "boa topografia",
-    "⚠ R$/ha 363.636 (--)",
-    "em Taubaté (zona boa)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.85,
-     "peso": 30,
-     "provas": [
-      "mina d'água",
-      "lago/açude",
-      "água abundante"
-     ]
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.35,
-     "peso": 20,
-     "provas": [
-      "casa"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": [
-      "⚠ barulho"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.3,
-     "peso": 5,
-     "provas": [
-      "boa topografia"
-     ]
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.0,
-     "peso": 0,
-     "provas": [
-      "⚠ R$/ha 363.636 (--)"
-     ],
-     "ajuste": -0.15
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.75,
-     "peso": 0,
-     "provas": [
-      "em Taubaté (zona boa)"
-     ],
-     "ajuste": 0.06
-    }
-   },
-   "first_seen": "2026-08-17T21:33:31+00:00",
-   "last_seen": "2026-08-17T22:06:58+00:00",
-   "area_alqueires": 1.0,
-   "area_alqueire_tipo": "paulista",
-   "distancia_centro_km": 29.6,
-   "destaques": "{\"agua\": \"Mina d'água + lago/açude + água abundante\", \"benfeitorias\": \"Casa\", \"solo\": \"Boa topografia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
    "key": "4384a1b12a83e0bb",
    "source": "olx",
    "source_id": "1408831883",
@@ -5651,119 +5654,6 @@
    "estrelas": "[]",
    "disponibilidade": "desconhecido",
    "notificavel": 0,
-   "imagem_analise": "{}",
-   "secao": "sitios",
-   "encerramento": "",
-   "is_new": false,
-   "price_drop": null
-  },
-  {
-   "key": "7dce0e1f21ca60e8",
-   "source": "facebook",
-   "source_id": "904291382737469",
-   "url": "https://www.facebook.com/marketplace/item/904291382737469/",
-   "title": "Sítio a venda em Dom Viçoso MG",
-   "description": "SÍTIO À VENDA – OPORTUNIDADE PARA MORADIA, LAZER OU PRODUÇÃO RURAL\n\nExcelente sítio com 7 hectares, ideal para quem busca tranquilidade, contato com a natureza e uma propriedade com ótima estrutura e abundância de recursos hídricos.\n\nA propriedade conta com:\n\n2 currais\nCasinha de máquinas\nCasa em fase de acabamento\nEnergia elétrica instalada\nFartura de água durante todo o ano\n\nUm imóvel com grande potencial para pecuária, agricultura, lazer ou investimento, em uma região privilegiada e cercada pela natureza.\n\nValor: R$ 650.000,00\n\nEntre em contato para mais informações e agende sua visita. Uma excelente oportunidade para quem deseja investir no campo com segurança e qualidade de vida.\n\nRomualdo Lima Corretor\nCRECI 59687\n[hidden information]\nRodrigo Lima negócios imobiliários",
-   "price": 650000.0,
-   "price_first": 650000.0,
-   "area_ha": 7.0,
-   "price_per_ha": 92857.14,
-   "municipality": "",
-   "uf": "SP",
-   "lat": -22.788391113281,
-   "lon": -45.159301757812,
-   "image": "",
-   "posted_at": "2026-08-13T14:28:13.000Z",
-   "score": 0.214,
-   "reasons": [
-    "casa em construção",
-    "curral",
-    "energia",
-    "tranquilo",
-    "R$/ha 92.857 (+)"
-   ],
-   "dimensoes": {
-    "agua": {
-     "rotulo": "Água",
-     "nota": 0.0,
-     "peso": 30,
-     "provas": []
-    },
-    "benfeitorias": {
-     "rotulo": "Benfeitorias",
-     "nota": 0.53,
-     "peso": 20,
-     "provas": [
-      "casa em construção",
-      "curral",
-      "energia"
-     ]
-    },
-    "silencio": {
-     "rotulo": "Sossego",
-     "nota": 0.28,
-     "peso": 10,
-     "provas": [
-      "tranquilo"
-     ]
-    },
-    "acessibilidade": {
-     "rotulo": "Acesso e distância",
-     "nota": 0.0,
-     "peso": 15,
-     "provas": []
-    },
-    "aptidao": {
-     "rotulo": "Aptidão agroflorestal e solo",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "regularizacao": {
-     "rotulo": "Documentação",
-     "nota": 0.0,
-     "peso": 10,
-     "provas": []
-    },
-    "topografia": {
-     "rotulo": "Topografia",
-     "nota": 0.0,
-     "peso": 5,
-     "provas": []
-    },
-    "preco_ha": {
-     "rotulo": "Preço por hectare",
-     "nota": 0.767,
-     "peso": 0,
-     "provas": [
-      "R$/ha 92.857 (+)"
-     ],
-     "ajuste": 0.08
-    },
-    "preco_absoluto": {
-     "rotulo": "Preço total",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    },
-    "proximidade_centro": {
-     "rotulo": "Proximidade do centro",
-     "nota": 0.5,
-     "peso": 0,
-     "provas": [],
-     "ajuste": 0.0
-    }
-   },
-   "first_seen": "2026-08-17T21:50:45+00:00",
-   "last_seen": "2026-08-17T21:50:45+00:00",
-   "area_alqueires": null,
-   "area_alqueire_tipo": "",
-   "distancia_centro_km": null,
-   "destaques": "{\"benfeitorias\": \"Casa em construção + curral + energia\"}",
-   "estrelas": "[]",
-   "disponibilidade": "desconhecido",
-   "notificavel": 1,
    "imagem_analise": "{}",
    "secao": "sitios",
    "encerramento": "",
@@ -7278,7 +7168,7 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
   "imobiliaria_crawl"
  ],
