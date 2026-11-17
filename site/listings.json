@@ -1,5 +1,5 @@
 {
- "generated_at": "16/11/2026 às 16:04",
+ "generated_at": "17/11/2026 às 14:51",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -3948,6 +3948,122 @@
    "price_drop": null
   },
   {
+   "key": "da5c81442859a828",
+   "source": "imobiliaria_crawl",
+   "source_id": "",
+   "url": "https://imobiliariamaciel.com.br/comprar/SAO-JOSE-DOS-CAMPOS/Rural/Sitio/BAIRRINHO/189",
+   "title": "Rural - Sítio",
+   "description": "Contem poço artesiano, nascente de agua, 3 lagos pequenos.",
+   "price": 1700000.0,
+   "price_first": 1700000.0,
+   "area_ha": 21.78,
+   "price_per_ha": 78053.26,
+   "municipality": "Sao Jose dos Campos",
+   "uf": "SP",
+   "lat": -23.1867782,
+   "lon": -45.8854538,
+   "image": "https://axvliw1bcpyx.objectstorage.sa-vinhedo-1.oci.customer-oci.com/n/axvliw1bcpyx/b/ksi/o/1400/foto_/2023/189/sao-jose-dos-campo-rural-sitio-bairrinho-14-01-2023_11-12-08-15.webp",
+   "posted_at": "",
+   "score": 0.333,
+   "reasons": [
+    "nascente",
+    "lago/açude",
+    "poço artesiano",
+    "R$/ha 78.053 (++)",
+    "⚠ preço R$ 1.700.000 (> R$ 1 milhão)",
+    "26.2 km do centro de interesse (0)"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.775,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "lago/açude",
+      "poço artesiano"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.0,
+     "peso": 20,
+     "provas": []
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.0,
+     "peso": 5,
+     "provas": []
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 1.0,
+     "peso": 0,
+     "provas": [
+      "R$/ha 78.053 (++)"
+     ],
+     "ajuste": 0.15
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.333,
+     "peso": 0,
+     "provas": [
+      "⚠ preço R$ 1.700.000 (> R$ 1 milhão)"
+     ],
+     "ajuste": -0.05
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [
+      "26.2 km do centro de interesse (0)"
+     ],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-17T17:51:05+00:00",
+   "last_seen": "2026-11-17T17:51:05+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": 26.2,
+   "destaques": "{\"agua\": \"Nascente + lago/açude + poço artesiano\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true,
+   "price_drop": null
+  },
+  {
    "key": "8518ebb5ece67e39",
    "source": "imobiliaria_crawl",
    "source_id": "",
@@ -7168,18 +7284,21 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "imobiliaria_crawl"
  ],
  "warnings": [
-  "mg.olx.com.br: bloqueado",
-  "sp.olx.com.br: bloqueado",
-  "www.olx.com.br: bloqueado"
+  "arboimoveis.com.br: bloqueado",
+  "cocampo.com: bloqueado",
+  "exchange.superbid.net: bloqueado",
+  "imovelweb.com.br: bloqueado",
+  "leilaoimovel.com.br: bloqueado",
+  "vivareal.com.br: bloqueado",
+  "wimoveis.com.br: bloqueado",
+  "www.olx.com.br: bloqueado",
+  "zapimoveis.com.br: bloqueado",
+  "zukerman.com.br: bloqueado"
  ],
  "secoes": [
   {
