@@ -478,6 +478,10 @@ sites_alvo:
   # achados em 2026-11-17 (busca web), verificados como portais rurais:
   - boraprocampo.com.br
   - terranovaportalimobiliario.com
+  # achados em 2026-11-21 (busca web diária), verificados com atividade em Vale do Paraíba:
+  - jacareicorretora.com.br
+  - cmcorretoraimoveis.com.br
+  - anasilvacorretoraimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
