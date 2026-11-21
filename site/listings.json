@@ -1,5 +1,5 @@
 {
- "generated_at": "21/11/2026 às 13:21",
+ "generated_at": "21/11/2026 às 13:34",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -6656,21 +6656,13 @@
  ],
  "new_count": 0,
  "sources": [
-  "imobiliaria_crawl"
+  "leilao"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "cocampo.com: bloqueado",
-  "exchange.superbid.net: bloqueado",
-  "geracaoimoveis.com.br: bloqueado",
-  "imobiliariamaciel.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "leilaoimovel.com.br: bloqueado",
-  "novafreitas.com.br: bloqueado",
-  "vivareal.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zapimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "milanleiloes.com.br: bloqueado",
+  "www.leilaoimovel.com.br: bloqueado",
+  "www.portalzuk.com.br: bloqueado",
+  "www.superbid.net: bloqueado"
  ],
  "secoes": [
   {
