@@ -478,6 +478,10 @@ sites_alvo:
   # achados em 2026-11-17 (busca web), verificados como portais rurais:
   - boraprocampo.com.br
   - terranovaportalimobiliario.com
+  # achados em 2026-11-22 (busca semanal rural-sites), verificados com anúncios reais:
+  - cdgfazendas.com.br
+  - duabelas.com.br
+  - bniimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
