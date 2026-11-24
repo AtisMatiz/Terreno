@@ -36,6 +36,12 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Branch tip at the time the job *starts*: a run that waited in the
+          # concurrency queue would otherwise build on the commit that existed when
+          # it was queued, and its sqlite push would conflict with the previous
+          # run's (2026-11-23: the same card re-sent on every run).
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:

@@ -113,7 +113,10 @@ def _esc(text) -> str:
     energia') makes Telegram reject the whole message rather than degrade
     gracefully. Every scraped field going into the message text is untrusted
     for this reason and must be escaped, same as the page template."""
-    return (str(text or "")
+    import html as _h
+    # Scraped titles often still carry HTML entities ("Para&#xED;ba"); decode
+    # them first, otherwise the escape below shows them literally in Telegram.
+    return (_h.unescape(str(text or ""))
             .replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 

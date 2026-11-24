@@ -203,7 +203,14 @@ def price_to_brl(raw: str | None) -> float | None:
         # otherwise be read as a price of R$ 17.023.
         value = parse_number(text)
     else:
-        return None
+        # Prose that states the price in millions without "R$" ("... por 5
+        # milhões"): the 5-million fazenda that kept reaching Telegram as
+        # "preço não informado" (2026-11-23).
+        mm = re.search(r"(\d+(?:[.,]\d+)?)\s*(?:milh(?:ão|ões|ao|oes)|mi)\b", text)
+        if not mm:
+            return None
+        base = parse_number(mm.group(1))
+        return round(base * 1_000_000, 2) if base and 0 < base < 1000 else None
     if value is None or value <= 0:
         return None
 
