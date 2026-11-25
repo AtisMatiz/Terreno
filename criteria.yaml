@@ -482,6 +482,8 @@ sites_alvo:
   - duabelas.com.br
   # achados em 2026-11-24 (busca web), verificados com anúncios reais:
   - imoveiscampesinos.com.br
+  # pedido do dono em 2026-11-25:
+  - jeromelegardier.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
