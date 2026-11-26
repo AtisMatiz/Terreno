@@ -487,6 +487,8 @@ sites_alvo:
   # pedido do dono em 2026-11-26 (domaniimoveis.com.br e wimoveis.com.br já estavam na lista):
   - buskaza.com.br
   - guillonimoveis.com.br
+  # pedido do dono em 2026-11-27:
+  - grupocostanevesimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
