@@ -1,5 +1,5 @@
 {
- "generated_at": "27/11/2026 às 15:21",
+ "generated_at": "27/11/2026 às 15:22",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -1267,6 +1267,124 @@
    "encerramento": "",
    "is_new": false,
    "price_drop": null
+  },
+  {
+   "key": "ad2b49bf7a228580",
+   "source": "brave",
+   "source_id": "",
+   "url": "https://imoveisvirtuais.com.br/Anuncio/861579/Fazenda-com-271,0-hectares.-Vale-do-Para%C3%ADba,-S%C3%A3o-Paulo.-%E2%80%9CLocalizada-na-regi%C3%A3o-de-Silveiras,-S%C3%A3o-Paulo.-Excelente-para-pecu%C3%A1ria-de-Corte-e-Leite.%E2%80%9D",
+   "title": "Fazenda com 271,0 hectares. Vale do Para&#xED;ba, S&#xE3;o Paulo. &#x201C;Localizada na regi&#xE3;o de Silveiras, S&#xE3;o Paulo. Excelente para pecu&#xE1;ria de Corte e Leite.&#x201D;",
+   "description": "LOCALIZA&#xC7;&#xC3;O: Rodovia Presidente Dutra at&#xE9; a fazenda 32 km, sendo 23 km em asfalto, 5 km em blocos e 4 km de ch&#xE3;o em &#xF3;tima estrada.&#xD;&#xA;&#xC1;REA TOTAL: 112 alqueires ou 271,04 hectares.&#xD;&#xA;BENFEITORIAS: Casa sede pequena e uma casa para empregado, galp&#xE3;o, curral para gado de corte com tronco e embarcadouro.&#xD;&#xA;&#xC1;REA DE PASTAGEM: 90% em pasto com capim braqui&#xE1;ria.&#xD;&#xA;TOPOGRAFIA: Baixa/m&#xE9;dia. (Plana e levemente ondulada).&#xD;&#xA;HIDROGRAFIA: Rica em &#xE1;gua. Nascente e c&#xF3;rregos. &#xD;&#xA;APTID&#xC3;O: Pecu&#xE1;ria. &#xD;&#xA;DOCUMENTA&#xC7;&#xC3;O: Entrega tudo em ordem, inclusive com o GEO.&#xD;&#xA;VALOR PARA VENDA: 5.000.000,00 &#x201C;PORTEIRA ABERTA&#x201D;&#xD;&#xA;CONDI&#xC7;&#xD5;ES: A combinar. Avalia propostas e parcelas com entrada a combinar.&#xD;&#xA;Consulte-nos: WhatsApp: (13)99726.0772&#xD;&#xA;Dante M. Neto &#x2013; CRECI 30031/F.&#xD;&#xA;Ref.: G071F&#xD;&#xA;Observa&#xE7;&#xE3;o: &#xD;&#xA;ATEN&#xC7;&#xC3;O! Todas as informa&#xE7;&#xF5;es foram fornecidas diretamente pelo propriet&#xE1;rio ou por  nosso parceiro na regi&#xE3;o. No ato das consultas, as condi&#xE7;&#xF5;es e informa&#xE7;&#xF5;es, ser&#xE3;o confirmadas e poder&#xE3;o ser alteradas, mudadas ou canceladas, a qualquer momento.&#xD;&#xA;",
+   "price": null,
+   "price_first": null,
+   "area_ha": 271.0,
+   "price_per_ha": null,
+   "municipality": "Silveiras",
+   "uf": "",
+   "lat": null,
+   "lon": null,
+   "image": "FotosIV//8615//861579_1.jpg",
+   "posted_at": "",
+   "score": 0.49,
+   "reasons": [
+    "nascente",
+    "rio/riacho",
+    "casa sede",
+    "pasto formado",
+    "CAR/GEO em dia",
+    "plano",
+    "aclive suave"
+   ],
+   "dimensoes": {
+    "agua": {
+     "rotulo": "Água",
+     "nota": 0.75,
+     "peso": 30,
+     "provas": [
+      "nascente",
+      "rio/riacho"
+     ]
+    },
+    "benfeitorias": {
+     "rotulo": "Benfeitorias",
+     "nota": 0.85,
+     "peso": 20,
+     "provas": [
+      "casa sede"
+     ]
+    },
+    "silencio": {
+     "rotulo": "Sossego",
+     "nota": 0.0,
+     "peso": 10,
+     "provas": []
+    },
+    "acessibilidade": {
+     "rotulo": "Acesso e distância",
+     "nota": 0.0,
+     "peso": 15,
+     "provas": []
+    },
+    "aptidao": {
+     "rotulo": "Aptidão agroflorestal e solo",
+     "nota": 0.2,
+     "peso": 10,
+     "provas": [
+      "pasto formado"
+     ]
+    },
+    "regularizacao": {
+     "rotulo": "Documentação",
+     "nota": 0.3,
+     "peso": 10,
+     "provas": [
+      "CAR/GEO em dia"
+     ]
+    },
+    "topografia": {
+     "rotulo": "Topografia",
+     "nota": 0.9,
+     "peso": 5,
+     "provas": [
+      "plano",
+      "aclive suave"
+     ]
+    },
+    "preco_ha": {
+     "rotulo": "Preço por hectare",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "preco_absoluto": {
+     "rotulo": "Preço total",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    },
+    "proximidade_centro": {
+     "rotulo": "Proximidade do centro",
+     "nota": 0.5,
+     "peso": 0,
+     "provas": [],
+     "ajuste": 0.0
+    }
+   },
+   "first_seen": "2026-11-27T18:22:56+00:00",
+   "last_seen": "2026-11-27T18:22:56+00:00",
+   "area_alqueires": null,
+   "area_alqueire_tipo": "",
+   "distancia_centro_km": null,
+   "destaques": "{\"agua\": \"Nascente + rio/riacho\", \"benfeitorias\": \"Casa sede\", \"documentacao\": \"CAR/GEO em dia\", \"solo\": \"Pasto formado + plano + aclive suave\"}",
+   "estrelas": "[]",
+   "disponibilidade": "desconhecido",
+   "notificavel": 1,
+   "imagem_analise": "{}",
+   "secao": "sitios",
+   "encerramento": "",
+   "is_new": true
   },
   {
    "key": "1389dccfefcfd6fb",
@@ -5850,22 +5968,19 @@
    "price_drop": null
   }
  ],
- "new_count": 0,
+ "new_count": 1,
  "sources": [
-  "imobiliaria_crawl"
+  "sdb_scan"
  ],
  "warnings": [
-  "arboimoveis.com.br: bloqueado",
-  "cocampo.com: bloqueado",
-  "geracaoimoveis.com.br: bloqueado",
-  "imobiliariamaciel.com.br: bloqueado",
-  "imovelweb.com.br: bloqueado",
-  "leilaoimovel.com.br: bloqueado",
-  "novafreitas.com.br: bloqueado",
-  "vivareal.com.br: bloqueado",
-  "wimoveis.com.br: bloqueado",
-  "zapimoveis.com.br: bloqueado",
-  "zukerman.com.br: bloqueado"
+  "sp.olx.com.br: bloqueado",
+  "www.arbix.com.br: bloqueado",
+  "www.creditoreal.com.br: bloqueado",
+  "www.dfimoveis.com.br: bloqueado",
+  "www.econodata.com.br: bloqueado",
+  "www.netimoveis.com: bloqueado",
+  "www.properstar.pt: bloqueado",
+  "www.viniciusimoveis.com.br: bloqueado"
  ],
  "secoes": [
   {
