@@ -1,5 +1,5 @@
 {
- "generated_at": "27/11/2026 às 15:30",
+ "generated_at": "27/11/2026 às 15:33",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -5970,13 +5970,15 @@
  ],
  "new_count": 0,
  "sources": [
-  "pgfn",
-  "olx",
-  "chavesnamao",
-  "caixa",
-  "facebook"
+  "leilao"
  ],
- "warnings": [],
+ "warnings": [
+  "leilaoonline.net: bloqueado",
+  "milanleiloes.com.br: bloqueado",
+  "www.leilaoimovel.com.br: bloqueado",
+  "www.portalzuk.com.br: bloqueado",
+  "www.superbid.net: bloqueado"
+ ],
  "secoes": [
   {
    "id": "sitios",
