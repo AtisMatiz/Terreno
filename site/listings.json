@@ -1,5 +1,5 @@
 {
- "generated_at": "27/11/2026 às 15:22",
+ "generated_at": "27/11/2026 às 15:30",
  "listings": [
   {
    "key": "0858404401e063cd",
@@ -1384,7 +1384,7 @@
    "imagem_analise": "{}",
    "secao": "sitios",
    "encerramento": "",
-   "is_new": true
+   "is_new": false
   },
   {
    "key": "1389dccfefcfd6fb",
@@ -5968,20 +5968,15 @@
    "price_drop": null
   }
  ],
- "new_count": 1,
+ "new_count": 0,
  "sources": [
-  "sdb_scan"
+  "pgfn",
+  "olx",
+  "chavesnamao",
+  "caixa",
+  "facebook"
  ],
- "warnings": [
-  "sp.olx.com.br: bloqueado",
-  "www.arbix.com.br: bloqueado",
-  "www.creditoreal.com.br: bloqueado",
-  "www.dfimoveis.com.br: bloqueado",
-  "www.econodata.com.br: bloqueado",
-  "www.netimoveis.com: bloqueado",
-  "www.properstar.pt: bloqueado",
-  "www.viniciusimoveis.com.br: bloqueado"
- ],
+ "warnings": [],
  "secoes": [
   {
    "id": "sitios",
