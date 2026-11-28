@@ -489,6 +489,8 @@ sites_alvo:
   - guillonimoveis.com.br
   # pedido do dono em 2026-11-27:
   - grupocostanevesimoveis.com.br
+  # achados em 2026-11-28 (busca web rotina semanal), verificados com anúncios reais:
+  - dfimoveis.com.br
 
 # ---------------------------------------------------------------- orçamentos
 # Limites rígidos, contabilizados em SQLite, para as cotas gratuitas.
